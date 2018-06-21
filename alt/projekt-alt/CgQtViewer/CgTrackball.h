@@ -2,6 +2,7 @@
 #ifndef _H_Ball
 #define _H_Ball
 
+#define GLM_ENABLE_EXPERIMENTAL //Added by Gerrit
 
 #include <vector>
 
