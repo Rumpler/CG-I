@@ -7,13 +7,13 @@
 #include "CgBase/CgBaseTriangleMesh.h"
 
 
-class CgExampleTriangle : public CgBaseTriangleMesh
+class CgTriangle : public CgBaseTriangleMesh
 {
 
 public:
-    CgExampleTriangle();
-    CgExampleTriangle(int id);
-    ~CgExampleTriangle();
+    CgTriangle();
+    CgTriangle(int id);
+    ~CgTriangle();
 
     //inherited from CgBaseRenderableObject
     Cg::ObjectType getType() const;
@@ -51,7 +51,7 @@ private:
 };
 
 
-inline Cg::ObjectType  CgExampleTriangle::getType() const {return m_type;}
-inline unsigned int CgExampleTriangle::getID() const {return m_id;}
+inline Cg::ObjectType  CgTriangle::getType() const {return m_type;}
+inline unsigned int CgTriangle::getID() const {return m_id;}
 
 #endif // CGEXAMPLETRIANGLE_H
