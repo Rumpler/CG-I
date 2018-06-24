@@ -3,6 +3,7 @@
 
 #include "CgBase/CgObserver.h"
 #include "CgBase/CgBaseSceneControl.h"
+#include "CgPolyline.h"
 #include <glm/glm.hpp>
 
 class CgBaseEvent;
@@ -22,8 +23,19 @@ public:
 private:
 
     CgBaseRenderer* m_renderer;
+    glm::vec3 color;
 
+    //Objects for rendering
     CgTriangle* m_triangle;
+
+    //Coordinatesystem
+    CgPolyline* x_Axis;
+    CgPolyline* y_Axis;
+    CgPolyline* z_Axis;
+
+
+
+    //Matrix
     glm::mat4 m_current_transformation;
     glm::mat4 m_proj_matrix;
 

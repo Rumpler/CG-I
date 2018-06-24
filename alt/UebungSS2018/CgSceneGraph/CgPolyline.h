@@ -7,7 +7,12 @@
 class CgPolyline : public CgBasePolyline
 {
 public:
-    CgPolyline();
+    CgPolyline(int id);
+    ~CgPolyline();
+    void addVertice(glm::vec3 vertice);
+
+
+
 
     // CgBaseRenderableObject interface
     Cg::ObjectType getType() const;
@@ -18,7 +23,17 @@ public:
     glm::vec3 getColor() const;
     unsigned int getLineWidth() const;
 
+    void setColor(const glm::vec3 value);
+
+    void setLineWidth(unsigned int value);
+
 private:
+    const Cg::ObjectType m_type;
+    const unsigned int m_id;
+
+    std::vector<glm::vec3> vertices;
+    glm::vec3 color;
+    unsigned int lineWidth;
 
 
 };

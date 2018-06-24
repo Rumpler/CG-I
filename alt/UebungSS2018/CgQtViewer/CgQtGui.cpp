@@ -44,11 +44,14 @@ CgQtGui::CgQtGui(CgQtMainApplication *mw)
     //Add new panels here
     m_panel_color = new QWidget;
     createOptionPanelColor(m_panel_color);
+    m_panel_objects = new QWidget;
+    createOptionPanelObjects(m_panel_objects);
     m_panel_example = new QWidget;
     createOptionPanelExample(m_panel_example);
 
     QTabWidget* m_tabs = new QTabWidget();
     m_tabs->addTab(m_panel_color, "&Color");
+    m_tabs->addTab(m_panel_objects,"&Objects");
     m_tabs->addTab(m_panel_example,"&Examples");
     container->addWidget(m_tabs);
 
@@ -119,7 +122,7 @@ CgQtGui::CgQtGui(CgQtMainApplication *mw)
 QSlider *CgQtGui::createColorSlider()
 {
     QSlider *slider = new QSlider(Qt::Vertical);
-    slider->setRange(1, 255);
+    slider->setRange(1, 100);
     slider->setSingleStep(1);
     slider->setPageStep(1);
     slider->setTickInterval(1);
@@ -140,8 +143,8 @@ void CgQtGui::createOptionPanelColor(QWidget* parent){
     QLabel *label_blue = new QLabel("Blue");
 
     sliderRed->setValue(100);
-    sliderGreen->setValue(100);
-    sliderBlue->setValue(100);
+    sliderGreen->setValue(40);
+    sliderBlue->setValue(1);
 
 
     connect(sliderRed, SIGNAL( valueChanged(int) ), this, SLOT( slotColorChanged() ));
@@ -157,6 +160,44 @@ void CgQtGui::createOptionPanelColor(QWidget* parent){
 
     panel_layout->addWidget(label_blue);
     panel_layout->addWidget(sliderBlue);
+
+    parent->setLayout(panel_layout);
+}
+
+void CgQtGui::createOptionPanelObjects(QWidget *parent)
+{
+    QVBoxLayout *panel_layout = new QVBoxLayout();
+    QHBoxLayout *subBox = new QHBoxLayout();
+
+
+
+    //Example for using a button group
+
+    QGroupBox* myGroupBox = new QGroupBox("Objects for rendering ");
+
+    myButtonGroup = new QButtonGroup(subBox);
+    myButtonGroup->setExclusive(true);
+
+    QRadioButton* radiobuttonTriangle = new QRadioButton( "&Triangle");
+    QRadioButton* radiobuttonCube = new QRadioButton( "&Cube");
+
+    radiobuttonCube->setChecked(true);
+
+    myButtonGroup->addButton(radiobuttonTriangle,0);
+    myButtonGroup->addButton(radiobuttonCube,1);
+
+
+    QVBoxLayout *vbox = new QVBoxLayout;
+    vbox->addWidget(radiobuttonTriangle);
+    vbox->addWidget(radiobuttonCube);
+    vbox->addStretch(1);
+    myGroupBox->setLayout(vbox);
+    subBox->addWidget(myGroupBox);
+    panel_layout->addLayout(subBox);
+
+    connect(myButtonGroup, SIGNAL( buttonClicked(int) ), this, SLOT( slotButtonGroupSelectionChanged() ) );
+
+
 
     parent->setLayout(panel_layout);
 }
@@ -264,7 +305,8 @@ void CgQtGui::slotColorChanged()
 
 void CgQtGui::slotButtonGroupSelectionChanged()
 {
-
+    std::cout << myButtonGroup->checkedId() << std::endl;
+    myButtonGroup->button(0)->isChecked();
 }
 
 void CgQtGui::slotMySpinBox1Changed()

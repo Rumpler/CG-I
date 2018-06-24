@@ -18,7 +18,8 @@ SOURCES += main.cpp \
     CgUtils/ObjLoader.cpp \
     CgSceneGraph/CgTriangle.cpp \
     CgEvents/CgColorChangeEvent.cpp \
-    CgSceneGraph/CgPolyline.cpp
+    CgSceneGraph/CgPolyline.cpp \
+    CgEvents/CgObjectSelectionChangeEvent.cpp
 
 HEADERS += \
     CgBase/CgBaseRenderWindow.h \
@@ -45,5 +46,6 @@ HEADERS += \
     CgUtils/ObjLoader.h \
     CgSceneGraph/CgTriangle.h \
     CgEvents/CgColorChangeEvent.h \
-    CgSceneGraph/CgPolyline.h
+    CgSceneGraph/CgPolyline.h \
+    CgEvents/CgObjectSelectionChangeEvent.h
 
