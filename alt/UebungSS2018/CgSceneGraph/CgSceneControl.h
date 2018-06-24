@@ -4,11 +4,13 @@
 #include "CgBase/CgObserver.h"
 #include "CgBase/CgBaseSceneControl.h"
 #include "CgPolyline.h"
+#include "CgCube.h"
 #include <glm/glm.hpp>
 
 class CgBaseEvent;
 class CgBaseRenderer;
 class CgTriangles;
+class CgCube;
 
 class CgSceneControl : public CgObserver, public CgBaseSceneControl
 {
@@ -27,6 +29,7 @@ private:
 
     //Objects for rendering
     CgTriangles* m_triangle;
+    CgCube* m_cube;
 
     //Objects do display
     bool renderCoordinateSystem;

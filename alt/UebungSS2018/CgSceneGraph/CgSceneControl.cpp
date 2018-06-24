@@ -31,7 +31,8 @@ CgSceneControl::CgSceneControl()
     renderCube = false;
 
     //Objects for rendering
-     m_triangle=new CgTriangles(10);
+     m_triangle = new CgTriangles(10);
+     m_cube = new CgCube(11);
 
 
      //Matrix
@@ -49,6 +50,7 @@ CgSceneControl::~CgSceneControl()
     delete z_Axis;
 
     delete m_triangle;
+    delete m_cube;
 }
 
 void CgSceneControl::setRenderer(CgBaseRenderer* r)
@@ -62,7 +64,7 @@ void CgSceneControl::setRenderer(CgBaseRenderer* r)
 
     //Init objects for rendering
     m_renderer->init(m_triangle);
-    //TODO Cube
+    m_renderer->init(m_cube);
 }
 
 
@@ -91,7 +93,7 @@ void CgSceneControl::renderObjects()
     }
 
     if(renderCube){
-        //TODO Cube
+        m_renderer->render(m_cube,m_current_transformation);
     }
 
 

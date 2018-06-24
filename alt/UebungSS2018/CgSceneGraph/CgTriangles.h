@@ -11,7 +11,6 @@ class CgTriangles : public CgBaseTriangleMesh
 {
 
 public:
-    CgTriangles();
     CgTriangles(int id);
     ~CgTriangles();
 
