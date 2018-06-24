@@ -51,8 +51,9 @@ CgQtGui::CgQtGui(CgQtMainApplication *mw)
     createOptionPanelExample(m_panel_example);
 
     QTabWidget* m_tabs = new QTabWidget();
-    m_tabs->addTab(m_panel_color, "&Color");
+
     m_tabs->addTab(m_panel_objects,"&Objects");
+    m_tabs->addTab(m_panel_color, "&Color");
     m_tabs->addTab(m_panel_example,"&Examples");
     container->addWidget(m_tabs);
 
@@ -310,10 +311,6 @@ void CgQtGui::slotColorChanged()
 void CgQtGui::slotButtonGroupSelectionChanged()
 {
     CgObjectSelectionChangeEvent* e = new CgObjectSelectionChangeEvent();
-    std::cout << myButtonGroup->button(0)->isChecked() << std::endl;
-    std::cout << myButtonGroup->button(1)->isChecked() << std::endl;
-    std::cout << myButtonGroup->button(2)->isChecked() << std::endl;
-
     e->setRenderCoordinateSystem(myButtonGroup->button(0)->isChecked());
     e->setRenderTriangle(myButtonGroup->button(1)->isChecked());
     e->setRenderCube( myButtonGroup->button(2)->isChecked());

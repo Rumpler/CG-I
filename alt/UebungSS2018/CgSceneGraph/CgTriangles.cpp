@@ -1,7 +1,7 @@
-#include "CgTriangle.h"
+#include "CgTriangles.h"
 #include "CgBase/CgEnums.h"
 
-CgTriangle::CgTriangle():
+CgTriangles::CgTriangles():
 m_type(Cg::TriangleMesh),
 m_id(42)
 {
@@ -19,7 +19,7 @@ m_id(42)
 
 }
 
-CgTriangle::CgTriangle(int id):
+CgTriangles::CgTriangles(int id):
 m_type(Cg::TriangleMesh),
 m_id(id)
 {
@@ -47,7 +47,7 @@ m_id(id)
 }
 
 
-CgTriangle::~CgTriangle()
+CgTriangles::~CgTriangles()
 {
     m_vertices.clear();
     m_vertex_normals.clear();
@@ -59,37 +59,37 @@ CgTriangle::~CgTriangle()
 }
 
 
-const std::vector<glm::vec3>& CgTriangle::getVertices() const
+const std::vector<glm::vec3>& CgTriangles::getVertices() const
 {
     return m_vertices;
 }
 
-const std::vector<glm::vec3>& CgTriangle::getVertexNormals() const
+const std::vector<glm::vec3>& CgTriangles::getVertexNormals() const
 {
     return m_vertex_normals;
 }
 
-const std::vector<glm::vec3>& CgTriangle::getVertexColors() const
+const std::vector<glm::vec3>& CgTriangles::getVertexColors() const
 {
      return m_vertex_colors;
 }
 
-const std::vector<glm::vec2>& CgTriangle:: getVertexTexCoords() const
+const std::vector<glm::vec2>& CgTriangles:: getVertexTexCoords() const
 {
     return m_tex_coords;
 }
 
-const std::vector<unsigned int>& CgTriangle::getTriangleIndices() const
+const std::vector<unsigned int>& CgTriangles::getTriangleIndices() const
 {
     return m_triangle_indices;
 }
 
-const std::vector<glm::vec3>& CgTriangle::getFaceNormals() const
+const std::vector<glm::vec3>& CgTriangles::getFaceNormals() const
 {
     return m_face_normals;
 }
 
-const std::vector<glm::vec3>& CgTriangle::getFaceColors() const
+const std::vector<glm::vec3>& CgTriangles::getFaceColors() const
 {
     return m_face_colors;
 }

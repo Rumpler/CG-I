@@ -62,11 +62,11 @@ SOURCES       = ../UebungSS2018/main.cpp \
 		../UebungSS2018/CgQtViewer/CgTrackball.cpp \
 		../UebungSS2018/CgEvents/CgWindowResizeEvent.cpp \
 		../UebungSS2018/CgUtils/ObjLoader.cpp \
-		../UebungSS2018/CgSceneGraph/CgTriangle.cpp \
 		../UebungSS2018/CgEvents/CgColorChangeEvent.cpp \
 		../UebungSS2018/CgSceneGraph/CgPolyline.cpp \
 		../UebungSS2018/CgEvents/CgObjectSelectionChangeEvent.cpp \
-		../UebungSS2018/CgSceneGraph/CgCube.cpp moc_CgQtGLRenderWidget.cpp \
+		../UebungSS2018/CgSceneGraph/CgCube.cpp \
+		../UebungSS2018/CgSceneGraph/CgTriangles.cpp moc_CgQtGLRenderWidget.cpp \
 		moc_CgQtGui.cpp \
 		moc_CgQtMainApplication.cpp
 OBJECTS       = main.o \
@@ -81,11 +81,11 @@ OBJECTS       = main.o \
 		CgTrackball.o \
 		CgWindowResizeEvent.o \
 		ObjLoader.o \
-		CgTriangle.o \
 		CgColorChangeEvent.o \
 		CgPolyline.o \
 		CgObjectSelectionChangeEvent.o \
 		CgCube.o \
+		CgTriangles.o \
 		moc_CgQtGLRenderWidget.o \
 		moc_CgQtGui.o \
 		moc_CgQtMainApplication.o
@@ -184,11 +184,11 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		../UebungSS2018/CgQtViewer/CgTrackball.h \
 		../UebungSS2018/CgEvents/CgWindowResizeEvent.h \
 		../UebungSS2018/CgUtils/ObjLoader.h \
-		../UebungSS2018/CgSceneGraph/CgTriangle.h \
 		../UebungSS2018/CgEvents/CgColorChangeEvent.h \
 		../UebungSS2018/CgSceneGraph/CgPolyline.h \
 		../UebungSS2018/CgEvents/CgObjectSelectionChangeEvent.h \
-		../UebungSS2018/CgSceneGraph/CgCube.h ../UebungSS2018/main.cpp \
+		../UebungSS2018/CgSceneGraph/CgCube.h \
+		../UebungSS2018/CgSceneGraph/CgTriangles.h ../UebungSS2018/main.cpp \
 		../UebungSS2018/CgQtViewer/CGQtGLRenderWidget.cpp \
 		../UebungSS2018/CgQtViewer/CgQtGui.cpp \
 		../UebungSS2018/CgBase/CgObservable.cpp \
@@ -200,11 +200,11 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		../UebungSS2018/CgQtViewer/CgTrackball.cpp \
 		../UebungSS2018/CgEvents/CgWindowResizeEvent.cpp \
 		../UebungSS2018/CgUtils/ObjLoader.cpp \
-		../UebungSS2018/CgSceneGraph/CgTriangle.cpp \
 		../UebungSS2018/CgEvents/CgColorChangeEvent.cpp \
 		../UebungSS2018/CgSceneGraph/CgPolyline.cpp \
 		../UebungSS2018/CgEvents/CgObjectSelectionChangeEvent.cpp \
-		../UebungSS2018/CgSceneGraph/CgCube.cpp
+		../UebungSS2018/CgSceneGraph/CgCube.cpp \
+		../UebungSS2018/CgSceneGraph/CgTriangles.cpp
 QMAKE_TARGET  = CgQtViewer
 DESTDIR       = 
 TARGET        = CgQtViewer
@@ -388,8 +388,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../UebungSS2018/CgBase/CgBaseRenderWindow.h ../UebungSS2018/CgQtViewer/CgQtGLRenderWidget.h ../UebungSS2018/CgQtViewer/CgQtGui.h ../UebungSS2018/CgBase/CgObserver.h ../UebungSS2018/CgBase/CgObservable.h ../UebungSS2018/CgBase/CgBaseEvent.h ../UebungSS2018/CgBase/CgEnums.h ../UebungSS2018/CgEvents/CgMouseEvent.h ../UebungSS2018/CgQtViewer/CgQtMainApplication.h ../UebungSS2018/CgSceneGraph/CgSceneControl.h ../UebungSS2018/CgEvents/CgKeyEvent.h ../UebungSS2018/CgBase/CgBaseRenderer.h ../UebungSS2018/CgBase/CgBaseRenderableObject.h ../UebungSS2018/CgBase/CgBasePointCloud.h ../UebungSS2018/CgBase/CgBaseTriangleMesh.h ../UebungSS2018/CgBase/CgBasePolygonMesh.h ../UebungSS2018/CgBase/CgBasePolyline.h ../UebungSS2018/CgBase/CgBaseSceneControl.h ../UebungSS2018/CgQtViewer/CgQtGlBufferObject.h ../UebungSS2018/CgQtViewer/CgTrackball.h ../UebungSS2018/CgEvents/CgWindowResizeEvent.h ../UebungSS2018/CgUtils/ObjLoader.h ../UebungSS2018/CgSceneGraph/CgTriangle.h ../UebungSS2018/CgEvents/CgColorChangeEvent.h ../UebungSS2018/CgSceneGraph/CgPolyline.h ../UebungSS2018/CgEvents/CgObjectSelectionChangeEvent.h ../UebungSS2018/CgSceneGraph/CgCube.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../UebungSS2018/main.cpp ../UebungSS2018/CgQtViewer/CGQtGLRenderWidget.cpp ../UebungSS2018/CgQtViewer/CgQtGui.cpp ../UebungSS2018/CgBase/CgObservable.cpp ../UebungSS2018/CgEvents/CgMouseEvent.cpp ../UebungSS2018/CgQtViewer/CgQtMainApplication.cpp ../UebungSS2018/CgSceneGraph/CgSceneControl.cpp ../UebungSS2018/CgEvents/CgKeyEvent.cpp ../UebungSS2018/CgQtViewer/CgQtGlBufferObject.cpp ../UebungSS2018/CgQtViewer/CgTrackball.cpp ../UebungSS2018/CgEvents/CgWindowResizeEvent.cpp ../UebungSS2018/CgUtils/ObjLoader.cpp ../UebungSS2018/CgSceneGraph/CgTriangle.cpp ../UebungSS2018/CgEvents/CgColorChangeEvent.cpp ../UebungSS2018/CgSceneGraph/CgPolyline.cpp ../UebungSS2018/CgEvents/CgObjectSelectionChangeEvent.cpp ../UebungSS2018/CgSceneGraph/CgCube.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../UebungSS2018/CgBase/CgBaseRenderWindow.h ../UebungSS2018/CgQtViewer/CgQtGLRenderWidget.h ../UebungSS2018/CgQtViewer/CgQtGui.h ../UebungSS2018/CgBase/CgObserver.h ../UebungSS2018/CgBase/CgObservable.h ../UebungSS2018/CgBase/CgBaseEvent.h ../UebungSS2018/CgBase/CgEnums.h ../UebungSS2018/CgEvents/CgMouseEvent.h ../UebungSS2018/CgQtViewer/CgQtMainApplication.h ../UebungSS2018/CgSceneGraph/CgSceneControl.h ../UebungSS2018/CgEvents/CgKeyEvent.h ../UebungSS2018/CgBase/CgBaseRenderer.h ../UebungSS2018/CgBase/CgBaseRenderableObject.h ../UebungSS2018/CgBase/CgBasePointCloud.h ../UebungSS2018/CgBase/CgBaseTriangleMesh.h ../UebungSS2018/CgBase/CgBasePolygonMesh.h ../UebungSS2018/CgBase/CgBasePolyline.h ../UebungSS2018/CgBase/CgBaseSceneControl.h ../UebungSS2018/CgQtViewer/CgQtGlBufferObject.h ../UebungSS2018/CgQtViewer/CgTrackball.h ../UebungSS2018/CgEvents/CgWindowResizeEvent.h ../UebungSS2018/CgUtils/ObjLoader.h ../UebungSS2018/CgEvents/CgColorChangeEvent.h ../UebungSS2018/CgSceneGraph/CgPolyline.h ../UebungSS2018/CgEvents/CgObjectSelectionChangeEvent.h ../UebungSS2018/CgSceneGraph/CgCube.h ../UebungSS2018/CgSceneGraph/CgTriangles.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../UebungSS2018/main.cpp ../UebungSS2018/CgQtViewer/CGQtGLRenderWidget.cpp ../UebungSS2018/CgQtViewer/CgQtGui.cpp ../UebungSS2018/CgBase/CgObservable.cpp ../UebungSS2018/CgEvents/CgMouseEvent.cpp ../UebungSS2018/CgQtViewer/CgQtMainApplication.cpp ../UebungSS2018/CgSceneGraph/CgSceneControl.cpp ../UebungSS2018/CgEvents/CgKeyEvent.cpp ../UebungSS2018/CgQtViewer/CgQtGlBufferObject.cpp ../UebungSS2018/CgQtViewer/CgTrackball.cpp ../UebungSS2018/CgEvents/CgWindowResizeEvent.cpp ../UebungSS2018/CgUtils/ObjLoader.cpp ../UebungSS2018/CgEvents/CgColorChangeEvent.cpp ../UebungSS2018/CgSceneGraph/CgPolyline.cpp ../UebungSS2018/CgEvents/CgObjectSelectionChangeEvent.cpp ../UebungSS2018/CgSceneGraph/CgCube.cpp ../UebungSS2018/CgSceneGraph/CgTriangles.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -525,7 +525,7 @@ CgSceneControl.o: ../UebungSS2018/CgSceneGraph/CgSceneControl.cpp ../UebungSS201
 		../UebungSS2018/CgEvents/CgColorChangeEvent.h \
 		../UebungSS2018/CgEvents/CgObjectSelectionChangeEvent.h \
 		../UebungSS2018/CgBase/CgBaseRenderer.h \
-		../UebungSS2018/CgSceneGraph/CgTriangle.h \
+		../UebungSS2018/CgSceneGraph/CgTriangles.h \
 		../UebungSS2018/CgBase/CgBaseTriangleMesh.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o CgSceneControl.o ../UebungSS2018/CgSceneGraph/CgSceneControl.cpp
 
@@ -554,12 +554,6 @@ CgWindowResizeEvent.o: ../UebungSS2018/CgEvents/CgWindowResizeEvent.cpp ../Uebun
 ObjLoader.o: ../UebungSS2018/CgUtils/ObjLoader.cpp ../UebungSS2018/CgUtils/ObjLoader.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ObjLoader.o ../UebungSS2018/CgUtils/ObjLoader.cpp
 
-CgTriangle.o: ../UebungSS2018/CgSceneGraph/CgTriangle.cpp ../UebungSS2018/CgSceneGraph/CgTriangle.h \
-		../UebungSS2018/CgBase/CgBaseTriangleMesh.h \
-		../UebungSS2018/CgBase/CgBaseRenderableObject.h \
-		../UebungSS2018/CgBase/CgEnums.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o CgTriangle.o ../UebungSS2018/CgSceneGraph/CgTriangle.cpp
-
 CgColorChangeEvent.o: ../UebungSS2018/CgEvents/CgColorChangeEvent.cpp ../UebungSS2018/CgEvents/CgColorChangeEvent.h \
 		../UebungSS2018/CgBase/CgBaseEvent.h \
 		../UebungSS2018/CgBase/CgEnums.h
@@ -576,8 +570,17 @@ CgObjectSelectionChangeEvent.o: ../UebungSS2018/CgEvents/CgObjectSelectionChange
 		../UebungSS2018/CgBase/CgEnums.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o CgObjectSelectionChangeEvent.o ../UebungSS2018/CgEvents/CgObjectSelectionChangeEvent.cpp
 
-CgCube.o: ../UebungSS2018/CgSceneGraph/CgCube.cpp ../UebungSS2018/CgSceneGraph/CgCube.h
+CgCube.o: ../UebungSS2018/CgSceneGraph/CgCube.cpp ../UebungSS2018/CgSceneGraph/CgCube.h \
+		../UebungSS2018/CgBase/CgBaseTriangleMesh.h \
+		../UebungSS2018/CgBase/CgBaseRenderableObject.h \
+		../UebungSS2018/CgBase/CgEnums.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o CgCube.o ../UebungSS2018/CgSceneGraph/CgCube.cpp
+
+CgTriangles.o: ../UebungSS2018/CgSceneGraph/CgTriangles.cpp ../UebungSS2018/CgSceneGraph/CgTriangles.h \
+		../UebungSS2018/CgBase/CgBaseTriangleMesh.h \
+		../UebungSS2018/CgBase/CgBaseRenderableObject.h \
+		../UebungSS2018/CgBase/CgEnums.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o CgTriangles.o ../UebungSS2018/CgSceneGraph/CgTriangles.cpp
 
 moc_CgQtGLRenderWidget.o: moc_CgQtGLRenderWidget.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_CgQtGLRenderWidget.o moc_CgQtGLRenderWidget.cpp

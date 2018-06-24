@@ -8,7 +8,7 @@
 
 class CgBaseEvent;
 class CgBaseRenderer;
-class CgTriangle;
+class CgTriangles;
 
 class CgSceneControl : public CgObserver, public CgBaseSceneControl
 {
@@ -26,7 +26,7 @@ private:
     glm::vec3 color;
 
     //Objects for rendering
-    CgTriangle* m_triangle;
+    CgTriangles* m_triangle;
 
     //Objects do display
     bool renderCoordinateSystem;

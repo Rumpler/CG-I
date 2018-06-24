@@ -6,7 +6,7 @@
 #include "CgEvents/CgColorChangeEvent.h"
 #include "CgEvents/CgObjectSelectionChangeEvent.h"
 #include "CgBase/CgBaseRenderer.h"
-#include "CgTriangle.h"
+#include "CgTriangles.h"
 #include <iostream>
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -31,7 +31,7 @@ CgSceneControl::CgSceneControl()
     renderCube = false;
 
     //Objects for rendering
-     m_triangle=new CgTriangle(10);
+     m_triangle=new CgTriangles(10);
 
 
      //Matrix
@@ -137,7 +137,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     {
         CgObjectSelectionChangeEvent* ev = (CgObjectSelectionChangeEvent*)e;
 
-        std::cout <<"ObjectSelectionChangedEvent: " << ev->getRenderCoordinateSystem() << "," << ev->getRenderTriangle()  << "," << ev->getRenderCube() << std::endl;
+        //std::cout <<"ObjectSelectionChangedEvent: " << ev->getRenderCoordinateSystem() << "," << ev->getRenderTriangle()  << "," << ev->getRenderCube() << std::endl;
 
         renderCoordinateSystem = ev->getRenderCoordinateSystem();
         renderTriangle = ev->getRenderTriangle();

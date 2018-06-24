@@ -16,11 +16,11 @@ SOURCES += main.cpp \
     CgQtViewer/CgTrackball.cpp \
     CgEvents/CgWindowResizeEvent.cpp \
     CgUtils/ObjLoader.cpp \
-    CgSceneGraph/CgTriangle.cpp \
     CgEvents/CgColorChangeEvent.cpp \
     CgSceneGraph/CgPolyline.cpp \
     CgEvents/CgObjectSelectionChangeEvent.cpp \
-    CgSceneGraph/CgCube.cpp
+    CgSceneGraph/CgCube.cpp \
+    CgSceneGraph/CgTriangles.cpp
 
 HEADERS += \
     CgBase/CgBaseRenderWindow.h \
@@ -45,9 +45,9 @@ HEADERS += \
     CgQtViewer/CgTrackball.h \
     CgEvents/CgWindowResizeEvent.h \
     CgUtils/ObjLoader.h \
-    CgSceneGraph/CgTriangle.h \
     CgEvents/CgColorChangeEvent.h \
     CgSceneGraph/CgPolyline.h \
     CgEvents/CgObjectSelectionChangeEvent.h \
-    CgSceneGraph/CgCube.h
+    CgSceneGraph/CgCube.h \
+    CgSceneGraph/CgTriangles.h
 
