@@ -40,16 +40,15 @@ CgQtGui::CgQtGui(CgQtMainApplication *mw)
     QVBoxLayout *mainLayout = new QVBoxLayout;
     QHBoxLayout *container = new QHBoxLayout;
 
-
-    QWidget *opt = new QWidget;
-    createOptionPanelExample1(opt);
-
-    QWidget *otheropt = new QWidget;
-    createOptionPanelExample2(otheropt);
+    //Add new panels here
+    m_panel_color = new QWidget;
+    createOptionPanelColor(m_panel_color);
+    m_panel_example = new QWidget;
+    createOptionPanelExample(m_panel_example);
 
     QTabWidget* m_tabs = new QTabWidget();
-    m_tabs->addTab(opt,"&My Tab1");
-    m_tabs->addTab(otheropt,"&My Tab2");
+    m_tabs->addTab(m_panel_color, "&Colors");
+    m_tabs->addTab(m_panel_example,"&Examples");
     container->addWidget(m_tabs);
 
     m_tabs->setMaximumWidth(400);
@@ -128,33 +127,43 @@ QSlider *CgQtGui::createSlider()
 }
 
 
+void CgQtGui::createOptionPanelColor(QWidget* parent){
+    QVBoxLayout *panel_layout = new QVBoxLayout();
+
+    panel_layout->addWidget(createSlider());
+
+    parent->setLayout(panel_layout);
+}
 
 
 
 
-void CgQtGui::createOptionPanelExample1(QWidget* parent)
+
+
+void CgQtGui::createOptionPanelExample(QWidget* parent)
 {
-    QVBoxLayout *tab1_control = new QVBoxLayout();
+    QVBoxLayout *panel_layout = new QVBoxLayout();
+    QHBoxLayout *subBox = new QHBoxLayout();
 
 
     /*Example for using a label */
 
     QLabel *options_label = new QLabel("Options");
-    tab1_control->addWidget(options_label);
+    panel_layout->addWidget(options_label);
     options_label->setAlignment(Qt::AlignCenter);
 
 
     /*Example for using a spinbox */
 
     mySpinBox1 = new QSpinBox();
-    tab1_control->addWidget(mySpinBox1);
+    panel_layout->addWidget(mySpinBox1);
     mySpinBox1->setMinimum(1);
     mySpinBox1->setMaximum(50);
     mySpinBox1->setValue(3);
    // mySpinBox1->setSuffix("   suffix");
    // mySpinBox1->setPrefix("Prefix:  ");
     connect(mySpinBox1, SIGNAL(valueChanged(int) ), this, SLOT(slotMySpinBox1Changed()) );
-    tab1_control->addWidget(mySpinBox1);
+    panel_layout->addWidget(mySpinBox1);
 
 
     /*Example for using a checkbox */
@@ -163,32 +172,21 @@ void CgQtGui::createOptionPanelExample1(QWidget* parent)
     myCheckBox1->setCheckable(true);
     myCheckBox1->setChecked(false);
     connect(myCheckBox1, SIGNAL( clicked() ), this, SLOT(slotMyCheckBox1Changed()) );
-    tab1_control->addWidget(myCheckBox1);
+    panel_layout->addWidget(myCheckBox1);
 
 
     /*Example for using a button */
 
     QPushButton* myButton1 = new QPushButton("&drueck mich");
-    tab1_control->addWidget(myButton1);
+    panel_layout->addWidget(myButton1);
 
     connect(myButton1, SIGNAL( clicked() ), this, SLOT(slotMyButton1Pressed()) );
 
 
 
-    parent->setLayout(tab1_control);
-
-}
-
-void CgQtGui::createOptionPanelExample2(QWidget* parent)
-{
 
 
-    QVBoxLayout *tab2_control = new QVBoxLayout();
-    QHBoxLayout *subBox = new QHBoxLayout();
-
-
-
-    /*Example for using a button group */
+    //Example for using a button group
 
     QGroupBox* myGroupBox = new QGroupBox("Radiobutton Group Example ");
 
@@ -219,14 +217,18 @@ void CgQtGui::createOptionPanelExample2(QWidget* parent)
     vbox->addStretch(1);
     myGroupBox->setLayout(vbox);
     subBox->addWidget(myGroupBox);
-    tab2_control->addLayout(subBox);
+    panel_layout->addLayout(subBox);
 
     connect(myButtonGroup, SIGNAL( buttonClicked(int) ), this, SLOT( slotButtonGroupSelectionChanged() ) );
-    parent->setLayout(tab2_control);
+
+
+
+    parent->setLayout(panel_layout);
 
 }
 
 
+//################################### SLOTS ###################################
 
 void CgQtGui::slotButtonGroupSelectionChanged()
 {

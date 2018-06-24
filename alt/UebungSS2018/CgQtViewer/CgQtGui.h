@@ -89,16 +89,16 @@ private:
 
 
 
-    QWidget*               m_option_panel_ex1;
+    QWidget*               m_panel_color;
     QWidget*               m_option_panel_ex2;
     QWidget*               m_option_panel_ex3;
     QWidget*               m_option_panel_ex4;
-    QWidget*               m_option_panel_ex5;
+    QWidget*               m_panel_example;
 
 
     /* example for usage of qt gui elements, feel free to add what you like */
-    void createOptionPanelExample1(QWidget* panel);
-    void createOptionPanelExample2(QWidget* panel);
+    void createOptionPanelColor(QWidget* panel);
+    void createOptionPanelExample(QWidget* panel);
     QButtonGroup* myButtonGroup;
     QCheckBox* myCheckBox1;
     QSpinBox* mySpinBox1;
