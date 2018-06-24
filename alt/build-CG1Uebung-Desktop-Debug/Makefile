@@ -58,11 +58,11 @@ SOURCES       = ../UebungSS2018/main.cpp \
 		../UebungSS2018/CgQtViewer/CgQtMainApplication.cpp \
 		../UebungSS2018/CgSceneGraph/CgSceneControl.cpp \
 		../UebungSS2018/CgEvents/CgKeyEvent.cpp \
-		../UebungSS2018/CgSceneGraph/CgExampleTriangle.cpp \
 		../UebungSS2018/CgQtViewer/CgQtGlBufferObject.cpp \
 		../UebungSS2018/CgQtViewer/CgTrackball.cpp \
 		../UebungSS2018/CgEvents/CgWindowResizeEvent.cpp \
-		../UebungSS2018/CgUtils/ObjLoader.cpp moc_CgQtGLRenderWidget.cpp \
+		../UebungSS2018/CgUtils/ObjLoader.cpp \
+		../UebungSS2018/CgSceneGraph/CgTriangle.cpp moc_CgQtGLRenderWidget.cpp \
 		moc_CgQtGui.cpp \
 		moc_CgQtMainApplication.cpp
 OBJECTS       = main.o \
@@ -73,11 +73,11 @@ OBJECTS       = main.o \
 		CgQtMainApplication.o \
 		CgSceneControl.o \
 		CgKeyEvent.o \
-		CgExampleTriangle.o \
 		CgQtGlBufferObject.o \
 		CgTrackball.o \
 		CgWindowResizeEvent.o \
 		ObjLoader.o \
+		CgTriangle.o \
 		moc_CgQtGLRenderWidget.o \
 		moc_CgQtGui.o \
 		moc_CgQtMainApplication.o
@@ -167,7 +167,6 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		../UebungSS2018/CgEvents/CgKeyEvent.h \
 		../UebungSS2018/CgBase/CgBaseRenderer.h \
 		../UebungSS2018/CgBase/CgBaseRenderableObject.h \
-		../UebungSS2018/CgSceneGraph/CgExampleTriangle.h \
 		../UebungSS2018/CgBase/CgBasePointCloud.h \
 		../UebungSS2018/CgBase/CgBaseTriangleMesh.h \
 		../UebungSS2018/CgBase/CgBasePolygonMesh.h \
@@ -176,7 +175,8 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		../UebungSS2018/CgQtViewer/CgQtGlBufferObject.h \
 		../UebungSS2018/CgQtViewer/CgTrackball.h \
 		../UebungSS2018/CgEvents/CgWindowResizeEvent.h \
-		../UebungSS2018/CgUtils/ObjLoader.h ../UebungSS2018/main.cpp \
+		../UebungSS2018/CgUtils/ObjLoader.h \
+		../UebungSS2018/CgSceneGraph/CgTriangle.h ../UebungSS2018/main.cpp \
 		../UebungSS2018/CgQtViewer/CGQtGLRenderWidget.cpp \
 		../UebungSS2018/CgQtViewer/CgQtGui.cpp \
 		../UebungSS2018/CgBase/CgObservable.cpp \
@@ -184,11 +184,11 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		../UebungSS2018/CgQtViewer/CgQtMainApplication.cpp \
 		../UebungSS2018/CgSceneGraph/CgSceneControl.cpp \
 		../UebungSS2018/CgEvents/CgKeyEvent.cpp \
-		../UebungSS2018/CgSceneGraph/CgExampleTriangle.cpp \
 		../UebungSS2018/CgQtViewer/CgQtGlBufferObject.cpp \
 		../UebungSS2018/CgQtViewer/CgTrackball.cpp \
 		../UebungSS2018/CgEvents/CgWindowResizeEvent.cpp \
-		../UebungSS2018/CgUtils/ObjLoader.cpp
+		../UebungSS2018/CgUtils/ObjLoader.cpp \
+		../UebungSS2018/CgSceneGraph/CgTriangle.cpp
 QMAKE_TARGET  = CgQtViewer
 DESTDIR       = 
 TARGET        = CgQtViewer
@@ -372,8 +372,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../UebungSS2018/CgBase/CgBaseRenderWindow.h ../UebungSS2018/CgQtViewer/CgQtGLRenderWidget.h ../UebungSS2018/CgQtViewer/CgQtGui.h ../UebungSS2018/CgBase/CgObserver.h ../UebungSS2018/CgBase/CgObservable.h ../UebungSS2018/CgBase/CgBaseEvent.h ../UebungSS2018/CgBase/CgEnums.h ../UebungSS2018/CgEvents/CgMouseEvent.h ../UebungSS2018/CgQtViewer/CgQtMainApplication.h ../UebungSS2018/CgSceneGraph/CgSceneControl.h ../UebungSS2018/CgEvents/CgKeyEvent.h ../UebungSS2018/CgBase/CgBaseRenderer.h ../UebungSS2018/CgBase/CgBaseRenderableObject.h ../UebungSS2018/CgSceneGraph/CgExampleTriangle.h ../UebungSS2018/CgBase/CgBasePointCloud.h ../UebungSS2018/CgBase/CgBaseTriangleMesh.h ../UebungSS2018/CgBase/CgBasePolygonMesh.h ../UebungSS2018/CgBase/CgBasePolyline.h ../UebungSS2018/CgBase/CgBaseSceneControl.h ../UebungSS2018/CgQtViewer/CgQtGlBufferObject.h ../UebungSS2018/CgQtViewer/CgTrackball.h ../UebungSS2018/CgEvents/CgWindowResizeEvent.h ../UebungSS2018/CgUtils/ObjLoader.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../UebungSS2018/main.cpp ../UebungSS2018/CgQtViewer/CGQtGLRenderWidget.cpp ../UebungSS2018/CgQtViewer/CgQtGui.cpp ../UebungSS2018/CgBase/CgObservable.cpp ../UebungSS2018/CgEvents/CgMouseEvent.cpp ../UebungSS2018/CgQtViewer/CgQtMainApplication.cpp ../UebungSS2018/CgSceneGraph/CgSceneControl.cpp ../UebungSS2018/CgEvents/CgKeyEvent.cpp ../UebungSS2018/CgSceneGraph/CgExampleTriangle.cpp ../UebungSS2018/CgQtViewer/CgQtGlBufferObject.cpp ../UebungSS2018/CgQtViewer/CgTrackball.cpp ../UebungSS2018/CgEvents/CgWindowResizeEvent.cpp ../UebungSS2018/CgUtils/ObjLoader.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../UebungSS2018/CgBase/CgBaseRenderWindow.h ../UebungSS2018/CgQtViewer/CgQtGLRenderWidget.h ../UebungSS2018/CgQtViewer/CgQtGui.h ../UebungSS2018/CgBase/CgObserver.h ../UebungSS2018/CgBase/CgObservable.h ../UebungSS2018/CgBase/CgBaseEvent.h ../UebungSS2018/CgBase/CgEnums.h ../UebungSS2018/CgEvents/CgMouseEvent.h ../UebungSS2018/CgQtViewer/CgQtMainApplication.h ../UebungSS2018/CgSceneGraph/CgSceneControl.h ../UebungSS2018/CgEvents/CgKeyEvent.h ../UebungSS2018/CgBase/CgBaseRenderer.h ../UebungSS2018/CgBase/CgBaseRenderableObject.h ../UebungSS2018/CgBase/CgBasePointCloud.h ../UebungSS2018/CgBase/CgBaseTriangleMesh.h ../UebungSS2018/CgBase/CgBasePolygonMesh.h ../UebungSS2018/CgBase/CgBasePolyline.h ../UebungSS2018/CgBase/CgBaseSceneControl.h ../UebungSS2018/CgQtViewer/CgQtGlBufferObject.h ../UebungSS2018/CgQtViewer/CgTrackball.h ../UebungSS2018/CgEvents/CgWindowResizeEvent.h ../UebungSS2018/CgUtils/ObjLoader.h ../UebungSS2018/CgSceneGraph/CgTriangle.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../UebungSS2018/main.cpp ../UebungSS2018/CgQtViewer/CGQtGLRenderWidget.cpp ../UebungSS2018/CgQtViewer/CgQtGui.cpp ../UebungSS2018/CgBase/CgObservable.cpp ../UebungSS2018/CgEvents/CgMouseEvent.cpp ../UebungSS2018/CgQtViewer/CgQtMainApplication.cpp ../UebungSS2018/CgSceneGraph/CgSceneControl.cpp ../UebungSS2018/CgEvents/CgKeyEvent.cpp ../UebungSS2018/CgQtViewer/CgQtGlBufferObject.cpp ../UebungSS2018/CgQtViewer/CgTrackball.cpp ../UebungSS2018/CgEvents/CgWindowResizeEvent.cpp ../UebungSS2018/CgUtils/ObjLoader.cpp ../UebungSS2018/CgSceneGraph/CgTriangle.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -499,7 +499,7 @@ CgSceneControl.o: ../UebungSS2018/CgSceneGraph/CgSceneControl.cpp ../UebungSS201
 		../UebungSS2018/CgEvents/CgKeyEvent.h \
 		../UebungSS2018/CgEvents/CgWindowResizeEvent.h \
 		../UebungSS2018/CgBase/CgBaseRenderer.h \
-		../UebungSS2018/CgSceneGraph/CgExampleTriangle.h \
+		../UebungSS2018/CgSceneGraph/CgTriangle.h \
 		../UebungSS2018/CgBase/CgBaseTriangleMesh.h \
 		../UebungSS2018/CgBase/CgBaseRenderableObject.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o CgSceneControl.o ../UebungSS2018/CgSceneGraph/CgSceneControl.cpp
@@ -508,12 +508,6 @@ CgKeyEvent.o: ../UebungSS2018/CgEvents/CgKeyEvent.cpp ../UebungSS2018/CgEvents/C
 		../UebungSS2018/CgBase/CgBaseEvent.h \
 		../UebungSS2018/CgBase/CgEnums.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o CgKeyEvent.o ../UebungSS2018/CgEvents/CgKeyEvent.cpp
-
-CgExampleTriangle.o: ../UebungSS2018/CgSceneGraph/CgExampleTriangle.cpp ../UebungSS2018/CgSceneGraph/CgExampleTriangle.h \
-		../UebungSS2018/CgBase/CgBaseTriangleMesh.h \
-		../UebungSS2018/CgBase/CgBaseRenderableObject.h \
-		../UebungSS2018/CgBase/CgEnums.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o CgExampleTriangle.o ../UebungSS2018/CgSceneGraph/CgExampleTriangle.cpp
 
 CgQtGlBufferObject.o: ../UebungSS2018/CgQtViewer/CgQtGlBufferObject.cpp ../UebungSS2018/CgQtViewer/CgQtGlBufferObject.h \
 		../UebungSS2018/CgBase/CgBasePolyline.h \
@@ -534,6 +528,12 @@ CgWindowResizeEvent.o: ../UebungSS2018/CgEvents/CgWindowResizeEvent.cpp ../Uebun
 
 ObjLoader.o: ../UebungSS2018/CgUtils/ObjLoader.cpp ../UebungSS2018/CgUtils/ObjLoader.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ObjLoader.o ../UebungSS2018/CgUtils/ObjLoader.cpp
+
+CgTriangle.o: ../UebungSS2018/CgSceneGraph/CgTriangle.cpp ../UebungSS2018/CgSceneGraph/CgTriangle.h \
+		../UebungSS2018/CgBase/CgBaseTriangleMesh.h \
+		../UebungSS2018/CgBase/CgBaseRenderableObject.h \
+		../UebungSS2018/CgBase/CgEnums.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o CgTriangle.o ../UebungSS2018/CgSceneGraph/CgTriangle.cpp
 
 moc_CgQtGLRenderWidget.o: moc_CgQtGLRenderWidget.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_CgQtGLRenderWidget.o moc_CgQtGLRenderWidget.cpp

@@ -4,13 +4,13 @@
 #include "CgEvents/CgKeyEvent.h"
 #include "CgEvents/CgWindowResizeEvent.h"
 #include "CgBase/CgBaseRenderer.h"
-#include "CgExampleTriangle.h"
+#include "CgTriangle.h"
 #include <iostream>
 #include <glm/gtc/matrix_transform.hpp>
 
 CgSceneControl::CgSceneControl()
 {
-     m_triangle=new CgExampleTriangle(21);
+     m_triangle=new CgTriangle(21);
      m_current_transformation=glm::mat4(1.);
      m_proj_matrix= glm::mat4x4(glm::vec4(1.792591, 0.0, 0.0, 0.0), glm::vec4(0.0, 1.792591, 0.0, 0.0), glm::vec4(0.0, 0.0, -1.0002, -1.0), glm::vec4(0.0, 0.0, -0.020002, 0.0));
 }

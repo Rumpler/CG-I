@@ -7,7 +7,7 @@
 
 class CgBaseEvent;
 class CgBaseRenderer;
-class CgExampleTriangle;
+class CgTriangle;
 
 class CgSceneControl : public CgObserver, public CgBaseSceneControl
 {
@@ -23,7 +23,7 @@ private:
 
     CgBaseRenderer* m_renderer;
 
-    CgExampleTriangle* m_triangle;
+    CgTriangle* m_triangle;
     glm::mat4 m_current_transformation;
     glm::mat4 m_proj_matrix;
 

@@ -12,11 +12,11 @@ SOURCES += main.cpp \
     CgQtViewer/CgQtMainApplication.cpp \
     CgSceneGraph/CgSceneControl.cpp \
     CgEvents/CgKeyEvent.cpp \
-    CgSceneGraph/CgExampleTriangle.cpp \
     CgQtViewer/CgQtGlBufferObject.cpp \
     CgQtViewer/CgTrackball.cpp \
     CgEvents/CgWindowResizeEvent.cpp \
-	CgUtils/ObjLoader.cpp
+    CgUtils/ObjLoader.cpp \
+    CgSceneGraph/CgTriangle.cpp
 
 HEADERS += \
     CgBase/CgBaseRenderWindow.h \
@@ -32,7 +32,6 @@ HEADERS += \
     CgEvents/CgKeyEvent.h \
     CgBase/CgBaseRenderer.h \
     CgBase/CgBaseRenderableObject.h \
-    CgSceneGraph/CgExampleTriangle.h \
     CgBase/CgBasePointCloud.h \
     CgBase/CgBaseTriangleMesh.h \
     CgBase/CgBasePolygonMesh.h \
@@ -41,5 +40,6 @@ HEADERS += \
     CgQtViewer/CgQtGlBufferObject.h \
     CgQtViewer/CgTrackball.h \
     CgEvents/CgWindowResizeEvent.h \
-	CgUtils/ObjLoader.h
+    CgUtils/ObjLoader.h \
+    CgSceneGraph/CgTriangle.h
 
