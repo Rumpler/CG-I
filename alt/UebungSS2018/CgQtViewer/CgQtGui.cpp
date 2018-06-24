@@ -8,6 +8,7 @@
 #include "../CgEvents/CgKeyEvent.h"
 #include "../CgEvents/CgWindowResizeEvent.h"
 #include "../CgEvents/CgColorChangeEvent.h"
+#include "../CgEvents/CgObjectSelectionChangeEvent.h"
 #include <QSlider>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -169,25 +170,28 @@ void CgQtGui::createOptionPanelObjects(QWidget *parent)
     QVBoxLayout *panel_layout = new QVBoxLayout();
     QHBoxLayout *subBox = new QHBoxLayout();
 
-
+    //Apply changes in slot methode and CgObjectSelectionChangeEvent!
 
     //Example for using a button group
 
     QGroupBox* myGroupBox = new QGroupBox("Objects for rendering ");
 
     myButtonGroup = new QButtonGroup(subBox);
-    myButtonGroup->setExclusive(true);
+    myButtonGroup->setExclusive(false);
 
+    QRadioButton* radiobuttonCoordinateSystem = new QRadioButton( "&Coordinate-System");
     QRadioButton* radiobuttonTriangle = new QRadioButton( "&Triangle");
     QRadioButton* radiobuttonCube = new QRadioButton( "&Cube");
 
-    radiobuttonCube->setChecked(true);
+    radiobuttonCoordinateSystem->setChecked(true);
 
-    myButtonGroup->addButton(radiobuttonTriangle,0);
-    myButtonGroup->addButton(radiobuttonCube,1);
+    myButtonGroup->addButton(radiobuttonCoordinateSystem,0);
+    myButtonGroup->addButton(radiobuttonTriangle,1);
+    myButtonGroup->addButton(radiobuttonCube,2);
 
 
     QVBoxLayout *vbox = new QVBoxLayout;
+    vbox->addWidget(radiobuttonCoordinateSystem);
     vbox->addWidget(radiobuttonTriangle);
     vbox->addWidget(radiobuttonCube);
     vbox->addStretch(1);
@@ -251,7 +255,7 @@ void CgQtGui::createOptionPanelExample(QWidget* parent)
 
 
 
-
+/*
 
     //Example for using a button group
 
@@ -288,7 +292,7 @@ void CgQtGui::createOptionPanelExample(QWidget* parent)
 
     connect(myButtonGroup, SIGNAL( buttonClicked(int) ), this, SLOT( slotButtonGroupSelectionChanged() ) );
 
-
+*/
 
     parent->setLayout(panel_layout);
 
@@ -305,8 +309,15 @@ void CgQtGui::slotColorChanged()
 
 void CgQtGui::slotButtonGroupSelectionChanged()
 {
-    std::cout << myButtonGroup->checkedId() << std::endl;
-    myButtonGroup->button(0)->isChecked();
+    CgObjectSelectionChangeEvent* e = new CgObjectSelectionChangeEvent();
+    std::cout << myButtonGroup->button(0)->isChecked() << std::endl;
+    std::cout << myButtonGroup->button(1)->isChecked() << std::endl;
+    std::cout << myButtonGroup->button(2)->isChecked() << std::endl;
+
+    e->setRenderCoordinateSystem(myButtonGroup->button(0)->isChecked());
+    e->setRenderTriangle(myButtonGroup->button(1)->isChecked());
+    e->setRenderCube( myButtonGroup->button(2)->isChecked());
+    notifyObserver(e);
 }
 
 void CgQtGui::slotMySpinBox1Changed()

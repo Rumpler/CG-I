@@ -4,6 +4,7 @@
 #include "CgEvents/CgKeyEvent.h"
 #include "CgEvents/CgWindowResizeEvent.h"
 #include "CgEvents/CgColorChangeEvent.h"
+#include "CgEvents/CgObjectSelectionChangeEvent.h"
 #include "CgBase/CgBaseRenderer.h"
 #include "CgTriangle.h"
 #include <iostream>
@@ -24,8 +25,10 @@ CgSceneControl::CgSceneControl()
     z_Axis->addVertice(glm::vec3(0.0,0.0,0.0));
     z_Axis->addVertice(glm::vec3(0.0,0.0,1.0));
 
-
-
+    //Objects displayed
+    renderCoordinateSystem = true;
+    renderTriangle = false;
+    renderCube = false;
 
     //Objects for rendering
      m_triangle=new CgTriangle(10);
@@ -59,6 +62,7 @@ void CgSceneControl::setRenderer(CgBaseRenderer* r)
 
     //Init objects for rendering
     m_renderer->init(m_triangle);
+    //TODO Cube
 }
 
 
@@ -68,19 +72,28 @@ void CgSceneControl::renderObjects()
     m_renderer->setLookAtMatrix(glm::mat4x4(glm::vec4(1.0, 0.0, 0.0, 0.0), glm::vec4(0.0, 1.0, 0.0, 0.0), glm::vec4(0.0, 0.0, 1.0, -1.0), glm::vec4(0.0, 0.0, -1.0, 1.0)));
 
 
-    //Coordinate-System
-    m_renderer->setUniformValue("mycolor", glm::vec4(1.0,0.0,0.0,0.5));
-    m_renderer->render(x_Axis,m_current_transformation);
-    m_renderer->setUniformValue("mycolor", glm::vec4(0.0,1.0,0.0,0.5));
-    m_renderer->render(y_Axis,m_current_transformation);
-    m_renderer->setUniformValue("mycolor", glm::vec4(0.0,0.0,1.0,0.5));
-    m_renderer->render(z_Axis,m_current_transformation);
+    if(renderCoordinateSystem){
+        //Coordinate-System
+        m_renderer->setUniformValue("mycolor", glm::vec4(1.0,0.0,0.0,0.5));
+        m_renderer->render(x_Axis,m_current_transformation);
+        m_renderer->setUniformValue("mycolor", glm::vec4(0.0,1.0,0.0,0.5));
+        m_renderer->render(y_Axis,m_current_transformation);
+        m_renderer->setUniformValue("mycolor", glm::vec4(0.0,0.0,1.0,0.5));
+        m_renderer->render(z_Axis,m_current_transformation);
+    }
 
 
     //Color for all objects
     m_renderer->setUniformValue("mycolor", glm::vec4(color.x * 0.01, color.y * 0.01, color.z * 0.01 ,1.0));
 
-    m_renderer->render(m_triangle,m_current_transformation);
+    if(renderTriangle){
+        m_renderer->render(m_triangle,m_current_transformation);
+    }
+
+    if(renderCube){
+        //TODO Cube
+    }
+
 
 
 
@@ -117,6 +130,19 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         CgColorChangeEvent* ev = (CgColorChangeEvent*)e;
         //std::cout << *ev <<std::endl;
         color = glm::vec3(ev->getRed(),ev->getGreen(),ev->getBlue());
+        m_renderer->redraw();
+    }
+
+    if(e->getType() & Cg::CgObjectSelectionChangeEvent)
+    {
+        CgObjectSelectionChangeEvent* ev = (CgObjectSelectionChangeEvent*)e;
+
+        std::cout <<"ObjectSelectionChangedEvent: " << ev->getRenderCoordinateSystem() << "," << ev->getRenderTriangle()  << "," << ev->getRenderCube() << std::endl;
+
+        renderCoordinateSystem = ev->getRenderCoordinateSystem();
+        renderTriangle = ev->getRenderTriangle();
+        renderCube = ev->getRenderCube();
+
         m_renderer->redraw();
     }
 

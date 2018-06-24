@@ -28,6 +28,11 @@ private:
     //Objects for rendering
     CgTriangle* m_triangle;
 
+    //Objects do display
+    bool renderCoordinateSystem;
+    bool renderTriangle;
+    bool renderCube;
+
     //Coordinatesystem
     CgPolyline* x_Axis;
     CgPolyline* y_Axis;
