@@ -16,7 +16,9 @@ SOURCES += main.cpp \
     CgQtViewer/CgTrackball.cpp \
     CgEvents/CgWindowResizeEvent.cpp \
     CgUtils/ObjLoader.cpp \
-    CgSceneGraph/CgTriangle.cpp
+    CgSceneGraph/CgTriangle.cpp \
+    CgEvents/CgColorChangeEvent.cpp \
+    CgSceneGraph/CgPolyline.cpp
 
 HEADERS += \
     CgBase/CgBaseRenderWindow.h \
@@ -41,5 +43,7 @@ HEADERS += \
     CgQtViewer/CgTrackball.h \
     CgEvents/CgWindowResizeEvent.h \
     CgUtils/ObjLoader.h \
-    CgSceneGraph/CgTriangle.h
+    CgSceneGraph/CgTriangle.h \
+    CgEvents/CgColorChangeEvent.h \
+    CgSceneGraph/CgPolyline.h
 

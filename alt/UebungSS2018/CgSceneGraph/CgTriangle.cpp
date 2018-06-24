@@ -36,6 +36,9 @@ m_id(id)
     m_triangle_indices.push_back(1);
     m_triangle_indices.push_back(3);
 
+    m_face_colors.push_back(glm::vec3(100.0,200.0,1.0));
+    m_face_colors.push_back(glm::vec3(200.0,1.0,1.0));
+
     m_vertex_normals.push_back(glm::vec3(0.0,0.0,1.0));
     m_vertex_normals.push_back(glm::vec3(0.0,0.0,1.0));
     m_vertex_normals.push_back(glm::vec3(0.0,0.0,1.0));

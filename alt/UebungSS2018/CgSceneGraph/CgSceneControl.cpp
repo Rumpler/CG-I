@@ -3,6 +3,7 @@
 #include "CgEvents/CgMouseEvent.h"
 #include "CgEvents/CgKeyEvent.h"
 #include "CgEvents/CgWindowResizeEvent.h"
+#include "CgEvents/CgColorChangeEvent.h"
 #include "CgBase/CgBaseRenderer.h"
 #include "CgTriangle.h"
 #include <iostream>
@@ -25,6 +26,7 @@ void CgSceneControl::setRenderer(CgBaseRenderer* r)
 {
     m_renderer=r;
     m_renderer->setSceneControl(this);
+    //m_renderer->setUniformValue("mycolor", glm::vec4(1.0,1.0,1.0,1.0)); //Ginkel ?
 
     m_renderer->init(m_triangle);
 }
@@ -43,28 +45,18 @@ void CgSceneControl::renderObjects()
 
 void CgSceneControl::handleEvent(CgBaseEvent* e)
 {
-    // die Enums sind so gebaut, dass man alle Arten von MausEvents über CgEvent::CgMouseEvent abprüfen kann,
-    // siehe dazu die CgEvent enums im CgEnums.h
 
 
     if(e->getType() & Cg::CgMouseEvent)
     {
         CgMouseEvent* ev = (CgMouseEvent*)e;
-        std::cout << *ev << std::endl;
-
-         // hier kommt jetzt die Abarbeitung des Events hin...
+        //std::cout << *ev << std::endl;
     }
-
-    // die Enums sind so gebaut, dass man alle Arten von KeyEvents über CgEvent::CgKeyEvent abprüfen kann,
-    // siehe dazu die CgEvent enums im CgEnums.h
-    // momentan werden nur KeyPressEvents gefangen.
 
     if(e->getType() & Cg::CgKeyEvent)
     {
         CgKeyEvent* ev = (CgKeyEvent*)e;
         std::cout << *ev <<std::endl;
-
-        // hier kommt jetzt die Abarbeitung des Events hin...
     }
 
     if(e->getType() & Cg::WindowResizeEvent)
@@ -74,8 +66,16 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
          m_proj_matrix=glm::perspective(45.0f, (float)(ev->w()) / ev->h(), 0.01f, 100.0f);
     }
 
+    if(e->getType() & Cg::CgColorChangeEvent)
+    {
+        //TODO: Takes no effect
+        CgColorChangeEvent* ev = (CgColorChangeEvent*)e;
+        std::cout << *ev <<std::endl;
+        //m_renderer->setUniformValue("mycolor", glm::vec4(ev->getRed(),ev->getGreen(),ev->getBlue(),1.0));
+        m_renderer->redraw();
+    }
 
-    // an der Stelle an der ein Event abgearbeitet ist wird es auch gelöscht.
+
     delete e;
 
 

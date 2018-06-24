@@ -7,6 +7,7 @@
 #include "../CgEvents/CgMouseEvent.h"
 #include "../CgEvents/CgKeyEvent.h"
 #include "../CgEvents/CgWindowResizeEvent.h"
+#include "../CgEvents/CgColorChangeEvent.h"
 #include <QSlider>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -47,7 +48,7 @@ CgQtGui::CgQtGui(CgQtMainApplication *mw)
     createOptionPanelExample(m_panel_example);
 
     QTabWidget* m_tabs = new QTabWidget();
-    m_tabs->addTab(m_panel_color, "&Colors");
+    m_tabs->addTab(m_panel_color, "&Color");
     m_tabs->addTab(m_panel_example,"&Examples");
     container->addWidget(m_tabs);
 
@@ -115,14 +116,14 @@ CgQtGui::CgQtGui(CgQtMainApplication *mw)
 
 }
 
-QSlider *CgQtGui::createSlider()
+QSlider *CgQtGui::createColorSlider()
 {
     QSlider *slider = new QSlider(Qt::Vertical);
-    slider->setRange(0, 360 * 16);
-    slider->setSingleStep(16);
-    slider->setPageStep(15 * 16);
-    slider->setTickInterval(15 * 16);
-    slider->setTickPosition(QSlider::TicksRight);
+    slider->setRange(1, 255);
+    slider->setSingleStep(1);
+    slider->setPageStep(1);
+    slider->setTickInterval(1);
+    slider->setOrientation(Qt::Horizontal);
     return slider;
 }
 
@@ -130,7 +131,32 @@ QSlider *CgQtGui::createSlider()
 void CgQtGui::createOptionPanelColor(QWidget* parent){
     QVBoxLayout *panel_layout = new QVBoxLayout();
 
-    panel_layout->addWidget(createSlider());
+    sliderRed = createColorSlider();
+    sliderGreen = createColorSlider();
+    sliderBlue = createColorSlider();
+
+    QLabel *label_red = new QLabel("Red");
+    QLabel *label_green = new QLabel("Green");
+    QLabel *label_blue = new QLabel("Blue");
+
+    sliderRed->setValue(100);
+    sliderGreen->setValue(100);
+    sliderBlue->setValue(100);
+
+
+    connect(sliderRed, SIGNAL( valueChanged(int) ), this, SLOT( slotColorChanged() ));
+    connect(sliderGreen, SIGNAL( valueChanged(int) ), this, SLOT( slotColorChanged() ));
+    connect(sliderBlue, SIGNAL( valueChanged(int) ), this, SLOT( slotColorChanged() ));
+
+
+    panel_layout->addWidget(label_red);
+    panel_layout->addWidget(sliderRed);
+
+    panel_layout->addWidget(label_green);
+    panel_layout->addWidget(sliderGreen);
+
+    panel_layout->addWidget(label_blue);
+    panel_layout->addWidget(sliderBlue);
 
     parent->setLayout(panel_layout);
 }
@@ -229,6 +255,12 @@ void CgQtGui::createOptionPanelExample(QWidget* parent)
 
 
 //################################### SLOTS ###################################
+
+void CgQtGui::slotColorChanged()
+{
+    CgBaseEvent* e = new CgColorChangeEvent(sliderRed->value(), sliderGreen->value(), sliderBlue->value());
+    notifyObserver(e);
+}
 
 void CgQtGui::slotButtonGroupSelectionChanged()
 {

@@ -75,11 +75,11 @@ protected:
 
 
 private:
-    QSlider *createSlider();
+    QSlider *createColorSlider();
 
     // parts of the view
     CgQtGLRenderWidget*    m_glRenderWidget;
-    CgQtMainApplication*        m_mainWindow;
+    CgQtMainApplication*   m_mainWindow;
     QTabWidget*            m_exercises_tabWidget;
     QWidget*			   m_scene_tree_view;
     QTextEdit*             m_log_browser;
@@ -88,7 +88,7 @@ private:
     CgQtGuiEventHandler*   m_event_handler;
 
 
-
+    //Panels
     QWidget*               m_panel_color;
     QWidget*               m_option_panel_ex2;
     QWidget*               m_option_panel_ex3;
@@ -102,6 +102,12 @@ private:
     QButtonGroup* myButtonGroup;
     QCheckBox* myCheckBox1;
     QSpinBox* mySpinBox1;
+
+    QSlider* sliderRed;
+    QSlider* sliderGreen;
+    QSlider* sliderBlue;
+
+
 
 
 private slots:
@@ -118,6 +124,9 @@ private slots:
     void slotMyButton1Pressed();
     void slotButtonGroupSelectionChanged();
     void slotLoadMeshFile();
+
+    //Gerrit
+    void slotColorChanged();
 
 
 
