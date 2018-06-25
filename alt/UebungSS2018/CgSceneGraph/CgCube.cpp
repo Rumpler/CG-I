@@ -47,6 +47,7 @@ startIdforCubeNormals(idCubeNormals)
         std::vector<glm::vec3>* temp = map_vertex_normals.at(i);
         glm::vec3 norm = glm::vec3(0.0,0.0,0.0);
         float normCounter = 0.0;
+
         //For everey normal per vertex
         for(int j = 0; j < temp->size(); j++){
             norm = norm + temp->at(j);

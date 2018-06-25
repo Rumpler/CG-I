@@ -8,7 +8,7 @@
 #include "CgBase/CgBaseTriangleMesh.h"
 #include "CgPolyline.h"
 
-
+//@author Gerrit
 class CgCube : public CgBaseTriangleMesh
 {
 
