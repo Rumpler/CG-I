@@ -39,6 +39,9 @@ startIdforCubeNormals(idCubeNormals)
 
     //Calculating vertexNormals
 
+
+    CgPolyline* poly;
+
     //For everey vertex
     for(int i = 0; i < m_vertices.size(); i++){
         std::vector<glm::vec3>* temp = map_vertex_normals.at(i);
@@ -48,12 +51,23 @@ startIdforCubeNormals(idCubeNormals)
         for(int j = 0; j < temp->size(); j++){
             norm = norm + temp->at(j);
             normCounter = normCounter + 1;
-            std::cout << normCounter << std::endl;
         }
         norm = norm / normCounter;
         glm::normalize(norm);
         m_vertex_normals.push_back(norm);
+
+        //Push polyline for rendering
+        poly = new CgPolyline(startIdforCubeNormals);
+        startIdforCubeNormals++;
+        poly->addVertice(m_vertices.at(i));
+        poly->addVertice(m_vertices.at(i) + (norm * 0.1f));
+        polylineNormals.push_back(poly);
     }
+
+
+
+
+
 
 }
 
