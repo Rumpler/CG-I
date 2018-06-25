@@ -2,6 +2,7 @@
 #define CGCUBE_H
 
 #include <vector>
+#include <map>
 #include <glm/glm.hpp>
 
 #include "CgBase/CgBaseTriangleMesh.h"
@@ -12,7 +13,7 @@ class CgCube : public CgBaseTriangleMesh
 {
 
 public:
-    CgCube(int id);
+    CgCube(int id, int idCubeNormals);
     ~CgCube();
 
     //inherited from CgBaseRenderableObject
@@ -35,7 +36,6 @@ public:
 
     std::vector<CgPolyline *> getPolylineNormals() const;
 
-    void setStartIdforCubeNormals(int value);
 
 private:
 
@@ -43,6 +43,7 @@ private:
 
     std::vector<CgPolyline*> polylineNormals;
     int startIdforCubeNormals = 3000;
+    std::map<int, std::vector<glm::vec3>*> map_vertex_normals;
 
     std::vector<glm::vec3> m_vertices;
     std::vector<glm::vec3> m_vertex_normals;

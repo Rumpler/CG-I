@@ -33,7 +33,7 @@ CgSceneControl::CgSceneControl()
 
     //Objects for rendering
      m_triangle = new CgTriangles(10);
-     m_cube = new CgCube(11);
+     m_cube = new CgCube(11,42 /* start id for cube normals */);
      m_cube_normals = m_cube->getPolylineNormals();
 
 

@@ -1,13 +1,14 @@
 #include "CgCube.h"
 #include "CgBase/CgEnums.h"
 #include <iostream>
+#include <map>
 
 
-CgCube::CgCube(int id):
+CgCube::CgCube(int id, int idCubeNormals):
 m_type(Cg::TriangleMesh),
-m_id(id)
+m_id(id),
+startIdforCubeNormals(idCubeNormals)
 {
-
     m_vertices.push_back(glm::vec3(.5,.5,.5));      //0
     m_vertices.push_back(glm::vec3(-.5,.5,.5));     //1
     m_vertices.push_back(glm::vec3(.5,-.5,.5));     //2
@@ -18,6 +19,10 @@ m_id(id)
     m_vertices.push_back(glm::vec3(-.5,-.5,-.5));   //7
 
 
+    //Initialize map
+    for(int i = 0; i < m_vertices.size(); i++){
+        map_vertex_normals[i] = new std::vector<glm::vec3>;
+    }
 
     initFace(7,6,4);
     initFace(4,5,7);
@@ -32,6 +37,24 @@ m_id(id)
     initFace(2,6,7);
     initFace(7,3,2);
 
+    //Calculating vertexNormals
+
+    //For everey vertex
+    for(int i = 0; i < m_vertices.size(); i++){
+        std::vector<glm::vec3>* temp = map_vertex_normals.at(i);
+        glm::vec3 norm = glm::vec3(0.0,0.0,0.0);
+        float normCounter = 0.0;
+        //For everey normal per vertex
+        for(int j = 0; j < temp->size(); j++){
+            norm = norm + temp->at(j);
+            normCounter = normCounter + 1;
+            std::cout << normCounter << std::endl;
+        }
+        norm = norm / normCounter;
+        glm::normalize(norm);
+        m_vertex_normals.push_back(norm);
+    }
+
 }
 
 
@@ -45,9 +68,10 @@ CgCube::~CgCube()
     m_face_normals.clear();
     m_face_colors.clear();
     polylineNormals.clear();
+    map_vertex_normals.clear();
 }
 
-//initializes face and pushes face-normal
+//Initializes face, pushes faceNormal, calculates focusPoint, pushes polyline for rendering and map faceNormal to vertex
 void CgCube::initFace(int p1, int p2, int p3)
 {
     //Init face
@@ -55,32 +79,32 @@ void CgCube::initFace(int p1, int p2, int p3)
     m_triangle_indices.push_back(p2);
     m_triangle_indices.push_back(p3);
 
-    //Calculate and push face normal
+    //Calculate and push faceNormal
     glm::vec3 u = m_vertices.at(p2) - m_vertices.at(p1);
     glm::vec3 v = m_vertices.at(p3) - m_vertices.at(p1);
     glm::vec3 faceNormal = glm::cross(v,u);
     glm::normalize(faceNormal);
+
     m_face_normals.push_back(faceNormal);
 
+    //Map faceNormal to vertex
+    map_vertex_normals.at(p1)->push_back(faceNormal);
+    map_vertex_normals.at(p2)->push_back(faceNormal);
+    map_vertex_normals.at(p3)->push_back(faceNormal);
+
+    //Calculate focusPoint
     glm::vec3 focusPoint = glm::vec3((m_vertices.at(p1).x + m_vertices.at(p2).x + m_vertices.at(p3).x) / 3.0,
                                      (m_vertices.at(p1).y + m_vertices.at(p2).y + m_vertices.at(p3).y) / 3.0,
                                      (m_vertices.at(p1).z + m_vertices.at(p2).z + m_vertices.at(p3).z) / 3.0);
 
+    //Push polyline for rendering
     CgPolyline* poly = new CgPolyline(startIdforCubeNormals);
     startIdforCubeNormals++;
     poly->addVertice(focusPoint);
     poly->addVertice(focusPoint + (faceNormal * 0.1f));
-
-    std::cout << "Focus point: " << focusPoint.x << "," << focusPoint.y << "," << focusPoint.z << std::endl;
-    std::cout << "Second point: " << ((focusPoint * faceNormal) * 1.0f).x << "," << ((focusPoint * faceNormal) * 1.0f).y << "," << ((focusPoint * faceNormal) * 1.0f).z << std::endl;
-    std::cout << std::endl;
     polylineNormals.push_back(poly);
 }
 
-void CgCube::setStartIdforCubeNormals(int value)
-{
-    startIdforCubeNormals = value;
-}
 
 std::vector<CgPolyline *> CgCube::getPolylineNormals() const
 {
