@@ -6,6 +6,7 @@
 #include "CgPolyline.h"
 #include "CgCube.h"
 #include <glm/glm.hpp>
+#include <vector>
 
 class CgBaseEvent;
 class CgBaseRenderer;
@@ -30,11 +31,13 @@ private:
     //Objects for rendering
     CgTriangles* m_triangle;
     CgCube* m_cube;
+    std::vector<CgPolyline*> m_cube_normals;
 
     //Objects do display
     bool renderCoordinateSystem;
     bool renderTriangle;
     bool renderCube;
+    bool renderCubeNormals;
 
     //Coordinatesystem
     CgPolyline* x_Axis;

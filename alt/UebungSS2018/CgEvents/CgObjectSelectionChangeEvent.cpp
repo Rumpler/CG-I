@@ -15,8 +15,9 @@ CgBaseEvent *CgObjectSelectionChangeEvent::clone()
 {
     CgObjectSelectionChangeEvent* e = new CgObjectSelectionChangeEvent();
     e->setRenderCoordinateSystem(renderCoordinateSystem);
-    e->setRenderCube(renderCube);
     e->setRenderTriangle(renderTriangle);
+    e->setRenderCube(renderCube);
+    e->setRenderCubeNormals(renderCubeNormals);
     return e;
 }
 
@@ -48,4 +49,14 @@ bool CgObjectSelectionChangeEvent::getRenderCoordinateSystem() const
 void CgObjectSelectionChangeEvent::setRenderCoordinateSystem(bool value)
 {
     renderCoordinateSystem = value;
+}
+
+bool CgObjectSelectionChangeEvent::getRenderCubeNormals() const
+{
+    return renderCubeNormals;
+}
+
+void CgObjectSelectionChangeEvent::setRenderCubeNormals(bool value)
+{
+    renderCubeNormals = value;
 }

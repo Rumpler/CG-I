@@ -23,12 +23,16 @@ public:
     bool getRenderCoordinateSystem() const;
     void setRenderCoordinateSystem(bool value);
 
+    bool getRenderCubeNormals() const;
+    void setRenderCubeNormals(bool value);
+
 private:
     Cg::EventType m_type;
 
     bool renderCoordinateSystem;
     bool renderTriangle;
     bool renderCube;
+    bool renderCubeNormals;
 };
 
 #endif // CGOBJECTSELECTIONCHANGEEVENT_H

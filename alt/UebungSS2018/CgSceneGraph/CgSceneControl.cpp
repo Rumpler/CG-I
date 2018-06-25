@@ -29,10 +29,12 @@ CgSceneControl::CgSceneControl()
     renderCoordinateSystem = true;
     renderTriangle = false;
     renderCube = false;
+    renderCubeNormals = false;
 
     //Objects for rendering
      m_triangle = new CgTriangles(10);
      m_cube = new CgCube(11);
+     m_cube_normals = m_cube->getPolylineNormals();
 
 
      //Matrix
@@ -65,6 +67,11 @@ void CgSceneControl::setRenderer(CgBaseRenderer* r)
     //Init objects for rendering
     m_renderer->init(m_triangle);
     m_renderer->init(m_cube);
+
+    //TODO need to initialize cubeNormals?
+    for(CgPolyline* poly : m_cube_normals){
+        m_renderer->init(poly);
+    }
 }
 
 
@@ -96,6 +103,13 @@ void CgSceneControl::renderObjects()
         m_renderer->render(m_cube,m_current_transformation);
     }
 
+    if(renderCubeNormals){
+        //Color for cube normals
+        m_renderer->setUniformValue("mycolor", glm::vec4(1,0.01,0.5,1.0));
+        for(CgPolyline* poly : m_cube_normals){
+            m_renderer->render(poly,m_current_transformation);
+        }
+    }
 
 
 
@@ -144,6 +158,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         renderCoordinateSystem = ev->getRenderCoordinateSystem();
         renderTriangle = ev->getRenderTriangle();
         renderCube = ev->getRenderCube();
+        renderCubeNormals = ev->getRenderCubeNormals();
 
         m_renderer->redraw();
     }
