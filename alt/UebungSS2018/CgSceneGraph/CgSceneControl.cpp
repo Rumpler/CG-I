@@ -68,7 +68,6 @@ void CgSceneControl::setRenderer(CgBaseRenderer* r)
     m_renderer->init(m_triangle);
     m_renderer->init(m_cube);
 
-    //TODO need to initialize cubeNormals?
     for(CgPolyline* poly : *(m_cube_normals)){
         m_renderer->init(poly);
     }
@@ -146,16 +145,6 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         CgColorChangeEvent* ev = (CgColorChangeEvent*)e;
         //std::cout << *ev <<std::endl;
         color = glm::vec3(ev->getRed(),ev->getGreen(),ev->getBlue());
-
-        //debugg
-        std::cout << m_cube->getPolylineNormals().size() << "/" << m_cube_normals->size() << std::endl;
-
-        m_cube->testMethod();
-
-        std::cout << m_cube->getPolylineNormals().size() << "/" << m_cube_normals->size() << std::endl;
-
-        //debugg end
-
         m_renderer->redraw();
     }
 

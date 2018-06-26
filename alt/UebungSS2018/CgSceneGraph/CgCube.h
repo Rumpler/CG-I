@@ -7,6 +7,7 @@
 
 #include "CgBase/CgBaseTriangleMesh.h"
 #include "CgPolyline.h"
+#include "CgBase/CgBaseRenderer.h"
 
 //@author Gerrit
 class CgCube : public CgBaseTriangleMesh
@@ -36,7 +37,7 @@ public:
 
     std::vector<CgPolyline *>& getPolylineNormals();
 
-    void testMethod(void);
+    void testMethod(CgBaseRenderer* ren);
 
 
 private:

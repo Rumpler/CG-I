@@ -3,6 +3,9 @@
 #include <iostream>
 #include <map>
 
+#include <stdlib.h>     /* srand, rand */
+#include <time.h>       /* time */
+
 
 CgCube::CgCube(int id, int idCubeNormals):
 m_type(Cg::TriangleMesh),
@@ -126,12 +129,16 @@ std::vector<CgPolyline *>& CgCube::getPolylineNormals()
     return polylineNormals;
 }
 
-void CgCube::testMethod()
+void CgCube::testMethod(CgBaseRenderer* ren)
 {
-    CgPolyline* poly = new CgPolyline(40000);
+    srand(time(NULL));
+
+    CgPolyline* poly = new CgPolyline(rand() % 30 + 40000);
     poly->addVertice(glm::vec3(0,0,0));
     poly->addVertice(glm::vec3(-0.5,0,0));
     polylineNormals.push_back(poly);
+
+    ren->init(poly);
     std::cout << "testMethod reached" << std::endl;
 }
 
