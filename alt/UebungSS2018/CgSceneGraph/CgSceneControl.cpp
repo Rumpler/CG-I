@@ -143,7 +143,6 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     if(e->getType() & Cg::CgColorChangeEvent)
     {
         CgColorChangeEvent* ev = (CgColorChangeEvent*)e;
-        //std::cout << *ev <<std::endl;
         color = glm::vec3(ev->getRed(),ev->getGreen(),ev->getBlue());
         m_renderer->redraw();
     }
@@ -151,14 +150,11 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     if(e->getType() & Cg::CgObjectSelectionChangeEvent)
     {
         CgObjectSelectionChangeEvent* ev = (CgObjectSelectionChangeEvent*)e;
-
         //std::cout <<"ObjectSelectionChangedEvent: " << ev->getRenderCoordinateSystem() << "," << ev->getRenderTriangle()  << "," << ev->getRenderCube() << std::endl;
-
         renderCoordinateSystem = ev->getRenderCoordinateSystem();
         renderTriangle = ev->getRenderTriangle();
         renderCube = ev->getRenderCube();
         renderCubeNormals = ev->getRenderCubeNormals();
-
         m_renderer->redraw();
     }
 

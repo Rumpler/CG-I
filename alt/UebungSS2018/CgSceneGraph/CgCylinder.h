@@ -6,7 +6,7 @@
 class CgCylinder : CgBaseTriangleMesh
 {
 public:
-    CgCylinder();
+    CgCylinder(int id);
 
     // CgBaseRenderableObject interface
     Cg::ObjectType getType() const;
@@ -22,6 +22,18 @@ public:
     const std::vector<glm::vec3> &getFaceColors() const;
 
 private:
+    std::vector<glm::vec3> m_vertices;
+    std::vector<glm::vec3> m_vertex_normals;
+    std::vector<glm::vec3> m_vertex_colors;
+    std::vector<glm::vec2> m_tex_coords;
+
+    std::vector<unsigned int>  m_triangle_indices;
+
+    std::vector<glm::vec3> m_face_normals;
+    std::vector<glm::vec3> m_face_colors;
+
+    const Cg::ObjectType m_type;
+    const unsigned int m_id;
 
 };
 

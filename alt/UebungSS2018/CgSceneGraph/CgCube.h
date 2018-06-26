@@ -37,7 +37,6 @@ public:
 
     std::vector<CgPolyline *>& getPolylineNormals();
 
-    void testMethod(CgBaseRenderer* ren);
 
 
 private:
