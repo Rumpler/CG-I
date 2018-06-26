@@ -5,6 +5,7 @@
 #include "CgBase/CgBaseSceneControl.h"
 #include "CgPolyline.h"
 #include "CgCube.h"
+#include "CgUtils/IdSingleton.h"
 #include <glm/glm.hpp>
 #include <vector>
 
@@ -27,6 +28,9 @@ private:
 
     CgBaseRenderer* m_renderer;
     glm::vec3 color;
+
+    //Id generator
+    IdSingleton* idGen;
 
     //Objects for rendering
     CgTriangles* m_triangle;

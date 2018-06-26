@@ -12,16 +12,19 @@
 
 CgSceneControl::CgSceneControl()
 {
+    idGen = &(IdSingleton::instance());
+    //Works not correctly TODO
+
     //Coordinatesystem
-    x_Axis = new CgPolyline(0);
+    x_Axis = new CgPolyline(idGen->getNextId());
     x_Axis->addVertice(glm::vec3(0.0,0.0,0.0));
     x_Axis->addVertice(glm::vec3(1.0,0.0,0.0));
 
-    y_Axis = new CgPolyline(1);
+    y_Axis = new CgPolyline(idGen->getNextId());
     y_Axis->addVertice(glm::vec3(0.0,0.0,0.0));
     y_Axis->addVertice(glm::vec3(0.0,1.0,0.0));
 
-    z_Axis = new CgPolyline(2);
+    z_Axis = new CgPolyline(idGen->getNextId());
     z_Axis->addVertice(glm::vec3(0.0,0.0,0.0));
     z_Axis->addVertice(glm::vec3(0.0,0.0,1.0));
 
@@ -32,8 +35,8 @@ CgSceneControl::CgSceneControl()
     renderCubeNormals = false;
 
     //Objects for rendering
-     m_triangle = new CgTriangles(10);
-     m_cube = new CgCube(11,42 /* start id for cube normals */);
+     m_triangle = new CgTriangles(idGen->getNextId());
+     m_cube = new CgCube(idGen->getNextId(),42 /* start id for cube normals */);
      m_cube_normals = &(m_cube->getPolylineNormals());
 
 

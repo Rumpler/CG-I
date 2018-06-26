@@ -7,6 +7,7 @@
 #include "CgBase/CgBaseTriangleMesh.h"
 
 
+
 class CgTriangles : public CgBaseTriangleMesh
 {
 

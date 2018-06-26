@@ -21,7 +21,8 @@ SOURCES += main.cpp \
     CgEvents/CgObjectSelectionChangeEvent.cpp \
     CgSceneGraph/CgCube.cpp \
     CgSceneGraph/CgTriangles.cpp \
-    CgSceneGraph/CgCylinder.cpp
+    CgSceneGraph/CgCylinder.cpp \
+    CgUtils/IdSingleton.cpp
 
 HEADERS += \
     CgBase/CgBaseRenderWindow.h \
@@ -51,5 +52,6 @@ HEADERS += \
     CgEvents/CgObjectSelectionChangeEvent.h \
     CgSceneGraph/CgCube.h \
     CgSceneGraph/CgTriangles.h \
-    CgSceneGraph/CgCylinder.h
+    CgSceneGraph/CgCylinder.h \
+    CgUtils/IdSingleton.h
 
