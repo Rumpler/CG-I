@@ -34,7 +34,9 @@ public:
 
 
 
-    std::vector<CgPolyline *> getPolylineNormals() const;
+    std::vector<CgPolyline *>& getPolylineNormals();
+
+    void testMethod(void);
 
 
 private:

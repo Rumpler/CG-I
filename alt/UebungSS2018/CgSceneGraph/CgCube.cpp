@@ -121,9 +121,18 @@ void CgCube::initFace(int p1, int p2, int p3)
 }
 
 
-std::vector<CgPolyline *> CgCube::getPolylineNormals() const
+std::vector<CgPolyline *>& CgCube::getPolylineNormals()
 {
     return polylineNormals;
+}
+
+void CgCube::testMethod()
+{
+    CgPolyline* poly = new CgPolyline(40000);
+    poly->addVertice(glm::vec3(0,0,0));
+    poly->addVertice(glm::vec3(-0.5,0,0));
+    polylineNormals.push_back(poly);
+    std::cout << "testMethod reached" << std::endl;
 }
 
 

@@ -31,7 +31,7 @@ private:
     //Objects for rendering
     CgTriangles* m_triangle;
     CgCube* m_cube;
-    std::vector<CgPolyline*> m_cube_normals;
+    std::vector<CgPolyline*>* m_cube_normals;
 
     //Objects do display
     bool renderCoordinateSystem;
