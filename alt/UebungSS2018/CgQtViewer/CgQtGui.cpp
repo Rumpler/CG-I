@@ -192,6 +192,7 @@ void CgQtGui::createOptionPanelObjects(QWidget *parent)
     myButtonGroup->addButton(radiobuttonCube,2);
     myButtonGroup->addButton(radiobuttonCubeNormals,3);
 
+    myButtonGroup->button(3)->setDisabled(true);
 
     QVBoxLayout *vbox = new QVBoxLayout;
     vbox->addWidget(radiobuttonCoordinateSystem);
@@ -260,44 +261,6 @@ void CgQtGui::createOptionPanelExample(QWidget* parent)
 
 
 
-/*
-
-    //Example for using a button group
-
-    QGroupBox* myGroupBox = new QGroupBox("Radiobutton Group Example ");
-
-    myButtonGroup = new QButtonGroup(subBox);
-    myButtonGroup->setExclusive(true);
-
-    QRadioButton* radiobutton1 = new QRadioButton( "&Option1");
-    QRadioButton* radiobutton2 = new QRadioButton( "&Option2");
-    QRadioButton* radiobutton3 = new QRadioButton( "&Option3");
-    QRadioButton* radiobutton4 = new QRadioButton( "&Option4");
-    QRadioButton* radiobutton5 = new QRadioButton( "&Option5");
-
-    radiobutton2->setChecked(true);
-
-    myButtonGroup->addButton(radiobutton1,0);
-    myButtonGroup->addButton(radiobutton2,1);
-    myButtonGroup->addButton(radiobutton3,2);
-    myButtonGroup->addButton(radiobutton4,3);
-    myButtonGroup->addButton(radiobutton5,4);
-
-
-    QVBoxLayout *vbox = new QVBoxLayout;
-    vbox->addWidget(radiobutton1);
-    vbox->addWidget(radiobutton2);
-    vbox->addWidget(radiobutton3);
-    vbox->addWidget(radiobutton4);
-    vbox->addWidget(radiobutton5);
-    vbox->addStretch(1);
-    myGroupBox->setLayout(vbox);
-    subBox->addWidget(myGroupBox);
-    panel_layout->addLayout(subBox);
-
-    connect(myButtonGroup, SIGNAL( buttonClicked(int) ), this, SLOT( slotButtonGroupSelectionChanged() ) );
-
-*/
 
     parent->setLayout(panel_layout);
 
@@ -314,6 +277,13 @@ void CgQtGui::slotColorChanged()
 
 void CgQtGui::slotButtonGroupSelectionChanged()
 {
+    //Check if cube is not displayed and disable cubeNormals in case
+    if( ! myButtonGroup->button(2)->isChecked()){
+        myButtonGroup->button(3)->setChecked(false);
+        myButtonGroup->button(3)->setDisabled(true);
+    }else{
+        myButtonGroup->button(3)->setDisabled(false);
+    }
     CgObjectSelectionChangeEvent* e = new CgObjectSelectionChangeEvent();
     e->setRenderCoordinateSystem(myButtonGroup->button(0)->isChecked());
     e->setRenderTriangle(myButtonGroup->button(1)->isChecked());
