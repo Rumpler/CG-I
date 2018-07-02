@@ -13,7 +13,6 @@
 CgSceneControl::CgSceneControl()
 {
     idGen = &(IdSingleton::instance());
-    //Works not correctly TODO
 
     //Coordinatesystem
     x_Axis = new CgPolyline(idGen->getNextId());
@@ -36,7 +35,7 @@ CgSceneControl::CgSceneControl()
 
     //Objects for rendering
      m_triangle = new CgTriangles(idGen->getNextId());
-     m_cube = new CgCube(idGen->getNextId(),42 /* start id for cube normals */);
+     m_cube = new CgCube(idGen->getNextId());
      m_cube_normals = &(m_cube->getPolylineNormals());
 
 

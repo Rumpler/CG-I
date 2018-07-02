@@ -1,12 +1,10 @@
 #include "IdSingleton.h"
 
-#include <iostream>
 
 
 
 int IdSingleton::getNextId(){
     id++;
-    std::cout << "ID: " << id << std::endl;
     return id;
 }
 

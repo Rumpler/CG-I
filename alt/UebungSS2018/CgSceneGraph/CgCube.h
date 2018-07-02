@@ -8,13 +8,14 @@
 #include "CgBase/CgBaseTriangleMesh.h"
 #include "CgPolyline.h"
 #include "CgBase/CgBaseRenderer.h"
+#include "CgUtils/IdSingleton.h"
 
 //@author Gerrit
 class CgCube : public CgBaseTriangleMesh
 {
 
 public:
-    CgCube(int id, int idCubeNormals);
+    CgCube(int id);
     ~CgCube();
 
     //inherited from CgBaseRenderableObject
@@ -41,10 +42,11 @@ public:
 
 private:
 
+    IdSingleton* idGen;
+
     void initFace(int p1, int p2, int p3);
 
     std::vector<CgPolyline*> polylineNormals;
-    int startIdforCubeNormals = 3000;
     std::map<int, std::vector<glm::vec3>*> map_vertex_normals;
 
     std::vector<glm::vec3> m_vertices;

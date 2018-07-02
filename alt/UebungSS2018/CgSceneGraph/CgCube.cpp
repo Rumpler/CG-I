@@ -5,11 +5,12 @@
 
 
 
-CgCube::CgCube(int id, int idCubeNormals):
+CgCube::CgCube(int id):
 m_type(Cg::TriangleMesh),
-m_id(id),
-startIdforCubeNormals(idCubeNormals)
+m_id(id)
 {
+    idGen = &(IdSingleton::instance());
+
     m_vertices.push_back(glm::vec3(.5,.5,.5));      //0
     m_vertices.push_back(glm::vec3(-.5,.5,.5));     //1
     m_vertices.push_back(glm::vec3(.5,-.5,.5));     //2
@@ -59,8 +60,7 @@ startIdforCubeNormals(idCubeNormals)
         m_vertex_normals.push_back(norm);
 
         //Push polyline for rendering
-        poly = new CgPolyline(startIdforCubeNormals);
-        startIdforCubeNormals++;
+        poly = new CgPolyline(idGen->getNextId());
         poly->addVertice(m_vertices.at(i));
         poly->addVertice(m_vertices.at(i) + (norm * 0.1f));
         polylineNormals.push_back(poly);
@@ -90,6 +90,8 @@ CgCube::~CgCube()
 //Initializes face, pushes faceNormal, calculates focusPoint, pushes polyline for rendering and map faceNormal to vertex
 void CgCube::initFace(int p1, int p2, int p3)
 {
+
+
     //Init face
     m_triangle_indices.push_back(p1);
     m_triangle_indices.push_back(p2);
@@ -114,8 +116,7 @@ void CgCube::initFace(int p1, int p2, int p3)
                                      (m_vertices.at(p1).z + m_vertices.at(p2).z + m_vertices.at(p3).z) / 3.0);
 
     //Push polyline for rendering
-    CgPolyline* poly = new CgPolyline(startIdforCubeNormals);
-    startIdforCubeNormals++;
+    CgPolyline* poly = new CgPolyline(idGen->getNextId());
     poly->addVertice(focusPoint);
     poly->addVertice(focusPoint + (faceNormal * 0.1f));
     polylineNormals.push_back(poly);
