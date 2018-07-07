@@ -26,6 +26,9 @@ public:
     bool getRenderCubeNormals() const;
     void setRenderCubeNormals(bool value);
 
+    bool getRenderCylinder() const;
+    void setRenderCylinder(bool value);
+
 private:
     Cg::EventType m_type;
 
@@ -33,6 +36,7 @@ private:
     bool renderTriangle;
     bool renderCube;
     bool renderCubeNormals;
+    bool renderCylinder;
 };
 
 #endif // CGOBJECTSELECTIONCHANGEEVENT_H

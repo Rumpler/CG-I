@@ -42,6 +42,7 @@ private:
     bool renderTriangle;
     bool renderCube;
     bool renderCubeNormals;
+    bool renderCylinder;
 
     //Coordinatesystem
     CgPolyline* x_Axis;

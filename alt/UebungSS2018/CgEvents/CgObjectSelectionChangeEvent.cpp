@@ -60,3 +60,13 @@ void CgObjectSelectionChangeEvent::setRenderCubeNormals(bool value)
 {
     renderCubeNormals = value;
 }
+
+bool CgObjectSelectionChangeEvent::getRenderCylinder() const
+{
+    return renderCylinder;
+}
+
+void CgObjectSelectionChangeEvent::setRenderCylinder(bool value)
+{
+    renderCylinder = value;
+}

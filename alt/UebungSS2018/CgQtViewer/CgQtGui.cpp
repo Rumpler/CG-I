@@ -184,6 +184,7 @@ void CgQtGui::createOptionPanelObjects(QWidget *parent)
     QRadioButton* radiobuttonTriangle = new QRadioButton( "&Triangle");
     QRadioButton* radiobuttonCube = new QRadioButton( "&Cube");
     QRadioButton* radiobuttonCubeNormals = new QRadioButton( "&Cube normals");
+    QRadioButton* radiobuttonCylinder = new QRadioButton( "&Cylinder");
 
     radiobuttonCoordinateSystem->setChecked(true);
 
@@ -191,6 +192,7 @@ void CgQtGui::createOptionPanelObjects(QWidget *parent)
     myButtonGroup->addButton(radiobuttonTriangle,1);
     myButtonGroup->addButton(radiobuttonCube,2);
     myButtonGroup->addButton(radiobuttonCubeNormals,3);
+    myButtonGroup->addButton(radiobuttonCylinder,4);
 
     myButtonGroup->button(3)->setDisabled(true);
 
@@ -199,6 +201,7 @@ void CgQtGui::createOptionPanelObjects(QWidget *parent)
     vbox->addWidget(radiobuttonTriangle);
     vbox->addWidget(radiobuttonCube);
     vbox->addWidget(radiobuttonCubeNormals);
+    vbox->addWidget(radiobuttonCylinder);
 
     vbox->addStretch(1);
     myGroupBox->setLayout(vbox);
@@ -289,6 +292,8 @@ void CgQtGui::slotButtonGroupSelectionChanged()
     e->setRenderTriangle(myButtonGroup->button(1)->isChecked());
     e->setRenderCube(myButtonGroup->button(2)->isChecked());
     e->setRenderCubeNormals(myButtonGroup->button(3)->isChecked());
+    e->setRenderCylinder(myButtonGroup->button(4)->isChecked());
+    //TODO Cylinder
     notifyObserver(e);
 }
 

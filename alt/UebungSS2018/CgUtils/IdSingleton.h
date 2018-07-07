@@ -1,7 +1,6 @@
 #ifndef IDSINGLETON_H
 #define IDSINGLETON_H
 
-//@author Gerrit
 class IdSingleton
 {
 public:
