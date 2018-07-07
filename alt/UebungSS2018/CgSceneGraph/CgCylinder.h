@@ -6,7 +6,7 @@
 class CgCylinder : public CgBaseTriangleMesh
 {
 public:
-    CgCylinder(int id);
+    CgCylinder(int id, int amountOfSegments, double height);
     ~CgCylinder();
 
     void makeCylinder(int amountOfSegments, double height);

@@ -2,11 +2,65 @@
 #include <math.h>
 #include <iostream>
 
-CgCylinder::CgCylinder(int id):
+CgCylinder::CgCylinder(int id, int amountOfSegments, double height):
     m_type(Cg::TriangleMesh),
     m_id(id)
 {
-    makeCylinder(50, 0.5);
+    if(amountOfSegments >= 2){
+
+        //Initial values
+        double angleOfRotation = 360.0 / amountOfSegments;
+        //Translate in rad
+        angleOfRotation = ((2.0 * M_PI) / 360.0) * angleOfRotation;
+        double x = 0.2;
+        double y = 0.0;
+
+        //Top of cylinder
+        m_vertices.push_back(glm::vec3(0.0f, (float)height, 0.0f));
+
+        //Bottom center of cylinder
+        m_vertices.push_back((glm::vec3(0.0f, 0.0f, 0.0f)));
+
+        //First point
+        m_vertices.push_back(glm::vec3((float) x, 0.0f, (float) y));
+
+        int top = 0;
+        int bottom = 1;
+        int first = 2;
+        int last = 2;
+
+        //Calculate next point and push new face
+        for(int i = 0; i < amountOfSegments - 1; i++){
+
+            //TODO BUG new x and y are not correct (getting smaller)
+
+            //Calculation of new x and y
+            x = (0.2 * cos(angleOfRotation * (i+1) )) - (0.0 * sin(angleOfRotation * (i+1) ));
+            y = (0.0 * cos(angleOfRotation * (i+1) )) + (0.2 * sin(angleOfRotation * (i+1) ));
+            m_vertices.push_back(glm::vec3((float) x, 0.0f, (float) y));
+
+            m_triangle_indices.push_back(top);
+            m_triangle_indices.push_back(last);
+            m_triangle_indices.push_back(last + 1);
+
+            m_triangle_indices.push_back(bottom);
+            m_triangle_indices.push_back(last);
+            m_triangle_indices.push_back(last + 1);
+            last++;
+        }
+        //Last face with first point
+        m_triangle_indices.push_back(top);
+        m_triangle_indices.push_back(last);
+        m_triangle_indices.push_back(first);
+
+        m_triangle_indices.push_back(bottom);
+        m_triangle_indices.push_back(last);
+        m_triangle_indices.push_back(first);
+
+
+    }else{
+        std::cout << "Too few Segments" << std::endl;
+    }
 }
 
 
@@ -40,18 +94,18 @@ void CgCylinder::makeCylinder(int amountOfSegments, double height)
         //Initial values
         double angleOfRotation = 360.0 / amountOfSegments;
         //Translate in rad
-        angleOfRotation = ((2 * M_PI) / 360) * angleOfRotation;
+        angleOfRotation = ((2.0 * M_PI) / 360.0) * angleOfRotation;
         double x = 0.2;
         double y = 0.0;
 
         //Top of cylinder
-        m_vertices.push_back(glm::vec3(0.0, height, 0.0));
+        m_vertices.push_back(glm::vec3(0.0f, (float)height, 0.0f));
 
         //Bottom center of cylinder
-        m_vertices.push_back((glm::vec3(0.0, 0.0, 0.0)));
+        m_vertices.push_back((glm::vec3(0.0f, 0.0f, 0.0f)));
 
         //First point
-        m_vertices.push_back(glm::vec3(x, 0.0, y));
+        m_vertices.push_back(glm::vec3((float) x, 0.0f, (float) y));
 
         int top = 0;
         int bottom = 1;
@@ -64,9 +118,9 @@ void CgCylinder::makeCylinder(int amountOfSegments, double height)
             //TODO BUG new x and y are not correct (getting smaller)
 
             //Calculation of new x and y
-            x = (x * cos(angleOfRotation)) - (y * sin(angleOfRotation));
-            y =(y * cos(angleOfRotation)) + (x * sin(angleOfRotation));
-            m_vertices.push_back(glm::vec3(x, 0.0, y));
+            x = (0.2 * cos(angleOfRotation * (i+1) )) - (0.0 * sin(angleOfRotation * (i+1) ));
+            y = (0.0 * cos(angleOfRotation * (i+1) )) + (0.2 * sin(angleOfRotation * (i+1) ));
+            m_vertices.push_back(glm::vec3((float) x, 0.0f, (float) y));
 
             m_triangle_indices.push_back(top);
             m_triangle_indices.push_back(last);

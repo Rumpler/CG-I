@@ -223,10 +223,12 @@ void CgQtGui::createOptionPanelRotateObjects(QWidget *parent)
     QVBoxLayout *panel_layout = new QVBoxLayout();
 
 
-    QLabel* labelAmountOfSegments = new QLabel("Amount of Segments:");
-    panel_layout->addWidget(labelAmountOfSegments);
-    labelAmountOfSegments->setAlignment(Qt::AlignLeft);
+    //panel_layout->addWidget();
 
+
+    QLabel* labelAmountOfSegments = new QLabel("Amount of Segments:");
+    labelAmountOfSegments->setAlignment(Qt::AlignLeft);
+    panel_layout->addWidget(labelAmountOfSegments);
 
     //SpinBox AmountOfSegments
     spinBoxAmountOfSegments = new QSpinBox();

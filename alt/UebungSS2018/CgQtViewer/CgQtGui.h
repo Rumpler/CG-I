@@ -52,6 +52,7 @@ class QTabWidget;
 class QTextEdit;
 class QCheckBox;
 class QSpinBox;
+class QRadioButton;
 class QDoubleSpinBox;
 class QMenuBar;
 class QAction;
@@ -113,6 +114,7 @@ private:
 
     QDoubleSpinBox* spinBoxHeightCylinderCone;
     QSpinBox* spinBoxAmountOfSegments;
+
 
 
 

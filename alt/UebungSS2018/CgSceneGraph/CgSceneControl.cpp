@@ -39,7 +39,7 @@ CgSceneControl::CgSceneControl()
      m_triangle = new CgTriangles(idGen->getNextId());
      m_cube = new CgCube(idGen->getNextId());
      m_cube_normals = &(m_cube->getPolylineNormals());
-     m_cylinder = new CgCylinder(idGen->getNextId());
+     m_cylinder = new CgCylinder(idGen->getNextId(), 50, 0.5);
 
 
      //Matrix
@@ -177,7 +177,10 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         CgValueChangedEvent* ev = (CgValueChangedEvent*) e;
         std::cout << *ev << std::endl;
 
-        m_cylinder->makeCylinder(ev->getValueAmountOfSegments(), ev->getValueHeight());
+        delete m_cylinder;
+        m_cylinder = new CgCylinder(IdSingleton::instance()->getNextId(), ev->getValueAmountOfSegments(), ev->getValueHeight());
+        m_renderer->init(m_cylinder);
+
 
         m_renderer->redraw();
 
