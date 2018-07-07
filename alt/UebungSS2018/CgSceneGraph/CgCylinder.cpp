@@ -88,7 +88,7 @@ void CgCylinder::makeCylinder(int amountOfSegments, double height)
 
 
     }else{
-        std::cout << "To few Segments" << std::endl;
+        std::cout << "Too few Segments" << std::endl;
     }
 }
 
