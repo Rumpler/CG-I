@@ -26,6 +26,7 @@
 #include <QButtonGroup>
 #include <QRadioButton>
 #include <QMenuBar>
+#include <QLine>
 #include <QActionGroup>
 #include <iostream>
 #include <CgEvents/CgResetEvent.h>
@@ -45,8 +46,6 @@ CgQtGui::CgQtGui(CgQtMainApplication *mw)
     QHBoxLayout *container = new QHBoxLayout;
 
     //Add new panels here
-    m_panel_color = new QWidget;
-    createOptionPanelColor(m_panel_color);
     m_panel_objects = new QWidget;
     createOptionPanelObjects(m_panel_objects);
     m_panel_rotate_objects = new QWidget;
@@ -55,7 +54,6 @@ CgQtGui::CgQtGui(CgQtMainApplication *mw)
     QTabWidget* m_tabs = new QTabWidget();
 
     m_tabs->addTab(m_panel_objects,"&Objects");
-    m_tabs->addTab(m_panel_color, "&Color");
     m_tabs->addTab(m_panel_rotate_objects, "&Rotate Objects");
     container->addWidget(m_tabs);
 
@@ -136,47 +134,13 @@ QSlider *CgQtGui::createColorSlider()
 }
 
 
-void CgQtGui::createOptionPanelColor(QWidget* parent){
-    QVBoxLayout *panel_layout = new QVBoxLayout();
-
-    sliderRed = createColorSlider();
-    sliderGreen = createColorSlider();
-    sliderBlue = createColorSlider();
-
-    QLabel *label_red = new QLabel("Red");
-    QLabel *label_green = new QLabel("Green");
-    QLabel *label_blue = new QLabel("Blue");
-
-    sliderRed->setValue(100);
-    sliderGreen->setValue(40);
-    sliderBlue->setValue(1);
-
-
-    connect(sliderRed, SIGNAL( valueChanged(int) ), this, SLOT( slotColorChanged() ));
-    connect(sliderGreen, SIGNAL( valueChanged(int) ), this, SLOT( slotColorChanged() ));
-    connect(sliderBlue, SIGNAL( valueChanged(int) ), this, SLOT( slotColorChanged() ));
-
-
-    panel_layout->addWidget(label_red);
-    panel_layout->addWidget(sliderRed);
-
-    panel_layout->addWidget(label_green);
-    panel_layout->addWidget(sliderGreen);
-
-    panel_layout->addWidget(label_blue);
-    panel_layout->addWidget(sliderBlue);
-
-    panel_layout->addStretch(1);
-    parent->setLayout(panel_layout);
-}
-
 void CgQtGui::createOptionPanelObjects(QWidget *parent)
 {
     QVBoxLayout *panel_layout = new QVBoxLayout();
-    QHBoxLayout *subBox = new QHBoxLayout();
+    QVBoxLayout *subBox = new QVBoxLayout();
 
 
-    QGroupBox* myGroupBox = new QGroupBox("Objects for rendering ");
+    QGroupBox* groupBox = new QGroupBox("Objects for rendering ");
 
     ButtonGroupObjects = new QButtonGroup(subBox);
     ButtonGroupObjects->setExclusive(false);
@@ -205,8 +169,51 @@ void CgQtGui::createOptionPanelObjects(QWidget *parent)
     vbox->addWidget(radiobuttonCylinder);
 
     vbox->addStretch(1);
-    myGroupBox->setLayout(vbox);
-    subBox->addWidget(myGroupBox);
+    groupBox->setLayout(vbox);
+    subBox->addWidget(groupBox);
+
+    // COLOR ------------------------------------
+
+    QGroupBox* groupBoxColor = new QGroupBox("Color");
+    QVBoxLayout *vboxColor = new QVBoxLayout;
+
+    sliderRed = createColorSlider();
+    sliderGreen = createColorSlider();
+    sliderBlue = createColorSlider();
+
+    QLabel *label_red = new QLabel("Red");
+    QLabel *label_green = new QLabel("Green");
+    QLabel *label_blue = new QLabel("Blue");
+
+    sliderRed->setValue(100);
+    sliderGreen->setValue(40);
+    sliderBlue->setValue(1);
+
+
+    connect(sliderRed, SIGNAL( valueChanged(int) ), this, SLOT( slotColorChanged() ));
+    connect(sliderGreen, SIGNAL( valueChanged(int) ), this, SLOT( slotColorChanged() ));
+    connect(sliderBlue, SIGNAL( valueChanged(int) ), this, SLOT( slotColorChanged() ));
+
+
+    vboxColor->addWidget(label_red);
+    vboxColor->addWidget(sliderRed);
+
+    vboxColor->addWidget(label_green);
+    vboxColor->addWidget(sliderGreen);
+
+    vboxColor->addWidget(label_blue);
+    vboxColor->addWidget(sliderBlue);
+
+    vboxColor->addStretch(1);
+
+    groupBoxColor->setLayout(vboxColor);
+
+    subBox->addWidget(groupBoxColor);
+
+    //-------------------------------------------
+
+
+    subBox->addStretch(1);
     panel_layout->addLayout(subBox);
 
     connect(ButtonGroupObjects, SIGNAL( buttonClicked(int) ), this, SLOT( slotButtonGroupSelectionChanged() ) );
@@ -221,9 +228,8 @@ void CgQtGui::createOptionPanelRotateObjects(QWidget *parent)
     QVBoxLayout *panel_layout = new QVBoxLayout();
 
 
-    QRadioButton* radioButtenClinder2 = new QRadioButton("&Cylinder");
 
-
+    //Lable
     QLabel* labelAmountOfSegments = new QLabel("Amount of Segments:");
     labelAmountOfSegments->setAlignment(Qt::AlignLeft);
     panel_layout->addWidget(labelAmountOfSegments);
@@ -235,11 +241,10 @@ void CgQtGui::createOptionPanelRotateObjects(QWidget *parent)
     connect(spinBoxAmountOfSegments, SIGNAL(valueChanged(int) ), this, SLOT(slotRotateObjectChanged()) );
     panel_layout->addWidget(spinBoxAmountOfSegments);
 
-
+    //Lable
     QLabel* labelHeight = new QLabel("Height:");
     panel_layout->addWidget(labelHeight);
     labelHeight->setAlignment(Qt::AlignLeft);
-
 
     //DoubleSpinBox Height
     spinBoxHeightCylinderCone = new QDoubleSpinBox();
@@ -250,11 +255,11 @@ void CgQtGui::createOptionPanelRotateObjects(QWidget *parent)
     panel_layout->addWidget(spinBoxHeightCylinderCone);
 
 
+
     //Button Show cylinder
     QPushButton* buttonCylinder = new QPushButton("&Show Cylinder");
     connect(buttonCylinder, SIGNAL( clicked() ), this, SLOT(slotShowCylinder()) );
     panel_layout->addWidget(buttonCylinder);
-
 
     //Button Reset
     QPushButton* buttonReset = new QPushButton("&Reset Values");

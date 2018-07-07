@@ -91,13 +91,10 @@ private:
 
 
     //Panels
-    QWidget*               m_panel_color;
     QWidget*               m_panel_objects;
     QWidget*               m_panel_rotate_objects;
 
 
-    /* example for usage of qt gui elements, feel free to add what you like */
-    void createOptionPanelColor(QWidget* parent);
     void createOptionPanelObjects(QWidget* parent);
     void createOptionPanelRotateObjects(QWidget* parent);
 
