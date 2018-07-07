@@ -52,6 +52,7 @@ class QTabWidget;
 class QTextEdit;
 class QCheckBox;
 class QSpinBox;
+class QDoubleSpinBox;
 class QMenuBar;
 class QAction;
 QT_END_NAMESPACE
@@ -91,7 +92,7 @@ private:
     //Panels
     QWidget*               m_panel_color;
     QWidget*               m_panel_objects;
-    QWidget*               m_option_panel_ex3;
+    QWidget*               m_panel_rotate_objects;
     QWidget*               m_option_panel_ex4;
     QWidget*               m_panel_example;
 
@@ -99,15 +100,19 @@ private:
     /* example for usage of qt gui elements, feel free to add what you like */
     void createOptionPanelColor(QWidget* parent);
     void createOptionPanelObjects(QWidget* parent);
+    void createOptionPanelRotateObjects(QWidget* parent);
     void createOptionPanelExample(QWidget* parent);
 
-    QButtonGroup* myButtonGroup;
+    QButtonGroup* ButtonGroupObjects;
     QCheckBox* myCheckBox1;
     QSpinBox* mySpinBox1;
 
     QSlider* sliderRed;
     QSlider* sliderGreen;
     QSlider* sliderBlue;
+
+    QDoubleSpinBox* spinBoxHeightCylinderCone;
+    QSpinBox* spinBoxAmountOfSegments;
 
 
 
@@ -124,12 +129,13 @@ private slots:
     void slotMySpinBox1Changed();
     void slotMyCheckBox1Changed();
     void slotMyButton1Pressed();
-    void slotButtonGroupSelectionChanged();
     void slotLoadMeshFile();
 
     //Gerrit
     void slotColorChanged();
-
+    void slotButtonGroupSelectionChanged();
+    void slotRotateObjectChanged();
+    void slotReset();
 
 
 

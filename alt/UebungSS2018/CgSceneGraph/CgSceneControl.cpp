@@ -5,6 +5,7 @@
 #include "CgEvents/CgWindowResizeEvent.h"
 #include "CgEvents/CgColorChangeEvent.h"
 #include "CgEvents/CgObjectSelectionChangeEvent.h"
+#include "CgEvents/CgValueChangedEvent.h"
 #include "CgBase/CgBaseRenderer.h"
 #include "CgTriangles.h"
 #include <iostream>
@@ -169,6 +170,17 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         renderCubeNormals = ev->getRenderCubeNormals();
         renderCylinder = ev->getRenderCylinder();
         m_renderer->redraw();
+    }
+
+    if(e->getType() & Cg::CgValueChangedEvent)
+    {
+        CgValueChangedEvent* ev = (CgValueChangedEvent*) e;
+        std::cout << *ev << std::endl;
+
+        m_cylinder->makeCylinder(ev->getValueAmountOfSegments(), ev->getValueHeight());
+
+        m_renderer->redraw();
+
     }
 
 

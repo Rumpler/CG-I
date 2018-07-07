@@ -6,8 +6,7 @@ CgCylinder::CgCylinder(int id):
     m_type(Cg::TriangleMesh),
     m_id(id)
 {
-    makeCylinder(0.5, 50);
-
+    makeCylinder(50, 0.5);
 }
 
 
@@ -25,8 +24,8 @@ CgCylinder::~CgCylinder()
     m_face_colors.clear();
 }
 
-//Only works when amountOfSegments > 1
-void CgCylinder::makeCylinder(double height, int amountOfSegments)
+//Only works when amountOfSegments >= 2
+void CgCylinder::makeCylinder(int amountOfSegments, double height)
 {
     if(amountOfSegments >= 2){
 
@@ -48,12 +47,16 @@ void CgCylinder::makeCylinder(double height, int amountOfSegments)
         //Top of cylinder
         m_vertices.push_back(glm::vec3(0.0, height, 0.0));
 
+        //Bottom center of cylinder
+        m_vertices.push_back((glm::vec3(0.0, 0.0, 0.0)));
+
         //First point
         m_vertices.push_back(glm::vec3(x, 0.0, y));
 
         int top = 0;
-        int first = 1;
-        int last = 1;
+        int bottom = 1;
+        int first = 2;
+        int last = 2;
 
         //Calculate next point and push new face
         for(int i = 0; i < amountOfSegments - 1; i++){
@@ -68,10 +71,18 @@ void CgCylinder::makeCylinder(double height, int amountOfSegments)
             m_triangle_indices.push_back(top);
             m_triangle_indices.push_back(last);
             m_triangle_indices.push_back(last + 1);
+
+            m_triangle_indices.push_back(bottom);
+            m_triangle_indices.push_back(last);
+            m_triangle_indices.push_back(last + 1);
             last++;
         }
         //Last face with first point
         m_triangle_indices.push_back(top);
+        m_triangle_indices.push_back(last);
+        m_triangle_indices.push_back(first);
+
+        m_triangle_indices.push_back(bottom);
         m_triangle_indices.push_back(last);
         m_triangle_indices.push_back(first);
 

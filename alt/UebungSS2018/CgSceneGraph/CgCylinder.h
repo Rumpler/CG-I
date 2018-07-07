@@ -9,7 +9,7 @@ public:
     CgCylinder(int id);
     ~CgCylinder();
 
-    void makeCylinder(double height, int amountOfSegments);
+    void makeCylinder(int amountOfSegments, double height);
 
     // CgBaseRenderableObject interface
     Cg::ObjectType getType() const;

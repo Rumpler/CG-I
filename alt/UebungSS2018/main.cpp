@@ -59,11 +59,14 @@ int main(int argc, char **argv) {
        int desktopArea = QApplication::desktop()->width() *
                         QApplication::desktop()->height();
        int widgetArea = mainApp.width() * mainApp.height();
+       //EDIT by Gerrit
+       /*
        if (((float)widgetArea / (float)desktopArea) < 0.75f)
            mainApp.show();
        else
            mainApp.showMaximized();
-
+        */
+       mainApp.showMaximized();
 
     /*************************************************************************************/
     /*   Control: Scene-Controller erzeugen                                              */
