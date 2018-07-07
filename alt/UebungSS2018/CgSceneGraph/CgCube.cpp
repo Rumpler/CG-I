@@ -9,7 +9,7 @@ CgCube::CgCube(int id):
 m_type(Cg::TriangleMesh),
 m_id(id)
 {
-    idGen = &(IdSingleton::instance());
+    idGen = IdSingleton::instance();
 
     m_vertices.push_back(glm::vec3(.5,.5,.5));      //0
     m_vertices.push_back(glm::vec3(-.5,.5,.5));     //1

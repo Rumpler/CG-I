@@ -12,7 +12,7 @@
 
 CgSceneControl::CgSceneControl()
 {
-    idGen = &(IdSingleton::instance());
+    idGen = IdSingleton::instance();
 
     //Coordinatesystem
     x_Axis = new CgPolyline(idGen->getNextId());

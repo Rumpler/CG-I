@@ -8,8 +8,8 @@ int IdSingleton::getNextId(){
     return id;
 }
 
-IdSingleton &IdSingleton::instance()
+IdSingleton* IdSingleton::instance()
 {
     static IdSingleton INSTANCE;
-    return INSTANCE;
+    return &INSTANCE;
 }

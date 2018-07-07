@@ -4,7 +4,7 @@
 class IdSingleton
 {
 public:
-    static IdSingleton& instance();
+    static IdSingleton* instance();
     int getNextId();
 
 private:
