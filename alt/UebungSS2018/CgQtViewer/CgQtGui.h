@@ -94,19 +94,14 @@ private:
     QWidget*               m_panel_color;
     QWidget*               m_panel_objects;
     QWidget*               m_panel_rotate_objects;
-    QWidget*               m_option_panel_ex4;
-    QWidget*               m_panel_example;
 
 
     /* example for usage of qt gui elements, feel free to add what you like */
     void createOptionPanelColor(QWidget* parent);
     void createOptionPanelObjects(QWidget* parent);
     void createOptionPanelRotateObjects(QWidget* parent);
-    void createOptionPanelExample(QWidget* parent);
 
     QButtonGroup* ButtonGroupObjects;
-    QCheckBox* myCheckBox1;
-    QSpinBox* mySpinBox1;
 
     QSlider* sliderRed;
     QSlider* sliderGreen;
@@ -126,11 +121,6 @@ private slots:
     /* slots to catch events directly from renderer */
     void mouseEvent(QMouseEvent* event);
     void viewportChanged(int,int);
-
-    /* slots example qt gui elements */
-    void slotMySpinBox1Changed();
-    void slotMyCheckBox1Changed();
-    void slotMyButton1Pressed();
     void slotLoadMeshFile();
 
     //Gerrit
@@ -138,6 +128,7 @@ private slots:
     void slotButtonGroupSelectionChanged();
     void slotRotateObjectChanged();
     void slotReset();
+    void slotShowCylinder();
 
 
 

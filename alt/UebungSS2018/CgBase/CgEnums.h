@@ -28,7 +28,7 @@ namespace Cg{
     CgColorChangeEvent              = 0x0001000,
     CgObjectSelectionChangeEvent    = 0x0002000,
     CgValueChangedEvent             = 0x0004000,
-    CgSomeSpecialEvent4             = 0x0008000,
+    CgResetEvent                    = 0x0008000,
     CgEventGroup1                   = 0x000f000,
 
     // feel free to add whatever you like

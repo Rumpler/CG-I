@@ -10,6 +10,7 @@
 #include "CgTriangles.h"
 #include <iostream>
 #include <glm/gtc/matrix_transform.hpp>
+#include <CgEvents/CgResetEvent.h>
 
 CgSceneControl::CgSceneControl()
 {
@@ -179,6 +180,20 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
 
         delete m_cylinder;
         m_cylinder = new CgCylinder(IdSingleton::instance()->getNextId(), ev->getValueAmountOfSegments(), ev->getValueHeight());
+        m_renderer->init(m_cylinder);
+
+
+        m_renderer->redraw();
+
+    }
+
+    if(e->getType() & Cg::CgResetEvent)
+    {
+        CgResetEvent* ev = (CgResetEvent*) e;
+        std::cout << "Reset ewvent" << std::endl;
+
+        delete m_cylinder;
+        m_cylinder = new CgCylinder(IdSingleton::instance()->getNextId(), 50, 0.5);
         m_renderer->init(m_cylinder);
 
 

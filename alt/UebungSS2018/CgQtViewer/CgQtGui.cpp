@@ -28,6 +28,7 @@
 #include <QMenuBar>
 #include <QActionGroup>
 #include <iostream>
+#include <CgEvents/CgResetEvent.h>
 
 
 
@@ -50,15 +51,12 @@ CgQtGui::CgQtGui(CgQtMainApplication *mw)
     createOptionPanelObjects(m_panel_objects);
     m_panel_rotate_objects = new QWidget;
     createOptionPanelRotateObjects(m_panel_rotate_objects);
-    m_panel_example = new QWidget;
-    createOptionPanelExample(m_panel_example);
 
     QTabWidget* m_tabs = new QTabWidget();
 
     m_tabs->addTab(m_panel_objects,"&Objects");
     m_tabs->addTab(m_panel_color, "&Color");
     m_tabs->addTab(m_panel_rotate_objects, "&Rotate Objects");
-    m_tabs->addTab(m_panel_example,"&Examples");
     container->addWidget(m_tabs);
 
     m_tabs->setMaximumWidth(400);
@@ -183,11 +181,11 @@ void CgQtGui::createOptionPanelObjects(QWidget *parent)
     ButtonGroupObjects = new QButtonGroup(subBox);
     ButtonGroupObjects->setExclusive(false);
 
-    QRadioButton* radiobuttonCoordinateSystem = new QRadioButton( "&Coordinate-System");
-    QRadioButton* radiobuttonTriangle = new QRadioButton( "&Triangle");
-    QRadioButton* radiobuttonCube = new QRadioButton( "&Cube");
-    QRadioButton* radiobuttonCubeNormals = new QRadioButton( "&Cube normals");
-    QRadioButton* radiobuttonCylinder = new QRadioButton( "&Cylinder");
+    QRadioButton* radiobuttonCoordinateSystem = new QRadioButton("&Coordinate-System");
+    QRadioButton* radiobuttonTriangle = new QRadioButton("&Triangle");
+    QRadioButton* radiobuttonCube = new QRadioButton("&Cube");
+    QRadioButton* radiobuttonCubeNormals = new QRadioButton("&Cube normals");
+    QRadioButton* radiobuttonCylinder = new QRadioButton("&Cylinder");
 
     radiobuttonCoordinateSystem->setChecked(true);
 
@@ -223,7 +221,7 @@ void CgQtGui::createOptionPanelRotateObjects(QWidget *parent)
     QVBoxLayout *panel_layout = new QVBoxLayout();
 
 
-    //panel_layout->addWidget();
+    QRadioButton* radioButtenClinder2 = new QRadioButton("&Cylinder");
 
 
     QLabel* labelAmountOfSegments = new QLabel("Amount of Segments:");
@@ -234,7 +232,7 @@ void CgQtGui::createOptionPanelRotateObjects(QWidget *parent)
     spinBoxAmountOfSegments = new QSpinBox();
     spinBoxAmountOfSegments->setMinimum(2);
     spinBoxAmountOfSegments->setValue(50);
-    connect(spinBoxAmountOfSegments, SIGNAL(valueChanged(int) ), this, SLOT(slotRotateObjectChanged()) ); // TODO
+    connect(spinBoxAmountOfSegments, SIGNAL(valueChanged(int) ), this, SLOT(slotRotateObjectChanged()) );
     panel_layout->addWidget(spinBoxAmountOfSegments);
 
 
@@ -252,11 +250,15 @@ void CgQtGui::createOptionPanelRotateObjects(QWidget *parent)
     panel_layout->addWidget(spinBoxHeightCylinderCone);
 
 
+    //Button Show cylinder
+    QPushButton* buttonCylinder = new QPushButton("&Show Cylinder");
+    connect(buttonCylinder, SIGNAL( clicked() ), this, SLOT(slotShowCylinder()) );
+    panel_layout->addWidget(buttonCylinder);
 
 
     //Button Reset
-    QPushButton* buttonReset = new QPushButton("&Reset");
-    connect(buttonReset, SIGNAL( clicked() ), this, SLOT(slotReset()) ); // TODO
+    QPushButton* buttonReset = new QPushButton("&Reset Values");
+    connect(buttonReset, SIGNAL( clicked() ), this, SLOT(slotReset()) );
     panel_layout->addWidget(buttonReset);
 
 
@@ -269,53 +271,6 @@ void CgQtGui::createOptionPanelRotateObjects(QWidget *parent)
 
 
 
-void CgQtGui::createOptionPanelExample(QWidget* parent)
-{
-    QVBoxLayout *panel_layout = new QVBoxLayout();
-    //QHBoxLayout *subBox = new QHBoxLayout();
-
-
-    /*Example for using a label */
-
-    QLabel *options_label = new QLabel("Options");
-    panel_layout->addWidget(options_label);
-    options_label->setAlignment(Qt::AlignCenter);
-
-
-    /*Example for using a spinbox */
-
-    mySpinBox1 = new QSpinBox();
-    mySpinBox1->setMinimum(1);
-    mySpinBox1->setMaximum(50);
-    mySpinBox1->setValue(3);
-   // mySpinBox1->setSuffix("   suffix");
-   // mySpinBox1->setPrefix("Prefix:  ");
-    connect(mySpinBox1, SIGNAL(valueChanged(int) ), this, SLOT(slotMySpinBox1Changed()) );
-    panel_layout->addWidget(mySpinBox1);
-
-
-    /*Example for using a checkbox */
-
-    myCheckBox1 = new QCheckBox("enable Option 1");
-    myCheckBox1->setCheckable(true);
-    myCheckBox1->setChecked(false);
-    connect(myCheckBox1, SIGNAL( clicked() ), this, SLOT(slotMyCheckBox1Changed()) );
-    panel_layout->addWidget(myCheckBox1);
-
-
-    /*Example for using a button */
-
-    QPushButton* myButton1 = new QPushButton("&drueck mich");
-    panel_layout->addWidget(myButton1);
-
-    connect(myButton1, SIGNAL( clicked() ), this, SLOT(slotMyButton1Pressed()) );
-
-
-
-
-    parent->setLayout(panel_layout);
-
-}
 
 
 //################################### SLOTS ###################################
@@ -324,6 +279,17 @@ void CgQtGui::slotColorChanged()
 {
     CgBaseEvent* e = new CgColorChangeEvent(sliderRed->value(), sliderGreen->value(), sliderBlue->value());
     notifyObserver(e);
+}
+
+void CgQtGui::slotShowCylinder()
+{
+    ButtonGroupObjects->button(1)->setChecked(false);
+    ButtonGroupObjects->button(2)->setChecked(false);
+    ButtonGroupObjects->button(3)->setChecked(false);
+
+    ButtonGroupObjects->button(4)->setChecked(true);
+
+    slotButtonGroupSelectionChanged();
 }
 
 void CgQtGui::slotButtonGroupSelectionChanged()
@@ -354,18 +320,15 @@ void CgQtGui::slotRotateObjectChanged()
 
 void CgQtGui::slotReset()
 {
-    std::cout << "TODO: Implement reset function" << std::endl;
+    spinBoxAmountOfSegments->setValue(50);
+    spinBoxHeightCylinderCone->setValue(0.5);
+    CgResetEvent* e = new CgResetEvent();
+    notifyObserver(e);
 }
 
-void CgQtGui::slotMySpinBox1Changed()
-{
 
-}
 
-void CgQtGui::slotMyCheckBox1Changed()
-{
 
-}
 
 
 void CgQtGui::slotLoadMeshFile()
@@ -377,11 +340,7 @@ void CgQtGui::slotLoadMeshFile()
     // im View(GUI) passiert nichts außer festellung DASS geladen werden soll und welche Datei und zu welchem Zweck (Mesh)
 }
 
-void CgQtGui::slotMyButton1Pressed()
-{
-   std::cout << "button 1 pressed " << std::endl;
 
-}
 
 
 void CgQtGui::mouseEvent(QMouseEvent* event)
