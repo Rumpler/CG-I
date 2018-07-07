@@ -32,8 +32,6 @@ CgCylinder::CgCylinder(int id, int amountOfSegments, double height):
         //Calculate next point and push new face
         for(int i = 0; i < amountOfSegments - 1; i++){
 
-            //TODO BUG new x and y are not correct (getting smaller)
-
             //Calculation of new x and y
             x = (0.2 * cos(angleOfRotation * (i+1) )) - (0.0 * sin(angleOfRotation * (i+1) ));
             y = (0.0 * cos(angleOfRotation * (i+1) )) + (0.2 * sin(angleOfRotation * (i+1) ));
@@ -69,6 +67,8 @@ CgCylinder::CgCylinder(int id, int amountOfSegments, double height):
 
 CgCylinder::~CgCylinder()
 {
+    polylineNormals.clear();
+
     m_vertices.clear();
     m_vertex_normals.clear();
     m_vertex_colors.clear();

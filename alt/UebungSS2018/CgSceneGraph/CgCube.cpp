@@ -41,7 +41,6 @@ m_id(id)
 
     //Calculating vertexNormals
 
-
     CgPolyline* poly;
 
     //For everey vertex

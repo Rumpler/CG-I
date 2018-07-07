@@ -144,7 +144,11 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     if(e->getType() & Cg::CgKeyEvent)
     {
         CgKeyEvent* ev = (CgKeyEvent*)e;
-        std::cout << *ev <<std::endl;
+        //std::cout << *ev <<std::endl;
+
+        if(ev->key() & Cg::Key_Escape){
+            exit(0);
+        }
     }
 
     if(e->getType() & Cg::WindowResizeEvent)
@@ -189,8 +193,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
 
     if(e->getType() & Cg::CgResetEvent)
     {
-        CgResetEvent* ev = (CgResetEvent*) e;
-        std::cout << "Reset ewvent" << std::endl;
+        //CgResetEvent* ev = (CgResetEvent*) e;
 
         delete m_cylinder;
         m_cylinder = new CgCylinder(IdSingleton::instance()->getNextId(), 50, 0.5);

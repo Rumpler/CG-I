@@ -3,6 +3,8 @@
 
 #include "CgBase/CgBaseTriangleMesh.h"
 
+#include "CgPolyline.h"
+
 class CgCylinder : public CgBaseTriangleMesh
 {
 public:
@@ -25,6 +27,8 @@ public:
     const std::vector<glm::vec3> &getFaceColors() const;
 
 private:
+    std::vector<CgPolyline*> polylineNormals;
+
     std::vector<glm::vec3> m_vertices;
     std::vector<glm::vec3> m_vertex_normals;
     std::vector<glm::vec3> m_vertex_colors;
