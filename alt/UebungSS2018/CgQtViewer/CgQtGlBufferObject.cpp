@@ -54,13 +54,13 @@ void CgQtGlBufferObject::initTriangleMesh(CgBaseTriangleMesh* obj)
 
 void CgQtGlBufferObject::initPolygonMesh(CgBasePolygonMesh* obj)
 {
-
+    obj->getID(); //Only fur suppress warning
     // do something more
 }
 
 void CgQtGlBufferObject::initPointCloud(CgBasePointCloud* obj)
 {
-
+    obj->getID(); //Only fur suppress warning
     // do something morec
 }
 

@@ -11,6 +11,7 @@ Cg::EventType CgObjectSelectionChangeEvent::getType()
     return m_type;
 }
 
+//Remember to add objects in clone()
 CgBaseEvent *CgObjectSelectionChangeEvent::clone()
 {
     CgObjectSelectionChangeEvent* e = new CgObjectSelectionChangeEvent();
@@ -18,6 +19,7 @@ CgBaseEvent *CgObjectSelectionChangeEvent::clone()
     e->setRenderTriangle(renderTriangle);
     e->setRenderCube(renderCube);
     e->setRenderCubeNormals(renderCubeNormals);
+    e->setRenderCylinder(renderCylinder);
     return e;
 }
 

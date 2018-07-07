@@ -5,6 +5,7 @@
 #include "CgBase/CgBaseSceneControl.h"
 #include "CgPolyline.h"
 #include "CgCube.h"
+#include "CgCylinder.h"
 #include "CgUtils/IdSingleton.h"
 #include <glm/glm.hpp>
 #include <vector>
@@ -36,6 +37,7 @@ private:
     CgTriangles* m_triangle;
     CgCube* m_cube;
     std::vector<CgPolyline*>* m_cube_normals;
+    CgCylinder* m_cylinder;
 
     //Objects do display
     bool renderCoordinateSystem;

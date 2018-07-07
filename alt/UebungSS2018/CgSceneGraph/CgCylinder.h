@@ -3,10 +3,13 @@
 
 #include "CgBase/CgBaseTriangleMesh.h"
 
-class CgCylinder : CgBaseTriangleMesh
+class CgCylinder : public CgBaseTriangleMesh
 {
 public:
     CgCylinder(int id);
+    ~CgCylinder();
+
+    void makeCylinder(double height, int amountOfSegments);
 
     // CgBaseRenderableObject interface
     Cg::ObjectType getType() const;

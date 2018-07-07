@@ -38,6 +38,7 @@ CgSceneControl::CgSceneControl()
      m_triangle = new CgTriangles(idGen->getNextId());
      m_cube = new CgCube(idGen->getNextId());
      m_cube_normals = &(m_cube->getPolylineNormals());
+     m_cylinder = new CgCylinder(idGen->getNextId());
 
 
      //Matrix
@@ -56,6 +57,7 @@ CgSceneControl::~CgSceneControl()
 
     delete m_triangle;
     delete m_cube;
+    delete m_cylinder;
 }
 
 void CgSceneControl::setRenderer(CgBaseRenderer* r)
@@ -74,6 +76,8 @@ void CgSceneControl::setRenderer(CgBaseRenderer* r)
     for(CgPolyline* poly : *(m_cube_normals)){
         m_renderer->init(poly);
     }
+
+    m_renderer->init(m_cylinder);
 }
 
 
@@ -111,6 +115,11 @@ void CgSceneControl::renderObjects()
         for(CgPolyline* poly : *(m_cube_normals)){
             m_renderer->render(poly,m_current_transformation);
         }
+        m_renderer->setUniformValue("mycolor", glm::vec4(color.x * 0.01, color.y * 0.01, color.z * 0.01 ,1.0));
+    }
+
+    if(renderCylinder){
+        m_renderer->render(m_cylinder, m_current_transformation);
     }
 
 
@@ -126,7 +135,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
 
     if(e->getType() & Cg::CgMouseEvent)
     {
-        CgMouseEvent* ev = (CgMouseEvent*)e;
+        //CgMouseEvent* ev = (CgMouseEvent*)e;
         //std::cout << *ev << std::endl;
     }
 

@@ -223,7 +223,7 @@ void CgQtGui::createOptionPanelObjects(QWidget *parent)
 void CgQtGui::createOptionPanelExample(QWidget* parent)
 {
     QVBoxLayout *panel_layout = new QVBoxLayout();
-    QHBoxLayout *subBox = new QHBoxLayout();
+    //QHBoxLayout *subBox = new QHBoxLayout();
 
 
     /*Example for using a label */
@@ -293,7 +293,6 @@ void CgQtGui::slotButtonGroupSelectionChanged()
     e->setRenderCube(myButtonGroup->button(2)->isChecked());
     e->setRenderCubeNormals(myButtonGroup->button(3)->isChecked());
     e->setRenderCylinder(myButtonGroup->button(4)->isChecked());
-    //TODO Cylinder
     notifyObserver(e);
 }
 

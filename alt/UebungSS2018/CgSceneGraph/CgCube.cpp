@@ -22,7 +22,7 @@ m_id(id)
 
 
     //Initialize map
-    for(int i = 0; i < m_vertices.size(); i++){
+    for(int i = 0; i < (int) m_vertices.size(); i++){
         map_vertex_normals[i] = new std::vector<glm::vec3>;
     }
 
@@ -45,13 +45,13 @@ m_id(id)
     CgPolyline* poly;
 
     //For everey vertex
-    for(int i = 0; i < m_vertices.size(); i++){
+    for(int i = 0; i < (int) m_vertices.size(); i++){
         std::vector<glm::vec3>* temp = map_vertex_normals.at(i);
         glm::vec3 norm = glm::vec3(0.0,0.0,0.0);
         float normCounter = 0.0;
 
         //For everey normal per vertex
-        for(int j = 0; j < temp->size(); j++){
+        for(int j = 0; j < (int) temp->size(); j++){
             norm = norm + temp->at(j);
             normCounter = normCounter + 1;
         }
