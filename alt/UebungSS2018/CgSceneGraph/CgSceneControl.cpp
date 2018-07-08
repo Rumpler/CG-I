@@ -38,18 +38,18 @@ CgSceneControl::CgSceneControl()
     renderCylinderNormals = true;
 
     //Objects for rendering
-     m_triangle = new CgTriangles(idGen->getNextId());
-     m_cube = new CgCube(idGen->getNextId());
-     m_cube_normals = m_cube->getPolylineNormals();
-     m_cylinder = new CgCylinder(idGen->getNextId(), 50, 0.5);
-     m_cylinder_normals = m_cylinder->getPolylineNormals();
+    m_triangle = new CgTriangles(idGen->getNextId());
+    m_cube = new CgCube(idGen->getNextId());
+    m_cube_normals = m_cube->getPolylineNormals();
+    m_cylinder = new CgCylinder(idGen->getNextId(), 50, 0.5);
+    m_cylinder_normals = m_cylinder->getPolylineNormals();
 
 
-     //Matrix
-     m_current_transformation=glm::mat4(1.);
-     m_proj_matrix= glm::mat4x4(glm::vec4(1.792591, 0.0, 0.0, 0.0), glm::vec4(0.0, 1.792591, 0.0, 0.0), glm::vec4(0.0, 0.0, -1.0002, -1.0), glm::vec4(0.0, 0.0, -0.020002, 0.0));
+    //Matrix
+    m_current_transformation=glm::mat4(1.);
+    m_proj_matrix= glm::mat4x4(glm::vec4(1.792591, 0.0, 0.0, 0.0), glm::vec4(0.0, 1.792591, 0.0, 0.0), glm::vec4(0.0, 0.0, -1.0002, -1.0), glm::vec4(0.0, 0.0, -0.020002, 0.0));
 
-     color= glm::vec3(100,40,1);
+    color= glm::vec3(100,40,1);
 }
 
 
@@ -177,9 +177,9 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
 
     if(e->getType() & Cg::WindowResizeEvent)
     {
-         CgWindowResizeEvent* ev = (CgWindowResizeEvent*)e;
-         std::cout << *ev <<std::endl;
-         m_proj_matrix=glm::perspective(45.0f, (float)(ev->w()) / ev->h(), 0.01f, 100.0f);
+        CgWindowResizeEvent* ev = (CgWindowResizeEvent*)e;
+        std::cout << *ev <<std::endl;
+        m_proj_matrix=glm::perspective(45.0f, (float)(ev->w()) / ev->h(), 0.01f, 100.0f);
     }
 
     if(e->getType() & Cg::CgColorChangeEvent)
@@ -210,7 +210,16 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         m_cylinder = new CgCylinder(IdSingleton::instance()->getNextId(), ev->getValueAmountOfSegments(), ev->getValueHeight());
         m_renderer->init(m_cylinder);
 
+        //TODO
 
+        /*
+        delete m_cylinder_normals;
+        m_cylinder_normals = m_cylinder->getPolylineNormals();
+
+        for(CgPolyline* poly : *(m_cylinder_normals)){
+            m_renderer->init(poly);
+        }
+        */
         m_renderer->redraw();
 
     }
@@ -223,7 +232,16 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         m_cylinder = new CgCylinder(IdSingleton::instance()->getNextId(), 50, 0.5);
         m_renderer->init(m_cylinder);
 
+        //TODO
 
+        /*
+        delete m_cylinder_normals;
+        m_cylinder_normals = m_cylinder->getPolylineNormals();
+
+        for(CgPolyline* poly : *(m_cylinder_normals)){
+            m_renderer->init(poly);
+        }
+        */
         m_renderer->redraw();
 
     }
