@@ -55,7 +55,7 @@ m_id(id)
             normCounter = normCounter + 1;
         }
         norm = norm / normCounter;
-        glm::normalize(norm);
+        norm = glm::normalize(norm);
         m_vertex_normals.push_back(norm);
 
         //Push polyline for rendering
@@ -100,7 +100,7 @@ void CgCube::initFace(int p1, int p2, int p3)
     glm::vec3 u = m_vertices.at(p2) - m_vertices.at(p1);
     glm::vec3 v = m_vertices.at(p3) - m_vertices.at(p1);
     glm::vec3 faceNormal = glm::cross(v,u);
-    glm::normalize(faceNormal);
+    faceNormal = glm::normalize(faceNormal);
 
     m_face_normals.push_back(faceNormal);
 

@@ -53,8 +53,8 @@ CgCylinder::CgCylinder(int id, int amountOfSegments, double height):
             m_triangle_indices.push_back(last + 1);
 
             m_triangle_indices.push_back(bottom);
-            m_triangle_indices.push_back(last);
             m_triangle_indices.push_back(last + 1);
+            m_triangle_indices.push_back(last);
 
             //####################### Normal calculation #######################
 
@@ -67,9 +67,9 @@ CgCylinder::CgCylinder(int id, int amountOfSegments, double height):
                 focusPointTop = glm::vec3(   (m_vertices.at(top).x + m_vertices.at(last).x + m_vertices.at(last + 1).x) / 3.0,
                                              (m_vertices.at(top).y + m_vertices.at(last).y + m_vertices.at(last + 1).y) / 3.0,
                                              (m_vertices.at(top).z + m_vertices.at(last).z + m_vertices.at(last + 1).z) / 3.0);
-                focusPointBottom = glm::vec3((m_vertices.at(bottom).x + m_vertices.at(last).x + m_vertices.at(last + 1).x) / 3.0,
-                                             (m_vertices.at(bottom).y + m_vertices.at(last).y + m_vertices.at(last + 1).y) / 3.0,
-                                             (m_vertices.at(bottom).z + m_vertices.at(last).z + m_vertices.at(last + 1).z) / 3.0);
+                focusPointBottom = glm::vec3((m_vertices.at(bottom).x + m_vertices.at(last + 1).x + m_vertices.at(last).x) / 3.0,
+                                             (m_vertices.at(bottom).y + m_vertices.at(last + 1).y + m_vertices.at(last).y) / 3.0,
+                                             (m_vertices.at(bottom).z + m_vertices.at(last + 1).z + m_vertices.at(last).z) / 3.0);
 
                 //Calculate first faceNormal for top and bottom face
 
@@ -78,31 +78,50 @@ CgCylinder::CgCylinder(int id, int amountOfSegments, double height):
                 glm::vec3 u = m_vertices.at(last) - m_vertices.at(top);
                 glm::vec3 v = m_vertices.at(last + 1) - m_vertices.at(top);
                 faceNormalTop = glm::cross(v,u);
-                glm::normalize(faceNormalTop);
+                std::cout << "faceNormalTop before normalize: " << faceNormalTop.x << "," << faceNormalTop.y << "," << faceNormalTop.z << " normal: " << sqrt(faceNormalTop.x * faceNormalTop.x + faceNormalTop.y *faceNormalTop.y + faceNormalTop.z *faceNormalTop.z) << std::endl;
+                faceNormalTop = glm::normalize(faceNormalTop);
+                std::cout << "faceNormalTop after normalize: "  << faceNormalTop.x << "," << faceNormalTop.y << "," << faceNormalTop.z << " normal: " << sqrt(faceNormalTop.x * faceNormalTop.x + faceNormalTop.y *faceNormalTop.y + faceNormalTop.z *faceNormalTop.z) << std::endl;
+
                 m_face_normals.push_back(faceNormalTop);
                 //Bottom
-                u = m_vertices.at(last) - m_vertices.at(bottom);
-                v = m_vertices.at(last + 1) - m_vertices.at(bottom);
+                u = m_vertices.at(last +1) - m_vertices.at(bottom);
+                v = m_vertices.at(last) - m_vertices.at(bottom);
                 faceNormalBottom = glm::cross(v,u);
-                glm::normalize(faceNormalBottom);
+                faceNormalBottom = glm::normalize(faceNormalBottom);
                 m_face_normals.push_back(faceNormalBottom);
 
                 //Push polylines
                 //Top
                 CgPolyline* poly = new CgPolyline(idGen->getNextId());
                 poly->addVertice(focusPointTop);
-                poly->addVertice(focusPointTop + (faceNormalTop * 0.1f));
+                poly->addVertice(focusPointTop + faceNormalTop * 0.1f);
                 polylineNormals.push_back(poly);
                 //Bottom
                 poly = new CgPolyline(idGen->getNextId());
                 poly->addVertice(focusPointBottom);
-                poly->addVertice(focusPointBottom + (faceNormalBottom * 0.1f));
+                poly->addVertice(focusPointBottom + faceNormalBottom *0.1f);
                 polylineNormals.push_back(poly);
 
 
 
-            //Calculate next normals with rotation routine in any other loop
+            //Calculate next faceNormals with rotation routine in any other loop
             }else{
+
+                //Top
+                //Rotate fcousPoint
+                glm::vec3 newFocusPointTop = glm::vec3( (focusPointTop.x * cos(angleOfRotation * (i+1) )) - (focusPointTop.z * sin(angleOfRotation * (i+1) )),
+                                                         focusPointTop.y,
+                                                       ( focusPointTop.z * cos(angleOfRotation * (i+1) )) + (focusPointTop.x * sin(angleOfRotation * (i+1) )) );
+                //Rotate normal endpoint
+                glm::vec3 newFaceNormalTopPoint = focusPointTop + faceNormalTop * 0.1f;
+                          newFaceNormalTopPoint = glm::vec3( (newFaceNormalTopPoint.x * cos(angleOfRotation * (i+1) )) - (newFaceNormalTopPoint.z * sin(angleOfRotation * (i+1) )),
+                                                              newFaceNormalTopPoint.y,
+                                                             (newFaceNormalTopPoint.z * cos(angleOfRotation * (i+1) )) + (newFaceNormalTopPoint.x * sin(angleOfRotation * (i+1) )) );
+
+                  CgPolyline* poly = new CgPolyline(idGen->getNextId());
+                  poly->addVertice(newFocusPointTop);
+                  poly->addVertice(newFaceNormalTopPoint);
+                  polylineNormals.push_back(poly);
 
             }
 
