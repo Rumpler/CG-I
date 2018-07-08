@@ -36,7 +36,7 @@ public:
 
 
 
-    std::vector<CgPolyline *>& getPolylineNormals();
+    std::vector<CgPolyline *>* getPolylineNormals();
 
 
 

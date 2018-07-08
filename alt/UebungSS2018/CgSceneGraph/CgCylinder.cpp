@@ -7,6 +7,7 @@ CgCylinder::CgCylinder(int id, int amountOfSegments, double height):
     m_id(id)
 {
     if(amountOfSegments >= 2){
+        idGen = IdSingleton::instance();
 
         //Initial values
         double angleOfRotation = 360.0 / amountOfSegments;
@@ -29,6 +30,16 @@ CgCylinder::CgCylinder(int id, int amountOfSegments, double height):
         int first = 2;
         int last = 2;
 
+
+
+
+        //Vars for faceNormals
+        glm::vec3 focusPointTop;
+        glm::vec3 focusPointBottom;
+        glm::vec3 faceNormalTop;
+        glm::vec3 faceNormalBottom;
+
+
         //Calculate next point and push new face
         for(int i = 0; i < amountOfSegments - 1; i++){
 
@@ -44,6 +55,59 @@ CgCylinder::CgCylinder(int id, int amountOfSegments, double height):
             m_triangle_indices.push_back(bottom);
             m_triangle_indices.push_back(last);
             m_triangle_indices.push_back(last + 1);
+
+            //####################### Normal calculation #######################
+
+
+
+            //Only in first loop (calculate first normals for first faces)
+            if(i == 0){
+
+                //Calculate focusPoints
+                focusPointTop = glm::vec3(   (m_vertices.at(top).x + m_vertices.at(last).x + m_vertices.at(last + 1).x) / 3.0,
+                                             (m_vertices.at(top).y + m_vertices.at(last).y + m_vertices.at(last + 1).y) / 3.0,
+                                             (m_vertices.at(top).z + m_vertices.at(last).z + m_vertices.at(last + 1).z) / 3.0);
+                focusPointBottom = glm::vec3((m_vertices.at(bottom).x + m_vertices.at(last).x + m_vertices.at(last + 1).x) / 3.0,
+                                             (m_vertices.at(bottom).y + m_vertices.at(last).y + m_vertices.at(last + 1).y) / 3.0,
+                                             (m_vertices.at(bottom).z + m_vertices.at(last).z + m_vertices.at(last + 1).z) / 3.0);
+
+                //Calculate first faceNormal for top and bottom face
+
+                //Calculate and push faceNormals
+                //Top
+                glm::vec3 u = m_vertices.at(last) - m_vertices.at(top);
+                glm::vec3 v = m_vertices.at(last + 1) - m_vertices.at(top);
+                faceNormalTop = glm::cross(v,u);
+                glm::normalize(faceNormalTop);
+                m_face_normals.push_back(faceNormalTop);
+                //Bottom
+                u = m_vertices.at(last) - m_vertices.at(bottom);
+                v = m_vertices.at(last + 1) - m_vertices.at(bottom);
+                faceNormalBottom = glm::cross(v,u);
+                glm::normalize(faceNormalBottom);
+                m_face_normals.push_back(faceNormalBottom);
+
+                //Push polylines
+                //Top
+                CgPolyline* poly = new CgPolyline(idGen->getNextId());
+                poly->addVertice(focusPointTop);
+                poly->addVertice(focusPointTop + (faceNormalTop * 0.1f));
+                polylineNormals.push_back(poly);
+                //Bottom
+                poly = new CgPolyline(idGen->getNextId());
+                poly->addVertice(focusPointBottom);
+                poly->addVertice(focusPointBottom + (faceNormalBottom * 0.1f));
+                polylineNormals.push_back(poly);
+
+
+
+            //Calculate next normals with rotation routine in any other loop
+            }else{
+
+            }
+
+            //####################### Normal calculation END #######################
+
             last++;
         }
         //Last face with first point
@@ -76,74 +140,6 @@ CgCylinder::~CgCylinder()
     m_triangle_indices.clear();
     m_face_normals.clear();
     m_face_colors.clear();
-}
-
-//Only works when amountOfSegments >= 2
-void CgCylinder::makeCylinder(int amountOfSegments, double height)
-{
-    if(amountOfSegments >= 2){
-
-
-        //Reset
-        m_vertices.clear();
-        m_vertex_normals.clear();
-        m_triangle_indices.clear();
-        m_face_normals.clear();
-
-
-        //Initial values
-        double angleOfRotation = 360.0 / amountOfSegments;
-        //Translate in rad
-        angleOfRotation = ((2.0 * M_PI) / 360.0) * angleOfRotation;
-        double x = 0.2;
-        double y = 0.0;
-
-        //Top of cylinder
-        m_vertices.push_back(glm::vec3(0.0f, (float)height, 0.0f));
-
-        //Bottom center of cylinder
-        m_vertices.push_back((glm::vec3(0.0f, 0.0f, 0.0f)));
-
-        //First point
-        m_vertices.push_back(glm::vec3((float) x, 0.0f, (float) y));
-
-        int top = 0;
-        int bottom = 1;
-        int first = 2;
-        int last = 2;
-
-        //Calculate next point and push new face
-        for(int i = 0; i < amountOfSegments - 1; i++){
-
-            //TODO BUG new x and y are not correct (getting smaller)
-
-            //Calculation of new x and y
-            x = (0.2 * cos(angleOfRotation * (i+1) )) - (0.0 * sin(angleOfRotation * (i+1) ));
-            y = (0.0 * cos(angleOfRotation * (i+1) )) + (0.2 * sin(angleOfRotation * (i+1) ));
-            m_vertices.push_back(glm::vec3((float) x, 0.0f, (float) y));
-
-            m_triangle_indices.push_back(top);
-            m_triangle_indices.push_back(last);
-            m_triangle_indices.push_back(last + 1);
-
-            m_triangle_indices.push_back(bottom);
-            m_triangle_indices.push_back(last);
-            m_triangle_indices.push_back(last + 1);
-            last++;
-        }
-        //Last face with first point
-        m_triangle_indices.push_back(top);
-        m_triangle_indices.push_back(last);
-        m_triangle_indices.push_back(first);
-
-        m_triangle_indices.push_back(bottom);
-        m_triangle_indices.push_back(last);
-        m_triangle_indices.push_back(first);
-
-
-    }else{
-        std::cout << "Too few Segments" << std::endl;
-    }
 }
 
 Cg::ObjectType CgCylinder::getType() const
@@ -190,3 +186,10 @@ const std::vector<glm::vec3> &CgCylinder::getFaceColors() const
 {
     return m_face_colors;
 }
+
+std::vector<CgPolyline *>* CgCylinder::getPolylineNormals()
+{
+    return &polylineNormals;
+}
+
+

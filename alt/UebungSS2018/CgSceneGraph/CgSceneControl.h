@@ -38,6 +38,7 @@ private:
     CgCube* m_cube;
     std::vector<CgPolyline*>* m_cube_normals;
     CgCylinder* m_cylinder;
+    std::vector<CgPolyline*>* m_cylinder_normals;
 
     //Objects do display
     bool renderCoordinateSystem;
@@ -45,6 +46,7 @@ private:
     bool renderCube;
     bool renderCubeNormals;
     bool renderCylinder;
+    bool renderCylinderNormals;
 
     //Coordinatesystem
     CgPolyline* x_Axis;

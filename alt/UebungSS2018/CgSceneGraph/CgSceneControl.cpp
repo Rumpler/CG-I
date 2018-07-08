@@ -35,12 +35,14 @@ CgSceneControl::CgSceneControl()
     renderCube = false;
     renderCubeNormals = false;
     renderCylinder = false;
+    renderCylinderNormals = true;
 
     //Objects for rendering
      m_triangle = new CgTriangles(idGen->getNextId());
      m_cube = new CgCube(idGen->getNextId());
-     m_cube_normals = &(m_cube->getPolylineNormals());
+     m_cube_normals = m_cube->getPolylineNormals();
      m_cylinder = new CgCylinder(idGen->getNextId(), 50, 0.5);
+     m_cylinder_normals = m_cylinder->getPolylineNormals();
 
 
      //Matrix
@@ -67,19 +69,29 @@ void CgSceneControl::setRenderer(CgBaseRenderer* r)
     m_renderer=r;
     m_renderer->setSceneControl(this);
 
+    //Coordinate-System
     m_renderer->init(x_Axis);
     m_renderer->init(y_Axis);
     m_renderer->init(z_Axis);
 
-    //Init objects for rendering
+    //Triangle
     m_renderer->init(m_triangle);
+
+    //Cube
     m_renderer->init(m_cube);
 
+    //CubeNormals
     for(CgPolyline* poly : *(m_cube_normals)){
         m_renderer->init(poly);
     }
 
+    //Cylinder
     m_renderer->init(m_cylinder);
+
+    //CylinderNormals
+    for(CgPolyline* poly : *(m_cylinder_normals)){
+        m_renderer->init(poly);
+    }
 }
 
 
@@ -88,9 +100,8 @@ void CgSceneControl::renderObjects()
     m_renderer->setProjectionMatrix(m_proj_matrix);
     m_renderer->setLookAtMatrix(glm::mat4x4(glm::vec4(1.0, 0.0, 0.0, 0.0), glm::vec4(0.0, 1.0, 0.0, 0.0), glm::vec4(0.0, 0.0, 1.0, -1.0), glm::vec4(0.0, 0.0, -1.0, 1.0)));
 
-
+    //Coordinate-System
     if(renderCoordinateSystem){
-        //Coordinate-System
         m_renderer->setUniformValue("mycolor", glm::vec4(1.0,0.0,0.0,0.5));
         m_renderer->render(x_Axis,m_current_transformation);
         m_renderer->setUniformValue("mycolor", glm::vec4(0.0,1.0,0.0,0.5));
@@ -103,14 +114,18 @@ void CgSceneControl::renderObjects()
     //Color for all objects
     m_renderer->setUniformValue("mycolor", glm::vec4(color.x * 0.01, color.y * 0.01, color.z * 0.01 ,1.0));
 
+
+    //Triangle
     if(renderTriangle){
         m_renderer->render(m_triangle,m_current_transformation);
     }
 
+    //Cube
     if(renderCube){
         m_renderer->render(m_cube,m_current_transformation);
     }
 
+    //CubeNormals
     if(renderCubeNormals){
         //Color for cube normals
         m_renderer->setUniformValue("mycolor", glm::vec4(1,0.01,0.5,1.0));
@@ -120,11 +135,20 @@ void CgSceneControl::renderObjects()
         m_renderer->setUniformValue("mycolor", glm::vec4(color.x * 0.01, color.y * 0.01, color.z * 0.01 ,1.0));
     }
 
+    //Cylinder
     if(renderCylinder){
         m_renderer->render(m_cylinder, m_current_transformation);
     }
 
-
+    //CylinderNormals
+    if(renderCylinderNormals){
+        //Color for cylinder normals
+        m_renderer->setUniformValue("mycolor", glm::vec4(1,0.01,0.5,1.0));
+        for(CgPolyline* poly : *(m_cylinder_normals)){
+            m_renderer->render(poly,m_current_transformation);
+        }
+        m_renderer->setUniformValue("mycolor", glm::vec4(color.x * 0.01, color.y * 0.01, color.z * 0.01 ,1.0));
+    }
 
 
 }

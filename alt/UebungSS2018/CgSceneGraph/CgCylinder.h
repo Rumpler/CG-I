@@ -5,6 +5,8 @@
 
 #include "CgPolyline.h"
 
+#include <CgUtils/IdSingleton.h>
+
 class CgCylinder : public CgBaseTriangleMesh
 {
 public:
@@ -26,7 +28,11 @@ public:
     const std::vector<glm::vec3> &getFaceNormals() const;
     const std::vector<glm::vec3> &getFaceColors() const;
 
+    std::vector<CgPolyline *>* getPolylineNormals();
+
 private:
+    IdSingleton* idGen;
+
     std::vector<CgPolyline*> polylineNormals;
 
     std::vector<glm::vec3> m_vertices;

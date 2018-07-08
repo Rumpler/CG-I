@@ -122,9 +122,9 @@ void CgCube::initFace(int p1, int p2, int p3)
 }
 
 
-std::vector<CgPolyline *>& CgCube::getPolylineNormals()
+std::vector<CgPolyline *>* CgCube::getPolylineNormals()
 {
-    return polylineNormals;
+    return &polylineNormals;
 }
 
 const std::vector<glm::vec3>& CgCube::getVertices() const
