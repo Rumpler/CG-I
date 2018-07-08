@@ -100,7 +100,6 @@ CgCylinder::CgCylinder(int id, int amountOfSegments, double height):
 
                 //Calculate next faceNormals with rotation routine in any other loop
             }else{
-
                 //Top
                 //Rotate fcousPoint
                 glm::vec3 newFocusPointTop = glm::vec3( (focusPointTop.x * cos(angleOfRotation * (i+1) )) - (focusPointTop.z * sin(angleOfRotation * (i+1) )),
@@ -148,6 +147,8 @@ CgCylinder::CgCylinder(int id, int amountOfSegments, double height):
         m_triangle_indices.push_back(bottom);
         m_triangle_indices.push_back(last);
         m_triangle_indices.push_back(first);
+
+        //TODO faceNormals for last faces
 
 
     }else{
