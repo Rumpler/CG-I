@@ -30,15 +30,11 @@ CgCylinder::CgCylinder(int id, int amountOfSegments, double height):
         int first = 2;
         int last = 2;
 
-
-
-
         //Vars for faceNormals
         glm::vec3 focusPointTop;
         glm::vec3 focusPointBottom;
         glm::vec3 faceNormalTop;
         glm::vec3 faceNormalBottom;
-
 
         //Calculate next point and push new face
         for(int i = 0; i < amountOfSegments - 1; i++){
@@ -56,9 +52,7 @@ CgCylinder::CgCylinder(int id, int amountOfSegments, double height):
             m_triangle_indices.push_back(last + 1);
             m_triangle_indices.push_back(last);
 
-            //####################### Normal calculation #######################
-
-
+            //####################### Normal calculation with rotate routine #######################
 
             //Only in first loop (calculate first normals for first faces)
             if(i == 0){
@@ -104,24 +98,41 @@ CgCylinder::CgCylinder(int id, int amountOfSegments, double height):
 
 
 
-            //Calculate next faceNormals with rotation routine in any other loop
+                //Calculate next faceNormals with rotation routine in any other loop
             }else{
 
                 //Top
                 //Rotate fcousPoint
                 glm::vec3 newFocusPointTop = glm::vec3( (focusPointTop.x * cos(angleOfRotation * (i+1) )) - (focusPointTop.z * sin(angleOfRotation * (i+1) )),
-                                                         focusPointTop.y,
-                                                       ( focusPointTop.z * cos(angleOfRotation * (i+1) )) + (focusPointTop.x * sin(angleOfRotation * (i+1) )) );
+                                                        focusPointTop.y,
+                                                        ( focusPointTop.z * cos(angleOfRotation * (i+1) )) + (focusPointTop.x * sin(angleOfRotation * (i+1) )) );
                 //Rotate normal endpoint
                 glm::vec3 newFaceNormalTopPoint = focusPointTop + faceNormalTop * 0.1f;
-                          newFaceNormalTopPoint = glm::vec3( (newFaceNormalTopPoint.x * cos(angleOfRotation * (i+1) )) - (newFaceNormalTopPoint.z * sin(angleOfRotation * (i+1) )),
-                                                              newFaceNormalTopPoint.y,
-                                                             (newFaceNormalTopPoint.z * cos(angleOfRotation * (i+1) )) + (newFaceNormalTopPoint.x * sin(angleOfRotation * (i+1) )) );
+                newFaceNormalTopPoint = glm::vec3( (newFaceNormalTopPoint.x * cos(angleOfRotation * (i+1) )) - (newFaceNormalTopPoint.z * sin(angleOfRotation * (i+1) )),
+                                                   newFaceNormalTopPoint.y,
+                                                   (newFaceNormalTopPoint.z * cos(angleOfRotation * (i+1) )) + (newFaceNormalTopPoint.x * sin(angleOfRotation * (i+1) )) );
 
-                  CgPolyline* poly = new CgPolyline(idGen->getNextId());
-                  poly->addVertice(newFocusPointTop);
-                  poly->addVertice(newFaceNormalTopPoint);
-                  polylineNormals.push_back(poly);
+                CgPolyline* poly = new CgPolyline(idGen->getNextId());
+                poly->addVertice(newFocusPointTop);
+                poly->addVertice(newFaceNormalTopPoint);
+                polylineNormals.push_back(poly);
+
+
+                //Bottom
+                //Rotate fcousPoint
+                glm::vec3 newFocusPointBottom = glm::vec3((focusPointBottom.x * cos(angleOfRotation * (i+1) )) - (focusPointBottom.z * sin(angleOfRotation * (i+1) )),
+                                                           focusPointBottom.y,
+                                                          (focusPointBottom.z * cos(angleOfRotation * (i+1) )) + (focusPointBottom.x * sin(angleOfRotation * (i+1) )) );
+                //Rotate normal endpoint
+                glm::vec3 newFaceNormalBottomPoint = focusPointBottom + faceNormalBottom * 0.1f;
+                newFaceNormalBottomPoint = glm::vec3((newFaceNormalBottomPoint.x * cos(angleOfRotation * (i+1) )) - (newFaceNormalBottomPoint.z * sin(angleOfRotation * (i+1) )),
+                                                      newFaceNormalBottomPoint.y,
+                                                     (newFaceNormalBottomPoint.z * cos(angleOfRotation * (i+1) )) + (newFaceNormalBottomPoint.x * sin(angleOfRotation * (i+1) )) );
+
+                poly = new CgPolyline(idGen->getNextId());
+                poly->addVertice(newFocusPointBottom);
+                poly->addVertice(newFaceNormalBottomPoint);
+                polylineNormals.push_back(poly);
 
             }
 

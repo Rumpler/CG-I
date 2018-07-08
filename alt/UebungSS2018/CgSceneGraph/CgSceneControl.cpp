@@ -34,7 +34,7 @@ CgSceneControl::CgSceneControl()
     renderTriangle = false;
     renderCube = false;
     renderCubeNormals = false;
-    renderCylinder = false;
+    renderCylinder = true;      //TODO set false
     renderCylinderNormals = true;
 
     //Objects for rendering
