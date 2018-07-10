@@ -26,7 +26,12 @@ int CgValueChangedEvent::getValueAmountOfSegments() const
 
 void CgValueChangedEvent::setValueAmountOfSegments(int value)
 {
-    valueAmountOfSegments = value;
+    if(value >= 2){
+        valueAmountOfSegments = value;
+    }else{
+        valueAmountOfSegments = 2;
+    }
+
 }
 
 double CgValueChangedEvent::getValueHeight() const

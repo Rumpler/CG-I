@@ -8,7 +8,7 @@ CgCylinder::CgCylinder(int id, int amountOfSegments, double height):
     m_id(id)
 {
     //Test if enough segments are given
-    if(amountOfSegments < 3){
+    if(amountOfSegments < 2){
         std::cout << "Too few segments" << std::endl;
         //Exception
         return;

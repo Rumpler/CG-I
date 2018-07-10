@@ -231,24 +231,26 @@ void CgQtGui::createOptionPanelRotateObjects(QWidget *parent)
 {
     QVBoxLayout *panel_layout = new QVBoxLayout();
 
-
+    QGroupBox* groupBoxCylinder = new QGroupBox("Cylinder");
+    QVBoxLayout *vboxCylinder = new QVBoxLayout;
 
     //Lable
     QLabel* labelAmountOfSegments = new QLabel("Amount of Segments:");
     labelAmountOfSegments->setAlignment(Qt::AlignLeft);
-    panel_layout->addWidget(labelAmountOfSegments);
+    vboxCylinder->addWidget(labelAmountOfSegments);
 
     //SpinBox AmountOfSegments
     spinBoxAmountOfSegments = new QSpinBox();
-    spinBoxAmountOfSegments->setMinimum(2);
+    //spinBoxAmountOfSegments->setMinimum(2);
     spinBoxAmountOfSegments->setValue(50);
+    spinBoxAmountOfSegments->setMaximum(1000);
     connect(spinBoxAmountOfSegments, SIGNAL(valueChanged(int) ), this, SLOT(slotRotateObjectChanged()) );
-    panel_layout->addWidget(spinBoxAmountOfSegments);
+    vboxCylinder->addWidget(spinBoxAmountOfSegments);
 
     //Lable
     QLabel* labelHeight = new QLabel("Height:");
-    panel_layout->addWidget(labelHeight);
     labelHeight->setAlignment(Qt::AlignLeft);
+    vboxCylinder->addWidget(labelHeight);
 
     //DoubleSpinBox Height
     spinBoxHeightCylinderCone = new QDoubleSpinBox();
@@ -256,20 +258,23 @@ void CgQtGui::createOptionPanelRotateObjects(QWidget *parent)
     spinBoxHeightCylinderCone->setValue(0.5);
     spinBoxHeightCylinderCone->setSingleStep(0.01);
     connect(spinBoxHeightCylinderCone, SIGNAL(valueChanged(double) ), this, SLOT(slotRotateObjectChanged()) ); // TODO
-    panel_layout->addWidget(spinBoxHeightCylinderCone);
+    vboxCylinder->addWidget(spinBoxHeightCylinderCone);
 
 
 
-    //Button Show cylinder
-    QPushButton* buttonCylinder = new QPushButton("&Show Cylinder");
+    //Button Show cylinder and normals
+    QPushButton* buttonCylinder = new QPushButton("&Show Cylinder and Normals");
     connect(buttonCylinder, SIGNAL( clicked() ), this, SLOT(slotShowCylinder()) );
-    panel_layout->addWidget(buttonCylinder);
+    vboxCylinder->addWidget(buttonCylinder);
 
     //Button Reset
     QPushButton* buttonReset = new QPushButton("&Reset Values");
     connect(buttonReset, SIGNAL( clicked() ), this, SLOT(slotReset()) );
-    panel_layout->addWidget(buttonReset);
+    vboxCylinder->addWidget(buttonReset);
 
+
+    groupBoxCylinder->setLayout(vboxCylinder);
+    panel_layout->addWidget(groupBoxCylinder);
 
     panel_layout->addStretch(1);
     parent->setLayout(panel_layout);
@@ -297,6 +302,7 @@ void CgQtGui::slotShowCylinder()
     ButtonGroupObjects->button(3)->setChecked(false);
 
     ButtonGroupObjects->button(4)->setChecked(true);
+    ButtonGroupObjects->button(5)->setChecked(true);
 
     slotButtonGroupSelectionChanged();
 }
