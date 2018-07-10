@@ -272,7 +272,6 @@ void CgQtGui::createOptionPanelRotateObjects(QWidget *parent)
     connect(buttonReset, SIGNAL( clicked() ), this, SLOT(slotReset()) );
     vboxCylinder->addWidget(buttonReset);
 
-
     groupBoxCylinder->setLayout(vboxCylinder);
     panel_layout->addWidget(groupBoxCylinder);
 
