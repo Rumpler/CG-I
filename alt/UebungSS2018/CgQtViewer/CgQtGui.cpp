@@ -146,31 +146,31 @@ void CgQtGui::createOptionPanelObjects(QWidget *parent)
     ButtonGroupObjects->setExclusive(false);
 
     QRadioButton* radiobuttonCoordinateSystem = new QRadioButton("&Coordinate-System");
-    QRadioButton* radiobuttonTriangle = new QRadioButton("&Triangle");
     QRadioButton* radiobuttonCube = new QRadioButton("&Cube");
     QRadioButton* radiobuttonCubeNormals = new QRadioButton("&Cube normals");
     QRadioButton* radiobuttonCylinder = new QRadioButton("&Cylinder");
     QRadioButton* radiobuttonCylinderNormals = new QRadioButton("&Cylinder normals");
+    QRadioButton* radiobuttonRotationCurve = new QRadioButton("&Rotation curve");
 
     radiobuttonCoordinateSystem->setChecked(true);
 
     ButtonGroupObjects->addButton(radiobuttonCoordinateSystem,0);
-    ButtonGroupObjects->addButton(radiobuttonTriangle,1);
-    ButtonGroupObjects->addButton(radiobuttonCube,2);
-    ButtonGroupObjects->addButton(radiobuttonCubeNormals,3);
-    ButtonGroupObjects->addButton(radiobuttonCylinder,4);
-    ButtonGroupObjects->addButton(radiobuttonCylinderNormals,5);
+    ButtonGroupObjects->addButton(radiobuttonCube,1);
+    ButtonGroupObjects->addButton(radiobuttonCubeNormals,2);
+    ButtonGroupObjects->addButton(radiobuttonCylinder,3);
+    ButtonGroupObjects->addButton(radiobuttonCylinderNormals,4);
+    ButtonGroupObjects->addButton(radiobuttonRotationCurve,5);
 
-    ButtonGroupObjects->button(3)->setDisabled(true);
-    ButtonGroupObjects->button(5)->setDisabled(true);
+    ButtonGroupObjects->button(2)->setDisabled(true);
+    ButtonGroupObjects->button(4)->setDisabled(true);
 
     QVBoxLayout *vbox = new QVBoxLayout;
     vbox->addWidget(radiobuttonCoordinateSystem);
-    vbox->addWidget(radiobuttonTriangle);
     vbox->addWidget(radiobuttonCube);
     vbox->addWidget(radiobuttonCubeNormals);
     vbox->addWidget(radiobuttonCylinder);
     vbox->addWidget(radiobuttonCylinderNormals);
+    vbox->addWidget(radiobuttonRotationCurve);
 
     vbox->addStretch(1);
     groupBox->setLayout(vbox);
@@ -298,10 +298,11 @@ void CgQtGui::slotShowCylinder()
 {
     ButtonGroupObjects->button(1)->setChecked(false);
     ButtonGroupObjects->button(2)->setChecked(false);
-    ButtonGroupObjects->button(3)->setChecked(false);
 
+    ButtonGroupObjects->button(3)->setChecked(true);
     ButtonGroupObjects->button(4)->setChecked(true);
-    ButtonGroupObjects->button(5)->setChecked(true);
+
+    ButtonGroupObjects->button(5)->setChecked(false);
 
     slotButtonGroupSelectionChanged();
 }
@@ -309,27 +310,27 @@ void CgQtGui::slotShowCylinder()
 void CgQtGui::slotButtonGroupSelectionChanged()
 {
     //Check if cube is not displayed and disable cubeNormals in case
-    if( ! ButtonGroupObjects->button(2)->isChecked()){
-        ButtonGroupObjects->button(3)->setChecked(false);
-        ButtonGroupObjects->button(3)->setDisabled(true);
+    if( ! ButtonGroupObjects->button(1)->isChecked()){
+        ButtonGroupObjects->button(2)->setChecked(false);
+        ButtonGroupObjects->button(2)->setDisabled(true);
     }else{
-        ButtonGroupObjects->button(3)->setDisabled(false);
+        ButtonGroupObjects->button(2)->setDisabled(false);
     }
     //disable cylinder normals
-    if( ! ButtonGroupObjects->button(4)->isChecked()){
-        ButtonGroupObjects->button(5)->setChecked(false);
-        ButtonGroupObjects->button(5)->setDisabled(true);
+    if( ! ButtonGroupObjects->button(3)->isChecked()){
+        ButtonGroupObjects->button(4)->setChecked(false);
+        ButtonGroupObjects->button(4)->setDisabled(true);
     }else{
-        ButtonGroupObjects->button(5)->setDisabled(false);
+        ButtonGroupObjects->button(4)->setDisabled(false);
     }
 
     CgObjectSelectionChangeEvent* e = new CgObjectSelectionChangeEvent();
     e->setRenderCoordinateSystem(ButtonGroupObjects->button(0)->isChecked());
-    e->setRenderTriangle(ButtonGroupObjects->button(1)->isChecked());
-    e->setRenderCube(ButtonGroupObjects->button(2)->isChecked());
-    e->setRenderCubeNormals(ButtonGroupObjects->button(3)->isChecked());
-    e->setRenderCylinder(ButtonGroupObjects->button(4)->isChecked());
-    e->setRenderCylinderNormals(ButtonGroupObjects->button(5)->isChecked());
+    e->setRenderCube(ButtonGroupObjects->button(1)->isChecked());
+    e->setRenderCubeNormals(ButtonGroupObjects->button(2)->isChecked());
+    e->setRenderCylinder(ButtonGroupObjects->button(3)->isChecked());
+    e->setRenderCylinderNormals(ButtonGroupObjects->button(4)->isChecked());
+    e->setRenderRotationCurve(ButtonGroupObjects->button(5)->isChecked());
     notifyObserver(e);
 }
 

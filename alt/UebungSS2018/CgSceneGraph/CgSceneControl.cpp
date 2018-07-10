@@ -31,18 +31,29 @@ CgSceneControl::CgSceneControl()
 
     //Objects displayed
     renderCoordinateSystem = true;
-    renderTriangle = false;
     renderCube = false;
     renderCubeNormals = false;
     renderCylinder = false;
     renderCylinderNormals = false;
+    renderRotationCurve = true;
 
     //Objects for rendering
-    m_triangle = new CgTriangles(idGen->getNextId());
     m_cube = new CgCube(idGen->getNextId());
     m_cube_normals = m_cube->getPolylineNormals();
     m_cylinder = new CgCylinder(idGen->getNextId(), 50, 0.5);
     m_cylinder_normals = m_cylinder->getPolylineNormals();
+
+    m_rotationCurve = new CgPolyline(idGen->getNextId());
+    m_rotationCurve->addVertice(glm::vec3(0.2f, -0.4f, 0.0f));
+    m_rotationCurve->addVertice(glm::vec3(0.2f, -0.3f, 0.0f));
+    m_rotationCurve->addVertice(glm::vec3(0.4f, -0.2f, 0.0f));
+    m_rotationCurve->addVertice(glm::vec3(0.4f, -0.1f, 0.0f));
+    m_rotationCurve->addVertice(glm::vec3(0.3f, 0.0f, 0.0f));
+    m_rotationCurve->addVertice(glm::vec3(0.1f, 0.1f, 0.0f));
+    m_rotationCurve->addVertice(glm::vec3(0.4f, 0.2f, 0.0f));
+    m_rotationCurve->addVertice(glm::vec3(0.3f, 0.3f, 0.0f));
+    m_rotationCurve->addVertice(glm::vec3(0.3f, 0.4f, 0.0f));
+
 
 
     //Matrix
@@ -59,9 +70,12 @@ CgSceneControl::~CgSceneControl()
     delete y_Axis;
     delete z_Axis;
 
-    delete m_triangle;
     delete m_cube;
+    m_cube_normals->clear();
     delete m_cylinder;
+    m_cylinder_normals->clear();
+
+    delete m_rotationCurve;
 }
 
 void CgSceneControl::setRenderer(CgBaseRenderer* r)
@@ -73,9 +87,6 @@ void CgSceneControl::setRenderer(CgBaseRenderer* r)
     m_renderer->init(x_Axis);
     m_renderer->init(y_Axis);
     m_renderer->init(z_Axis);
-
-    //Triangle
-    m_renderer->init(m_triangle);
 
     //Cube
     m_renderer->init(m_cube);
@@ -92,6 +103,8 @@ void CgSceneControl::setRenderer(CgBaseRenderer* r)
     for(CgPolyline* poly : *(m_cylinder_normals)){
         m_renderer->init(poly);
     }
+
+    m_renderer->init(m_rotationCurve);
 }
 
 
@@ -113,12 +126,6 @@ void CgSceneControl::renderObjects()
 
     //Color for all objects
     m_renderer->setUniformValue("mycolor", glm::vec4(color.x * 0.01, color.y * 0.01, color.z * 0.01 ,1.0));
-
-
-    //Triangle
-    if(renderTriangle){
-        m_renderer->render(m_triangle,m_current_transformation);
-    }
 
     //Cube
     if(renderCube){
@@ -148,6 +155,10 @@ void CgSceneControl::renderObjects()
             m_renderer->render(poly,m_current_transformation);
         }
         m_renderer->setUniformValue("mycolor", glm::vec4(color.x * 0.01, color.y * 0.01, color.z * 0.01 ,1.0));
+    }
+
+    if(renderRotationCurve){
+        m_renderer->render(m_rotationCurve, m_current_transformation);
     }
 
 
@@ -194,11 +205,11 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         CgObjectSelectionChangeEvent* ev = (CgObjectSelectionChangeEvent*)e;
         //std::cout <<"ObjectSelectionChangedEvent: " << ev->getRenderCoordinateSystem() << "," << ev->getRenderTriangle()  << "," << ev->getRenderCube() << std::endl;
         renderCoordinateSystem = ev->getRenderCoordinateSystem();
-        renderTriangle = ev->getRenderTriangle();
         renderCube = ev->getRenderCube();
         renderCubeNormals = ev->getRenderCubeNormals();
         renderCylinder = ev->getRenderCylinder();
         renderCylinderNormals = ev->getRenderCylinderNormals();
+        renderRotationCurve = ev->getRenderRotationCurve();
         m_renderer->redraw();
     }
 

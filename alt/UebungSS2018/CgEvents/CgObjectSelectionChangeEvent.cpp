@@ -16,22 +16,12 @@ CgBaseEvent *CgObjectSelectionChangeEvent::clone()
 {
     CgObjectSelectionChangeEvent* e = new CgObjectSelectionChangeEvent();
     e->setRenderCoordinateSystem(renderCoordinateSystem);
-    e->setRenderTriangle(renderTriangle);
     e->setRenderCube(renderCube);
     e->setRenderCubeNormals(renderCubeNormals);
     e->setRenderCylinder(renderCylinder);
     e->setRenderCylinderNormals(renderCylinderNormals);
+    e->setRenderRotationCurve(renderRotationCurve);
     return e;
-}
-
-bool CgObjectSelectionChangeEvent::getRenderTriangle() const
-{
-    return renderTriangle;
-}
-
-void CgObjectSelectionChangeEvent::setRenderTriangle(bool value)
-{
-    renderTriangle = value;
 }
 
 bool CgObjectSelectionChangeEvent::getRenderCube() const
@@ -82,4 +72,14 @@ bool CgObjectSelectionChangeEvent::getRenderCylinderNormals() const
 void CgObjectSelectionChangeEvent::setRenderCylinderNormals(bool value)
 {
     renderCylinderNormals = value;
+}
+
+bool CgObjectSelectionChangeEvent::getRenderRotationCurve() const
+{
+    return renderRotationCurve;
+}
+
+void CgObjectSelectionChangeEvent::setRenderRotationCurve(bool value)
+{
+    renderRotationCurve = value;
 }

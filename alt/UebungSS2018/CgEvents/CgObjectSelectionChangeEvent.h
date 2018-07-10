@@ -14,9 +14,6 @@ public:
     Cg::EventType getType();
     CgBaseEvent *clone();
 
-    bool getRenderTriangle() const;
-    void setRenderTriangle(bool value);
-
     bool getRenderCube() const;
     void setRenderCube(bool value);
 
@@ -32,15 +29,18 @@ public:
     bool getRenderCylinderNormals() const;
     void setRenderCylinderNormals(bool value);
 
+    bool getRenderRotationCurve() const;
+    void setRenderRotationCurve(bool value);
+
 private:
     Cg::EventType m_type;
 
     bool renderCoordinateSystem;
-    bool renderTriangle;
     bool renderCube;
     bool renderCubeNormals;
     bool renderCylinder;
     bool renderCylinderNormals;
+    bool renderRotationCurve;
 };
 
 #endif // CGOBJECTSELECTIONCHANGEEVENT_H

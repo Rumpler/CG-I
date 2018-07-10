@@ -34,19 +34,19 @@ private:
     IdSingleton* idGen;
 
     //Objects for rendering
-    CgTriangles* m_triangle;
     CgCube* m_cube;
     std::vector<CgPolyline*>* m_cube_normals;
     CgCylinder* m_cylinder;
     std::vector<CgPolyline*>* m_cylinder_normals;
+    CgPolyline* m_rotationCurve;
 
     //Objects do display
     bool renderCoordinateSystem;
-    bool renderTriangle;
     bool renderCube;
     bool renderCubeNormals;
     bool renderCylinder;
     bool renderCylinderNormals;
+    bool renderRotationCurve;
 
     //Coordinatesystem
     CgPolyline* x_Axis;

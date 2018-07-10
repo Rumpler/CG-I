@@ -2,9 +2,7 @@
 #define CGCYLINDER_H
 
 #include "CgBase/CgBaseTriangleMesh.h"
-
 #include "CgPolyline.h"
-
 #include <CgUtils/IdSingleton.h>
 
 class CgCylinder : public CgBaseTriangleMesh
