@@ -211,18 +211,13 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         m_cylinder = new CgCylinder(IdSingleton::instance()->getNextId(), ev->getValueAmountOfSegments(), ev->getValueHeight());
         m_renderer->init(m_cylinder);
 
-        //TODO
-
-        /*
-        delete m_cylinder_normals;
+        m_cylinder_normals->clear();
         m_cylinder_normals = m_cylinder->getPolylineNormals();
 
         for(CgPolyline* poly : *(m_cylinder_normals)){
             m_renderer->init(poly);
         }
-        */
         m_renderer->redraw();
-
     }
 
     if(e->getType() & Cg::CgResetEvent)
@@ -233,22 +228,13 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         m_cylinder = new CgCylinder(IdSingleton::instance()->getNextId(), 50, 0.5);
         m_renderer->init(m_cylinder);
 
-        //TODO
-
-        /*
-        delete m_cylinder_normals;
+        m_cylinder_normals->clear();
         m_cylinder_normals = m_cylinder->getPolylineNormals();
 
         for(CgPolyline* poly : *(m_cylinder_normals)){
             m_renderer->init(poly);
         }
-        */
         m_renderer->redraw();
-
     }
-
-
     delete e;
-
-
 }
