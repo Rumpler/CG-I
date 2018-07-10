@@ -150,6 +150,7 @@ void CgQtGui::createOptionPanelObjects(QWidget *parent)
     QRadioButton* radiobuttonCube = new QRadioButton("&Cube");
     QRadioButton* radiobuttonCubeNormals = new QRadioButton("&Cube normals");
     QRadioButton* radiobuttonCylinder = new QRadioButton("&Cylinder");
+    QRadioButton* radiobuttonCylinderNormals = new QRadioButton("&Cylinder normals");
 
     radiobuttonCoordinateSystem->setChecked(true);
 
@@ -158,8 +159,10 @@ void CgQtGui::createOptionPanelObjects(QWidget *parent)
     ButtonGroupObjects->addButton(radiobuttonCube,2);
     ButtonGroupObjects->addButton(radiobuttonCubeNormals,3);
     ButtonGroupObjects->addButton(radiobuttonCylinder,4);
+    ButtonGroupObjects->addButton(radiobuttonCylinderNormals,5);
 
     ButtonGroupObjects->button(3)->setDisabled(true);
+    ButtonGroupObjects->button(5)->setDisabled(true);
 
     QVBoxLayout *vbox = new QVBoxLayout;
     vbox->addWidget(radiobuttonCoordinateSystem);
@@ -167,6 +170,7 @@ void CgQtGui::createOptionPanelObjects(QWidget *parent)
     vbox->addWidget(radiobuttonCube);
     vbox->addWidget(radiobuttonCubeNormals);
     vbox->addWidget(radiobuttonCylinder);
+    vbox->addWidget(radiobuttonCylinderNormals);
 
     vbox->addStretch(1);
     groupBox->setLayout(vbox);
@@ -306,12 +310,21 @@ void CgQtGui::slotButtonGroupSelectionChanged()
     }else{
         ButtonGroupObjects->button(3)->setDisabled(false);
     }
+    //disable cylinder normals
+    if( ! ButtonGroupObjects->button(4)->isChecked()){
+        ButtonGroupObjects->button(5)->setChecked(false);
+        ButtonGroupObjects->button(5)->setDisabled(true);
+    }else{
+        ButtonGroupObjects->button(5)->setDisabled(false);
+    }
+
     CgObjectSelectionChangeEvent* e = new CgObjectSelectionChangeEvent();
     e->setRenderCoordinateSystem(ButtonGroupObjects->button(0)->isChecked());
     e->setRenderTriangle(ButtonGroupObjects->button(1)->isChecked());
     e->setRenderCube(ButtonGroupObjects->button(2)->isChecked());
     e->setRenderCubeNormals(ButtonGroupObjects->button(3)->isChecked());
     e->setRenderCylinder(ButtonGroupObjects->button(4)->isChecked());
+    e->setRenderCylinderNormals(ButtonGroupObjects->button(5)->isChecked());
     notifyObserver(e);
 }
 

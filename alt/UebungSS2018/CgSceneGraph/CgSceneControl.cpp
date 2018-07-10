@@ -34,8 +34,8 @@ CgSceneControl::CgSceneControl()
     renderTriangle = false;
     renderCube = false;
     renderCubeNormals = false;
-    renderCylinder = true;      //TODO set false
-    renderCylinderNormals = true;
+    renderCylinder = false;
+    renderCylinderNormals = false;
 
     //Objects for rendering
     m_triangle = new CgTriangles(idGen->getNextId());
@@ -198,6 +198,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         renderCube = ev->getRenderCube();
         renderCubeNormals = ev->getRenderCubeNormals();
         renderCylinder = ev->getRenderCylinder();
+        renderCylinderNormals = ev->getRenderCylinderNormals();
         m_renderer->redraw();
     }
 

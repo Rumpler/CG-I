@@ -20,6 +20,7 @@ CgBaseEvent *CgObjectSelectionChangeEvent::clone()
     e->setRenderCube(renderCube);
     e->setRenderCubeNormals(renderCubeNormals);
     e->setRenderCylinder(renderCylinder);
+    e->setRenderCylinderNormals(renderCylinderNormals);
     return e;
 }
 
@@ -71,4 +72,14 @@ bool CgObjectSelectionChangeEvent::getRenderCylinder() const
 void CgObjectSelectionChangeEvent::setRenderCylinder(bool value)
 {
     renderCylinder = value;
+}
+
+bool CgObjectSelectionChangeEvent::getRenderCylinderNormals() const
+{
+    return renderCylinderNormals;
+}
+
+void CgObjectSelectionChangeEvent::setRenderCylinderNormals(bool value)
+{
+    renderCylinderNormals = value;
 }

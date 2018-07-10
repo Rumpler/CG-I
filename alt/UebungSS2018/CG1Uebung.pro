@@ -24,7 +24,8 @@ SOURCES += main.cpp \
     CgSceneGraph/CgCylinder.cpp \
     CgUtils/IdSingleton.cpp \
     CgEvents/CgValueChangedEvent.cpp \
-    CgEvents/CgResetEvent.cpp
+    CgEvents/CgResetEvent.cpp \
+    CgUtils/CgUtils.cpp
 
 HEADERS += \
     CgBase/CgBaseRenderWindow.h \
@@ -57,5 +58,6 @@ HEADERS += \
     CgSceneGraph/CgCylinder.h \
     CgUtils/IdSingleton.h \
     CgEvents/CgValueChangedEvent.h \
-    CgEvents/CgResetEvent.h
+    CgEvents/CgResetEvent.h \
+    CgUtils/CgUtils.h
 
