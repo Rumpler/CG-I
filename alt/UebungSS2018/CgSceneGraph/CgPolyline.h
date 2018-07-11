@@ -2,6 +2,7 @@
 #define CGPOLYLINE_H
 
 #include "CgBase/CgBasePolyline.h"
+#include <iostream>
 
 
 class CgPolyline : public CgBasePolyline
@@ -12,6 +13,9 @@ public:
     void addVertice(glm::vec3 vertice);
 
 
+    void sdForPointScheme();
+    void sdChaikins();
+    void sdLaneRiesenfeld();
 
 
     // CgBaseRenderableObject interface
@@ -27,6 +31,8 @@ public:
 
     void setLineWidth(unsigned int value);
 
+    void setRotationCurveExample1();
+
 private:
     const Cg::ObjectType m_type;
     const unsigned int m_id;
@@ -34,6 +40,8 @@ private:
     std::vector<glm::vec3> vertices;
     glm::vec3 color;
     unsigned int lineWidth;
+
+    void printVertices();
 
 
 };

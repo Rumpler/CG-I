@@ -11,6 +11,7 @@
 #include <iostream>
 #include <glm/gtc/matrix_transform.hpp>
 #include <CgEvents/CgResetEvent.h>
+#include <CgEvents/CgSubdivisionEvent.h>
 
 CgSceneControl::CgSceneControl()
 {
@@ -44,16 +45,7 @@ CgSceneControl::CgSceneControl()
     m_cylinder_normals = m_cylinder->getPolylineNormals();
 
     m_rotationCurve = new CgPolyline(idGen->getNextId());
-    m_rotationCurve->addVertice(glm::vec3(0.2f, -0.4f, 0.0f));
-    m_rotationCurve->addVertice(glm::vec3(0.2f, -0.3f, 0.0f));
-    m_rotationCurve->addVertice(glm::vec3(0.4f, -0.2f, 0.0f));
-    m_rotationCurve->addVertice(glm::vec3(0.4f, -0.1f, 0.0f));
-    m_rotationCurve->addVertice(glm::vec3(0.3f, 0.0f, 0.0f));
-    m_rotationCurve->addVertice(glm::vec3(0.1f, 0.1f, 0.0f));
-    m_rotationCurve->addVertice(glm::vec3(0.4f, 0.2f, 0.0f));
-    m_rotationCurve->addVertice(glm::vec3(0.3f, 0.3f, 0.0f));
-    m_rotationCurve->addVertice(glm::vec3(0.3f, 0.4f, 0.0f));
-
+    m_rotationCurve->setRotationCurveExample1();
 
 
     //Matrix
@@ -178,6 +170,8 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
 
     if(e->getType() & Cg::CgKeyEvent)
     {
+        /*CgKeyEvent* ev = (CgKeyEvent*) e;
+        std::cout << *(ev) << std::endl;*/
         CgKeyEvent* ev = (CgKeyEvent*)e;
         //std::cout << *ev <<std::endl;
 
@@ -188,6 +182,8 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
 
     if(e->getType() & Cg::WindowResizeEvent)
     {
+        /*WindowResizeEvent* ev = (WindowResizeEvent*) e;
+        std::cout << *(ev) << std::endl;*/
         CgWindowResizeEvent* ev = (CgWindowResizeEvent*)e;
         std::cout << *ev <<std::endl;
         m_proj_matrix=glm::perspective(45.0f, (float)(ev->w()) / ev->h(), 0.01f, 100.0f);
@@ -195,6 +191,8 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
 
     if(e->getType() & Cg::CgColorChangeEvent)
     {
+        /*CgColorChangeEvent* ev = (CgColorChangeEvent*) e;
+        std::cout << *(ev) << std::endl;*/
         CgColorChangeEvent* ev = (CgColorChangeEvent*)e;
         color = glm::vec3(ev->getRed(),ev->getGreen(),ev->getBlue());
         m_renderer->redraw();
@@ -202,8 +200,9 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
 
     if(e->getType() & Cg::CgObjectSelectionChangeEvent)
     {
+
         CgObjectSelectionChangeEvent* ev = (CgObjectSelectionChangeEvent*)e;
-        //std::cout <<"ObjectSelectionChangedEvent: " << ev->getRenderCoordinateSystem() << "," << ev->getRenderTriangle()  << "," << ev->getRenderCube() << std::endl;
+        /*std::cout << *(ev) << std::endl;*/
         renderCoordinateSystem = ev->getRenderCoordinateSystem();
         renderCube = ev->getRenderCube();
         renderCubeNormals = ev->getRenderCubeNormals();
@@ -216,6 +215,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     if(e->getType() & Cg::CgValueChangedEvent)
     {
         CgValueChangedEvent* ev = (CgValueChangedEvent*) e;
+        /*std::cout << *(ev) << std::endl;*/
         m_cylinder_normals->clear();
         delete m_cylinder;
         m_cylinder = new CgCylinder(IdSingleton::instance()->getNextId(), ev->getValueAmountOfSegments(), ev->getValueHeight());
@@ -229,6 +229,8 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
 
     if(e->getType() & Cg::CgResetEvent)
     {
+        /*CgResetEvent* ev = (CgResetEvent*) e;
+        std::cout << *(ev) << std::endl;*/
         m_cylinder_normals->clear();
         delete m_cylinder;
         m_cylinder = new CgCylinder(IdSingleton::instance()->getNextId(), 50, 0.5);
@@ -237,7 +239,22 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         for(CgPolyline* poly : *(m_cylinder_normals)){
             m_renderer->init(poly);
         }
+
+        m_rotationCurve->setRotationCurveExample1();
+        m_renderer->init(m_rotationCurve);
+
         m_renderer->redraw();
+    }
+
+    if(e->getType() & Cg::CgSubdivisionEvent){
+        /*CgSubdivisionEvent* ev = (CgSubdivisionEvent*) e;
+        std::cout << *(ev) << std::endl;*/
+
+        m_rotationCurve->sdForPointScheme();
+        m_renderer->init(m_rotationCurve);
+        m_renderer->redraw();
+
+
     }
     delete e;
 }

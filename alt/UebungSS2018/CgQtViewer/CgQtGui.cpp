@@ -30,6 +30,7 @@
 #include <QActionGroup>
 #include <iostream>
 #include <CgEvents/CgResetEvent.h>
+#include <CgEvents/CgSubdivisionEvent.h>
 
 
 
@@ -231,6 +232,8 @@ void CgQtGui::createOptionPanelRotateObjects(QWidget *parent)
 {
     QVBoxLayout *panel_layout = new QVBoxLayout();
 
+    //################################### Cylinder ###################################
+
     QGroupBox* groupBoxCylinder = new QGroupBox("Cylinder");
     QVBoxLayout *vboxCylinder = new QVBoxLayout;
 
@@ -275,6 +278,32 @@ void CgQtGui::createOptionPanelRotateObjects(QWidget *parent)
     groupBoxCylinder->setLayout(vboxCylinder);
     panel_layout->addWidget(groupBoxCylinder);
 
+
+    //################################### RotationCurve ###################################
+
+
+    QGroupBox* groupBoxRotationCurve = new QGroupBox("Rotation Curve");
+    QVBoxLayout *vboxRotationCurve = new QVBoxLayout;
+
+    //Button Show RotationCurve
+    QPushButton* buttonRotationCurve = new QPushButton("&Show Rotation Curve");
+    connect(buttonRotationCurve, SIGNAL( clicked() ), this, SLOT(slotShowRotationCurve()) );
+    vboxRotationCurve->addWidget(buttonRotationCurve);
+
+    //Button Subdivison 4-Point-Scheme
+    QPushButton* buttonSdForPointScheme = new QPushButton("&Subdivision For-Point-Scheme");
+    connect(buttonSdForPointScheme, SIGNAL( clicked() ), this, SLOT(slotSubdivision()) );
+    vboxRotationCurve->addWidget(buttonSdForPointScheme);
+
+    //Button Reset RotationCurve
+    QPushButton* buttonResetRotationCurve = new QPushButton("&Reset Rotation Curve");
+    connect(buttonResetRotationCurve, SIGNAL( clicked() ), this, SLOT(slotReset()) ); //TODO
+    vboxRotationCurve->addWidget(buttonResetRotationCurve);
+
+
+    groupBoxRotationCurve->setLayout(vboxRotationCurve);
+    panel_layout->addWidget(groupBoxRotationCurve);
+
     panel_layout->addStretch(1);
     parent->setLayout(panel_layout);
 }
@@ -296,15 +325,30 @@ void CgQtGui::slotColorChanged()
 
 void CgQtGui::slotShowCylinder()
 {
-    ButtonGroupObjects->button(1)->setChecked(false);
-    ButtonGroupObjects->button(2)->setChecked(false);
-
+    for(QAbstractButton* b : ButtonGroupObjects->buttons()){
+        b->setChecked(false);
+    }
+    ButtonGroupObjects->button(0)->setChecked(true);
     ButtonGroupObjects->button(3)->setChecked(true);
     ButtonGroupObjects->button(4)->setChecked(true);
-
-    ButtonGroupObjects->button(5)->setChecked(false);
-
     slotButtonGroupSelectionChanged();
+}
+
+void CgQtGui::slotShowRotationCurve()
+{
+    for(QAbstractButton* b : ButtonGroupObjects->buttons()){
+        b->setChecked(false);
+    }
+    ButtonGroupObjects->button(0)->setChecked(true);
+    ButtonGroupObjects->button(5)->setChecked(true);
+    slotButtonGroupSelectionChanged();
+}
+
+void CgQtGui::slotSubdivision()
+{
+    CgSubdivisionEvent* e = new CgSubdivisionEvent();
+
+    notifyObserver(e);
 }
 
 void CgQtGui::slotButtonGroupSelectionChanged()

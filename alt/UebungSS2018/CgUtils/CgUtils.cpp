@@ -38,3 +38,8 @@ glm::vec3 CgUtils::rotatePointYAxis(double angle, glm::vec3 p)
                       p.y,
                      (p.z * cos(angle)) + (p.x * sin(angle)) );
 }
+
+glm::vec3 CgUtils::multVecScalar(double scalar, glm::vec3 vec)
+{
+    return glm::vec3(vec.x * scalar, vec.y * scalar, vec.z * scalar);
+}

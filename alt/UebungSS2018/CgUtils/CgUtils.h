@@ -16,6 +16,8 @@ public:
     glm::vec3 static calcFaceNormal(glm::vec3 v1, glm::vec3 v2, glm::vec3 v3);
 
     glm::vec3 static rotatePointYAxis(double angle, glm::vec3 p);
+
+    glm::vec3 static multVecScalar(double scalar, glm::vec3 vec);
 };
 
 #endif // CGUTILS_H

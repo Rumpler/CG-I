@@ -25,7 +25,8 @@ SOURCES += main.cpp \
     CgUtils/IdSingleton.cpp \
     CgEvents/CgValueChangedEvent.cpp \
     CgEvents/CgResetEvent.cpp \
-    CgUtils/CgUtils.cpp
+    CgUtils/CgUtils.cpp \
+    CgEvents/CgSubdivisionEvent.cpp
 
 HEADERS += \
     CgBase/CgBaseRenderWindow.h \
@@ -59,5 +60,6 @@ HEADERS += \
     CgUtils/IdSingleton.h \
     CgEvents/CgValueChangedEvent.h \
     CgEvents/CgResetEvent.h \
-    CgUtils/CgUtils.h
+    CgUtils/CgUtils.h \
+    CgEvents/CgSubdivisionEvent.h
 

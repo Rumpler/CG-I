@@ -126,6 +126,8 @@ private slots:
     void slotRotateObjectChanged();
     void slotReset();
     void slotShowCylinder();
+    void slotShowRotationCurve();
+    void slotSubdivision();
 
 
 
