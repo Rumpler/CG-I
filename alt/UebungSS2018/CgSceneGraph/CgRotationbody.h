@@ -12,7 +12,7 @@
 class CgRotationbody: public CgBaseTriangleMesh
 {
 public:
-    CgRotationbody(int id);
+    CgRotationbody(int id, CgPolyline* conourCurve);
 
     // CgBaseRenderableObject interface
     Cg::ObjectType getType() const;
@@ -29,6 +29,7 @@ public:
 
 private:
     IdSingleton* idGen;
+    CgPolyline* contourCurve;
 
     std::vector<CgPolyline*> polylineNormals;
 

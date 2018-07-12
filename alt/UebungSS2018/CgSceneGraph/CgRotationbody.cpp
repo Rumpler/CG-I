@@ -1,8 +1,9 @@
 #include "CgRotationbody.h"
 
-CgRotationbody::CgRotationbody(int id):
+CgRotationbody::CgRotationbody(int id, CgPolyline* contourCurve):
     m_type(Cg::TriangleMesh),
-    m_id(id)
+    m_id(id),
+    contourCurve(contourCurve)
 {
 
 }
