@@ -15,8 +15,17 @@ public:
     Cg::EventType getType();
     CgBaseEvent *clone();
 
+    bool getResetCylinder() const;
+    void setResetCylinder(bool value);
+
+    bool getResetRotationCurve() const;
+    void setResetRotationCurve(bool value);
+
 private:
     Cg::EventType m_type;
+
+    bool resetCylinder = false;
+    bool resetRotationCurve = false;
 };
 
 #endif // CGRESETEVENT_H

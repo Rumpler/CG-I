@@ -21,6 +21,7 @@ CgBaseEvent *CgObjectSelectionChangeEvent::clone()
     e->setRenderCylinder(renderCylinder);
     e->setRenderCylinderNormals(renderCylinderNormals);
     e->setRenderRotationCurve(renderRotationCurve);
+    e->setRenderRotationBody(renderRotationBody);
     return e;
 }
 
@@ -82,4 +83,14 @@ bool CgObjectSelectionChangeEvent::getRenderRotationCurve() const
 void CgObjectSelectionChangeEvent::setRenderRotationCurve(bool value)
 {
     renderRotationCurve = value;
+}
+
+bool CgObjectSelectionChangeEvent::getRenderRotationBody() const
+{
+    return renderRotationBody;
+}
+
+void CgObjectSelectionChangeEvent::setRenderRotationBody(bool value)
+{
+    renderRotationBody = value;
 }

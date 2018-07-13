@@ -36,8 +36,8 @@ CgSceneControl::CgSceneControl()
     renderCubeNormals = false;
     renderCylinder = false;
     renderCylinderNormals = false;
-    renderRotationCurve = false;         //TODO set false
-    renderRotationBody = true;
+    renderRotationCurve = false;
+    renderRotationBody = false;
 
 
     //Objects for rendering
@@ -234,6 +234,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         renderCylinder = ev->getRenderCylinder();
         renderCylinderNormals = ev->getRenderCylinderNormals();
         renderRotationCurve = ev->getRenderRotationCurve();
+        renderRotationBody = ev->getRenderRotationBody();
         m_renderer->redraw();
     }
 
@@ -241,34 +242,54 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     {
         CgValueChangedEvent* ev = (CgValueChangedEvent*) e;
         /*std::cout << *(ev) << std::endl;*/
-        m_cylinder_normals->clear();
-        delete m_cylinder;
-        m_cylinder = new CgCylinder(IdSingleton::instance()->getNextId(), ev->getValueAmountOfSegments(), ev->getValueHeight());
-        m_renderer->init(m_cylinder);
-        m_cylinder_normals = m_cylinder->getPolylineNormals();
-        for(CgPolyline* poly : *(m_cylinder_normals)){
-            m_renderer->init(poly);
+
+        if(ev->getCylinderChanged()){
+            m_cylinder_normals->clear();
+            delete m_cylinder;
+            m_cylinder = new CgCylinder(IdSingleton::instance()->getNextId(), ev->getValueAmountOfSegmentsCylinder(), ev->getValueHeightCylinder());
+            m_renderer->init(m_cylinder);
+            m_cylinder_normals = m_cylinder->getPolylineNormals();
+            for(CgPolyline* poly : *(m_cylinder_normals)){
+                m_renderer->init(poly);
+            }
         }
+
+        if(ev->getResetRotationCurve()){
+            m_rotation_curve->setRotationCurveExample1();
+            m_renderer->init(m_rotation_curve);
+        }
+
+        if(ev->getRotationBodyChanged()){
+            std::cout << "RotationBodyChanged" << std::endl;
+            delete m_rotation_body;
+            m_rotation_body = new CgRotationBody(idGen->getNextId(), m_rotation_curve, ev->getValueAmountOfSegmentsRotationBody());
+            m_renderer->init(m_rotation_body);
+        }
+
         m_renderer->redraw();
     }
 
     if(e->getType() & Cg::CgResetEvent)
     {
-        /*CgResetEvent* ev = (CgResetEvent*) e;
-        std::cout << *(ev) << std::endl;*/
-        m_cylinder_normals->clear();
-        delete m_cylinder;
-        m_cylinder = new CgCylinder(IdSingleton::instance()->getNextId(), 50, 0.5);
-        m_renderer->init(m_cylinder);
-        m_cylinder_normals = m_cylinder->getPolylineNormals();
-        for(CgPolyline* poly : *(m_cylinder_normals)){
-            m_renderer->init(poly);
-        }
+        std::cout << "Empty Reset-Event called" << std::endl;
+//        CgResetEvent* ev = (CgResetEvent*) e;
+//        /*std::cout << *(ev) << std::endl;*/
 
-        m_rotation_curve->setRotationCurveExample1();
-        m_renderer->init(m_rotation_curve);
+//        if(ev->getResetCylinder()){
+//            m_cylinder_normals->clear();
+//            delete m_cylinder;
+//            m_cylinder = new CgCylinder(IdSingleton::instance()->getNextId(), 50, 0.5);
+//            m_renderer->init(m_cylinder);
+//            m_cylinder_normals = m_cylinder->getPolylineNormals();
+//            for(CgPolyline* poly : *(m_cylinder_normals)){
+//                m_renderer->init(poly);
+//            }
+//        }
 
-        m_renderer->redraw();
+//        if(ev->getResetRotationCurve()){
+
+//        }
+
     }
 
     if(e->getType() & Cg::CgSubdivisionEvent){

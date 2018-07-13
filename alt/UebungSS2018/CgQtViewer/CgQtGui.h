@@ -105,7 +105,9 @@ private:
     QSlider* sliderBlue;
 
     QDoubleSpinBox* spinBoxHeightCylinderCone;
-    QSpinBox* spinBoxAmountOfSegments;
+    QSpinBox* spinBoxAmountOfSegmentsCylinder;
+
+    QSpinBox* spinBoxAmountOfSegmentsRotationBody;
 
 
 
@@ -123,10 +125,17 @@ private slots:
     //Gerrit
     void slotColorChanged();
     void slotButtonGroupSelectionChanged();
-    void slotRotateObjectChanged();
-    void slotReset();
+
+    void slotCylinderChanged();
+    void slotRotationBodyChanged();
+
+    void slotResetCylinder();
+    void slotResetRotationCurve();
+
     void slotShowCylinder();
     void slotShowRotationCurve();
+    void slotShowRotationBody();
+
     void slotSubdivision();
 
 

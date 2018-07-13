@@ -68,7 +68,7 @@ void CgPolyline::sdForPointScheme()
 
 
 
-    printVertices();
+    //printVertices();
 }
 
 void CgPolyline::sdChaikins()

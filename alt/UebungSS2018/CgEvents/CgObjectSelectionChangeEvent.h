@@ -32,6 +32,9 @@ public:
     bool getRenderRotationCurve() const;
     void setRenderRotationCurve(bool value);
 
+    bool getRenderRotationBody() const;
+    void setRenderRotationBody(bool value);
+
 private:
     Cg::EventType m_type;
 
@@ -41,6 +44,7 @@ private:
     bool renderCylinder;
     bool renderCylinderNormals;
     bool renderRotationCurve;
+    bool renderRotationBody;
 };
 
 #endif // CGOBJECTSELECTIONCHANGEEVENT_H

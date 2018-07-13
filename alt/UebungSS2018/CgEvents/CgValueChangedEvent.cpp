@@ -14,38 +14,85 @@ Cg::EventType CgValueChangedEvent::getType()
 CgBaseEvent* CgValueChangedEvent::clone()
 {
     CgValueChangedEvent* e = new CgValueChangedEvent();
-    e->setValueAmountOfSegments(valueAmountOfSegments);
-    e->setValueHeight(valueHeight);
+    e->setCylinderChanged(cylinderChanged);
+    e->setResetRotationCurve(resetRotationCurve);
+    e->setRotationBodyChanged(rotationBodyChanged);
+
+    e->setValueAmountOfSegmentsCylinder(valueAmountOfSegmentsCylinder);
+    e->setValueHeightCylinder(valueHeightCylinder);
+
+    e->setValueAmountOfSegmentsRotationBody(valueAmountOfSegmentsRotationBody);
+
     return e;
 }
 
-int CgValueChangedEvent::getValueAmountOfSegments() const
+int CgValueChangedEvent::getValueAmountOfSegmentsCylinder() const
 {
-    return valueAmountOfSegments;
+    return valueAmountOfSegmentsCylinder;
 }
 
-void CgValueChangedEvent::setValueAmountOfSegments(int value)
+void CgValueChangedEvent::setValueAmountOfSegmentsCylinder(int value)
 {
     if(value >= 2){
-        valueAmountOfSegments = value;
+        valueAmountOfSegmentsCylinder = value;
     }else{
-        valueAmountOfSegments = 2;
+        valueAmountOfSegmentsCylinder = 2;
     }
 
 }
 
-double CgValueChangedEvent::getValueHeight() const
+double CgValueChangedEvent::getValueHeightCylinder() const
 {
-    return valueHeight;
+    return valueHeightCylinder;
 }
 
-void CgValueChangedEvent::setValueHeight(double value)
+void CgValueChangedEvent::setValueHeightCylinder(double value)
 {
-    valueHeight = value;
+    valueHeightCylinder = value;
+}
+
+bool CgValueChangedEvent::getCylinderChanged() const
+{
+    return cylinderChanged;
+}
+
+void CgValueChangedEvent::setCylinderChanged(bool value)
+{
+    cylinderChanged = value;
+}
+
+bool CgValueChangedEvent::getRotationBodyChanged() const
+{
+    return rotationBodyChanged;
+}
+
+void CgValueChangedEvent::setRotationBodyChanged(bool value)
+{
+    rotationBodyChanged = value;
+}
+
+int CgValueChangedEvent::getValueAmountOfSegmentsRotationBody() const
+{
+    return valueAmountOfSegmentsRotationBody;
+}
+
+void CgValueChangedEvent::setValueAmountOfSegmentsRotationBody(int value)
+{
+    valueAmountOfSegmentsRotationBody = value;
+}
+
+bool CgValueChangedEvent::getResetRotationCurve() const
+{
+    return resetRotationCurve;
+}
+
+void CgValueChangedEvent::setResetRotationCurve(bool value)
+{
+    resetRotationCurve = value;
 }
 
 std::ostream& operator<<(std::ostream& os,const CgValueChangedEvent& e)
 {
-    os << "ValueChanged-Event of Type: "<< e.m_type <<", height:" << e.getValueHeight()  <<", AmountOfSegments:" << e.getValueAmountOfSegments()  << std::endl;
+    os << "ValueChanged-Event of Type: "<< e.m_type <<", height:" << e.getValueHeightCylinder()  <<", AmountOfSegments:" << e.getValueAmountOfSegmentsCylinder()  << std::endl;
     return os;
 }

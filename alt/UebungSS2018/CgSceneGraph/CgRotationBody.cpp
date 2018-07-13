@@ -30,7 +30,7 @@ CgRotationBody::CgRotationBody(int id, CgPolyline* contourCurve, int amountOfSeg
     }
 
     /* ##################### Add triangle indices ##################### */
-    for(int i = 0; i < amountOfSegments * (contourCurveVertices.size() - 2); i++){
+    for(int i = 0; i < amountOfSegments * (contourCurveVertices.size() - 1); i++){
         layerCounter = (i / amountOfSegments);
         m_triangle_indices.push_back(i);
         m_triangle_indices.push_back( ((i + 1) % amountOfSegments) + (layerCounter * amountOfSegments) + amountOfSegments);

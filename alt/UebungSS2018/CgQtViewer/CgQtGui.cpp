@@ -152,6 +152,7 @@ void CgQtGui::createOptionPanelObjects(QWidget *parent)
     QRadioButton* radiobuttonCylinder = new QRadioButton("&Cylinder");
     QRadioButton* radiobuttonCylinderNormals = new QRadioButton("&Cylinder normals");
     QRadioButton* radiobuttonRotationCurve = new QRadioButton("&Rotation curve");
+    QRadioButton* radiobuttonRotationBody = new QRadioButton("&Rotation Body");
 
     radiobuttonCoordinateSystem->setChecked(true);
 
@@ -161,6 +162,7 @@ void CgQtGui::createOptionPanelObjects(QWidget *parent)
     ButtonGroupObjects->addButton(radiobuttonCylinder,3);
     ButtonGroupObjects->addButton(radiobuttonCylinderNormals,4);
     ButtonGroupObjects->addButton(radiobuttonRotationCurve,5);
+    ButtonGroupObjects->addButton(radiobuttonRotationBody,6);
 
     ButtonGroupObjects->button(2)->setDisabled(true);
     ButtonGroupObjects->button(4)->setDisabled(true);
@@ -172,6 +174,7 @@ void CgQtGui::createOptionPanelObjects(QWidget *parent)
     vbox->addWidget(radiobuttonCylinder);
     vbox->addWidget(radiobuttonCylinderNormals);
     vbox->addWidget(radiobuttonRotationCurve);
+    vbox->addWidget(radiobuttonRotationBody);
 
     vbox->addStretch(1);
     groupBox->setLayout(vbox);
@@ -237,30 +240,26 @@ void CgQtGui::createOptionPanelRotateObjects(QWidget *parent)
     QGroupBox* groupBoxCylinder = new QGroupBox("Cylinder");
     QVBoxLayout *vboxCylinder = new QVBoxLayout;
 
-    //Lable
-    QLabel* labelAmountOfSegments = new QLabel("Amount of Segments:");
-    labelAmountOfSegments->setAlignment(Qt::AlignLeft);
-    vboxCylinder->addWidget(labelAmountOfSegments);
 
     //SpinBox AmountOfSegments
-    spinBoxAmountOfSegments = new QSpinBox();
+    spinBoxAmountOfSegmentsCylinder = new QSpinBox();
     //spinBoxAmountOfSegments->setMinimum(2);
-    spinBoxAmountOfSegments->setValue(50);
-    spinBoxAmountOfSegments->setMaximum(1000);
-    connect(spinBoxAmountOfSegments, SIGNAL(valueChanged(int) ), this, SLOT(slotRotateObjectChanged()) );
-    vboxCylinder->addWidget(spinBoxAmountOfSegments);
+    spinBoxAmountOfSegmentsCylinder->setValue(50);
+    spinBoxAmountOfSegmentsCylinder->setMaximum(10000);
+//    spinBoxAmountOfSegmentsCylinder->setSuffix(" Segments");
+    spinBoxAmountOfSegmentsCylinder->setPrefix("Segments: ");
+    connect(spinBoxAmountOfSegmentsCylinder, SIGNAL(valueChanged(int) ), this, SLOT(slotCylinderChanged()) );
+    vboxCylinder->addWidget(spinBoxAmountOfSegmentsCylinder);
 
-    //Lable
-    QLabel* labelHeight = new QLabel("Height:");
-    labelHeight->setAlignment(Qt::AlignLeft);
-    vboxCylinder->addWidget(labelHeight);
 
     //DoubleSpinBox Height
     spinBoxHeightCylinderCone = new QDoubleSpinBox();
     spinBoxHeightCylinderCone->setMinimum(0.01);
     spinBoxHeightCylinderCone->setValue(0.5);
     spinBoxHeightCylinderCone->setSingleStep(0.01);
-    connect(spinBoxHeightCylinderCone, SIGNAL(valueChanged(double) ), this, SLOT(slotRotateObjectChanged()) ); // TODO
+//    spinBoxHeightCylinderCone->setSuffix(" Height");
+    spinBoxHeightCylinderCone->setPrefix("Height: ");
+    connect(spinBoxHeightCylinderCone, SIGNAL(valueChanged(double) ), this, SLOT(slotCylinderChanged()) ); // TODO
     vboxCylinder->addWidget(spinBoxHeightCylinderCone);
 
 
@@ -271,38 +270,64 @@ void CgQtGui::createOptionPanelRotateObjects(QWidget *parent)
     vboxCylinder->addWidget(buttonCylinder);
 
     //Button Reset
-    QPushButton* buttonReset = new QPushButton("&Reset Values");
-    connect(buttonReset, SIGNAL( clicked() ), this, SLOT(slotReset()) );
+    QPushButton* buttonReset = new QPushButton("&Reset Cylinder");
+    connect(buttonReset, SIGNAL( clicked() ), this, SLOT(slotResetCylinder()) );
     vboxCylinder->addWidget(buttonReset);
 
     groupBoxCylinder->setLayout(vboxCylinder);
     panel_layout->addWidget(groupBoxCylinder);
 
 
-    //################################### RotationCurve ###################################
+    //################################### Rotation ###################################
 
 
-    QGroupBox* groupBoxRotationCurve = new QGroupBox("Rotation Curve");
-    QVBoxLayout *vboxRotationCurve = new QVBoxLayout;
+        QGroupBox* groupBoxRotationBody = new QGroupBox("Rotation Body");
+        QVBoxLayout *vboxRotationBody = new QVBoxLayout;
 
-    //Button Show RotationCurve
-    QPushButton* buttonRotationCurve = new QPushButton("&Show Rotation Curve");
-    connect(buttonRotationCurve, SIGNAL( clicked() ), this, SLOT(slotShowRotationCurve()) );
-    vboxRotationCurve->addWidget(buttonRotationCurve);
+            //Button Show RotationCurve
+            QPushButton* buttonRotationCurve = new QPushButton("&Show Rotation Curve");
+            connect(buttonRotationCurve, SIGNAL( clicked() ), this, SLOT(slotShowRotationCurve()) );
+            vboxRotationBody->addWidget(buttonRotationCurve);
 
-    //Button Subdivison 4-Point-Scheme
-    QPushButton* buttonSdForPointScheme = new QPushButton("&Subdivision For-Point-Scheme");
-    connect(buttonSdForPointScheme, SIGNAL( clicked() ), this, SLOT(slotSubdivision()) );
-    vboxRotationCurve->addWidget(buttonSdForPointScheme);
+            //Button Show RotationBody
+            QPushButton* buttonShowRotationBody = new QPushButton("&Show Rotation Body");
+            connect(buttonShowRotationBody, SIGNAL( clicked() ), this, SLOT(slotShowRotationBody()) );
+            vboxRotationBody->addWidget(buttonShowRotationBody);
 
-    //Button Reset RotationCurve
-    QPushButton* buttonResetRotationCurve = new QPushButton("&Reset Rotation Curve");
-    connect(buttonResetRotationCurve, SIGNAL( clicked() ), this, SLOT(slotReset()) ); //TODO
-    vboxRotationCurve->addWidget(buttonResetRotationCurve);
+            //Lable
+            QLabel* labelAmountOfSegmentsRotationBody = new QLabel("Amount of Segments:");
+            labelAmountOfSegmentsRotationBody->setAlignment(Qt::AlignLeft);
+            vboxRotationBody->addWidget(labelAmountOfSegmentsRotationBody);
+
+            //SpinBox AmountOfSegments
+            spinBoxAmountOfSegmentsRotationBody = new QSpinBox();
+            //spinBoxAmountOfSegments->setMinimum(2);
+            spinBoxAmountOfSegmentsRotationBody->setValue(50);
+            spinBoxAmountOfSegmentsRotationBody->setMaximum(10000);
+            spinBoxAmountOfSegmentsRotationBody->setSuffix(" Segments");
+            connect(spinBoxAmountOfSegmentsRotationBody, SIGNAL(valueChanged(int) ), this, SLOT(slotRotationBodyChanged()) );
+            vboxRotationBody->addWidget(spinBoxAmountOfSegmentsRotationBody);
+
+            QGroupBox* groupBoxSubdivision = new QGroupBox("Subdivision");
+            QVBoxLayout* vboxSubdivision = new QVBoxLayout;
+
+                //Button Subdivison 4-Point-Scheme
+                QPushButton* buttonSdForPointScheme = new QPushButton("&For-Point-Scheme");
+                connect(buttonSdForPointScheme, SIGNAL( clicked() ), this, SLOT(slotSubdivision()) );
+                vboxSubdivision->addWidget(buttonSdForPointScheme);
+
+                //Button Reset RotationCurve
+                QPushButton* buttonResetRotationCurve = new QPushButton("&Reset Rotation Curve");
+                connect(buttonResetRotationCurve, SIGNAL( clicked() ), this, SLOT(slotResetRotationCurve()) );
+                vboxSubdivision->addWidget(buttonResetRotationCurve);
+
+            groupBoxSubdivision->setLayout(vboxSubdivision);
+            vboxRotationBody->addWidget(groupBoxSubdivision);
 
 
-    groupBoxRotationCurve->setLayout(vboxRotationCurve);
-    panel_layout->addWidget(groupBoxRotationCurve);
+
+        groupBoxRotationBody->setLayout(vboxRotationBody);
+        panel_layout->addWidget(groupBoxRotationBody);
 
     panel_layout->addStretch(1);
     parent->setLayout(panel_layout);
@@ -344,11 +369,21 @@ void CgQtGui::slotShowRotationCurve()
     slotButtonGroupSelectionChanged();
 }
 
+void CgQtGui::slotShowRotationBody()
+{
+    for(QAbstractButton* b : ButtonGroupObjects->buttons()){
+        b->setChecked(false);
+    }
+    ButtonGroupObjects->button(0)->setChecked(true);
+    ButtonGroupObjects->button(6)->setChecked(true);
+    slotButtonGroupSelectionChanged();
+}
+
 void CgQtGui::slotSubdivision()
 {
     CgSubdivisionEvent* e = new CgSubdivisionEvent();
-
     notifyObserver(e);
+    slotRotationBodyChanged();
 }
 
 void CgQtGui::slotButtonGroupSelectionChanged()
@@ -375,23 +410,42 @@ void CgQtGui::slotButtonGroupSelectionChanged()
     e->setRenderCylinder(ButtonGroupObjects->button(3)->isChecked());
     e->setRenderCylinderNormals(ButtonGroupObjects->button(4)->isChecked());
     e->setRenderRotationCurve(ButtonGroupObjects->button(5)->isChecked());
+    e->setRenderRotationBody(ButtonGroupObjects->button(6)->isChecked());
     notifyObserver(e);
 }
 
-void CgQtGui::slotRotateObjectChanged()
+void CgQtGui::slotCylinderChanged()
+{
+    slotShowCylinder();
+    CgValueChangedEvent* e = new CgValueChangedEvent();
+    e->setCylinderChanged(true);
+    e->setValueAmountOfSegmentsCylinder(spinBoxAmountOfSegmentsCylinder->value());
+    e->setValueHeightCylinder(spinBoxHeightCylinderCone->value());
+    notifyObserver(e);
+}
+
+void CgQtGui::slotRotationBodyChanged()
 {
     CgValueChangedEvent* e = new CgValueChangedEvent();
-    e->setValueAmountOfSegments(spinBoxAmountOfSegments->value());
-    e->setValueHeight(spinBoxHeightCylinderCone->value());
+    e->setRotationBodyChanged(true);
+    e->setValueAmountOfSegmentsRotationBody(spinBoxAmountOfSegmentsRotationBody->value());
     notifyObserver(e);
 }
 
-void CgQtGui::slotReset()
+void CgQtGui::slotResetCylinder()
 {
-    spinBoxAmountOfSegments->setValue(50);
+    slotShowCylinder();
+    spinBoxAmountOfSegmentsCylinder->setValue(50);
     spinBoxHeightCylinderCone->setValue(0.5);
-    CgResetEvent* e = new CgResetEvent();
+    slotCylinderChanged();
+}
+
+void CgQtGui::slotResetRotationCurve()
+{
+    CgValueChangedEvent* e = new CgValueChangedEvent();
+    e->setResetRotationCurve(true);
     notifyObserver(e);
+    slotRotationBodyChanged();
 }
 
 
@@ -412,7 +466,7 @@ void CgQtGui::slotLoadMeshFile()
 
 
 void CgQtGui::mouseEvent(QMouseEvent* event)
-{
+{         //TODO set false
 
    // std::cout << QApplication::keyboardModifiers() << std::endl;
 
