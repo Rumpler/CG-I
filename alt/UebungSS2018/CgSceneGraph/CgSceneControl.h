@@ -42,6 +42,8 @@ private:
     CgPolyline* m_rotation_curve;
     CgRotationBody* m_rotation_body;
 
+    CgPolyline* tempPoly;
+
 
     //Objects do display
     bool renderCoordinateSystem;

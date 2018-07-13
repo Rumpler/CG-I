@@ -52,15 +52,15 @@ CgSceneControl::CgSceneControl()
    // m_rotation_body = new CgRotationBody(idGen->getNextId(), m_rotation_curve, 4);
 
 
-    CgPolyline* tempPoly = new CgPolyline(idGen->getNextId());
-        tempPoly->addVertice(glm::vec3(0.3f,-0.4f,0.0f));
-        tempPoly->addVertice(glm::vec3(0.3f,-0.3f,0.0f));
-        tempPoly->addVertice(glm::vec3(0.3f,-0.2f,0.0f));
-        tempPoly->addVertice(glm::vec3(0.3f,-0.1f,0.0f));
-        tempPoly->addVertice(glm::vec3(0.3f,-0.0f,0.0f));
-        tempPoly->addVertice(glm::vec3(0.3f,-0.1f,0.0f));
-        tempPoly->addVertice(glm::vec3(0.3f,-0.2f,0.0f));
-    m_rotation_body = new CgRotationBody(idGen->getNextId(), tempPoly, 4);
+//    tempPoly = new CgPolyline(idGen->getNextId());
+//        tempPoly->addVertice(glm::vec3(0.3f,0.4f,0.0f));
+//        tempPoly->addVertice(glm::vec3(0.3f,0.3f,0.0f));
+//        tempPoly->addVertice(glm::vec3(0.3f,0.2f,0.0f));
+//        tempPoly->addVertice(glm::vec3(0.3f,0.1f,0.0f));
+//        tempPoly->addVertice(glm::vec3(0.3f,0.0f,0.0f));
+//        tempPoly->addVertice(glm::vec3(0.3f,-0.1f,0.0f));
+//        tempPoly->addVertice(glm::vec3(0.3f,-0.2f,0.0f));
+    m_rotation_body = new CgRotationBody(idGen->getNextId(), m_rotation_curve, 50);
 
 
 
