@@ -6,6 +6,7 @@
 #include "CgPolyline.h"
 #include "CgCube.h"
 #include "CgCylinder.h"
+#include "CgRotationBody.h"
 #include "CgUtils/IdSingleton.h"
 #include <glm/glm.hpp>
 #include <vector>
@@ -38,7 +39,9 @@ private:
     std::vector<CgPolyline*>* m_cube_normals;
     CgCylinder* m_cylinder;
     std::vector<CgPolyline*>* m_cylinder_normals;
-    CgPolyline* m_rotationCurve;
+    CgPolyline* m_rotation_curve;
+    CgRotationBody* m_rotation_body;
+
 
     //Objects do display
     bool renderCoordinateSystem;
@@ -47,6 +50,7 @@ private:
     bool renderCylinder;
     bool renderCylinderNormals;
     bool renderRotationCurve;
+    bool renderRotationBody;
 
     //Coordinatesystem
     CgPolyline* x_Axis;

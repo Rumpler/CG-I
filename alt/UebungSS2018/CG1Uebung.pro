@@ -27,7 +27,7 @@ SOURCES += main.cpp \
     CgEvents/CgResetEvent.cpp \
     CgUtils/CgUtils.cpp \
     CgEvents/CgSubdivisionEvent.cpp \
-    CgSceneGraph/CgRotationbody.cpp
+    CgSceneGraph/CgRotationBody.cpp
 
 HEADERS += \
     CgBase/CgBaseRenderWindow.h \
@@ -63,5 +63,5 @@ HEADERS += \
     CgEvents/CgResetEvent.h \
     CgUtils/CgUtils.h \
     CgEvents/CgSubdivisionEvent.h \
-    CgSceneGraph/CgRotationbody.h
+    CgSceneGraph/CgRotationBody.h
 

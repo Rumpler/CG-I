@@ -6,13 +6,14 @@
 #include <CgBase/CgBaseTriangleMesh.h>
 
 #include <CgUtils/IdSingleton.h>
+#include <CgUtils/CgUtils.h>
 
 
 
-class CgRotationbody: public CgBaseTriangleMesh
+class CgRotationBody: public CgBaseTriangleMesh
 {
 public:
-    CgRotationbody(int id, CgPolyline* conourCurve);
+    CgRotationBody(int id, CgPolyline* conourCurve, int amountOfSegments);
 
     // CgBaseRenderableObject interface
     Cg::ObjectType getType() const;

@@ -16,6 +16,13 @@ void CgUtils::printVec3(std::string str, glm::vec3 *vec)
     std::cout<< str << ":(" << vec->x << "," << vec->y << "," << vec->z << ")" << std::endl;
 }
 
+//void CgUtils::printVecVector(std::vector<glm::vec3> *vector)
+//{
+////    for(glm::vec3 v : vector){
+////        printVec3(v);
+////    }
+//}
+
 glm::vec3 CgUtils::calcFocusPointTriangle(glm::vec3 v1, glm::vec3 v2, glm::vec3 v3)
 {
     return glm::vec3(   (v1.x + v2.x + v3.x) / 3.0,

@@ -36,7 +36,9 @@ CgSceneControl::CgSceneControl()
     renderCubeNormals = false;
     renderCylinder = false;
     renderCylinderNormals = false;
-    renderRotationCurve = true;
+    renderRotationCurve = false;         //TODO set false
+    renderRotationBody = true;
+
 
     //Objects for rendering
     m_cube = new CgCube(idGen->getNextId());
@@ -44,8 +46,12 @@ CgSceneControl::CgSceneControl()
     m_cylinder = new CgCylinder(idGen->getNextId(), 50, 0.5);
     m_cylinder_normals = m_cylinder->getPolylineNormals();
 
-    m_rotationCurve = new CgPolyline(idGen->getNextId());
-    m_rotationCurve->setRotationCurveExample1();
+    m_rotation_curve = new CgPolyline(idGen->getNextId());
+    m_rotation_curve->setRotationCurveExample1();
+
+    m_rotation_body = new CgRotationBody(idGen->getNextId(), m_rotation_curve, 4);
+
+
 
 
     //Matrix
@@ -67,7 +73,7 @@ CgSceneControl::~CgSceneControl()
     delete m_cylinder;
     m_cylinder_normals->clear();
 
-    delete m_rotationCurve;
+    delete m_rotation_curve;
 }
 
 void CgSceneControl::setRenderer(CgBaseRenderer* r)
@@ -96,7 +102,9 @@ void CgSceneControl::setRenderer(CgBaseRenderer* r)
         m_renderer->init(poly);
     }
 
-    m_renderer->init(m_rotationCurve);
+    m_renderer->init(m_rotation_curve);
+
+    m_renderer->init(m_rotation_body);
 }
 
 
@@ -150,7 +158,11 @@ void CgSceneControl::renderObjects()
     }
 
     if(renderRotationCurve){
-        m_renderer->render(m_rotationCurve, m_current_transformation);
+        m_renderer->render(m_rotation_curve, m_current_transformation);
+    }
+
+    if(renderRotationBody){
+        m_renderer->render(m_rotation_body, m_current_transformation);
     }
 
 
@@ -240,8 +252,8 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
             m_renderer->init(poly);
         }
 
-        m_rotationCurve->setRotationCurveExample1();
-        m_renderer->init(m_rotationCurve);
+        m_rotation_curve->setRotationCurveExample1();
+        m_renderer->init(m_rotation_curve);
 
         m_renderer->redraw();
     }
@@ -250,8 +262,8 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         /*CgSubdivisionEvent* ev = (CgSubdivisionEvent*) e;
         std::cout << *(ev) << std::endl;*/
 
-        m_rotationCurve->sdForPointScheme();
-        m_renderer->init(m_rotationCurve);
+        m_rotation_curve->sdForPointScheme();
+        m_renderer->init(m_rotation_curve);
         m_renderer->redraw();
 
 
