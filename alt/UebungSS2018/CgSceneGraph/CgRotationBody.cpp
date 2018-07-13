@@ -14,34 +14,43 @@ CgRotationBody::CgRotationBody(int id, CgPolyline* contourCurve, int amountOfSeg
     double angleOfRotation = 360.0 / amountOfSegments;
     angleOfRotation = ((2.0 * M_PI) / 360.0) * angleOfRotation;     //Translate in rad
 
-    //Vars for loop
+    //Vars for loops
     double currentAngle;
     glm::vec3 currentRotateVertice;
+    int layerCounter;
 
     /* ##################### Add all vertices ##################### */
     for(int i = 0; i < contourCurveVertices.size() /* ? */; i++){   //For every vertice in contourCurve
         currentRotateVertice = contourCurveVertices.at(i);
 
         for(int j = 0; j < amountOfSegments; j++){                  //Rotate current vertice and add to vertices
-            currentAngle = currentAngle * j;
+            currentAngle = angleOfRotation * j;
             m_vertices.push_back(CgUtils::rotatePointYAxis(currentAngle, currentRotateVertice));
         }
     }
 
+    /* ##################### Add triangle indices ##################### */
+    for(int i = 0; i < amountOfSegments * (contourCurveVertices.size() - 2); i++){
+        layerCounter = (i / amountOfSegments) + 1;
+        m_triangle_indices.push_back(i);
+        m_triangle_indices.push_back( ((i + 1) % amountOfSegments) + (layerCounter * amountOfSegments) );
+        m_triangle_indices.push_back(i + amountOfSegments);
+
+        std::cout << i << " i " << std::endl;
+        std::cout << ((i + 1) % amountOfSegments) + (layerCounter * amountOfSegments) << " ((i + 1) % amountOfSegments) + (layerCounter * amountOfSegments) "  << std::endl;
+        std::cout << i + amountOfSegments << " i + amountOfSegments "  << std::endl;
+        std::cout << std::endl;
+
+//        m_triangle_indices.push_back( ((i + 1) % amountOfSegments) + (layerCounter * amountOfSegments));
+//        m_triangle_indices.push_back( ((i + 1) % amountOfSegments) + (layerCounter * amountOfSegments) + amountOfSegments);
+//        m_triangle_indices.push_back(i + amountOfSegments);
+
+
+    }
 
 
 
-
-
-
-
-
-
-
-    m_triangle_indices.push_back(0);
-    m_triangle_indices.push_back(1);
-    m_triangle_indices.push_back(2);
-
+    //CgUtils::printVecVector(&m_vertices);
 }
 
 Cg::ObjectType CgRotationBody::getType() const
