@@ -93,10 +93,12 @@ private:
     //Panels
     QWidget*               m_panel_objects;
     QWidget*               m_panel_rotate_objects;
+    QWidget*               m_panel_tranformation;
 
 
     void createOptionPanelObjects(QWidget* parent);
     void createOptionPanelRotateObjects(QWidget* parent);
+    void createOptionPanelTransformation(QWidget* parent);
 
     QButtonGroup* ButtonGroupObjects;
 
@@ -136,6 +138,9 @@ private slots:
     void slotShowRotationCurve();
     void slotShowRotationBody();
     void slotShowLoadedObject();
+
+    void slotScalePlus();
+    void slotScaleMinus();
 
 
 

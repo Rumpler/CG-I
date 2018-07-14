@@ -29,6 +29,8 @@ public:
 private:
 
     void loadMeshObject(std::string file);
+    void scale(glm::vec3 scale);
+
 
     CgBaseRenderer* m_renderer;
     glm::vec3 color;

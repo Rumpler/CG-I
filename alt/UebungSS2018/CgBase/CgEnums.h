@@ -13,32 +13,6 @@
 namespace Cg{
 
 typedef enum EventType {
-//    CgMouseButtonPress              = 0x00000001,
-//    CgMouseButtonRelease            = 0x00000002,
-//    CgMouseMove                     = 0x00000004,
-//    CgMouseWheel                    = 0x00000008,
-//    CgMouseEvent                    = 0x0000000F,
-//    CgKeyPressEvent                 = 0x00000010,
-//    CgKeyReleaseEvent               = 0x00000020,
-//    CgSubdivisionEvent              = 0x00000040,
-//    CgKeyEvent                      = 0x000000F0,
-//    /*WindowResizeEvent             = 0x0000100,
-//    CgColorChangeEvent              = 0x0001000,
-//    CgObjectSelectionChangeEvent    = 0x0002000,
-//    CgValueChangedEvent             = 0x0004000,
-//    CgResetEvent                    = 0x0008000,
-//    CgSubdivisionEvent              = 0x000f000,*/
-
-//    WindowResizeEvent               = 0x00000100,
-//    CgColorChangeEvent              = 0x00001000,
-//    CgObjectSelectionChangeEvent    = 0x00002000,
-//    CgValueChangedEvent             = 0x00004000,
-//    CgResetEvent                    = 0x00008000,
-//    //CgSubdivisionEvent              = 0x0000f000,
-
-
-    /********************************************/
-
     CgMouseButtonPress              = 1,
     CgMouseButtonRelease            = 2,
     CgMouseMove                     = 3,
@@ -54,6 +28,7 @@ typedef enum EventType {
     CgValueChangedEvent             = 13,
     CgResetEvent                    = 14,
     CgLoadEvent                     = 15,
+    CgTransformationEvent           = 16,
 
 }EventType;
 

@@ -31,6 +31,7 @@
 #include <CgEvents/CgLoadEvent.h>
 #include <CgEvents/CgResetEvent.h>
 #include <CgEvents/CgSubdivisionEvent.h>
+#include <CgEvents/CgTransformationEvent.h>
 
 
 
@@ -51,11 +52,14 @@ CgQtGui::CgQtGui(CgQtMainApplication *mw)
     createOptionPanelObjects(m_panel_objects);
     m_panel_rotate_objects = new QWidget;
     createOptionPanelRotateObjects(m_panel_rotate_objects);
+    m_panel_tranformation = new QWidget;
+    createOptionPanelTransformation(m_panel_tranformation);
 
     QTabWidget* m_tabs = new QTabWidget();
 
     m_tabs->addTab(m_panel_objects,"&Objects");
     m_tabs->addTab(m_panel_rotate_objects, "&Rotate Objects");
+    m_tabs->addTab(m_panel_tranformation, "&Tranformation");
     container->addWidget(m_tabs);
 
     m_tabs->setMaximumWidth(400);
@@ -340,6 +344,31 @@ void CgQtGui::createOptionPanelRotateObjects(QWidget *parent)
     parent->setLayout(panel_layout);
 }
 
+void CgQtGui::createOptionPanelTransformation(QWidget *parent)
+{
+    QVBoxLayout *panel_layout = new QVBoxLayout();
+
+        QGroupBox* gbScale = new QGroupBox("Scaling");
+        QHBoxLayout* gblScale = new QHBoxLayout;
+
+        //Button Scale +
+        QPushButton* btScalePlus = new QPushButton("&Scale bigger (+)");
+        connect(btScalePlus, SIGNAL( clicked() ), this, SLOT(slotScalePlus()) );
+        gblScale->addWidget(btScalePlus);
+
+        //Button Scale -
+        QPushButton* btScaleMinus = new QPushButton("&Scale smaller (-)");
+        connect(btScaleMinus, SIGNAL( clicked() ), this, SLOT(slotScaleMinus()) );
+        gblScale->addWidget(btScaleMinus);
+
+
+
+        gbScale->setLayout(gblScale);
+        panel_layout->addWidget(gbScale);
+        panel_layout->addStretch(1);
+    parent->setLayout(panel_layout);
+}
+
 
 
 
@@ -379,6 +408,18 @@ void CgQtGui::slotShowRotationBody()
 void CgQtGui::slotShowLoadedObject()
 {
     showObject(7);
+}
+
+void CgQtGui::slotScalePlus()
+{
+    CgTransformationEvent *e = new CgTransformationEvent(glm::vec3(1.1f));
+    notifyObserver(e);
+}
+
+void CgQtGui::slotScaleMinus()
+{
+    CgTransformationEvent *e = new CgTransformationEvent(glm::vec3(0.9f));
+    notifyObserver(e);
 }
 
 void CgQtGui::showObject(int i)
