@@ -12,6 +12,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <CgEvents/CgResetEvent.h>
 #include <CgEvents/CgSubdivisionEvent.h>
+#include <CgUtils/ObjLoader.h>
 
 CgSceneControl::CgSceneControl()
 {
@@ -187,25 +188,53 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
 {
 
 
-    if(e->getType() & Cg::CgMouseEvent)
+    if(e->getType() == Cg::CgMouseEvent)
     {
+        std::cout << "CgMouseEvent" << std::endl;
         //CgMouseEvent* ev = (CgMouseEvent*)e;
         //std::cout << *ev << std::endl;
     }
 
-    if(e->getType() & Cg::CgKeyEvent)
+    if(e->getType() == Cg::CgKeyEvent)
     {
-        /*CgKeyEvent* ev = (CgKeyEvent*) e;
-        std::cout << *(ev) << std::endl;*/
-        CgKeyEvent* ev = (CgKeyEvent*)e;
-        //std::cout << *ev <<std::endl;
+        std::cout << "CgKeyEvent" << std::endl;
+        CgKeyEvent* ev = (CgKeyEvent*) e;
+        std::cout << *ev <<std::endl; //ERROR
 
         if(ev->key() & Cg::Key_Escape){
             exit(0);
         }
+
+        if(ev->key() & Cg::Key_B){
+            std::cout << "Hello b" << std::endl;
+
+
+
+            /********************** OBJ Loader **********************/
+
+
+
+            std::string filename = "/home/gerrit/git/CG-I/alt/UebungSS2018/CgData/bunny.obj";
+            ObjLoader loader;
+            loader.load(filename);
+
+            std::vector<glm::vec3> pos;
+            loader.getPositionData(pos);
+
+            std::vector<unsigned int> index;
+            loader.getFaceIndexData(index);
+
+            CgTriangles *loadedObj = new CgTriangles(idGen->getNextId(), &pos, &index);
+
+            m_renderer->init(loadedObj);
+            m_renderer->render(loadedObj, m_current_transformation);
+
+
+        }
     }
 
-    if(e->getType() & Cg::WindowResizeEvent)
+
+    if(e->getType() == Cg::WindowResizeEvent)
     {
         /*WindowResizeEvent* ev = (WindowResizeEvent*) e;
         std::cout << *(ev) << std::endl;*/
@@ -214,7 +243,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         m_proj_matrix=glm::perspective(45.0f, (float)(ev->w()) / ev->h(), 0.01f, 100.0f);
     }
 
-    if(e->getType() & Cg::CgColorChangeEvent)
+    if(e->getType() == Cg::CgColorChangeEvent)
     {
         /*CgColorChangeEvent* ev = (CgColorChangeEvent*) e;
         std::cout << *(ev) << std::endl;*/
@@ -223,11 +252,12 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         m_renderer->redraw();
     }
 
-    if(e->getType() & Cg::CgObjectSelectionChangeEvent)
+
+    if(e->getType() == Cg::CgObjectSelectionChangeEvent)
     {
 
         CgObjectSelectionChangeEvent* ev = (CgObjectSelectionChangeEvent*)e;
-        /*std::cout << *(ev) << std::endl;*/
+//        std::cout << *(ev) << std::endl;
         renderCoordinateSystem = ev->getRenderCoordinateSystem();
         renderCube = ev->getRenderCube();
         renderCubeNormals = ev->getRenderCubeNormals();
@@ -238,10 +268,10 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         m_renderer->redraw();
     }
 
-    if(e->getType() & Cg::CgValueChangedEvent)
+    if(e->getType() == Cg::CgValueChangedEvent)
     {
         CgValueChangedEvent* ev = (CgValueChangedEvent*) e;
-        /*std::cout << *(ev) << std::endl;*/
+//        std::cout << *(ev) << std::endl;
 
         if(ev->getCylinderChanged()){
             m_cylinder_normals->clear();
@@ -269,32 +299,15 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         m_renderer->redraw();
     }
 
-    if(e->getType() & Cg::CgResetEvent)
+
+    if(e->getType() == Cg::CgResetEvent)
     {
         std::cout << "Empty Reset-Event called" << std::endl;
-//        CgResetEvent* ev = (CgResetEvent*) e;
-//        /*std::cout << *(ev) << std::endl;*/
-
-//        if(ev->getResetCylinder()){
-//            m_cylinder_normals->clear();
-//            delete m_cylinder;
-//            m_cylinder = new CgCylinder(IdSingleton::instance()->getNextId(), 50, 0.5);
-//            m_renderer->init(m_cylinder);
-//            m_cylinder_normals = m_cylinder->getPolylineNormals();
-//            for(CgPolyline* poly : *(m_cylinder_normals)){
-//                m_renderer->init(poly);
-//            }
-//        }
-
-//        if(ev->getResetRotationCurve()){
-
-//        }
-
     }
 
-    if(e->getType() & Cg::CgSubdivisionEvent){
-        /*CgSubdivisionEvent* ev = (CgSubdivisionEvent*) e;
-        std::cout << *(ev) << std::endl;*/
+    if(e->getType() == Cg::CgSubdivisionEvent){
+        CgSubdivisionEvent* ev = (CgSubdivisionEvent*) e;
+        std::cout << *(ev) << std::endl;
 
         m_rotation_curve->sdForPointScheme();
         m_renderer->init(m_rotation_curve);

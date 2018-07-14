@@ -2,30 +2,17 @@
 #include "CgBase/CgEnums.h"
 
 
-CgTriangles::CgTriangles(int id):
+CgTriangles::CgTriangles(int id, std::vector<glm::vec3> *pos, std::vector<unsigned int> *index):
 m_type(Cg::TriangleMesh),
 m_id(id)
 {
+    for(glm::vec3 vertice : *pos){
+        m_vertices.push_back(vertice);
+    }
+    for(unsigned int i : *index){
+        m_triangle_indices.push_back(i);
+    }
 
-    m_vertices.push_back(glm::vec3(-0.5,0.0,0.0));
-    m_vertices.push_back(glm::vec3(0.0,-0.5,0.0));
-    m_vertices.push_back(glm::vec3(0.0,0.5,0.0));
-    m_vertices.push_back(glm::vec3(0.5,0.0,0.0));
-
-    m_triangle_indices.push_back(0);
-    m_triangle_indices.push_back(1);
-    m_triangle_indices.push_back(2);
-    m_triangle_indices.push_back(2);
-    m_triangle_indices.push_back(1);
-    m_triangle_indices.push_back(3);
-
-    m_face_colors.push_back(glm::vec3(100.0,200.0,1.0));
-    m_face_colors.push_back(glm::vec3(200.0,1.0,1.0));
-
-    m_vertex_normals.push_back(glm::vec3(0.0,0.0,1.0));
-    m_vertex_normals.push_back(glm::vec3(0.0,0.0,1.0));
-    m_vertex_normals.push_back(glm::vec3(0.0,0.0,1.0));
-    m_vertex_normals.push_back(glm::vec3(0.0,0.0,1.0));
 
 }
 

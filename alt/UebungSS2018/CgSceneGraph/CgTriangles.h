@@ -12,7 +12,7 @@ class CgTriangles : public CgBaseTriangleMesh
 {
 
 public:
-    CgTriangles(int id);
+    CgTriangles(int id, std::vector<glm::vec3> *pos, std::vector<unsigned int> *index);
     ~CgTriangles();
 
     //inherited from CgBaseRenderableObject

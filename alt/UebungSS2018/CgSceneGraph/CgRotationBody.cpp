@@ -36,20 +36,9 @@ CgRotationBody::CgRotationBody(int id, CgPolyline* contourCurve, int amountOfSeg
         m_triangle_indices.push_back( ((i + 1) % amountOfSegments) + (layerCounter * amountOfSegments) + amountOfSegments);
         m_triangle_indices.push_back(i + amountOfSegments);
 
-        std::cout << ((i + 1) % amountOfSegments) + (layerCounter * amountOfSegments) << " ((i + 1) % amountOfSegments) + (layerCounter * amountOfSegments) "  << std::endl;
-        std::cout << i + amountOfSegments << " i + amountOfSegments "  << std::endl;
-        std::cout << std::endl;
-
         m_triangle_indices.push_back(i);
         m_triangle_indices.push_back( ((i + 1) % amountOfSegments) + (layerCounter * amountOfSegments));
         m_triangle_indices.push_back( ((i + 1) % amountOfSegments) + (layerCounter * amountOfSegments) + amountOfSegments);
-
-
-
-
-
-
-
     }
 
 
