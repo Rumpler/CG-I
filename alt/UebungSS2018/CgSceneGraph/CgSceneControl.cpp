@@ -199,6 +199,7 @@ void CgSceneControl::loadMeshObject(std::string file)
 
 void CgSceneControl::scale(glm::vec3 scale)
 {
+    //TODO plus instead of mult ?
     m_current_transformation[0].x = m_current_transformation[0].x * scale.x;
     m_current_transformation[1].y = m_current_transformation[1].y * scale.y;
     m_current_transformation[2].z = m_current_transformation[2].z * scale.z;
