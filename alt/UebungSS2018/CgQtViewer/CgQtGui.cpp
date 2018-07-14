@@ -456,16 +456,14 @@ void CgQtGui::slotResetRotationCurve()
 
 void CgQtGui::slotLoadMeshFile()
 {
-    std::cout << "load Mesh file callback reached, but not implemented..." << std::endl;
     // Hier FileChooser öffnen, datei selektieren
     // und dann neuen Event implementieren, der das an den Controller schickt.
     // dort wird dann die Datei tatsächliche geöffnet und ein entsprechendes Mesh Objekt angelegt
     // im View(GUI) passiert nichts außer festellung DASS geladen werden soll und welche Datei und zu welchem Zweck (Mesh)
 
-//    QString fileName = QFileDialog::getOpenFileName(this, ("Open .obj"), "/home/gerrit/git/CG-I/alt/UebungSS2018/CgData", ("Object-file (*.obj)"));
+    QString fileName = QFileDialog::getOpenFileName(this, ("Open .obj"), "/home/gerrit/git/CG-I/alt/UebungSS2018/CgData", ("Object-file (*.obj)"));
 
-//    std::cout << fileName.toStdString() << std::endl;
-
+    std::cout << fileName.toStdString() << std::endl;
 }
 
 

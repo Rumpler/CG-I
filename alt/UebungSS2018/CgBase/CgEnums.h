@@ -53,6 +53,7 @@ typedef enum EventType {
     CgObjectSelectionChangeEvent    = 12,
     CgValueChangedEvent             = 13,
     CgResetEvent                    = 14,
+    CgLoadEvent                     = 15,
 
 }EventType;
 

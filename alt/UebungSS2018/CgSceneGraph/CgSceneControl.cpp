@@ -39,6 +39,7 @@ CgSceneControl::CgSceneControl()
     renderCylinderNormals = false;
     renderRotationCurve = false;
     renderRotationBody = false;
+    renderLoadedObj = true; //TODO false
 
 
     //Objects for rendering
@@ -50,23 +51,9 @@ CgSceneControl::CgSceneControl()
     m_rotation_curve = new CgPolyline(idGen->getNextId());
     m_rotation_curve->setRotationCurveExample1();
 
-   // m_rotation_body = new CgRotationBody(idGen->getNextId(), m_rotation_curve, 4);
-
-
-//    tempPoly = new CgPolyline(idGen->getNextId());
-//        tempPoly->addVertice(glm::vec3(0.3f,0.4f,0.0f));
-//        tempPoly->addVertice(glm::vec3(0.3f,0.3f,0.0f));
-//        tempPoly->addVertice(glm::vec3(0.3f,0.2f,0.0f));
-//        tempPoly->addVertice(glm::vec3(0.3f,0.1f,0.0f));
-//        tempPoly->addVertice(glm::vec3(0.3f,0.0f,0.0f));
-//        tempPoly->addVertice(glm::vec3(0.3f,-0.1f,0.0f));
-//        tempPoly->addVertice(glm::vec3(0.3f,-0.2f,0.0f));
     m_rotation_body = new CgRotationBody(idGen->getNextId(), m_rotation_curve, 50);
 
-
-
-
-
+    m_loaded_obj = new CgTriangles(idGen->getNextId());
 
     //Matrix
     m_current_transformation=glm::mat4(1.);
@@ -119,6 +106,8 @@ void CgSceneControl::setRenderer(CgBaseRenderer* r)
     m_renderer->init(m_rotation_curve);
 
     m_renderer->init(m_rotation_body);
+
+    m_renderer->init(m_loaded_obj);
 }
 
 
@@ -179,7 +168,28 @@ void CgSceneControl::renderObjects()
         m_renderer->render(m_rotation_body, m_current_transformation);
     }
 
+    if(renderLoadedObj){
+        m_renderer->render(m_loaded_obj, m_current_transformation);
+    }
 
+
+}
+
+void CgSceneControl::loadMeshObject(std::string file)
+{
+    /********************** OBJ Loader **********************/
+
+    ObjLoader loader;
+    loader.load(file);
+    std::vector<glm::vec3> pos;
+    loader.getPositionData(pos);
+    std::vector<unsigned int> index;
+    loader.getFaceIndexData(index);
+
+    delete m_loaded_obj;
+    m_loaded_obj = new CgTriangles(idGen->getNextId(), &pos, &index);
+    m_renderer->init(m_loaded_obj);
+    m_renderer->redraw();
 }
 
 
@@ -190,56 +200,29 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
 
     if(e->getType() == Cg::CgMouseEvent)
     {
-        std::cout << "CgMouseEvent" << std::endl;
         //CgMouseEvent* ev = (CgMouseEvent*)e;
         //std::cout << *ev << std::endl;
     }
 
-    if(e->getType() == Cg::CgKeyEvent)
+    if(e->getType() == Cg::CgKeyEvent || e->getType() == Cg::CgKeyPressEvent)
     {
-        std::cout << "CgKeyEvent" << std::endl;
         CgKeyEvent* ev = (CgKeyEvent*) e;
-        std::cout << *ev <<std::endl; //ERROR
+//        std::cout << *ev <<std::endl;
 
         if(ev->key() & Cg::Key_Escape){
             exit(0);
         }
 
         if(ev->key() & Cg::Key_B){
-            std::cout << "Hello b" << std::endl;
-
-
-
-            /********************** OBJ Loader **********************/
-
-
-
-            std::string filename = "/home/gerrit/git/CG-I/alt/UebungSS2018/CgData/bunny.obj";
-            ObjLoader loader;
-            loader.load(filename);
-
-            std::vector<glm::vec3> pos;
-            loader.getPositionData(pos);
-
-            std::vector<unsigned int> index;
-            loader.getFaceIndexData(index);
-
-            CgTriangles *loadedObj = new CgTriangles(idGen->getNextId(), &pos, &index);
-
-            m_renderer->init(loadedObj);
-            m_renderer->render(loadedObj, m_current_transformation);
-
-
+           //loadMeshObject("/home/gerrit/git/CG-I/alt/UebungSS2018/CgData/bunny.obj");
         }
     }
 
 
     if(e->getType() == Cg::WindowResizeEvent)
     {
-        /*WindowResizeEvent* ev = (WindowResizeEvent*) e;
-        std::cout << *(ev) << std::endl;*/
         CgWindowResizeEvent* ev = (CgWindowResizeEvent*)e;
-        std::cout << *ev <<std::endl;
+//        std::cout << *ev <<std::endl;
         m_proj_matrix=glm::perspective(45.0f, (float)(ev->w()) / ev->h(), 0.01f, 100.0f);
     }
 
@@ -290,7 +273,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         }
 
         if(ev->getRotationBodyChanged()){
-            std::cout << "RotationBodyChanged" << std::endl;
+//            std::cout << "RotationBodyChanged" << std::endl;
             delete m_rotation_body;
             m_rotation_body = new CgRotationBody(idGen->getNextId(), m_rotation_curve, ev->getValueAmountOfSegmentsRotationBody());
             m_renderer->init(m_rotation_body);
@@ -315,5 +298,13 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
 
 
     }
+
+    if(e->getType() == Cg::CgLoadEvent){
+
+    }
+
+
+
+
     delete e;
 }

@@ -28,6 +28,8 @@ public:
 
 private:
 
+    void loadMeshObject(std::string file);
+
     CgBaseRenderer* m_renderer;
     glm::vec3 color;
 
@@ -42,7 +44,9 @@ private:
     CgPolyline* m_rotation_curve;
     CgRotationBody* m_rotation_body;
 
-    CgPolyline* tempPoly;
+    CgTriangles* m_loaded_obj;
+
+
 
 
     //Objects do display
@@ -53,6 +57,8 @@ private:
     bool renderCylinderNormals;
     bool renderRotationCurve;
     bool renderRotationBody;
+
+    bool renderLoadedObj;
 
     //Coordinatesystem
     CgPolyline* x_Axis;
