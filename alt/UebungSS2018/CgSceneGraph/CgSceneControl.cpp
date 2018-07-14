@@ -10,6 +10,7 @@
 #include "CgTriangles.h"
 #include <iostream>
 #include <glm/gtc/matrix_transform.hpp>
+#include <CgEvents/CgLoadEvent.h>
 #include <CgEvents/CgResetEvent.h>
 #include <CgEvents/CgSubdivisionEvent.h>
 #include <CgUtils/ObjLoader.h>
@@ -75,6 +76,8 @@ CgSceneControl::~CgSceneControl()
     m_cylinder_normals->clear();
 
     delete m_rotation_curve;
+    delete m_rotation_body;
+    delete m_loaded_obj;
 }
 
 void CgSceneControl::setRenderer(CgBaseRenderer* r)
@@ -300,7 +303,9 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     }
 
     if(e->getType() == Cg::CgLoadEvent){
-
+        CgLoadEvent *ev = (CgLoadEvent*) e;
+        std::cout << "eventMethod " << ev->getFilename() << std::endl;
+        loadMeshObject(ev->getFilename());
     }
 
 

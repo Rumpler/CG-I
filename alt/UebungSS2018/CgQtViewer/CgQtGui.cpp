@@ -30,6 +30,7 @@
 #include <QActionGroup>
 #include <iostream>
 #include <QFileDialog>
+#include <CgEvents/CgLoadEvent.h>
 #include <CgEvents/CgResetEvent.h>
 #include <CgEvents/CgSubdivisionEvent.h>
 
@@ -463,7 +464,11 @@ void CgQtGui::slotLoadMeshFile()
 
     QString fileName = QFileDialog::getOpenFileName(this, ("Open .obj"), "/home/gerrit/git/CG-I/alt/UebungSS2018/CgData", ("Object-file (*.obj)"));
 
-    std::cout << fileName.toStdString() << std::endl;
+    std::cout <<"slotMethod " << fileName.toStdString() << std::endl;
+
+    CgLoadEvent *e = new CgLoadEvent();
+    e->setFilename(fileName.toStdString());
+    notifyObserver(e);
 }
 
 
