@@ -351,20 +351,41 @@ void CgQtGui::createOptionPanelTransformation(QWidget *parent)
         QGroupBox* gbScale = new QGroupBox("Scaling");
         QHBoxLayout* gblScale = new QHBoxLayout;
 
-        //Button Scale +
-        QPushButton* btScalePlus = new QPushButton("&Scale bigger (+)");
-        connect(btScalePlus, SIGNAL( clicked() ), this, SLOT(slotScalePlus()) );
-        gblScale->addWidget(btScalePlus);
+            //Button Scale +
+            QPushButton* btScalePlus = new QPushButton("&Scale bigger (+)");
+            connect(btScalePlus, SIGNAL( clicked() ), this, SLOT(slotScalePlus()) );
+            gblScale->addWidget(btScalePlus);
 
-        //Button Scale -
-        QPushButton* btScaleMinus = new QPushButton("&Scale smaller (-)");
-        connect(btScaleMinus, SIGNAL( clicked() ), this, SLOT(slotScaleMinus()) );
-        gblScale->addWidget(btScaleMinus);
-
-
+            //Button Scale -
+            QPushButton* btScaleMinus = new QPushButton("&Scale smaller (-)");
+            connect(btScaleMinus, SIGNAL( clicked() ), this, SLOT(slotScaleMinus()) );
+            gblScale->addWidget(btScaleMinus);
 
         gbScale->setLayout(gblScale);
         panel_layout->addWidget(gbScale);
+
+
+        QGroupBox* gbRotating = new QGroupBox("Rotating");
+        QHBoxLayout* gblRotating = new QHBoxLayout;
+
+            //Button Rotate X Axis
+            QPushButton* btRotateX = new QPushButton("&X Axis (x)");
+            connect(btRotateX, SIGNAL( clicked() ), this, SLOT(slotRotateX()) );
+            gblRotating->addWidget(btRotateX);
+
+            //Button Rotate Y Axis
+            QPushButton* btRotateY = new QPushButton("&Y Axis (y)");
+            connect(btRotateY, SIGNAL( clicked() ), this, SLOT(slotRotateY()) );
+            gblRotating->addWidget(btRotateY);
+
+            //Button Rotate Z Axis
+            QPushButton* btRotateZ = new QPushButton("&Z Axis (z)");
+            connect(btRotateZ, SIGNAL( clicked() ), this, SLOT(slotRotateZ()) );
+            gblRotating->addWidget(btRotateZ);
+
+        gbRotating->setLayout(gblRotating);
+        panel_layout->addWidget(gbRotating);
+
         panel_layout->addStretch(1);
     parent->setLayout(panel_layout);
 }
@@ -419,6 +440,30 @@ void CgQtGui::slotScalePlus()
 void CgQtGui::slotScaleMinus()
 {
     CgTransformationEvent *e = new CgTransformationEvent(glm::vec3(0.9f));
+    notifyObserver(e);
+}
+
+void CgQtGui::slotRotateX()
+{
+    CgTransformationEvent *e = new CgTransformationEvent(glm::vec3(1.0f));
+    e->setRotate(true);
+    e->setRotateAxis(glm::vec3(1.0f,0.0f,0.0f));
+    notifyObserver(e);
+}
+
+void CgQtGui::slotRotateY()
+{
+    CgTransformationEvent *e = new CgTransformationEvent(glm::vec3(1.0f));
+    e->setRotate(true);
+    e->setRotateAxis(glm::vec3(0.0f,1.0f,0.0f));
+    notifyObserver(e);
+}
+
+void CgQtGui::slotRotateZ()
+{
+    CgTransformationEvent *e = new CgTransformationEvent(glm::vec3(1.0f));
+    e->setRotate(true);
+    e->setRotateAxis(glm::vec3(0.0f,0.0f,1.0f));
     notifyObserver(e);
 }
 
@@ -502,11 +547,6 @@ void CgQtGui::slotResetRotationCurve()
     slotRotationBodyChanged();
 }
 
-
-
-
-
-
 void CgQtGui::slotLoadMeshFile()
 {
     QString fileName = QFileDialog::getOpenFileName(this, ("Load Mesh"), "/home/gerrit/git/CG-I/alt/UebungSS2018/CgData", ("Object-file (*.obj)"));
@@ -516,8 +556,7 @@ void CgQtGui::slotLoadMeshFile()
     slotShowLoadedObject();
 }
 
-
-
+//################################### SLOTS END ###################################
 
 void CgQtGui::mouseEvent(QMouseEvent* event)
 {         //TODO set false
@@ -557,13 +596,11 @@ void CgQtGui::keyPressEvent(QKeyEvent *event)
    notifyObserver(e);
 }
 
-
 void CgQtGui::viewportChanged(int w, int h)
 {
      CgBaseEvent* e = new CgWindowResizeEvent(Cg::WindowResizeEvent,w,h);
      notifyObserver(e);
 }
-
 
 CgBaseRenderer* CgQtGui::getRenderer()
 {

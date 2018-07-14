@@ -19,7 +19,7 @@ CgCylinder::CgCylinder(int id, int amountOfSegments, double height):
     //Initial values
     glm::vec3 initPoint = glm::vec3(0.2f, 0.0f, 0.0f);              //Init Point
     double angleOfRotation = 360.0 / amountOfSegments;
-    angleOfRotation = ((2.0 * M_PI) / 360.0) * angleOfRotation;     //Translate in rad
+    angleOfRotation = (2.0 * M_PI / 360.0) * angleOfRotation;     //Translate in rad
 
     //First 3 points
     m_vertices.push_back(glm::vec3(0.0f, (float)height, 0.0f));     //Top of cylinder

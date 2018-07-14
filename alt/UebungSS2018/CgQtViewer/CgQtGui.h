@@ -142,6 +142,10 @@ private slots:
     void slotScalePlus();
     void slotScaleMinus();
 
+    void slotRotateX();
+    void slotRotateY();
+    void slotRotateZ();
+
 
 
     void showObject(int i);

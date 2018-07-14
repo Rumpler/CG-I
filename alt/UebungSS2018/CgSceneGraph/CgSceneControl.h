@@ -10,6 +10,7 @@
 #include "CgUtils/IdSingleton.h"
 #include <glm/glm.hpp>
 #include <vector>
+#include <math.h>
 
 class CgBaseEvent;
 class CgBaseRenderer;
@@ -30,6 +31,8 @@ private:
 
     void loadMeshObject(std::string file);
     void scale(glm::vec3 scale);
+    void rotate(glm::vec3 axis, float angle);
+    void reset();
 
 
     CgBaseRenderer* m_renderer;
