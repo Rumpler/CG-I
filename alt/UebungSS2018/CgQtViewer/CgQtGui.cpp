@@ -1,5 +1,3 @@
-
-
 #include "CgQtGLRenderWidget.h"
 #include "CgQtGui.h"
 #include "CgQtMainApplication.h"
@@ -154,6 +152,7 @@ void CgQtGui::createOptionPanelObjects(QWidget *parent)
     QRadioButton* radiobuttonCylinderNormals = new QRadioButton("&Cylinder normals");
     QRadioButton* radiobuttonRotationCurve = new QRadioButton("&Rotation curve");
     QRadioButton* radiobuttonRotationBody = new QRadioButton("&Rotation Body");
+    QRadioButton* radiobuttonLoadedObject = new QRadioButton("&Loaded Object");
 
     radiobuttonCoordinateSystem->setChecked(true);
 
@@ -164,6 +163,7 @@ void CgQtGui::createOptionPanelObjects(QWidget *parent)
     ButtonGroupObjects->addButton(radiobuttonCylinderNormals,4);
     ButtonGroupObjects->addButton(radiobuttonRotationCurve,5);
     ButtonGroupObjects->addButton(radiobuttonRotationBody,6);
+    ButtonGroupObjects->addButton(radiobuttonLoadedObject,7);
 
     ButtonGroupObjects->button(2)->setDisabled(true);
     ButtonGroupObjects->button(4)->setDisabled(true);
@@ -176,6 +176,12 @@ void CgQtGui::createOptionPanelObjects(QWidget *parent)
     vbox->addWidget(radiobuttonCylinderNormals);
     vbox->addWidget(radiobuttonRotationCurve);
     vbox->addWidget(radiobuttonRotationBody);
+    vbox->addWidget(radiobuttonLoadedObject);
+
+    //Button Load Mesh File
+    QPushButton* buttonLoadMeshFile = new QPushButton("&Load Mesh");
+    connect(buttonLoadMeshFile, SIGNAL( clicked() ), this, SLOT(slotLoadMeshFile()) );
+    vbox->addWidget(buttonLoadMeshFile);
 
     vbox->addStretch(1);
     groupBox->setLayout(vbox);
@@ -362,21 +368,26 @@ void CgQtGui::slotShowCylinder()
 
 void CgQtGui::slotShowRotationCurve()
 {
-    for(QAbstractButton* b : ButtonGroupObjects->buttons()){
-        b->setChecked(false);
-    }
-    ButtonGroupObjects->button(0)->setChecked(true);
-    ButtonGroupObjects->button(5)->setChecked(true);
-    slotButtonGroupSelectionChanged();
+    showObject(5);
 }
 
 void CgQtGui::slotShowRotationBody()
+{
+    showObject(6);
+}
+
+void CgQtGui::slotShowLoadedObject()
+{
+    showObject(7);
+}
+
+void CgQtGui::showObject(int i)
 {
     for(QAbstractButton* b : ButtonGroupObjects->buttons()){
         b->setChecked(false);
     }
     ButtonGroupObjects->button(0)->setChecked(true);
-    ButtonGroupObjects->button(6)->setChecked(true);
+    ButtonGroupObjects->button(i)->setChecked(true);
     slotButtonGroupSelectionChanged();
 }
 
@@ -412,6 +423,7 @@ void CgQtGui::slotButtonGroupSelectionChanged()
     e->setRenderCylinderNormals(ButtonGroupObjects->button(4)->isChecked());
     e->setRenderRotationCurve(ButtonGroupObjects->button(5)->isChecked());
     e->setRenderRotationBody(ButtonGroupObjects->button(6)->isChecked());
+    e->setRenderLoadedObject(ButtonGroupObjects->button(7)->isChecked());
     notifyObserver(e);
 }
 
@@ -431,7 +443,6 @@ void CgQtGui::slotRotationBodyChanged()
     e->setRotationBodyChanged(true);
     e->setValueAmountOfSegmentsRotationBody(spinBoxAmountOfSegmentsRotationBody->value());
     notifyObserver(e);
-    slotShowRotationBody();
 }
 
 void CgQtGui::slotResetCylinder()
@@ -457,18 +468,11 @@ void CgQtGui::slotResetRotationCurve()
 
 void CgQtGui::slotLoadMeshFile()
 {
-    // Hier FileChooser öffnen, datei selektieren
-    // und dann neuen Event implementieren, der das an den Controller schickt.
-    // dort wird dann die Datei tatsächliche geöffnet und ein entsprechendes Mesh Objekt angelegt
-    // im View(GUI) passiert nichts außer festellung DASS geladen werden soll und welche Datei und zu welchem Zweck (Mesh)
-
-    QString fileName = QFileDialog::getOpenFileName(this, ("Open .obj"), "/home/gerrit/git/CG-I/alt/UebungSS2018/CgData", ("Object-file (*.obj)"));
-
-    std::cout <<"slotMethod " << fileName.toStdString() << std::endl;
-
+    QString fileName = QFileDialog::getOpenFileName(this, ("Load Mesh"), "/home/gerrit/git/CG-I/alt/UebungSS2018/CgData", ("Object-file (*.obj)"));
     CgLoadEvent *e = new CgLoadEvent();
     e->setFilename(fileName.toStdString());
     notifyObserver(e);
+    slotShowLoadedObject();
 }
 
 

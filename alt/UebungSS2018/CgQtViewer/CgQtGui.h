@@ -135,6 +135,11 @@ private slots:
     void slotShowCylinder();
     void slotShowRotationCurve();
     void slotShowRotationBody();
+    void slotShowLoadedObject();
+
+
+
+    void showObject(int i);
 
     void slotSubdivision();
 

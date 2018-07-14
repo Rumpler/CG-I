@@ -40,7 +40,7 @@ CgSceneControl::CgSceneControl()
     renderCylinderNormals = false;
     renderRotationCurve = false;
     renderRotationBody = false;
-    renderLoadedObj = true; //TODO false
+    renderLoadedObj = false;
 
 
     //Objects for rendering
@@ -251,6 +251,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         renderCylinderNormals = ev->getRenderCylinderNormals();
         renderRotationCurve = ev->getRenderRotationCurve();
         renderRotationBody = ev->getRenderRotationBody();
+        renderLoadedObj = ev->getRenderLoadedObject();
         m_renderer->redraw();
     }
 
@@ -293,7 +294,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
 
     if(e->getType() == Cg::CgSubdivisionEvent){
         CgSubdivisionEvent* ev = (CgSubdivisionEvent*) e;
-        std::cout << *(ev) << std::endl;
+//        std::cout << *(ev) << std::endl;
 
         m_rotation_curve->sdForPointScheme();
         m_renderer->init(m_rotation_curve);
@@ -304,12 +305,9 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
 
     if(e->getType() == Cg::CgLoadEvent){
         CgLoadEvent *ev = (CgLoadEvent*) e;
-        std::cout << "eventMethod " << ev->getFilename() << std::endl;
+//        std::cout << "eventMethod " << ev->getFilename() << std::endl;
         loadMeshObject(ev->getFilename());
     }
-
-
-
 
     delete e;
 }
