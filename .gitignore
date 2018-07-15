@@ -1,7 +1,10 @@
 /alt/build-CG1Uebung-Desktop-Debug
 /alt/build-CG1Uebung-Desktop-Profile
+/neu/build-CG1Uebung-Desktop-Debug
+/neu/build-CG1Uebung-Desktop-Profile
 *.o
 *.stash
 moc_*
 *.pro.usr
+*.pro.user
 *.debug
