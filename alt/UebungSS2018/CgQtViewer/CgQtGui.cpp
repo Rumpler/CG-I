@@ -354,11 +354,13 @@ void CgQtGui::createOptionPanelTransformation(QWidget *parent)
             //Button Scale +
             QPushButton* btScalePlus = new QPushButton("&Scale bigger (+)");
             connect(btScalePlus, SIGNAL( clicked() ), this, SLOT(slotScalePlus()) );
+            btScalePlus->setAutoRepeat(true);
             gblScale->addWidget(btScalePlus);
 
             //Button Scale -
             QPushButton* btScaleMinus = new QPushButton("&Scale smaller (-)");
             connect(btScaleMinus, SIGNAL( clicked() ), this, SLOT(slotScaleMinus()) );
+            btScaleMinus->setAutoRepeat(true);
             gblScale->addWidget(btScaleMinus);
 
         gbScale->setLayout(gblScale);
@@ -371,16 +373,19 @@ void CgQtGui::createOptionPanelTransformation(QWidget *parent)
             //Button Rotate X Axis
             QPushButton* btRotateX = new QPushButton("&X Axis (x)");
             connect(btRotateX, SIGNAL( clicked() ), this, SLOT(slotRotateX()) );
+            btRotateX->setAutoRepeat(true);
             gblRotating->addWidget(btRotateX);
 
             //Button Rotate Y Axis
             QPushButton* btRotateY = new QPushButton("&Y Axis (y)");
             connect(btRotateY, SIGNAL( clicked() ), this, SLOT(slotRotateY()) );
+            btRotateY->setAutoRepeat(true);
             gblRotating->addWidget(btRotateY);
 
             //Button Rotate Z Axis
             QPushButton* btRotateZ = new QPushButton("&Z Axis (z)");
             connect(btRotateZ, SIGNAL( clicked() ), this, SLOT(slotRotateZ()) );
+            btRotateZ->setAutoRepeat(true);
             gblRotating->addWidget(btRotateZ);
 
         gbRotating->setLayout(gblRotating);
