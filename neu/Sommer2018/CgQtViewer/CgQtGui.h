@@ -123,6 +123,7 @@ private slots:
     void mouseEvent(QMouseEvent* event);
     void viewportChanged(int,int);
     void slotLoadMeshFile();
+    void slotTrackballChanged();
 
     //Gerrit
     void slotColorChanged();

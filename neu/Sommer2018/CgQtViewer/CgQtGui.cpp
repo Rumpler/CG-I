@@ -28,8 +28,10 @@
 #include <QActionGroup>
 #include <iostream>
 #include <QFileDialog>
+#include <CgEvents/CgLoadObjFileEvent.h>
 #include <CgEvents/CgResetEvent.h>
 #include <CgEvents/CgSubdivisionEvent.h>
+#include <CgEvents/CgTrackballEvent.h>
 #include <CgEvents/CgTransformationEvent.h>
 
 
@@ -41,6 +43,7 @@ CgQtGui::CgQtGui(CgQtMainApplication *mw)
 
     connect(m_glRenderWidget, SIGNAL(mouseEvent(QMouseEvent*)), this, SLOT(mouseEvent(QMouseEvent*)));
     connect(m_glRenderWidget, SIGNAL(viewportChanged(int,int)), this, SLOT(viewportChanged(int,int)));
+    connect(m_glRenderWidget, SIGNAL(trackballChanged()), this, SLOT(slotTrackballChanged()));
 
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
@@ -553,13 +556,15 @@ void CgQtGui::slotResetRotationCurve()
 
 void CgQtGui::slotLoadMeshFile()
 {
-    //TODO reset Ginkler
+    QString file=  QFileDialog::getOpenFileName(this, tr("Open Obj-File"),"",tr("Model Files (*.obj)"));
+    CgBaseEvent* e = new CgLoadObjFileEvent(Cg::CgLoadObjFileEvent, file.toStdString());
+    notifyObserver(e);
+}
 
-//    QString fileName = QFileDialog::getOpenFileName(this, ("Load Mesh"), "/home/gerrit/git/CG-I/alt/UebungSS2018/CgData", ("Object-file (*.obj)"));
-//    CgLoadEvent *e = new CgLoadEvent();
-//    e->setFilename(fileName.toStdString());
-//    notifyObserver(e);
-//    slotShowLoadedObject();
+void CgQtGui::slotTrackballChanged()
+{
+    CgBaseEvent* e = new CgTrackballEvent(Cg::CgTrackballEvent, m_glRenderWidget->getTrackballRotation());
+    notifyObserver(e);
 }
 
 //################################### SLOTS END ###################################
