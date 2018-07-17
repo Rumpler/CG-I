@@ -33,7 +33,7 @@ CgLoadObjFileEvent::CgLoadObjFileEvent(Cg::EventType type, std::string filename)
 
 CgLoadObjFileEvent::CgLoadObjFileEvent()
 {
-    m_type=Cg::LoadObjFileEvent;
+    m_type=Cg::CgLoadObjFileEvent;
 }
 
 

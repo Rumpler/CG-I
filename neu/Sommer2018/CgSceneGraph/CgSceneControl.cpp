@@ -84,16 +84,16 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     // siehe dazu die CgEvent enums im CgEnums.h
 
 
-    if(e->getType() & Cg::CgMouseEvent)
+    if(e->getType() == Cg::CgMouseEvent)
     {
         CgMouseEvent* ev = (CgMouseEvent*)e;
-        //std::cout << *ev << std::endl;
+        std::cout << *ev << std::endl;
 
          // hier kommt jetzt die Abarbeitung des Events hin...
     }
 
 
-    if(e->getType() & Cg::CgTrackballEvent)
+    if(e->getType() == Cg::CgTrackballEvent)
     {
         CgTrackballEvent* ev = (CgTrackballEvent*)e;
 
@@ -104,11 +104,8 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     }
 
 
-    // die Enums sind so gebaut, dass man alle Arten von KeyEvents über CgEvent::CgKeyEvent abprüfen kann,
-    // siehe dazu die CgEvent enums im CgEnums.h
-    // momentan werden nur KeyPressEvents gefangen.
 
-    if(e->getType() & Cg::CgKeyEvent)
+    if(e->getType() == Cg::CgKeyEvent)
     {
         CgKeyEvent* ev = (CgKeyEvent*)e;
         std::cout << *ev <<std::endl;
@@ -130,14 +127,14 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         // hier kommt jetzt die Abarbeitung des Events hin...
     }
 
-    if(e->getType() & Cg::WindowResizeEvent)
+    if(e->getType() == Cg::CgWindowResizeEvent)
     {
          CgWindowResizeEvent* ev = (CgWindowResizeEvent*)e;
          std::cout << *ev <<std::endl;
          m_proj_matrix=glm::perspective(45.0f, (float)(ev->w()) / ev->h(), 0.01f, 100.0f);
     }
 
-    if(e->getType() & Cg::LoadObjFileEvent)
+    if(e->getType() == Cg::CgLoadObjFileEvent)
     {
 
         CgLoadObjFileEvent* ev = (CgLoadObjFileEvent*)e;

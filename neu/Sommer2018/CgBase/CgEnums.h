@@ -11,29 +11,50 @@
 
 
 namespace Cg{
-
     typedef enum EventType {
-    CgMouseButtonPress              = 0x00000001,
-    CgMouseButtonRelease            = 0x00000002,
-    CgMouseMove                     = 0x00000004,
-    CgMouseWheel                    = 0x00000008,
-    CgMouseEvent                    = 0x0000000F,
-    CgKeyPressEvent                 = 0x00000010,
-    CgKeyReleaseEvent               = 0x00000020,
-    CgKeyEvent                      = 0x000000F0,
 
-    WindowResizeEvent               = 0x0000100,
-    LoadObjFileEvent                = 0x0000200,
-    CgTrackballEvent                = 0x0000400,
+    CgMouseButtonPress              = 1,
+    CgMouseButtonRelease            = 2,
+    CgMouseMove                     = 3,
+    CgMouseWheel                    = 4,
+    CgMouseEvent                    = 5,
+    CgKeyPressEvent                 = 6,
+    CgKeyReleaseEvent               = 7,
+    CgSubdivisionEvent              = 8,
+    CgKeyEvent                      = 9,
+    CgWindowResizeEvent             = 10,
+    CgColorChangeEvent              = 11,
+    CgObjectSelectionChangeEvent    = 12,
+    CgValueChangedEvent             = 13,
+    CgResetEvent                    = 14,
+    CgLoadEvent                     = 15,
+    CgTransformationEvent           = 16,
+    CgLoadObjFileEvent              = 17,
+    CgTrackballEvent                = 18,
 
-    // unused, may be changed to whatever
-    CgSomeSpecialEvent1             = 0x0001000,
-    CgSomeSpecialEvent2             = 0x0002000,
-    CgSomeSpecialEvent3             = 0x0004000,
-    CgSomeSpecialEvent4             = 0x0008000,
-    CgEventGroup1                   = 0x000f000,
+//    CgMouseButtonPress              = 0x00000001,
+//    CgMouseButtonRelease            = 0x00000002,
+//    CgMouseMove                     = 0x00000004,
+//    CgMouseWheel                    = 0x00000008,
+//    CgMouseEvent                    = 0x0000000F,
+//    CgKeyPressEvent                 = 0x00000010,
+//    CgKeyReleaseEvent               = 0x00000020,
+//    CgKeyEvent                      = 0x000000F0,
 
-    // feel free to add whatever you like
+//    WindowResizeEvent               = 0x0000100,
+//    LoadObjFileEvent                = 0x0000200,
+//    CgTrackballEvent                = 0x0000400,
+
+//    // unused, may be changed to whatever
+//    CgSomeSpecialEvent1             = 0x0001000,
+//    CgSomeSpecialEvent2             = 0x0002000,
+//    CgSomeSpecialEvent3             = 0x0004000,
+//    CgSomeSpecialEvent4             = 0x0008000,
+//    CgEventGroup1                   = 0x000f000,
+
+//    // feel free to add whatever you like
+
+
     }EventType;
 
 

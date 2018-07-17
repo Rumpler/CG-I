@@ -260,7 +260,7 @@ void CgQtGui::slotLoadMeshFile()
    QString file=  QFileDialog::getOpenFileName(this, tr("Open Obj-File"),"",tr("Model Files (*.obj)"));
 
 
-    CgBaseEvent* e = new CgLoadObjFileEvent(Cg::LoadObjFileEvent, file.toStdString());
+    CgBaseEvent* e = new CgLoadObjFileEvent(Cg::CgLoadObjFileEvent, file.toStdString());
 
     notifyObserver(e);
 }
@@ -320,7 +320,7 @@ void CgQtGui::keyPressEvent(QKeyEvent *event)
 
 void CgQtGui::viewportChanged(int w, int h)
 {
-     CgBaseEvent* e = new CgWindowResizeEvent(Cg::WindowResizeEvent,w,h);
+     CgBaseEvent* e = new CgWindowResizeEvent(Cg::CgWindowResizeEvent,w,h);
      notifyObserver(e);
 }
 

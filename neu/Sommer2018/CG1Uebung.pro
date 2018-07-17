@@ -12,7 +12,6 @@ SOURCES += main.cpp \
     CgQtViewer/CgQtMainApplication.cpp \
     CgSceneGraph/CgSceneControl.cpp \
     CgEvents/CgKeyEvent.cpp \
-    CgSceneGraph/CgExampleTriangle.cpp \
     CgQtViewer/CgQtGlBufferObject.cpp \
     CgQtViewer/CgTrackball.cpp \
     CgEvents/CgWindowResizeEvent.cpp \
@@ -24,7 +23,15 @@ SOURCES += main.cpp \
     CgEvents/CgResetEvent.cpp \
     CgEvents/CgSubdivisionEvent.cpp \
     CgEvents/CgTransformationEvent.cpp \
-    CgEvents/CgValueChangedEvent.cpp
+    CgEvents/CgValueChangedEvent.cpp \
+    CgSceneGraph/CgCube.cpp \
+    CgSceneGraph/CgCylinder.cpp \
+    CgSceneGraph/CgPolyline.cpp \
+    CgSceneGraph/CgRotationBody.cpp \
+    CgSceneGraph/CgTriangles.cpp \
+    CgUtils/CgUtils.cpp \
+    CgUtils/IdSingleton.cpp \
+    CgSceneGraph/CgExampleTriangle.cpp
 
 
 
@@ -41,7 +48,6 @@ HEADERS += \
     CgEvents/CgKeyEvent.h \
     CgBase/CgBaseRenderer.h \
     CgBase/CgBaseRenderableObject.h \
-    CgSceneGraph/CgExampleTriangle.h \
     CgBase/CgBasePointCloud.h \
     CgBase/CgBaseTriangleMesh.h \
     CgBase/CgBasePolygonMesh.h \
@@ -59,5 +65,13 @@ HEADERS += \
     CgEvents/CgResetEvent.h \
     CgEvents/CgSubdivisionEvent.h \
     CgEvents/CgTransformationEvent.h \
-    CgEvents/CgValueChangedEvent.h
+    CgEvents/CgValueChangedEvent.h \
+    CgSceneGraph/CgCube.h \
+    CgSceneGraph/CgCylinder.h \
+    CgSceneGraph/CgPolyline.h \
+    CgSceneGraph/CgRotationBody.h \
+    CgSceneGraph/CgTriangles.h \
+    CgUtils/CgUtils.h \
+    CgUtils/IdSingleton.h \
+    CgSceneGraph/CgExampleTriangle.h
 

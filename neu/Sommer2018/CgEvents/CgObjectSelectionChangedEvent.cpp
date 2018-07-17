@@ -1,4 +1,4 @@
-#include "CgObjectSelectionChangeEvent.h"
+#include "CgObjectSelectionChangedEvent.h"
 
 CgObjectSelectionChangeEvent::CgObjectSelectionChangeEvent():
     m_type(Cg::CgObjectSelectionChangeEvent)
