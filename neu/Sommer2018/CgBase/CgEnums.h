@@ -27,10 +27,9 @@ namespace Cg{
     CgObjectSelectionChangeEvent    = 12,
     CgValueChangedEvent             = 13,
     CgResetEvent                    = 14,
-    CgLoadEvent                     = 15,
-    CgTransformationEvent           = 16,
-    CgLoadObjFileEvent              = 17,
-    CgTrackballEvent                = 18,
+    CgTransformationEvent           = 15,
+    CgLoadObjFileEvent              = 16,
+    CgTrackballEvent                = 17,
 
 //    CgMouseButtonPress              = 0x00000001,
 //    CgMouseButtonRelease            = 0x00000002,

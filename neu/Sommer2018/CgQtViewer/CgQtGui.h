@@ -52,6 +52,8 @@ class QTabWidget;
 class QTextEdit;
 class QCheckBox;
 class QSpinBox;
+class QRadioButton;
+class QDoubleSpinBox;
 class QMenuBar;
 class QAction;
 QT_END_NAMESPACE
@@ -75,11 +77,11 @@ protected:
 
 
 private:
-    QSlider *createSlider();
+    QSlider *createColorSlider();
 
     // parts of the view
     CgQtGLRenderWidget*    m_glRenderWidget;
-    CgQtMainApplication*        m_mainWindow;
+    CgQtMainApplication*   m_mainWindow;
     QTabWidget*            m_exercises_tabWidget;
     QWidget*			   m_scene_tree_view;
     QTextEdit*             m_log_browser;
@@ -88,20 +90,29 @@ private:
     CgQtGuiEventHandler*   m_event_handler;
 
 
-
-    QWidget*               m_option_panel_ex1;
-    QWidget*               m_option_panel_ex2;
-    QWidget*               m_option_panel_ex3;
-    QWidget*               m_option_panel_ex4;
-    QWidget*               m_option_panel_ex5;
+    //Panels
+    QWidget*               m_panel_objects;
+    QWidget*               m_panel_rotate_objects;
+    QWidget*               m_panel_tranformation;
 
 
-    /* example for usage of qt gui elements, feel free to add what you like */
-    void createOptionPanelExample1(QWidget* panel);
-    void createOptionPanelExample2(QWidget* panel);
-    QButtonGroup* myButtonGroup;
-    QCheckBox* myCheckBox1;
-    QSpinBox* mySpinBox1;
+    void createOptionPanelObjects(QWidget* parent);
+    void createOptionPanelRotateObjects(QWidget* parent);
+    void createOptionPanelTransformation(QWidget* parent);
+
+    QButtonGroup* ButtonGroupObjects;
+
+    QSlider* sliderRed;
+    QSlider* sliderGreen;
+    QSlider* sliderBlue;
+
+    QDoubleSpinBox* spinBoxHeightCylinderCone;
+    QSpinBox* spinBoxAmountOfSegmentsCylinder;
+
+    QSpinBox* spinBoxAmountOfSegmentsRotationBody;
+
+
+
 
 
 private slots:
@@ -111,15 +122,35 @@ private slots:
     /* slots to catch events directly from renderer */
     void mouseEvent(QMouseEvent* event);
     void viewportChanged(int,int);
-    void slotTrackballChanged();
-
-    /* slots example qt gui elements */
-    void slotMySpinBox1Changed();
-    void slotMyCheckBox1Changed();
-    void slotMyButton1Pressed();
-    void slotButtonGroupSelectionChanged();
     void slotLoadMeshFile();
 
+    //Gerrit
+    void slotColorChanged();
+    void slotButtonGroupSelectionChanged();
+
+    void slotCylinderChanged();
+    void slotRotationBodyChanged();
+
+    void slotResetCylinder();
+    void slotResetRotationCurve();
+
+    void slotShowCylinder();
+    void slotShowRotationCurve();
+    void slotShowRotationBody();
+    void slotShowLoadedObject();
+
+    void slotScalePlus();
+    void slotScaleMinus();
+
+    void slotRotateX();
+    void slotRotateY();
+    void slotRotateZ();
+
+
+
+    void showObject(int i);
+
+    void slotSubdivision();
 
 
 
