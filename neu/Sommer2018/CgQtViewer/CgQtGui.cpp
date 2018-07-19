@@ -559,6 +559,7 @@ void CgQtGui::slotLoadMeshFile()
     QString file=  QFileDialog::getOpenFileName(this, tr("Open Obj-File"),"",tr("Model Files (*.obj)"));
     CgBaseEvent* e = new CgLoadObjFileEvent(Cg::CgLoadObjFileEvent, file.toStdString());
     notifyObserver(e);
+    slotShowLoadedObject();
 }
 
 void CgQtGui::slotTrackballChanged()

@@ -8,12 +8,12 @@
 #include "CgTriangleMesh.h"
 
 
-class CgExampleTriangle : public CgTriangleMesh
+class CgTriangles : public CgTriangleMesh
 {
 
 public:
-    CgExampleTriangle(int id);
-    ~CgExampleTriangle();
+    CgTriangles(int id);
+    ~CgTriangles();
 
     //inherited from CgBaseRenderableObject
 

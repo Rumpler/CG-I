@@ -4,11 +4,12 @@
 #include "CgBase/CgObserver.h"
 #include "CgBase/CgBaseSceneControl.h"
 #include "CgCube.h"
+#include "CgTriangles.h"
 #include <glm/glm.hpp>
 
 class CgBaseEvent;
 class CgBaseRenderer;
-class CgExampleTriangle;
+class CgTriangles;
 
 class CgSceneControl : public CgObserver, public CgBaseSceneControl
 {
@@ -22,7 +23,6 @@ public:
 
 private:
     CgBaseRenderer* m_renderer;
-    CgExampleTriangle* m_triangle;
     glm::mat4 m_current_transformation;
     glm::mat4 m_trackball_rotation;
     glm::mat4 m_lookAt_matrix;
@@ -33,13 +33,14 @@ private:
 
     //Display objects?
     bool renderCoordinateSystem = true;
-    bool renderTriangle = false;
+    bool renderLoadedObject = false;
     bool renderCubeNormals = false;
 
     //Objects
     std::vector<CgPolyline*> m_coordinate_system;
     CgCube* m_cube;
     std::vector<CgPolyline*>* m_cube_normals;
+    CgTriangles* m_loaded_object;
 
 
 

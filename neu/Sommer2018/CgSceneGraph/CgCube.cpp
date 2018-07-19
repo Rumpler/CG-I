@@ -7,8 +7,6 @@
 
 CgCube::CgCube(int id) : CgTriangleMesh(id)
 {
-    idGen = IdSingleton::instance();
-
     m_vertices.push_back(glm::vec3(.5,.5,.5));      //0
     m_vertices.push_back(glm::vec3(-.5,.5,.5));     //1
     m_vertices.push_back(glm::vec3(.5,-.5,.5));     //2

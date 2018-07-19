@@ -4,7 +4,7 @@ CgTriangleMesh::CgTriangleMesh(int id) : CgBaseTriangleMesh(),
     m_type(Cg::TriangleMesh),
     m_id(id)
 {
-
+    idGen = IdSingleton::instance();
 }
 
 CgTriangleMesh::~CgTriangleMesh()

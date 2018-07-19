@@ -3,35 +3,17 @@
 #include "CgUtils/ObjLoader.h"
 
 
-CgExampleTriangle::CgExampleTriangle(int id) : CgTriangleMesh(id)
-{
-
-    m_vertices.push_back(glm::vec3(-0.5,0.0,0.0));
-    m_vertices.push_back(glm::vec3(0.0,-0.5,0.0));
-    m_vertices.push_back(glm::vec3(0.0,0.5,0.0));
-    m_vertices.push_back(glm::vec3(0.5,0.0,0.0));
-
-    m_triangle_indices.push_back(0);
-    m_triangle_indices.push_back(1);
-    m_triangle_indices.push_back(2);
-    m_triangle_indices.push_back(2);
-    m_triangle_indices.push_back(1);
-    m_triangle_indices.push_back(3);
-
-    m_vertex_normals.push_back(glm::vec3(0.0,0.0,1.0));
-    m_vertex_normals.push_back(glm::vec3(0.0,0.0,1.0));
-    m_vertex_normals.push_back(glm::vec3(0.0,0.0,1.0));
-    m_vertex_normals.push_back(glm::vec3(0.0,0.0,1.0));
-
-}
-
-
-
-CgExampleTriangle::~CgExampleTriangle()
+CgTriangles::CgTriangles(int id) : CgTriangleMesh(id)
 {
 }
 
-void CgExampleTriangle::init( std::vector<glm::vec3> arg_verts,  std::vector<glm::vec3> arg_normals, std::vector<unsigned int> arg_triangle_indices)
+
+
+CgTriangles::~CgTriangles()
+{
+}
+
+void CgTriangles::init( std::vector<glm::vec3> arg_verts,  std::vector<glm::vec3> arg_normals, std::vector<unsigned int> arg_triangle_indices)
 {
     m_vertices.clear();
     m_vertex_normals.clear();
@@ -41,7 +23,7 @@ void CgExampleTriangle::init( std::vector<glm::vec3> arg_verts,  std::vector<glm
     m_triangle_indices=arg_triangle_indices;
 }
 
-void CgExampleTriangle::init(std::string filename)
+void CgTriangles::init(std::string filename)
 {
     m_vertices.clear();
     m_vertex_normals.clear();

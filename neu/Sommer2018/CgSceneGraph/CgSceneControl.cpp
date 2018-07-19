@@ -24,22 +24,19 @@ CgSceneControl::CgSceneControl()
 
     idGen = IdSingleton::instance();
 
-
     initCoordinateSystem();
-    m_triangle= new CgExampleTriangle(idGen->getNextId());
     m_cube = new CgCube(idGen->getNextId());
     m_cube_normals = m_cube->getPolylineNormals();
-
-
+    m_loaded_object= new CgTriangles(idGen->getNextId());
 }
 
 
 CgSceneControl::~CgSceneControl()
 {
     m_coordinate_system.clear();
-    delete m_triangle;
     delete m_cube;
     m_cube_normals->clear();
+    delete m_loaded_object;
 }
 
 void CgSceneControl::setRenderer(CgBaseRenderer* r)
@@ -51,13 +48,13 @@ void CgSceneControl::setRenderer(CgBaseRenderer* r)
         m_renderer->init(poly);
     }
 
-    m_renderer->init(m_triangle);
-
     m_renderer->init(m_cube);
 
     for(CgPolyline* poly : *m_cube_normals){
         m_renderer->init(poly);
     }
+
+    m_renderer->init(m_loaded_object);
 }
 
 
@@ -94,12 +91,6 @@ void CgSceneControl::renderObjects()
             m_renderer->render(poly);
         }
     }
-
-    if(renderTriangle || true) {
-        m_renderer->setUniformValue("mycolor",glm::vec4(m_triangle->getColor(),0.5f));
-        m_renderer->render(m_triangle);
-    }
-
     if(m_cube->getDisplay()){
         m_renderer->setUniformValue("mycolor",glm::vec4(m_cube->getColor(),1.0f));
         m_renderer->render(m_cube);
@@ -110,6 +101,11 @@ void CgSceneControl::renderObjects()
             m_renderer->setUniformValue("mycolor",glm::vec4(poly->getColor(),1.0f));
             m_renderer->render(poly);
         }
+    }
+
+    if(m_loaded_object->getDisplay()) {
+        m_renderer->setUniformValue("mycolor",glm::vec4(m_loaded_object->getColor(),0.5f));
+        m_renderer->render(m_loaded_object);
     }
 }
 
@@ -188,17 +184,8 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     if(e->getType() == Cg::CgLoadObjFileEvent)
     {
         CgLoadObjFileEvent* ev = (CgLoadObjFileEvent*)e;
-        ObjLoader* loader= new ObjLoader();
-        loader->load(ev->FileName());
-        std::cout << ev->FileName() << std::endl;
-        std::vector<glm::vec3> pos;
-        loader->getPositionData(pos);
-        std::vector<glm::vec3> norm;
-        loader->getNormalData(norm);
-        std::vector<unsigned int> indx;
-        loader->getFaceIndexData(indx);
-        m_triangle->init(pos,norm,indx);
-        m_renderer->init(m_triangle);
+        m_loaded_object->init(ev->FileName());
+        m_renderer->init(m_loaded_object);
         m_renderer->redraw();
     }
 
@@ -223,6 +210,8 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         m_cube->setDisplay(ev->getRenderCube());
 
         renderCubeNormals = ev->getRenderCubeNormals(); //TODO
+
+        m_loaded_object->setDisplay(ev->getRenderLoadedObject());
 
         m_renderer->redraw();
     }
