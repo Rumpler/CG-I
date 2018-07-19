@@ -11,6 +11,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <CgEvents/CgColorChangeEvent.h>
 #include <CgEvents/CgObjectSelectionChangedEvent.h>
+#include <CgUtils/CgUtils.h>
 #include "CgUtils/ObjLoader.h"
 #include <string>
 
@@ -64,7 +65,8 @@ void CgSceneControl::renderObjects()
     // Materialeigenschaften setzen
     // sollte ja eigentlich pro Objekt unterschiedlich sein können, naja bekommen sie schon hin....
 
-    m_renderer->setUniformValue("mycolor",glm::vec4(1.0,0.0,0.0,1.0));
+//    m_renderer->setUniformValue("mycolor",glm::vec4(1.0,0.0,0.0,1.0));
+    m_renderer->setUniformValue("mycolor",glm::vec4(customColor,1.0));
 
     m_renderer->setUniformValue("matDiffuseColor",glm::vec4(0.35,0.31,0.09,1.0));
     m_renderer->setUniformValue("lightDiffuseColor",glm::vec4(1.0,1.0,1.0,1.0));
@@ -96,14 +98,16 @@ void CgSceneControl::renderObjects()
         m_renderer->render(m_triangle);
     }
 
-    if(renderCube){
+    //m_renderer->setUniformValue("mycolor",glm::vec4(customColor ,1.0));
 
+    if(renderCube){
         m_renderer->setUniformValue("mycolor",glm::vec4(m_cube->getColor(),1.0f));
         m_renderer->render(m_cube);
     }
 
     if(renderCubeNormals){
         for(CgPolyline* poly : *m_cube_normals){
+            m_renderer->setUniformValue("mycolor",glm::vec4(poly->getColor(),1.0f));
             m_renderer->render(poly);
         }
     }
@@ -203,7 +207,8 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     if(e->getType() == Cg::CgColorChangeEvent){
         CgColorChangeEvent* ev = (CgColorChangeEvent*) e;
         std::cout << *ev << std::endl;
-        m_cube->setColor(glm::vec3(ev->getRed(), ev->getGreen(), ev->getBlue()));
+        customColor = glm::vec3((float)(ev->getRed() * 0.01f), (float)(ev->getGreen() * 0.01f), (float)(ev->getBlue() * 0.01f));
+        m_cube->setColor(customColor);
         m_renderer->redraw();
     }
 

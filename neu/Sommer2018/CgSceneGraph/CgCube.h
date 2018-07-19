@@ -53,7 +53,7 @@ private:
     std::vector<CgPolyline*> polylineNormals;
     std::map<int, std::vector<glm::vec3>*> map_vertex_normals;
 
-    glm::vec3 m_color = glm::vec3(0.7f,0.0f,0.15f);
+    glm::vec3 m_color = glm::vec3(0.7f,0.0f,1.0f);
 
     std::vector<glm::vec3> m_vertices;
     std::vector<glm::vec3> m_vertex_normals;

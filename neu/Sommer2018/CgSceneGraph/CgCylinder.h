@@ -37,7 +37,7 @@ private:
     void pushPoly(glm::vec3 p1, glm::vec3 p2);
 
     IdSingleton* idGen;
-    glm::vec3 m_color = glm::vec3(0.7f,0.0f,0.15f);
+    glm::vec3 m_color = glm::vec3(0.7f,0.0f,1.0f);
 
     std::vector<CgPolyline*> polylineNormals;
 

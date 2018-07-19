@@ -131,7 +131,7 @@ CgQtGui::CgQtGui(CgQtMainApplication *mw)
 QSlider *CgQtGui::createColorSlider()
 {
     QSlider *slider = new QSlider(Qt::Vertical);
-    slider->setRange(1, 100);
+    slider->setRange(0, 100);
     slider->setSingleStep(1);
     slider->setPageStep(1);
     slider->setTickInterval(1);
@@ -206,9 +206,9 @@ void CgQtGui::createOptionPanelObjects(QWidget *parent)
     QLabel *label_green = new QLabel("Green");
     QLabel *label_blue = new QLabel("Blue");
 
-    sliderRed->setValue(100);
-    sliderGreen->setValue(40);
-    sliderBlue->setValue(1);
+    sliderRed->setValue(70);
+    sliderGreen->setValue(0);
+    sliderBlue->setValue(100);
 
 
     connect(sliderRed, SIGNAL( valueChanged(int) ), this, SLOT( slotColorChanged() ));

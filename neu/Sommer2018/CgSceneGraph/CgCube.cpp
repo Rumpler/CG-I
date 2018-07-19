@@ -62,6 +62,7 @@ m_id(id)
         poly = new CgPolyline(idGen->getNextId());
         poly->addVertice(m_vertices.at(i));
         poly->addVertice(m_vertices.at(i) + (norm * 0.1f));
+        poly->setColor(glm::vec3(1.0f,1.0f,1.0f));
         polylineNormals.push_back(poly);
     }
 
@@ -118,6 +119,7 @@ void CgCube::initFace(int p1, int p2, int p3)
     CgPolyline* poly = new CgPolyline(idGen->getNextId());
     poly->addVertice(focusPoint);
     poly->addVertice(focusPoint + (faceNormal * 0.1f));
+    poly->setColor(glm::vec3(1.0f,1.0f,1.0f));
     polylineNormals.push_back(poly);
 }
 

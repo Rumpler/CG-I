@@ -29,6 +29,7 @@ private:
     glm::mat4 m_proj_matrix;
 
     IdSingleton* idGen;
+    glm::vec3 customColor = glm::vec3(0.7f,0.0f,1.0f);
 
     //Display objects?
     bool renderCoordinateSystem = true;

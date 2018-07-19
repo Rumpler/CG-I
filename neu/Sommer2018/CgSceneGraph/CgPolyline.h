@@ -37,7 +37,7 @@ private:
     const unsigned int m_id;
 
     std::vector<glm::vec3> vertices;
-    glm::vec3 color = glm::vec3(0.7f,0.0f,0.15f);
+    glm::vec3 color = glm::vec3(0.7f,0.0f,1.0f);
     unsigned int lineWidth;
 
     void printVertices();
