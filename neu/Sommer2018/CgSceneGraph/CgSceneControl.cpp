@@ -6,7 +6,7 @@
 #include "CgEvents/CgLoadObjFileEvent.h"
 #include "CgEvents/CgTrackballEvent.h"
 #include "CgBase/CgBaseRenderer.h"
-#include "CgExampleTriangle.h"
+#include "CgTriangles.h"
 #include <iostream>
 #include <glm/gtc/matrix_transform.hpp>
 #include <CgEvents/CgColorChangeEvent.h>
@@ -95,12 +95,10 @@ void CgSceneControl::renderObjects()
         }
     }
 
-    if(renderTriangle) {
+    if(renderTriangle || true) {
         m_renderer->setUniformValue("mycolor",glm::vec4(m_triangle->getColor(),0.5f));
         m_renderer->render(m_triangle);
     }
-
-    //m_renderer->setUniformValue("mycolor",glm::vec4(customColor ,1.0));
 
     if(m_cube->getDisplay()){
         m_renderer->setUniformValue("mycolor",glm::vec4(m_cube->getColor(),1.0f));
