@@ -12,7 +12,7 @@
 #include "CgUtils/IdSingleton.h"
 
 //@author Gerrit
-class CgCube : public CgTriangleMesh
+class CgCube : public CgBaseTriangleMesh
 {
 
 public:
@@ -41,7 +41,7 @@ public:
 
 
 
-    const glm::vec3 getColor() const;
+    const glm::vec3& getColor() const;
     void setColor(glm::vec3 color);
 
 private:

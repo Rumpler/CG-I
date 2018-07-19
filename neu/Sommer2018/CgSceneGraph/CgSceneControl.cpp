@@ -28,8 +28,6 @@ CgSceneControl::CgSceneControl()
     m_triangle= new CgExampleTriangle(idGen->getNextId());
     m_cube = new CgCube(idGen->getNextId());
     m_cube_normals = m_cube->getPolylineNormals();
-
-    focusObject = m_cube;
 }
 
 
@@ -99,6 +97,7 @@ void CgSceneControl::renderObjects()
     }
 
     if(renderCube){
+
         m_renderer->setUniformValue("mycolor",glm::vec4(m_cube->getColor(),1.0f));
         m_renderer->render(m_cube);
     }
@@ -204,6 +203,8 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     if(e->getType() == Cg::CgColorChangeEvent){
         CgColorChangeEvent* ev = (CgColorChangeEvent*) e;
         std::cout << *ev << std::endl;
+        m_cube->setColor(glm::vec3(ev->getRed(), ev->getGreen(), ev->getBlue()));
+        m_renderer->redraw();
     }
 
     if(e->getType() == Cg::CgObjectSelectionChangeEvent){

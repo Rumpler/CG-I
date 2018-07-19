@@ -9,6 +9,10 @@ class CgTriangleMesh : public virtual CgBaseTriangleMesh
 {
 public:
     CgTriangleMesh();
+
+    virtual const glm::vec3 getColor() const;
+    virtual void setColor(glm::vec3 color);
 };
+
 
 #endif // CGTRIANGLEMESH_H

@@ -30,8 +30,6 @@ private:
 
     IdSingleton* idGen;
 
-    CgTriangleMesh* focusObject;
-
     //Display objects?
     bool renderCoordinateSystem = true;
     bool renderTriangle = false;

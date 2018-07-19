@@ -121,14 +121,14 @@ void CgCube::initFace(int p1, int p2, int p3)
     polylineNormals.push_back(poly);
 }
 
-const glm::vec3 CgCube::getColor() const
+const glm::vec3& CgCube::getColor() const
 {
     return m_color;
 }
 
 void CgCube::setColor(glm::vec3 color)
 {
-    m_color = color;
+    m_color = glm::vec3(color);
 }
 
 
