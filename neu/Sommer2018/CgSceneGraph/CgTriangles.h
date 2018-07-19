@@ -34,7 +34,12 @@ public:
 
 
 
+    const glm::vec3 getColor() const;
+    void setColor(const glm::vec3 &color);
+
 private:
+
+    glm::vec3 m_color = glm::vec3(0.7f,0.0f,0.15f);
 
     std::vector<glm::vec3> m_vertices;
     std::vector<glm::vec3> m_vertex_normals;

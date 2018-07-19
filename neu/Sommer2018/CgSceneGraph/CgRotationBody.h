@@ -28,9 +28,13 @@ public:
     const std::vector<glm::vec3> &getFaceNormals() const;
     const std::vector<glm::vec3> &getFaceColors() const;
 
+    const glm::vec3 getColor() const;
+    void setColor(const glm::vec3 &color);
+
 private:
     IdSingleton* idGen;
     CgPolyline* contourCurve;
+    glm::vec3 m_color = glm::vec3(0.7f,0.0f,0.15f);
 
     std::vector<CgPolyline*> polylineNormals;
 

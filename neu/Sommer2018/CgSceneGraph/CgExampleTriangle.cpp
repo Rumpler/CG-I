@@ -2,23 +2,6 @@
 #include "CgBase/CgEnums.h"
 #include "CgUtils/ObjLoader.h"
 
-CgExampleTriangle::CgExampleTriangle():
-m_type(Cg::TriangleMesh),
-m_id(42)
-{
-    m_vertices.push_back(glm::vec3(-0.5,0.0,0.0));
-    m_vertices.push_back(glm::vec3(0.5,-0.5,0.0));
-    m_vertices.push_back(glm::vec3(0.0,0.5,0.0));
-
-    m_triangle_indices.push_back(0);
-    m_triangle_indices.push_back(1);
-    m_triangle_indices.push_back(2);
-
-    m_vertex_normals.push_back(glm::vec3(0.0,0.0,1.0));
-    m_vertex_normals.push_back(glm::vec3(0.0,0.0,1.0));
-    m_vertex_normals.push_back(glm::vec3(0.0,0.0,1.0));
-
-}
 
 CgExampleTriangle::CgExampleTriangle(int id):
 m_type(Cg::TriangleMesh),
@@ -114,4 +97,14 @@ const std::vector<glm::vec3>& CgExampleTriangle::getFaceNormals() const
 const std::vector<glm::vec3>& CgExampleTriangle::getFaceColors() const
 {
     return m_face_colors;
+}
+
+const glm::vec3 CgExampleTriangle::getColor() const
+{
+    return color;
+}
+
+void CgExampleTriangle::setColor(const glm::vec3 &value)
+{
+    color = value;
 }

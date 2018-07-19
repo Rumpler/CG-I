@@ -56,12 +56,12 @@ int main(int argc, char **argv) {
            mainApp.setAttribute(Qt::WA_NoSystemBackground, false);
        }
        mainApp.resize(mainApp.sizeHint());
-       int desktopArea = QApplication::desktop()->width() *
-                        QApplication::desktop()->height();
-       int widgetArea = mainApp.width() * mainApp.height();
-       if (((float)widgetArea / (float)desktopArea) < 0.75f)
-           mainApp.show();
-       else
+//       int desktopArea = QApplication::desktop()->width() *
+//                        QApplication::desktop()->height();
+//       int widgetArea = mainApp.width() * mainApp.height();
+//       if (((float)widgetArea / (float)desktopArea) < 0.75f)
+//           mainApp.show();
+//       else
            mainApp.showMaximized();
 
 

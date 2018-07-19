@@ -1,4 +1,4 @@
-#ifndef CGSCENECONTROL_H
+﻿#ifndef CGSCENECONTROL_H
 #define CGSCENECONTROL_H
 
 #include "CgBase/CgObserver.h"
@@ -30,15 +30,22 @@ private:
 
     IdSingleton* idGen;
 
+    CgTriangleMesh* focusObject;
+
     //Display objects?
-    bool renderCube;
-    bool renderCubeNormals;
+    bool renderCoordinateSystem = true;
+    bool renderTriangle = false;
+    bool renderCube = false;
+    bool renderCubeNormals = false;
 
     //Objects
+    std::vector<CgPolyline*> m_coordinate_system;
     CgCube* m_cube;
     std::vector<CgPolyline*>* m_cube_normals;
 
 
+
+    void initCoordinateSystem();
 
 };
 

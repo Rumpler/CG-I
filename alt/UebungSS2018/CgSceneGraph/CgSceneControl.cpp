@@ -275,6 +275,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     if(e->getType() == Cg::CgColorChangeEvent)
     {
         CgColorChangeEvent* ev = (CgColorChangeEvent*)e;
+        std::cout << *ev << std::endl;
         color = glm::vec3(ev->getRed(),ev->getGreen(),ev->getBlue());
         m_renderer->redraw();
     }

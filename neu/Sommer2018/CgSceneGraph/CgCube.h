@@ -7,11 +7,12 @@
 
 #include "CgBase/CgBaseTriangleMesh.h"
 #include "CgPolyline.h"
+#include "CgTriangleMesh.h"
 #include "CgBase/CgBaseRenderer.h"
 #include "CgUtils/IdSingleton.h"
 
 //@author Gerrit
-class CgCube : public CgBaseTriangleMesh
+class CgCube : public CgTriangleMesh
 {
 
 public:
@@ -40,6 +41,9 @@ public:
 
 
 
+    const glm::vec3 getColor() const;
+    void setColor(glm::vec3 color);
+
 private:
 
     IdSingleton* idGen;
@@ -48,6 +52,8 @@ private:
 
     std::vector<CgPolyline*> polylineNormals;
     std::map<int, std::vector<glm::vec3>*> map_vertex_normals;
+
+    glm::vec3 m_color = glm::vec3(0.7f,0.0f,0.15f);
 
     std::vector<glm::vec3> m_vertices;
     std::vector<glm::vec3> m_vertex_normals;

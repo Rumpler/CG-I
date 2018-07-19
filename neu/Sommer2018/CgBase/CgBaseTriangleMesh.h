@@ -12,7 +12,6 @@ public:
 
     virtual ~CgBaseTriangleMesh(){};
 
-
     virtual const std::vector<glm::vec3>& getVertices()     const =0;
     virtual const std::vector<glm::vec3>& getVertexNormals() const =0;
     virtual const std::vector<glm::vec3>& getVertexColors() const =0;

@@ -28,12 +28,16 @@ public:
 
     std::vector<CgPolyline *>* getPolylineNormals();
 
+    const glm::vec3 getColor() const;
+    void setColor(const glm::vec3 &color);
+
 private:
 
     void createFace(int p1, int p2, int p3);
     void pushPoly(glm::vec3 p1, glm::vec3 p2);
 
     IdSingleton* idGen;
+    glm::vec3 m_color = glm::vec3(0.7f,0.0f,0.15f);
 
     std::vector<CgPolyline*> polylineNormals;
 

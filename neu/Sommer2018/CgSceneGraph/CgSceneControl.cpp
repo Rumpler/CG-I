@@ -23,21 +23,22 @@ CgSceneControl::CgSceneControl()
 
     idGen = IdSingleton::instance();
 
-    m_triangle = NULL;
-    m_cube = NULL;
-    m_cube_normals = NULL;
 
-    m_triangle= new CgExampleTriangle();
+    initCoordinateSystem();
+    m_triangle= new CgExampleTriangle(idGen->getNextId());
     m_cube = new CgCube(idGen->getNextId());
     m_cube_normals = m_cube->getPolylineNormals();
+
+    focusObject = m_cube;
 }
 
 
 CgSceneControl::~CgSceneControl()
 {
-    if(m_triangle != NULL) delete m_triangle;
-    if(m_cube != NULL) delete m_cube;
-    if(m_cube_normals != NULL) m_cube_normals->clear();
+    m_coordinate_system.clear();
+    delete m_triangle;
+    delete m_cube;
+    m_cube_normals->clear();
 }
 
 void CgSceneControl::setRenderer(CgBaseRenderer* r)
@@ -45,7 +46,14 @@ void CgSceneControl::setRenderer(CgBaseRenderer* r)
     m_renderer = r;
     m_renderer->setSceneControl(this);
 
+    for(CgPolyline* poly : m_coordinate_system){
+        m_renderer->init(poly);
+    }
+
+    m_renderer->init(m_triangle);
+
     m_renderer->init(m_cube);
+
     for(CgPolyline* poly : *m_cube_normals){
         m_renderer->init(poly);
     }
@@ -77,16 +85,53 @@ void CgSceneControl::renderObjects()
     m_renderer->setUniformValue("modelviewMatrix",mv_matrix);
     m_renderer->setUniformValue("normalMatrix",normal_matrix);
 
-    if(m_triangle!= NULL) {m_renderer->render(m_triangle);}
-    if(renderCube){m_renderer->render(m_cube);}
+
+    if(renderCoordinateSystem){
+        for(CgPolyline* poly : m_coordinate_system){
+            m_renderer->setUniformValue("mycolor",glm::vec4(poly->getColor(),0.5f));
+            m_renderer->render(poly);
+        }
+    }
+
+    if(renderTriangle) {
+        m_renderer->setUniformValue("mycolor",glm::vec4(m_triangle->getColor(),0.5f));
+        m_renderer->render(m_triangle);
+    }
+
+    if(renderCube){
+        m_renderer->setUniformValue("mycolor",glm::vec4(m_cube->getColor(),1.0f));
+        m_renderer->render(m_cube);
+    }
 
     if(renderCubeNormals){
         for(CgPolyline* poly : *m_cube_normals){
-            m_renderer->init(poly);
+            m_renderer->render(poly);
         }
     }
 
 
+}
+
+void CgSceneControl::initCoordinateSystem()
+{
+    //X
+    CgPolyline* axis = new CgPolyline(idGen->getNextId());
+    axis->addVertice(glm::vec3(0.0f,0.0f,0.0f));
+    axis->addVertice(glm::vec3(1.0f,0.0f,0.0f));
+    axis->setColor(glm::vec3(1.0f,0.0f,0.0f));
+    m_coordinate_system.push_back(axis);
+    //Y
+    axis = new CgPolyline(idGen->getNextId());
+    axis->addVertice(glm::vec3(0.0f,0.0f,0.0f));
+    axis->addVertice(glm::vec3(0.0f,1.0f,0.0f));
+    axis->setColor(glm::vec3(0.0f,1.0f,0.0f));
+    m_coordinate_system.push_back(axis);
+    //Z
+    axis = new CgPolyline(idGen->getNextId());
+    axis->addVertice(glm::vec3(0.0f,0.0f,0.0f));
+    axis->addVertice(glm::vec3(0.0f,0.0f,1.0f));
+    axis->setColor(glm::vec3(0.0f,0.0f,1.0f));
+    m_coordinate_system.push_back(axis);
 }
 
 
@@ -141,26 +186,16 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
 
     if(e->getType() == Cg::CgLoadObjFileEvent)
     {
-
         CgLoadObjFileEvent* ev = (CgLoadObjFileEvent*)e;
-
-
         ObjLoader* loader= new ObjLoader();
         loader->load(ev->FileName());
-
         std::cout << ev->FileName() << std::endl;
-
         std::vector<glm::vec3> pos;
         loader->getPositionData(pos);
-
         std::vector<glm::vec3> norm;
         loader->getNormalData(norm);
-
         std::vector<unsigned int> indx;
         loader->getFaceIndexData(indx);
-
-
-
         m_triangle->init(pos,norm,indx);
         m_renderer->init(m_triangle);
         m_renderer->redraw();
@@ -174,6 +209,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     if(e->getType() == Cg::CgObjectSelectionChangeEvent){
         CgObjectSelectionChangeEvent *ev = (CgObjectSelectionChangeEvent*) e;
 
+        renderCoordinateSystem = ev->getRenderCoordinateSystem();
         renderCube = ev->getRenderCube();
         renderCubeNormals = ev->getRenderCubeNormals();
 

@@ -28,7 +28,6 @@ public:
     unsigned int getLineWidth() const;
 
     void setColor(const glm::vec3 value);
-
     void setLineWidth(unsigned int value);
 
     void setRotationCurveExample1();
@@ -38,7 +37,7 @@ private:
     const unsigned int m_id;
 
     std::vector<glm::vec3> vertices;
-    glm::vec3 color;
+    glm::vec3 color = glm::vec3(0.7f,0.0f,0.15f);
     unsigned int lineWidth;
 
     void printVertices();

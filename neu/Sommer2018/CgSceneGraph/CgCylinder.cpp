@@ -205,4 +205,14 @@ void CgCylinder::pushPoly(glm::vec3 p1, glm::vec3 p2)
     polylineNormals.push_back(poly);
 }
 
+const glm::vec3 CgCylinder::getColor() const
+{
+    return m_color;
+}
+
+void CgCylinder::setColor(const glm::vec3 &color)
+{
+    m_color = color;
+}
+
 

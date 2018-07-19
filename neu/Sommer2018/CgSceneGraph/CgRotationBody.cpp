@@ -90,3 +90,13 @@ const std::vector<glm::vec3> &CgRotationBody::getFaceColors() const
 {
     return m_face_colors;
 }
+
+const glm::vec3 CgRotationBody::getColor() const
+{
+    return m_color;
+}
+
+void CgRotationBody::setColor(const glm::vec3 &color)
+{
+    m_color = color;
+}

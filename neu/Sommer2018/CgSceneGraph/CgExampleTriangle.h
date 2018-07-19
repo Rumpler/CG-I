@@ -11,7 +11,6 @@ class CgExampleTriangle : public CgBaseTriangleMesh
 {
 
 public:
-    CgExampleTriangle();
     CgExampleTriangle(int id);
 
     ~CgExampleTriangle();
@@ -37,7 +36,12 @@ public:
 
 
 
+    const glm::vec3 getColor() const;
+    void setColor(const glm::vec3 &value);
+
 private:
+
+    glm::vec3 color = glm::vec3(0.7f,0.0f,0.15f);
 
     std::vector<glm::vec3> m_vertices;
     std::vector<glm::vec3> m_vertex_normals;
