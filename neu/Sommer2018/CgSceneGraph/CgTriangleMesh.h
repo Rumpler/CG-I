@@ -1,7 +1,7 @@
 #ifndef CGTRIANGLEMESH_H
 #define CGTRIANGLEMESH_H
 
-#include "CgPolyline.h"
+#include "CgLine.h"
 
 #include <CgBase/CgBaseTriangleMesh.h>
 
@@ -34,14 +34,14 @@ public:
     const glm::vec3& getColor() const;
     void setColor(glm::vec3 color);
 
-    std::vector<CgPolyline *>* getPolylineNormals();
+    std::vector<CgLine *>* getPolylineNormals();
 
     bool getDisplay() const;
     void setDisplay(bool value);
 
 protected:
     IdSingleton* idGen;
-    std::vector<CgPolyline*> polylineNormals;
+    std::vector<CgLine*> polylineNormals;
     glm::vec3 color = glm::vec3(0.7f,0.0f,1.0f);
     bool display = false;
 

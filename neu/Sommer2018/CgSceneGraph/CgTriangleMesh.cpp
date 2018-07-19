@@ -30,7 +30,7 @@ void CgTriangleMesh::setColor(glm::vec3 color)
     this->color = color;
 }
 
-std::vector<CgPolyline *> *CgTriangleMesh::getPolylineNormals()
+std::vector<CgLine *> *CgTriangleMesh::getPolylineNormals()
 {
     return &polylineNormals;
 }

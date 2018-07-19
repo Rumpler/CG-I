@@ -37,7 +37,7 @@ CgCube::CgCube(int id) : CgTriangleMesh(id)
 
     //Calculating vertexNormals
 
-    CgPolyline* poly;
+    CgLine* poly;
 
     //For everey vertex
     for(int i = 0; i < (int) m_vertices.size(); i++){
@@ -55,7 +55,7 @@ CgCube::CgCube(int id) : CgTriangleMesh(id)
         m_vertex_normals.push_back(norm);
 
         //Push polyline for rendering
-        poly = new CgPolyline(idGen->getNextId());
+        poly = new CgLine(idGen->getNextId());
         poly->addVertice(m_vertices.at(i));
         poly->addVertice(m_vertices.at(i) + (norm * 0.1f));
         poly->setColor(glm::vec3(1.0f,1.0f,1.0f));
@@ -104,7 +104,7 @@ void CgCube::initFace(int p1, int p2, int p3)
                                      (m_vertices.at(p1).z + m_vertices.at(p2).z + m_vertices.at(p3).z) / 3.0);
 
     //Push polyline for rendering
-    CgPolyline* poly = new CgPolyline(idGen->getNextId());
+    CgLine* poly = new CgLine(idGen->getNextId());
     poly->addVertice(focusPoint);
     poly->addVertice(focusPoint + (faceNormal * 0.1f));
     poly->setColor(glm::vec3(1.0f,1.0f,1.0f));

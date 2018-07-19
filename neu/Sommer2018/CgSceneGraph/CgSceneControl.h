@@ -37,9 +37,9 @@ private:
     bool renderCubeNormals = false;
 
     //Objects
-    std::vector<CgPolyline*> m_coordinate_system;
+    std::vector<CgLine*> m_coordinate_system;
     CgCube* m_cube;
-    std::vector<CgPolyline*>* m_cube_normals;
+    std::vector<CgLine*>* m_cube_normals;
     CgTriangles* m_loaded_object;
 
 

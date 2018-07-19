@@ -5,11 +5,11 @@
 #include <iostream>
 
 
-class CgPolyline : public CgBasePolyline
+class CgLine : public CgBasePolyline
 {
 public:
-    CgPolyline(int id);
-    ~CgPolyline();
+    CgLine(int id);
+    ~CgLine();
     void addVertice(glm::vec3 vertice);
 
 

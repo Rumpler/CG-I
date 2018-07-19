@@ -1,8 +1,8 @@
-#include "CgPolyline.h"
+#include "CgLine.h"
 
 #include <CgUtils/CgUtils.h>
 
-CgPolyline::CgPolyline(int id):
+CgLine::CgLine(int id):
     m_type(Cg::Polyline),
     m_id(id),
     lineWidth(1)
@@ -10,17 +10,17 @@ CgPolyline::CgPolyline(int id):
 
 }
 
-CgPolyline::~CgPolyline()
+CgLine::~CgLine()
 {
     vertices.clear();
 }
 
-void CgPolyline::addVertice(glm::vec3 vertice)
+void CgLine::addVertice(glm::vec3 vertice)
 {
     vertices.push_back(vertice);
 }
 
-void CgPolyline::sdForPointScheme()
+void CgLine::sdForPointScheme()
 {
     if(vertices.size() < 4){return;} //Check if enough vertices exist
 
@@ -71,52 +71,52 @@ void CgPolyline::sdForPointScheme()
     //printVertices();
 }
 
-void CgPolyline::sdChaikins()
+void CgLine::sdChaikins()
 {
 
 }
 
-void CgPolyline::sdLaneRiesenfeld()
+void CgLine::sdLaneRiesenfeld()
 {
 
 }
 
-Cg::ObjectType CgPolyline::getType() const
+Cg::ObjectType CgLine::getType() const
 {
     return m_type;
 }
 
-unsigned int CgPolyline::getID() const
+unsigned int CgLine::getID() const
 {
     return m_id;
 }
 
-const std::vector<glm::vec3> &CgPolyline::getVertices() const
+const std::vector<glm::vec3> &CgLine::getVertices() const
 {
     return vertices;
 }
 
-glm::vec3 CgPolyline::getColor() const
+glm::vec3 CgLine::getColor() const
 {
     return color;
 }
 
-unsigned int CgPolyline::getLineWidth() const
+unsigned int CgLine::getLineWidth() const
 {
     return lineWidth;
 }
 
-void CgPolyline::setColor(const glm::vec3 value)
+void CgLine::setColor(const glm::vec3 value)
 {
     color = value;
 }
 
-void CgPolyline::setLineWidth(unsigned int value)
+void CgLine::setLineWidth(unsigned int value)
 {
     lineWidth = value;
 }
 
-void CgPolyline::setRotationCurveExample1()
+void CgLine::setRotationCurveExample1()
 {
     vertices.clear();
     vertices.push_back(glm::vec3(0.2f, -0.4f, 0.0f));
@@ -130,7 +130,7 @@ void CgPolyline::setRotationCurveExample1()
     vertices.push_back(glm::vec3(0.3f, 0.4f, 0.0f));
 }
 
-void CgPolyline::printVertices()
+void CgLine::printVertices()
 {
     std::cout << "Vertices(" << vertices.size() << "):" << std::endl;
     for(glm::vec3 v : vertices){

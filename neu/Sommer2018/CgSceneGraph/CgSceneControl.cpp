@@ -44,13 +44,13 @@ void CgSceneControl::setRenderer(CgBaseRenderer* r)
     m_renderer = r;
     m_renderer->setSceneControl(this);
 
-    for(CgPolyline* poly : m_coordinate_system){
+    for(CgLine* poly : m_coordinate_system){
         m_renderer->init(poly);
     }
 
     m_renderer->init(m_cube);
 
-    for(CgPolyline* poly : *m_cube_normals){
+    for(CgLine* poly : *m_cube_normals){
         m_renderer->init(poly);
     }
 
@@ -86,7 +86,7 @@ void CgSceneControl::renderObjects()
 
 
     if(renderCoordinateSystem){
-        for(CgPolyline* poly : m_coordinate_system){
+        for(CgLine* poly : m_coordinate_system){
             m_renderer->setUniformValue("mycolor",glm::vec4(poly->getColor(),0.5f));
             m_renderer->render(poly);
         }
@@ -97,7 +97,7 @@ void CgSceneControl::renderObjects()
     }
 
     if(renderCubeNormals){
-        for(CgPolyline* poly : *m_cube_normals){
+        for(CgLine* poly : *m_cube_normals){
             m_renderer->setUniformValue("mycolor",glm::vec4(poly->getColor(),1.0f));
             m_renderer->render(poly);
         }
@@ -112,19 +112,19 @@ void CgSceneControl::renderObjects()
 void CgSceneControl::initCoordinateSystem()
 {
     //X
-    CgPolyline* axis = new CgPolyline(idGen->getNextId());
+    CgLine* axis = new CgLine(idGen->getNextId());
     axis->addVertice(glm::vec3(0.0f,0.0f,0.0f));
     axis->addVertice(glm::vec3(1.0f,0.0f,0.0f));
     axis->setColor(glm::vec3(1.0f,0.0f,0.0f));
     m_coordinate_system.push_back(axis);
     //Y
-    axis = new CgPolyline(idGen->getNextId());
+    axis = new CgLine(idGen->getNextId());
     axis->addVertice(glm::vec3(0.0f,0.0f,0.0f));
     axis->addVertice(glm::vec3(0.0f,1.0f,0.0f));
     axis->setColor(glm::vec3(0.0f,1.0f,0.0f));
     m_coordinate_system.push_back(axis);
     //Z
-    axis = new CgPolyline(idGen->getNextId());
+    axis = new CgLine(idGen->getNextId());
     axis->addVertice(glm::vec3(0.0f,0.0f,0.0f));
     axis->addVertice(glm::vec3(0.0f,0.0f,1.0f));
     axis->setColor(glm::vec3(0.0f,0.0f,1.0f));

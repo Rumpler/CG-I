@@ -185,7 +185,7 @@ const std::vector<glm::vec3> &CgCylinder::getFaceColors() const
     return m_face_colors;
 }
 
-std::vector<CgPolyline *>* CgCylinder::getPolylineNormals()
+std::vector<CgLine *>* CgCylinder::getPolylineNormals()
 {
     return &polylineNormals;
 }
@@ -199,7 +199,7 @@ void CgCylinder::createFace(int p1, int p2, int p3)
 
 void CgCylinder::pushPoly(glm::vec3 p1, glm::vec3 p2)
 {
-    CgPolyline* poly = new CgPolyline(idGen->getNextId());
+    CgLine* poly = new CgLine(idGen->getNextId());
     poly->addVertice(p1);
     poly->addVertice(p2);
     polylineNormals.push_back(poly);

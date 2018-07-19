@@ -1,7 +1,7 @@
 #ifndef CGROTATIONBODY_H
 #define CGROTATIONBODY_H
 
-#include "CgPolyline.h"
+#include "CgLine.h"
 
 #include <CgBase/CgBaseTriangleMesh.h>
 
@@ -13,7 +13,7 @@
 class CgRotationBody: public CgBaseTriangleMesh
 {
 public:
-    CgRotationBody(int id, CgPolyline* conourCurve, int amountOfSegments);
+    CgRotationBody(int id, CgLine* conourCurve, int amountOfSegments);
 
     // CgBaseRenderableObject interface
     Cg::ObjectType getType() const;
@@ -33,10 +33,10 @@ public:
 
 private:
     IdSingleton* idGen;
-    CgPolyline* contourCurve;
+    CgLine* contourCurve;
     glm::vec3 m_color = glm::vec3(0.7f,0.0f,1.0f);
 
-    std::vector<CgPolyline*> polylineNormals;
+    std::vector<CgLine*> polylineNormals;
 
     std::vector<glm::vec3> m_vertices;
     std::vector<glm::vec3> m_vertex_normals;

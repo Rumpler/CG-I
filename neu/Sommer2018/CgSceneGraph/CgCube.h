@@ -6,7 +6,7 @@
 #include <glm/glm.hpp>
 
 #include "CgBase/CgBaseTriangleMesh.h"
-#include "CgPolyline.h"
+#include "CgLine.h"
 #include "CgTriangleMesh.h"
 #include "CgBase/CgBaseRenderer.h"
 #include "CgUtils/IdSingleton.h"
