@@ -4,6 +4,7 @@
 #include "CgBase/CgObserver.h"
 #include "CgBase/CgBaseSceneControl.h"
 #include "CgCube.h"
+#include "CgTest.h"
 #include <glm/glm.hpp>
 
 class CgBaseEvent;
@@ -41,6 +42,8 @@ private:
     std::vector<CgPolyline*> m_coordinate_system;
     CgCube* m_cube;
     std::vector<CgPolyline*>* m_cube_normals;
+
+    CgTest* m_test;
 
 
 

@@ -29,6 +29,9 @@ CgSceneControl::CgSceneControl()
     m_triangle= new CgExampleTriangle(idGen->getNextId());
     m_cube = new CgCube(idGen->getNextId());
     m_cube_normals = m_cube->getPolylineNormals();
+
+
+    m_test = new CgTest(idGen->getNextId());
 }
 
 
@@ -38,6 +41,8 @@ CgSceneControl::~CgSceneControl()
     delete m_triangle;
     delete m_cube;
     m_cube_normals->clear();
+
+    delete m_test;
 }
 
 void CgSceneControl::setRenderer(CgBaseRenderer* r)
@@ -56,6 +61,8 @@ void CgSceneControl::setRenderer(CgBaseRenderer* r)
     for(CgPolyline* poly : *m_cube_normals){
         m_renderer->init(poly);
     }
+
+    m_renderer->init(m_test);
 }
 
 
@@ -111,6 +118,8 @@ void CgSceneControl::renderObjects()
             m_renderer->render(poly);
         }
     }
+
+    m_renderer->render(m_test);
 
 
 }

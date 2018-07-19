@@ -32,7 +32,8 @@ SOURCES += main.cpp \
     CgUtils/CgUtils.cpp \
     CgUtils/IdSingleton.cpp \
     CgSceneGraph/CgExampleTriangle.cpp \
-    CgSceneGraph/CgTriangleMesh.cpp
+    CgSceneGraph/CgTriangleMesh.cpp \
+    CgSceneGraph/CgTest.cpp
 
 
 
@@ -75,5 +76,6 @@ HEADERS += \
     CgUtils/CgUtils.h \
     CgUtils/IdSingleton.h \
     CgSceneGraph/CgExampleTriangle.h \
-    CgSceneGraph/CgTriangleMesh.h
+    CgSceneGraph/CgTriangleMesh.h \
+    CgSceneGraph/CgTest.h
 
