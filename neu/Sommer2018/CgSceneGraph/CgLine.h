@@ -1,8 +1,10 @@
-#ifndef CGPOLYLINE_H
-#define CGPOLYLINE_H
+#ifndef CGLINE_H
+#define CGLINE_H
 
 #include "CgBase/CgBasePolyline.h"
 #include <iostream>
+#include "CgPolyline.h"
+
 
 
 class CgLine : public CgBasePolyline
