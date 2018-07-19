@@ -9,14 +9,11 @@
 
 
 
-class CgTriangleMesh : public virtual CgBaseTriangleMesh
+class CgTriangleMesh : public CgBaseTriangleMesh
 {
 public:
     CgTriangleMesh(int id);
     ~CgTriangleMesh();
-
-    const glm::vec3& getColor() const;
-    void setColor(glm::vec3 color);
 
     // CgBaseRenderableObject interface
 public:
@@ -34,11 +31,19 @@ public:
     const std::vector<glm::vec3> &getFaceColors() const;
 
 
+    const glm::vec3& getColor() const;
+    void setColor(glm::vec3 color);
+
+    std::vector<CgPolyline *>* getPolylineNormals();
+
+    bool getDisplay() const;
+    void setDisplay(bool value);
 
 protected:
     IdSingleton* idGen;
     std::vector<CgPolyline*> polylineNormals;
     glm::vec3 color = glm::vec3(0.7f,0.0f,1.0f);
+    bool display = false;
 
     std::vector<glm::vec3> m_vertices;
     std::vector<glm::vec3> m_vertex_normals;

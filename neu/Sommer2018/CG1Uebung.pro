@@ -28,12 +28,10 @@ SOURCES += main.cpp \
     CgSceneGraph/CgCylinder.cpp \
     CgSceneGraph/CgPolyline.cpp \
     CgSceneGraph/CgRotationBody.cpp \
-    CgSceneGraph/CgTriangles.cpp \
     CgUtils/CgUtils.cpp \
     CgUtils/IdSingleton.cpp \
     CgSceneGraph/CgExampleTriangle.cpp \
-    CgSceneGraph/CgTriangleMesh.cpp \
-    CgSceneGraph/CgTest.cpp
+    CgSceneGraph/CgTriangleMesh.cpp
 
 
 
@@ -72,10 +70,8 @@ HEADERS += \
     CgSceneGraph/CgCylinder.h \
     CgSceneGraph/CgPolyline.h \
     CgSceneGraph/CgRotationBody.h \
-    CgSceneGraph/CgTriangles.h \
     CgUtils/CgUtils.h \
     CgUtils/IdSingleton.h \
     CgSceneGraph/CgExampleTriangle.h \
-    CgSceneGraph/CgTriangleMesh.h \
-    CgSceneGraph/CgTest.h
+    CgSceneGraph/CgTriangleMesh.h
 

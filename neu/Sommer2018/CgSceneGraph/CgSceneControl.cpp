@@ -31,7 +31,6 @@ CgSceneControl::CgSceneControl()
     m_cube_normals = m_cube->getPolylineNormals();
 
 
-    m_test = new CgTest(idGen->getNextId());
 }
 
 
@@ -41,8 +40,6 @@ CgSceneControl::~CgSceneControl()
     delete m_triangle;
     delete m_cube;
     m_cube_normals->clear();
-
-    delete m_test;
 }
 
 void CgSceneControl::setRenderer(CgBaseRenderer* r)
@@ -61,8 +58,6 @@ void CgSceneControl::setRenderer(CgBaseRenderer* r)
     for(CgPolyline* poly : *m_cube_normals){
         m_renderer->init(poly);
     }
-
-    m_renderer->init(m_test);
 }
 
 
@@ -107,7 +102,7 @@ void CgSceneControl::renderObjects()
 
     //m_renderer->setUniformValue("mycolor",glm::vec4(customColor ,1.0));
 
-    if(renderCube){
+    if(m_cube->getDisplay()){
         m_renderer->setUniformValue("mycolor",glm::vec4(m_cube->getColor(),1.0f));
         m_renderer->render(m_cube);
     }
@@ -118,10 +113,6 @@ void CgSceneControl::renderObjects()
             m_renderer->render(poly);
         }
     }
-
-    m_renderer->render(m_test);
-
-
 }
 
 void CgSceneControl::initCoordinateSystem()
@@ -225,8 +216,15 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         CgObjectSelectionChangeEvent *ev = (CgObjectSelectionChangeEvent*) e;
 
         renderCoordinateSystem = ev->getRenderCoordinateSystem();
-        renderCube = ev->getRenderCube();
-        renderCubeNormals = ev->getRenderCubeNormals();
+
+        //Change structure of polyline first
+//        for(CgPolyline* poly : m_coordinate_system){
+//           //poly->setDisplay(ev->getRenderCoordinateSystem());
+//        }
+
+        m_cube->setDisplay(ev->getRenderCube());
+
+        renderCubeNormals = ev->getRenderCubeNormals(); //TODO
 
         m_renderer->redraw();
     }

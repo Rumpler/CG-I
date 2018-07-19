@@ -5,9 +5,7 @@
 
 
 
-CgCube::CgCube(int id):
-m_type(Cg::TriangleMesh),
-m_id(id)
+CgCube::CgCube(int id) : CgTriangleMesh(id)
 {
     idGen = IdSingleton::instance();
 
@@ -76,14 +74,6 @@ m_id(id)
 
 CgCube::~CgCube()
 {
-    m_vertices.clear();
-    m_vertex_normals.clear();
-    m_vertex_colors.clear();
-    m_tex_coords.clear();
-    m_triangle_indices.clear();
-    m_face_normals.clear();
-    m_face_colors.clear();
-    polylineNormals.clear();
     map_vertex_normals.clear();
 }
 
@@ -122,56 +112,4 @@ void CgCube::initFace(int p1, int p2, int p3)
     poly->setColor(glm::vec3(1.0f,1.0f,1.0f));
     polylineNormals.push_back(poly);
 }
-
-const glm::vec3& CgCube::getColor() const
-{
-    return m_color;
-}
-
-void CgCube::setColor(glm::vec3 color)
-{
-    m_color = glm::vec3(color);
-}
-
-
-std::vector<CgPolyline *>* CgCube::getPolylineNormals()
-{
-    return &polylineNormals;
-}
-
-const std::vector<glm::vec3>& CgCube::getVertices() const
-{
-    return m_vertices;
-}
-
-const std::vector<glm::vec3>& CgCube::getVertexNormals() const
-{
-    return m_vertex_normals;
-}
-
-const std::vector<glm::vec3>& CgCube::getVertexColors() const
-{
-     return m_vertex_colors;
-}
-
-const std::vector<glm::vec2>& CgCube:: getVertexTexCoords() const
-{
-    return m_tex_coords;
-}
-
-const std::vector<unsigned int>& CgCube::getTriangleIndices() const
-{
-    return m_triangle_indices;
-}
-
-const std::vector<glm::vec3>& CgCube::getFaceNormals() const
-{
-    return m_face_normals;
-}
-
-const std::vector<glm::vec3>& CgCube::getFaceColors() const
-{
-    return m_face_colors;
-}
-
 

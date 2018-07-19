@@ -30,6 +30,11 @@ void CgTriangleMesh::setColor(glm::vec3 color)
     this->color = color;
 }
 
+std::vector<CgPolyline *> *CgTriangleMesh::getPolylineNormals()
+{
+    return &polylineNormals;
+}
+
 Cg::ObjectType CgTriangleMesh::getType() const
 {
     return m_type;
@@ -73,4 +78,14 @@ const std::vector<glm::vec3> &CgTriangleMesh::getFaceNormals() const
 const std::vector<glm::vec3> &CgTriangleMesh::getFaceColors() const
 {
     return m_face_colors;
+}
+
+bool CgTriangleMesh::getDisplay() const
+{
+    return display;
+}
+
+void CgTriangleMesh::setDisplay(bool value)
+{
+    display = value;
 }
