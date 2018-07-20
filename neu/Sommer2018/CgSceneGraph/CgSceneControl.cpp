@@ -31,7 +31,7 @@ CgSceneControl::CgSceneControl()
 
     m_cube_normals = m_cube->getPolylineNormals();
 
-    m_cylinder = new CgCylinder(idGen->getNextId(), 4, 0.3, 0.2);
+    m_cylinder = new CgCylinder(idGen->getNextId(), 50, 0.3, 0.2);
     colorObjects.push_back(m_cylinder);
 
     m_cylinder_normals = m_cylinder->getPolylineNormals();
