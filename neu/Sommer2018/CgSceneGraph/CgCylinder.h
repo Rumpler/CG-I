@@ -4,7 +4,7 @@
 #include "CgTriangleMesh.h"
 
 
-
+//TODO fill m_face_normals and m_vertex_normals (polyline normals done)
 class CgCylinder : public CgTriangleMesh
 {
 public:
