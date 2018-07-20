@@ -31,7 +31,7 @@ CgSceneControl::CgSceneControl()
 
     m_cube_normals = m_cube->getPolylineNormals();
 
-    m_cylinder = new CgCylinder(idGen->getNextId());
+    m_cylinder = new CgCylinder(idGen->getNextId(), 4, 0.3, 0.2);
     colorObjects.push_back(m_cylinder);
 
     m_loaded_object= new CgTriangles(idGen->getNextId());
@@ -118,6 +118,7 @@ void CgSceneControl::renderObjects()
     }
 
     /* cylinder  */
+    m_renderer->setUniformValue("mycolor",glm::vec4(m_cylinder->getColor(),0.5f));
     m_renderer->render(m_cylinder);
 
     /* loadedObject  */
