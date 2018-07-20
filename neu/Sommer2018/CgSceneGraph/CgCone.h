@@ -5,11 +5,11 @@
 #include "CgLine.h"
 #include <CgUtils/IdSingleton.h>
 
-class CgCylinder : public CgBaseTriangleMesh
+class CgCone : public CgBaseTriangleMesh
 {
 public:
-    CgCylinder(int id, int amountOfSegments, double height);
-    ~CgCylinder();
+    CgCone(int id, int amountOfSegments, double height);
+    ~CgCone();
 
     void makeCylinder(int amountOfSegments, double height);
 

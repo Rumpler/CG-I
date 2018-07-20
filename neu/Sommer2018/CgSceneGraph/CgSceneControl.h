@@ -29,12 +29,15 @@ private:
     glm::mat4 m_proj_matrix;
 
     IdSingleton* idGen;
-    glm::vec3 customColor = glm::vec3(0.7f,0.0f,1.0f);
+    //glm::vec3 customColor = glm::vec3(0.7f,0.0f,1.0f);
 
     //Display objects?
     bool renderCoordinateSystem = true;
     bool renderLoadedObject = false;
     bool renderCubeNormals = false;
+
+    //contains all objects for recoloring
+    std::vector<CgBaseRenderableObject*> colorObjects;
 
     //Objects
     std::vector<CgLine*> m_coordinate_system;

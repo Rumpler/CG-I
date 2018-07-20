@@ -11,6 +11,15 @@ public:
     CgPolyline(int id);
     ~CgPolyline();
 
+    void setColor(const glm::vec3 value);
+    void setLineWidth(unsigned int value);
+    void setRotationCurveExample1();
+    void addVertice(glm::vec3 vertice);
+    bool getDisplay() const;
+    void setDisplay(bool value);
+
+
+
     // CgBaseRenderableObject interface
 public:
     Cg::ObjectType getType() const;
@@ -23,14 +32,16 @@ public:
     unsigned int getLineWidth() const;
 
 
-private:
+protected:
+    bool display = false;
+
     const Cg::ObjectType m_type;
     const unsigned int m_id;
 
     std::vector<glm::vec3> vertices;
 
     glm::vec3 color = glm::vec3(0.7f,0.0f,1.0f);
-    unsigned int lineWidth;
+    unsigned int lineWidth = 1;
 
 };
 

@@ -1,9 +1,9 @@
-#include "CgCylinder.h"
+#include "CgCone.h"
 #include <math.h>
 #include <iostream>
 #include "CgUtils/CgUtils.h"
 
-CgCylinder::CgCylinder(int id, int amountOfSegments, double height):
+CgCone::CgCone(int id, int amountOfSegments, double height):
     m_type(Cg::TriangleMesh),
     m_id(id)
 {
@@ -127,7 +127,7 @@ CgCylinder::CgCylinder(int id, int amountOfSegments, double height):
 
 
 
-CgCylinder::~CgCylinder()
+CgCone::~CgCone()
 {
     polylineNormals.clear();
 
@@ -140,64 +140,64 @@ CgCylinder::~CgCylinder()
     m_face_colors.clear();
 }
 
-Cg::ObjectType CgCylinder::getType() const
+Cg::ObjectType CgCone::getType() const
 {
     return m_type;
 }
 
-unsigned int CgCylinder::getID() const
+unsigned int CgCone::getID() const
 {
     return m_id;
 }
 
-const std::vector<glm::vec3> &CgCylinder::getVertices() const
+const std::vector<glm::vec3> &CgCone::getVertices() const
 {
     return m_vertices;
 }
 
-const std::vector<glm::vec3> &CgCylinder::getVertexNormals() const
+const std::vector<glm::vec3> &CgCone::getVertexNormals() const
 {
     return m_vertex_normals;
 }
 
-const std::vector<glm::vec3> &CgCylinder::getVertexColors() const
+const std::vector<glm::vec3> &CgCone::getVertexColors() const
 {
     return m_vertex_colors;
 }
 
-const std::vector<glm::vec2> &CgCylinder::getVertexTexCoords() const
+const std::vector<glm::vec2> &CgCone::getVertexTexCoords() const
 {
     return m_tex_coords;
 }
 
-const std::vector<unsigned int> &CgCylinder::getTriangleIndices() const
+const std::vector<unsigned int> &CgCone::getTriangleIndices() const
 {
     return m_triangle_indices;
 }
 
-const std::vector<glm::vec3> &CgCylinder::getFaceNormals() const
+const std::vector<glm::vec3> &CgCone::getFaceNormals() const
 {
     return m_face_normals;
 }
 
-const std::vector<glm::vec3> &CgCylinder::getFaceColors() const
+const std::vector<glm::vec3> &CgCone::getFaceColors() const
 {
     return m_face_colors;
 }
 
-std::vector<CgLine *>* CgCylinder::getPolylineNormals()
+std::vector<CgLine *>* CgCone::getPolylineNormals()
 {
     return &polylineNormals;
 }
 
-void CgCylinder::createFace(int p1, int p2, int p3)
+void CgCone::createFace(int p1, int p2, int p3)
 {
     m_triangle_indices.push_back(p1);
     m_triangle_indices.push_back(p2);
     m_triangle_indices.push_back(p3);
 }
 
-void CgCylinder::pushPoly(glm::vec3 p1, glm::vec3 p2)
+void CgCone::pushPoly(glm::vec3 p1, glm::vec3 p2)
 {
     CgLine* poly = new CgLine(idGen->getNextId());
     poly->addVertice(p1);
@@ -205,12 +205,12 @@ void CgCylinder::pushPoly(glm::vec3 p1, glm::vec3 p2)
     polylineNormals.push_back(poly);
 }
 
-const glm::vec3 CgCylinder::getColor() const
+const glm::vec3 CgCone::getColor() const
 {
     return m_color;
 }
 
-void CgCylinder::setColor(const glm::vec3 &color)
+void CgCone::setColor(const glm::vec3 &color)
 {
     m_color = color;
 }

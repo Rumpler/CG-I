@@ -2,10 +2,7 @@
 
 #include <CgUtils/CgUtils.h>
 
-CgLine::CgLine(int id):
-    m_type(Cg::Polyline),
-    m_id(id),
-    lineWidth(1)
+CgLine::CgLine(int id): CgPolyline::CgPolyline(id)
 {
 
 }
@@ -13,11 +10,6 @@ CgLine::CgLine(int id):
 CgLine::~CgLine()
 {
     vertices.clear();
-}
-
-void CgLine::addVertice(glm::vec3 vertice)
-{
-    vertices.push_back(vertice);
 }
 
 void CgLine::sdForPointScheme()
@@ -62,12 +54,6 @@ void CgLine::sdForPointScheme()
 
     vertices = futureVertices;
 
-
-
-
-
-
-
     //printVertices();
 }
 
@@ -81,59 +67,3 @@ void CgLine::sdLaneRiesenfeld()
 
 }
 
-Cg::ObjectType CgLine::getType() const
-{
-    return m_type;
-}
-
-unsigned int CgLine::getID() const
-{
-    return m_id;
-}
-
-const std::vector<glm::vec3> &CgLine::getVertices() const
-{
-    return vertices;
-}
-
-glm::vec3 CgLine::getColor() const
-{
-    return color;
-}
-
-unsigned int CgLine::getLineWidth() const
-{
-    return lineWidth;
-}
-
-void CgLine::setColor(const glm::vec3 value)
-{
-    color = value;
-}
-
-void CgLine::setLineWidth(unsigned int value)
-{
-    lineWidth = value;
-}
-
-void CgLine::setRotationCurveExample1()
-{
-    vertices.clear();
-    vertices.push_back(glm::vec3(0.2f, -0.4f, 0.0f));
-    vertices.push_back(glm::vec3(0.2f, -0.3f, 0.0f));
-    vertices.push_back(glm::vec3(0.4f, -0.2f, 0.0f));
-    vertices.push_back(glm::vec3(0.4f, -0.1f, 0.0f));
-    vertices.push_back(glm::vec3(0.3f, 0.0f, 0.0f));
-    vertices.push_back(glm::vec3(0.1f, 0.1f, 0.0f));
-    vertices.push_back(glm::vec3(0.4f, 0.2f, 0.0f));
-    vertices.push_back(glm::vec3(0.3f, 0.3f, 0.0f));
-    vertices.push_back(glm::vec3(0.3f, 0.4f, 0.0f));
-}
-
-void CgLine::printVertices()
-{
-    std::cout << "Vertices(" << vertices.size() << "):" << std::endl;
-    for(glm::vec3 v : vertices){
-        std::cout << "(" << v.x << "," << v.y << "," << v.z << ")" << std::endl;
-    }
-}
