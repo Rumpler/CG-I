@@ -11,8 +11,6 @@ public:
     CgCone(int id, int amountOfSegments, double height);
     ~CgCone();
 
-    void makeCylinder(int amountOfSegments, double height);
-
     // CgBaseRenderableObject interface
     Cg::ObjectType getType() const;
     unsigned int getID() const;

@@ -4,6 +4,7 @@
 #include "CgBase/CgObserver.h"
 #include "CgBase/CgBaseSceneControl.h"
 #include "CgCube.h"
+#include "CgCylinder.h"
 #include "CgTriangles.h"
 #include <glm/glm.hpp>
 
@@ -43,6 +44,9 @@ private:
     std::vector<CgLine*> m_coordinate_system;
     CgCube* m_cube;
     std::vector<CgLine*>* m_cube_normals;
+
+    CgCylinder* m_cylinder;
+
     CgTriangles* m_loaded_object;
 
 

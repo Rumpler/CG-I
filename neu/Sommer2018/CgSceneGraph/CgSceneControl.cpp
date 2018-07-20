@@ -31,6 +31,9 @@ CgSceneControl::CgSceneControl()
 
     m_cube_normals = m_cube->getPolylineNormals();
 
+    m_cylinder = new CgCylinder(idGen->getNextId());
+    colorObjects.push_back(m_cylinder);
+
     m_loaded_object= new CgTriangles(idGen->getNextId());
     colorObjects.push_back(m_loaded_object);
 }
@@ -58,6 +61,8 @@ void CgSceneControl::setRenderer(CgBaseRenderer* r)
     for(CgLine* poly : *m_cube_normals){
         m_renderer->init(poly);
     }
+
+    m_renderer->init(m_cylinder);
 
     m_renderer->init(m_loaded_object);
 }
@@ -111,6 +116,9 @@ void CgSceneControl::renderObjects()
             m_renderer->render(poly);
         }
     }
+
+    /* cylinder  */
+    m_renderer->render(m_cylinder);
 
     /* loadedObject  */
     if(m_loaded_object->getDisplay()) {

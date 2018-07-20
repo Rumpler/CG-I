@@ -32,7 +32,8 @@ SOURCES += main.cpp \
     CgSceneGraph/CgTriangles.cpp \
     CgSceneGraph/CgLine.cpp \
     CgSceneGraph/CgPolyline.cpp \
-    CgSceneGraph/CgCone.cpp
+    CgSceneGraph/CgCone.cpp \
+    CgSceneGraph/CgCylinder.cpp
 
 
 
@@ -75,5 +76,6 @@ HEADERS += \
     CgSceneGraph/CgTriangles.h \
     CgSceneGraph/CgLine.h \
     CgSceneGraph/CgPolyline.h \
-    CgSceneGraph/CgCone.h
+    CgSceneGraph/CgCone.h \
+    CgSceneGraph/CgCylinder.h
 
