@@ -27,6 +27,10 @@ CgCylinder::CgCylinder(int id, int amountOfSegments, double height, double radiu
     int nextBot = 4;
     int nextTop = 5;
 
+    //push polylines for topCenter vertex and bottomCenter vertex
+    pushPoly(m_vertices.at(bottomCenter), glm::vec3(0.0f,-0.1f, 0.0f));
+    pushPoly(m_vertices.at(topCenter), glm::vec3(0.0f,(float)height + 0.1f, 0.0f));
+
     //Vars for loop
         double currentAngle;
 
@@ -43,6 +47,9 @@ CgCylinder::CgCylinder(int id, int amountOfSegments, double height, double radiu
         glm::vec3 nl;   //normalLeft
         glm::vec3 nt;   //normalTop
         glm::vec3 nb;   //normalBottom
+
+        glm::vec3 vnt;  //vertexNormalTop
+        glm::vec3 vnb;  //vertexNormalbottom
     //
 
 
@@ -69,25 +76,55 @@ CgCylinder::CgCylinder(int id, int amountOfSegments, double height, double radiu
 
             //first loop
             if(i == 0){
+
+                /************* normals per FACE (first loop)*************/
+
                 //right
                 fpr = CgUtils::calcFocusPointTriangle(m_vertices.at(nextBot), m_vertices.at(lastBot), m_vertices.at(lastTop));
                 nr  = CgUtils::calcFaceNormal(m_vertices.at(nextBot), m_vertices.at(lastBot), m_vertices.at(lastTop));
                 pushPoly(fpr, fpr + nr * 0.1f);
                 //left
                 fpl  = CgUtils::calcFocusPointTriangle(m_vertices.at(nextBot), m_vertices.at(lastTop), m_vertices.at(nextTop));
-                nl      =CgUtils::calcFaceNormal(m_vertices.at(nextBot), m_vertices.at(lastTop), m_vertices.at(nextTop));
+                nl   = CgUtils::calcFaceNormal(m_vertices.at(nextBot), m_vertices.at(lastTop), m_vertices.at(nextTop));
                 pushPoly(fpl, fpl + nl * 0.1f);
                 //top
                 fpt  = CgUtils::calcFocusPointTriangle(m_vertices.at(topCenter), m_vertices.at(nextTop), m_vertices.at(lastTop));
-                nt      =CgUtils::calcFaceNormal(m_vertices.at(topCenter), m_vertices.at(nextTop), m_vertices.at(lastTop));
+                nt   = CgUtils::calcFaceNormal(m_vertices.at(topCenter), m_vertices.at(nextTop), m_vertices.at(lastTop));
                 pushPoly(fpt, fpt + nt * 0.1f);
                 //bottom
                 fpb  = CgUtils::calcFocusPointTriangle(m_vertices.at(bottomCenter), m_vertices.at(lastBot), m_vertices.at(nextBot));
-                nb      =CgUtils::calcFaceNormal(m_vertices.at(bottomCenter), m_vertices.at(lastBot), m_vertices.at(nextBot));
+                nb   = CgUtils::calcFaceNormal(m_vertices.at(bottomCenter), m_vertices.at(lastBot), m_vertices.at(nextBot));
                 pushPoly(fpb, fpb + nb * 0.1f);
 
+
+                /************* normals per VERTEX (first loop)*************/
+
+                //Calculate faceNormal for next RIGHT face
+                glm::vec3 focus =  CgUtils::rotatePointYAxis(currentAngle, fpr);
+                glm::vec3 normalP = CgUtils::rotatePointYAxis(currentAngle, fpr + nr);
+                glm::vec3 nextRightFaceNormal = normalP - focus;
+                nextRightFaceNormal = glm::normalize(nextRightFaceNormal);
+
+
+
+
+
+                //Calculate first vertexNormal for bottomEdge
+                vnb = (nl + nr + nb + nb + nextRightFaceNormal) / 5.0f;
+                vnb = glm::normalize(vnb);
+                pushPoly(m_vertices.at(nextBot), m_vertices.at(nextBot) + vnb * 0.1f);
+
+                //Calculate first vertexNormal for topEdge
+                vnt = (nl + nextRightFaceNormal + nextRightFaceNormal + nt + nt) / 5.0f;
+                vnt = glm::normalize(vnt);
+                pushPoly(m_vertices.at(nextTop), m_vertices.at(nextTop) + vnt * 0.1f);
+
+
+
+
+
             //any other loop than first
-            }else{
+            }else if(false){
                 currentAngle = angleOfRotation * i;
 
                 //right
