@@ -28,99 +28,88 @@ CgCylinder::CgCylinder(int id, int amountOfSegments, double height, double radiu
     int nextTop = 5;
 
     //Vars for loop
-    double currentAngle;
-    glm::vec3 focusPointTop;
-    glm::vec3 focusPointBottom;
-    glm::vec3 faceNormalTop;
-    glm::vec3 faceNormalBottom;
-    glm::vec3 newFocusPointTop;
-    glm::vec3 newFocusPointBottom;
-    glm::vec3 newFaceNormalTopPoint;
-    glm::vec3 newFaceNormalBottomPoint;
+        double currentAngle;
 
-    //Calculate next point, next normal etc.
-    //First loop normal calculation and then with rotation of first calculation
+        //for rotatet points
+        glm::vec3 focus;
+        glm::vec3 normal;
+
+        //for first points
+        glm::vec3 fpr;  //focusPointRight
+        glm::vec3 fpl;  //focusPointLeft
+        glm::vec3 fpt;  //focusPointTop
+        glm::vec3 fpb;  //focusPointBottom
+        glm::vec3 nr;   //normalRight
+        glm::vec3 nl;   //normalLeft
+        glm::vec3 nt;   //normalTop
+        glm::vec3 nb;   //normalBottom
+    //
+
+
+    /* calculate points, faceNormals (and soon vertexNormals). First loop does normal calculation, than calculate rotation of first values */
     for(int i = 0; i < amountOfSegments; i++){
         currentAngle = angleOfRotation * (i + 1);
 
+        //calculate closed mesh
         nextBot = lastBot + 2;
         if(nextBot > (amountOfSegments * 2) + 1){nextBot = 2;}
         nextTop = lastTop + 2;
         if(nextTop > (amountOfSegments * 2) + 1){nextTop = 3;}
 
-
-
-        std:: cout << "lastBot:" << lastBot << ", nextBot:" << nextBot << std::endl;
-        std:: cout << "lastTop:" << lastTop << ", nextTop:" << nextTop << std::endl;
-
-        //Calculate and push new points
+        //calculate and push new points
         m_vertices.push_back(CgUtils::rotatePointYAxis(currentAngle, m_vertices.at(bottomEdge)));
         m_vertices.push_back(CgUtils::rotatePointYAxis(currentAngle, m_vertices.at(topEdge)));
 
-        //Create 4 new faces
-            createFace(nextBot, lastBot, lastTop);
-            createFace(nextBot, lastTop, nextTop);
-            createFace(bottomCenter, lastBot, nextBot);
-            createFace(topCenter, nextTop, lastTop);
+        //create 4 new faces
+            createFace(nextBot, lastBot, lastTop);      //right
+            createFace(nextBot, lastTop, nextTop);      //left
+            createFace(topCenter, nextTop, lastTop);    //top
+            createFace(bottomCenter, lastBot, nextBot); //bottom
 
 
-        //        //Only in first loop (calculate first normals for first faces)
-        //        if(i == 0){
+            //first loop
+            if(i == 0){
+                //right
+                fpr = CgUtils::calcFocusPointTriangle(m_vertices.at(nextBot), m_vertices.at(lastBot), m_vertices.at(lastTop));
+                nr  = CgUtils::calcFaceNormal(m_vertices.at(nextBot), m_vertices.at(lastBot), m_vertices.at(lastTop));
+                pushPoly(fpr, fpr + nr * 0.1f);
+                //left
+                fpl  = CgUtils::calcFocusPointTriangle(m_vertices.at(nextBot), m_vertices.at(lastTop), m_vertices.at(nextTop));
+                nl      =CgUtils::calcFaceNormal(m_vertices.at(nextBot), m_vertices.at(lastTop), m_vertices.at(nextTop));
+                pushPoly(fpl, fpl + nl * 0.1f);
+                //top
+                fpt  = CgUtils::calcFocusPointTriangle(m_vertices.at(topCenter), m_vertices.at(nextTop), m_vertices.at(lastTop));
+                nt      =CgUtils::calcFaceNormal(m_vertices.at(topCenter), m_vertices.at(nextTop), m_vertices.at(lastTop));
+                pushPoly(fpt, fpt + nt * 0.1f);
+                //bottom
+                fpb  = CgUtils::calcFocusPointTriangle(m_vertices.at(bottomCenter), m_vertices.at(lastBot), m_vertices.at(nextBot));
+                nb      =CgUtils::calcFaceNormal(m_vertices.at(bottomCenter), m_vertices.at(lastBot), m_vertices.at(nextBot));
+                pushPoly(fpb, fpb + nb * 0.1f);
 
-        //            /* ################# Calculate 2 faceNormals for first top and bottom face ################# */
+            //any other loop than first
+            }else{
+                currentAngle = angleOfRotation * i;
 
-        //                //Calculate focusPoints
-        //                focusPointTop = CgUtils::calcFocusPointTriangle(m_vertices.at(top), m_vertices.at(last), m_vertices.at(last + 1));
-        //                focusPointBottom = CgUtils::calcFocusPointTriangle(m_vertices.at(bottom), m_vertices.at(last + 1), m_vertices.at(last));
-
-        //                //Calculate and push faceNormals
-        //                faceNormalTop = CgUtils::calcFaceNormal(m_vertices.at(last), m_vertices.at(top), m_vertices.at(last + 1));
-        //                m_face_normals.push_back(faceNormalTop);
-        //                faceNormalBottom = CgUtils::calcFaceNormal(m_vertices.at(last + 1), m_vertices.at(bottom), m_vertices.at(last));
-        //                m_face_normals.push_back(faceNormalBottom);
-
-        //                //Push polylines
-        //                pushPoly(focusPointTop, focusPointTop + faceNormalTop * 0.1f);
-        //                pushPoly(focusPointBottom, focusPointBottom + faceNormalBottom * 0.1f);
-
-        //            /* ################# END ################# */
-
-        //            /* ################# Calculate next step faceNormals for bottom and top to get in order (with rotation) ################# */
-
-        //                //Rotate focusPoint
-        //                newFocusPointTop = CgUtils::rotatePointYAxis(currentAngle, focusPointTop);
-        //                newFocusPointBottom = CgUtils::rotatePointYAxis(currentAngle, focusPointBottom);
-
-        //                //Rotate normal endpoint
-        //                newFaceNormalTopPoint = focusPointTop + faceNormalTop * 0.1f;
-        //                newFaceNormalTopPoint = CgUtils::rotatePointYAxis(currentAngle, newFaceNormalTopPoint);
-        //                newFaceNormalBottomPoint = focusPointBottom + faceNormalBottom * 0.1f;
-        //                newFaceNormalBottomPoint = CgUtils::rotatePointYAxis(currentAngle, newFaceNormalBottomPoint);
-
-        //                //Push polyline
-        //                pushPoly(newFocusPointTop, newFaceNormalTopPoint);
-        //                pushPoly(newFocusPointBottom, newFaceNormalBottomPoint);
-
-        //            /* ################# END ################# */
+                //right
+                focus =  CgUtils::rotatePointYAxis(currentAngle, fpr);
+                normal = CgUtils::rotatePointYAxis(currentAngle, nr);
+                pushPoly(focus, focus + normal * 0.1f);
+                //left
+                focus =  CgUtils::rotatePointYAxis(currentAngle, fpl);
+                normal = CgUtils::rotatePointYAxis(currentAngle, nl);
+                pushPoly(focus, focus + normal * 0.1f);
+                //top
+                focus =  CgUtils::rotatePointYAxis(currentAngle, fpt);
+                normal = CgUtils::rotatePointYAxis(currentAngle, nt);
+                pushPoly(focus, focus + normal * 0.1f);
+                //bottom
+                focus =  CgUtils::rotatePointYAxis(currentAngle, fpb);
+                normal = CgUtils::rotatePointYAxis(currentAngle, nb);
+                pushPoly(focus, focus + normal * 0.1f);
 
 
-        //        //Calculate faceNormals with rotation routine in any loop but the first and last
-        //        }else if(i > 0 && i < amountOfSegments - 1){
+            }
 
-        //            //Rotate fcousPoint
-        //            newFocusPointTop = CgUtils::rotatePointYAxis(currentAngle, focusPointTop);
-        //            newFocusPointBottom = CgUtils::rotatePointYAxis(currentAngle, focusPointBottom);
-
-        //            //Rotate normal endpoint
-        //            newFaceNormalTopPoint = focusPointTop + faceNormalTop * 0.1f;
-        //            newFaceNormalTopPoint = CgUtils::rotatePointYAxis(currentAngle, newFaceNormalTopPoint);
-        //            newFaceNormalBottomPoint = focusPointBottom + faceNormalBottom * 0.1f;
-        //            newFaceNormalBottomPoint = CgUtils::rotatePointYAxis(currentAngle, newFaceNormalBottomPoint);
-
-        //            //Push polyline
-        //            pushPoly(newFocusPointTop, newFaceNormalTopPoint);
-        //            pushPoly(newFocusPointBottom, newFaceNormalBottomPoint);
-        //        }
         lastBot = nextBot;
         lastTop = nextTop;
     }
@@ -138,5 +127,6 @@ void CgCylinder::pushPoly(glm::vec3 p1, glm::vec3 p2)
     CgLine* poly = new CgLine(idGen->getNextId());
     poly->addVertice(p1);
     poly->addVertice(p2);
+    poly->setColor(glm::vec3(1.0f,1.0f,1.0f));
     polylineNormals.push_back(poly);
 }

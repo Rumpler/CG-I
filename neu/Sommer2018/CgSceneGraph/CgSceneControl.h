@@ -46,6 +46,7 @@ private:
     std::vector<CgLine*>* m_cube_normals;
 
     CgCylinder* m_cylinder;
+    std::vector<CgLine*>* m_cylinder_normals;
 
     CgTriangles* m_loaded_object;
 
