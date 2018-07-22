@@ -35,6 +35,9 @@ public:
     bool getResetRotationCurve() const;
     void setResetRotationCurve(bool value);
 
+    double getValueRadiusCylinder() const;
+    void setValueRadiusCylinder(double value);
+
 private:
     Cg::EventType m_type;
 
@@ -44,6 +47,7 @@ private:
 
     int valueAmountOfSegmentsCylinder;
     double valueHeightCylinder;
+    double valueRadiusCylinder;
 
     int valueAmountOfSegmentsRotationBody;
 };

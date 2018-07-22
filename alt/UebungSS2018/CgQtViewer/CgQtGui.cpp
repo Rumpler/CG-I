@@ -554,7 +554,8 @@ void CgQtGui::slotResetRotationCurve()
 
 void CgQtGui::slotLoadMeshFile()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, ("Load Mesh"), "/home/gerrit/git/CG-I/alt/UebungSS2018/CgData", ("Object-file (*.obj)"));
+    //QString fileName = QFileDialog::getOpenFileName(this, ("Load Mesh"), "/home/gerrit/git/CG-I/alt/UebungSS2018/CgData", ("Object-file (*.obj)"));
+    QString fileName=  QFileDialog::getOpenFileName(this, tr("Open Obj-File"),"",tr("Model Files (*.obj)"));
     CgLoadEvent *e = new CgLoadEvent();
     e->setFilename(fileName.toStdString());
     notifyObserver(e);

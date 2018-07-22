@@ -265,15 +265,23 @@ void CgQtGui::createOptionPanelRotateObjects(QWidget *parent)
     vboxCylinder->addWidget(spinBoxAmountOfSegmentsCylinder);
 
 
-    //DoubleSpinBox Height
-    spinBoxHeightCylinderCone = new QDoubleSpinBox();
-    spinBoxHeightCylinderCone->setMinimum(0.01);
-    spinBoxHeightCylinderCone->setValue(0.5);
-    spinBoxHeightCylinderCone->setSingleStep(0.01);
-    //    spinBoxHeightCylinderCone->setSuffix(" Height");
-    spinBoxHeightCylinderCone->setPrefix("Height: ");
-    connect(spinBoxHeightCylinderCone, SIGNAL(valueChanged(double) ), this, SLOT(slotCylinderChanged()) ); // TODO
-    vboxCylinder->addWidget(spinBoxHeightCylinderCone);
+    //DoubleSpinBox height
+    spinBoxHeightCylinder = new QDoubleSpinBox();
+    spinBoxHeightCylinder->setMinimum(0.01);
+    spinBoxHeightCylinder->setValue(0.3);
+    spinBoxHeightCylinder->setSingleStep(0.01);
+    spinBoxHeightCylinder->setPrefix("Height: ");
+    connect(spinBoxHeightCylinder, SIGNAL(valueChanged(double) ), this, SLOT(slotCylinderChanged()) );
+    vboxCylinder->addWidget(spinBoxHeightCylinder);
+
+    //DoubleSpinBox radius
+    spinBoxRadiusCylinder = new QDoubleSpinBox();
+    spinBoxRadiusCylinder->setMinimum(0.01);
+    spinBoxRadiusCylinder->setValue(0.2);
+    spinBoxRadiusCylinder->setSingleStep(0.01);
+    spinBoxRadiusCylinder->setPrefix("Radius: ");
+    connect(spinBoxRadiusCylinder, SIGNAL(valueChanged(double) ), this, SLOT(slotCylinderChanged()) );
+    vboxCylinder->addWidget(spinBoxRadiusCylinder);
 
 
 
@@ -526,7 +534,8 @@ void CgQtGui::slotCylinderChanged()
     CgValueChangedEvent* e = new CgValueChangedEvent();
     e->setCylinderChanged(true);
     e->setValueAmountOfSegmentsCylinder(spinBoxAmountOfSegmentsCylinder->value());
-    e->setValueHeightCylinder(spinBoxHeightCylinderCone->value());
+    e->setValueHeightCylinder(spinBoxHeightCylinder->value());
+    e->setValueRadiusCylinder(spinBoxRadiusCylinder->value());
     notifyObserver(e);
 }
 
@@ -542,7 +551,8 @@ void CgQtGui::slotResetCylinder()
 {
     slotShowCylinder();
     spinBoxAmountOfSegmentsCylinder->setValue(50);
-    spinBoxHeightCylinderCone->setValue(0.5);
+    spinBoxHeightCylinder->setValue(0.3f);
+    spinBoxRadiusCylinder->setValue(0.2f);
     slotCylinderChanged();
 }
 

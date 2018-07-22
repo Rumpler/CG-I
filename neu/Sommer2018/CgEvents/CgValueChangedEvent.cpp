@@ -20,6 +20,7 @@ CgBaseEvent* CgValueChangedEvent::clone()
 
     e->setValueAmountOfSegmentsCylinder(valueAmountOfSegmentsCylinder);
     e->setValueHeightCylinder(valueHeightCylinder);
+    e->setValueRadiusCylinder(valueRadiusCylinder);
 
     e->setValueAmountOfSegmentsRotationBody(valueAmountOfSegmentsRotationBody);
 
@@ -89,6 +90,16 @@ bool CgValueChangedEvent::getResetRotationCurve() const
 void CgValueChangedEvent::setResetRotationCurve(bool value)
 {
     resetRotationCurve = value;
+}
+
+double CgValueChangedEvent::getValueRadiusCylinder() const
+{
+    return valueRadiusCylinder;
+}
+
+void CgValueChangedEvent::setValueRadiusCylinder(double value)
+{
+    valueRadiusCylinder = value;
 }
 
 std::ostream& operator<<(std::ostream& os,const CgValueChangedEvent& e)

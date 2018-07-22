@@ -1,4 +1,4 @@
-#include "CgSceneControl.h"
+﻿#include "CgSceneControl.h"
 #include "CgBase/CgEnums.h"
 #include "CgEvents/CgMouseEvent.h"
 #include "CgEvents/CgKeyEvent.h"
@@ -11,6 +11,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <CgEvents/CgColorChangeEvent.h>
 #include <CgEvents/CgObjectSelectionChangedEvent.h>
+#include <CgEvents/CgValueChangedEvent.h>
 #include <CgUtils/CgUtils.h>
 #include "CgUtils/ObjLoader.h"
 #include <string>
@@ -76,11 +77,6 @@ void CgSceneControl::setRenderer(CgBaseRenderer* r)
 
 void CgSceneControl::renderObjects()
 {
-
-    // Materialeigenschaften setzen
-    // sollte ja eigentlich pro Objekt unterschiedlich sein können, naja bekommen sie schon hin....
-
-    //    m_renderer->setUniformValue("mycolor",glm::vec4(1.0,0.0,0.0,1.0));
     m_renderer->setUniformValue("mycolor",glm::vec4(1.0f,1.0f,1.0f,1.0f));
 
     m_renderer->setUniformValue("matDiffuseColor",glm::vec4(0.35,0.31,0.09,1.0));
@@ -124,13 +120,19 @@ void CgSceneControl::renderObjects()
     }
 
     /* cylinder  */
-    m_renderer->setUniformValue("mycolor",glm::vec4(m_cylinder->getColor(),0.5f));
-    m_renderer->render(m_cylinder);
+    if(m_cylinder->getDisplay()){
+        m_renderer->setUniformValue("mycolor",glm::vec4(m_cylinder->getColor(),0.5f));
+        m_renderer->render(m_cylinder);
+    }
+
 
     /* cylinderNormals  */
     for(CgLine* poly : *m_cylinder_normals){
-        m_renderer->setUniformValue("mycolor",glm::vec4(poly->getColor(),0.5f));
-        m_renderer->render(poly);
+        if(poly->getDisplay()){
+            m_renderer->setUniformValue("mycolor",glm::vec4(poly->getColor(),0.5f));
+            m_renderer->render(poly);
+        }
+
     }
 
     /* loadedObject  */
@@ -228,16 +230,18 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         glm::vec3 customColor = glm::vec3((float)(ev->getRed() * 0.01f), (float)(ev->getGreen() * 0.01f), (float)(ev->getBlue() * 0.01f));
 
         for(CgBaseRenderableObject* obj : colorObjects){
-            std::cout <<  "Loop entered" << std::endl;
             if(obj->getType() == Cg::TriangleMesh){
-                std::cout <<  "triangleMesh entered" << std::endl;
                 CgTriangleMesh* o = (CgTriangleMesh*) obj;
                 o->setColor(customColor);
             }else if(obj->getType() == Cg::Polyline){
-                std::cout <<  "Polyline entered" << std::endl;
                 CgPolyline* o = (CgPolyline*) obj;
                 o->setColor(customColor);
             }
+
+
+
+
+
         }
         m_renderer->redraw();
     }
@@ -245,20 +249,52 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     if(e->getType() == Cg::CgObjectSelectionChangeEvent){
         CgObjectSelectionChangeEvent *ev = (CgObjectSelectionChangeEvent*) e;
 
-        for(CgLine* poly : m_coordinate_system){
+        for(CgLine* poly : m_coordinate_system){                    //coordinateSystem
             poly->setDisplay(ev->getRenderCoordinateSystem());
         }
 
-        m_cube->setDisplay(ev->getRenderCube());
+        m_cube->setDisplay(ev->getRenderCube());                    //cube
 
-        for(CgLine* poly : *m_cube_normals){
+        for(CgLine* poly : *m_cube_normals){                        //cubeNormals
             poly->setDisplay(ev->getRenderCubeNormals());
         }
 
-        m_loaded_object->setDisplay(ev->getRenderLoadedObject());
+        m_cylinder->setDisplay(ev->getRenderCylinder());            //cylinder
+
+        for(CgLine* poly : *m_cylinder_normals){                    //cylinderNormals
+            poly->setDisplay(ev->getRenderCylinderNormals());
+        }
+
+
+        //TODO rotation curve
+
+        //Todo rotationBody
+
+        m_loaded_object->setDisplay(ev->getRenderLoadedObject());   //loadedObject
 
         m_renderer->redraw();
     }
+
+    if(e->getType() == Cg::CgValueChangedEvent){
+        CgValueChangedEvent* ev = (CgValueChangedEvent*) e;
+
+        if(ev->getCylinderChanged()){
+
+            if(ev->getValueAmountOfSegmentsCylinder() >= 2 && ev->getValueHeightCylinder() >= 0 && ev->getValueRadiusCylinder() >= 0){
+                m_cylinder->makeCylinder(ev->getValueAmountOfSegmentsCylinder(), ev->getValueHeightCylinder(), ev->getValueRadiusCylinder());
+                m_renderer->init(m_cylinder);
+                m_cylinder_normals = m_cylinder->getPolylineNormals();
+                for(CgLine* poly : *m_cylinder_normals){
+                    m_renderer->init(poly);
+                }
+            }
+
+
+        }
+    }
+
+
+
     delete e;
 
 

@@ -106,8 +106,9 @@ private:
     QSlider* sliderGreen;
     QSlider* sliderBlue;
 
-    QDoubleSpinBox* spinBoxHeightCylinderCone;
+    QDoubleSpinBox* spinBoxHeightCylinder;
     QSpinBox* spinBoxAmountOfSegmentsCylinder;
+    QDoubleSpinBox* spinBoxRadiusCylinder;
 
     QSpinBox* spinBoxAmountOfSegmentsRotationBody;
 

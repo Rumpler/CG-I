@@ -6,6 +6,25 @@ CgCylinder::CgCylinder(int id, int amountOfSegments, double height, double radiu
     amountOfSegments(amountOfSegments),
     height(height)
 {
+   makeCylinder(amountOfSegments, height, radius);
+}
+
+void CgCylinder::makeCylinder(int amountOfSegments, double height, double radius)
+{
+    //Memory if normals should be displayed
+    bool displayPolyNormals;
+    if(polylineNormals.size() > 0){displayPolyNormals = polylineNormals.at(0)->getDisplay();}else{displayPolyNormals = false;}  //Else when cylinder is constructed
+
+    //Reset object
+    m_vertices.clear();
+    m_vertex_normals.clear();
+    m_vertex_colors.clear();
+    m_tex_coords.clear();
+    m_triangle_indices.clear();
+    m_face_normals.clear();
+    m_face_colors.clear();
+    polylineNormals.clear();
+
     //Initial values
     double angleOfRotation = 360.0 / amountOfSegments;
     angleOfRotation = (2.0 * M_PI / 360.0) * angleOfRotation;       //Translate in rad
@@ -160,6 +179,13 @@ CgCylinder::CgCylinder(int id, int amountOfSegments, double height, double radiu
         lastBot = nextBot;
         lastTop = nextTop;
     }
+
+    if(displayPolyNormals){
+        for(CgLine* poly : polylineNormals){
+            poly->setDisplay(true);
+        }
+    }
+
 }
 
 void CgCylinder::createFace(int p1, int p2, int p3)
