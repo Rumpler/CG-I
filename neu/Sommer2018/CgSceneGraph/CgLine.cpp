@@ -7,6 +7,12 @@ CgLine::CgLine(int id): CgPolyline::CgPolyline(id)
 
 }
 
+CgLine::CgLine(int id, glm::vec3 p1, glm::vec3 p2) : CgPolyline::CgPolyline(id)
+{
+    vertices.push_back(p1);
+    vertices.push_back(p2);
+}
+
 CgLine::~CgLine()
 {
     vertices.clear();
@@ -15,9 +21,6 @@ CgLine::~CgLine()
 void CgLine::sdForPointScheme()
 {
     if(vertices.size() < 4){return;} //Check if enough vertices exist
-
-
-
 
     std::vector<glm::vec3> futureVertices;
     futureVertices.reserve((vertices.size() * 2) - 3); //Size after For-Point-Scheme

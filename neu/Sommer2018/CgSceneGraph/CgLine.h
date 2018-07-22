@@ -11,6 +11,7 @@ class CgLine : public CgPolyline
 {
 public:
     CgLine(int id);
+    CgLine(int id, glm::vec3 p1, glm::vec3 p2);
     ~CgLine();
 
     void sdForPointScheme();

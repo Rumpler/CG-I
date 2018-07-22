@@ -11,6 +11,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <CgEvents/CgColorChangeEvent.h>
 #include <CgEvents/CgObjectSelectionChangedEvent.h>
+#include <CgEvents/CgSubdivisionEvent.h>
 #include <CgEvents/CgValueChangedEvent.h>
 #include <CgUtils/CgUtils.h>
 #include "CgUtils/ObjLoader.h"
@@ -37,6 +38,10 @@ CgSceneControl::CgSceneControl()
 
     m_cylinder_normals = m_cylinder->getPolylineNormals();
 
+    m_rotation_curve = new CgLine(idGen->getNextId());
+    m_rotation_curve->setRotationCurveExample1();
+    colorObjects.push_back(m_rotation_curve);
+
     m_loaded_object= new CgTriangles(idGen->getNextId());
     colorObjects.push_back(m_loaded_object);
 }
@@ -47,6 +52,10 @@ CgSceneControl::~CgSceneControl()
     m_coordinate_system.clear();
     delete m_cube;
     m_cube_normals->clear();
+    delete m_cylinder;
+    m_cylinder_normals->clear();
+    delete m_rotation_curve;
+    //delete m_rotation_body;
     delete m_loaded_object;
 }
 
@@ -70,6 +79,8 @@ void CgSceneControl::setRenderer(CgBaseRenderer* r)
     for(CgLine* poly : *m_cylinder_normals){
         m_renderer->init(poly);
     }
+
+    m_renderer->init(m_rotation_curve);
 
     m_renderer->init(m_loaded_object);
 }
@@ -133,6 +144,11 @@ void CgSceneControl::renderObjects()
             m_renderer->render(poly);
         }
 
+    }
+
+    if(m_rotation_curve->getDisplay()){
+        m_renderer->setUniformValue("mycolor",glm::vec4(m_rotation_curve->getColor(),0.5f));
+        m_renderer->render(m_rotation_curve);
     }
 
     /* loadedObject  */
@@ -213,7 +229,6 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     if(e->getType() == Cg::CgWindowResizeEvent)
     {
         CgWindowResizeEvent* ev = (CgWindowResizeEvent*)e;
-        //        std::cout << *ev <<std::endl;
         m_proj_matrix=glm::perspective(45.0f, (float)(ev->w()) / ev->h(), 0.01f, 100.0f);
     }
 
@@ -237,11 +252,6 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
                 CgPolyline* o = (CgPolyline*) obj;
                 o->setColor(customColor);
             }
-
-
-
-
-
         }
         m_renderer->redraw();
     }
@@ -252,26 +262,17 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         for(CgLine* poly : m_coordinate_system){                    //coordinateSystem
             poly->setDisplay(ev->getRenderCoordinateSystem());
         }
-
         m_cube->setDisplay(ev->getRenderCube());                    //cube
-
         for(CgLine* poly : *m_cube_normals){                        //cubeNormals
             poly->setDisplay(ev->getRenderCubeNormals());
         }
-
         m_cylinder->setDisplay(ev->getRenderCylinder());            //cylinder
-
         for(CgLine* poly : *m_cylinder_normals){                    //cylinderNormals
             poly->setDisplay(ev->getRenderCylinderNormals());
         }
-
-
-        //TODO rotation curve
-
+        m_rotation_curve->setDisplay(ev->getRenderRotationCurve());
         //Todo rotationBody
-
         m_loaded_object->setDisplay(ev->getRenderLoadedObject());   //loadedObject
-
         m_renderer->redraw();
     }
 
@@ -279,7 +280,6 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         CgValueChangedEvent* ev = (CgValueChangedEvent*) e;
 
         if(ev->getCylinderChanged()){
-
             if(ev->getValueAmountOfSegmentsCylinder() >= 2 && ev->getValueHeightCylinder() >= 0 && ev->getValueRadiusCylinder() >= 0){
                 m_cylinder->makeCylinder(ev->getValueAmountOfSegmentsCylinder(), ev->getValueHeightCylinder(), ev->getValueRadiusCylinder());
                 m_renderer->init(m_cylinder);
@@ -288,12 +288,25 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
                     m_renderer->init(poly);
                 }
             }
-
-
         }
+
+        if(ev->getResetRotationCurve()){
+            m_rotation_curve->setRotationCurveExample1();
+            m_renderer->init(m_rotation_curve);
+        }
+
+        m_renderer->redraw();
     }
 
+    if(e->getType() == Cg::CgSubdivisionEvent){
+        CgSubdivisionEvent* ev = (CgSubdivisionEvent*) e;
 
+        if(ev->getForPointScheme()){
+            m_rotation_curve->sdForPointScheme();
+            m_renderer->init(m_rotation_curve);
+        }
+        m_renderer->redraw();
+    }
 
     delete e;
 

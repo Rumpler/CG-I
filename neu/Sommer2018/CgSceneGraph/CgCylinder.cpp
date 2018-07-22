@@ -212,11 +212,6 @@ void CgCylinder::makeCylinder(int amountOfSegments, double height, double radius
             normalP = CgUtils::rotatePointYAxis(currentAngle, vnbP);
             m_vertex_normals.push_back(normal);
             pushPoly(m_vertices.at(iNextBot), normalP);
-
-
-
-
-
         }
 
         iLastBot = iNextBot;

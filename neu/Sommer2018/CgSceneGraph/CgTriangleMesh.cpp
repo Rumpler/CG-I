@@ -32,6 +32,16 @@ void CgTriangleMesh::setColor(glm::vec3 color)
 
 std::vector<CgLine *> *CgTriangleMesh::getPolylineNormals()
 {
+
+    //TODO calculating CgLines on demand instead of pushing them through whole progress (mayby later)
+//    std::vector<CgLine*>* lineNormals = new std::vector<CgLine*>;
+//    CgLine* line;
+//    for(int i = 0; i < m_vertices.size(); i++){
+//        line = new CgLine(idGen->getNextId(), m_vertices.at(i), m_vertices.at(i) + m_vertex_normals.at(i));
+//        //TODO set color etc...
+//        lineNormals->push_back(line);
+//    }
+
     return &polylineNormals;
 }
 

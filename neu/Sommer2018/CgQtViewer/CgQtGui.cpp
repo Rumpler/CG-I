@@ -495,6 +495,7 @@ void CgQtGui::showObject(int i)
 void CgQtGui::slotSubdivision()
 {
     CgSubdivisionEvent* e = new CgSubdivisionEvent();
+    e->setForPointScheme(true);
     notifyObserver(e);
     slotRotationBodyChanged();
 }

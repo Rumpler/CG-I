@@ -48,6 +48,8 @@ private:
     CgCylinder* m_cylinder;
     std::vector<CgLine*>* m_cylinder_normals;
 
+    CgLine* m_rotation_curve;
+
     CgTriangles* m_loaded_object;
 
 

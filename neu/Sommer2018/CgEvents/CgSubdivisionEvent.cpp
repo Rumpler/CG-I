@@ -14,8 +14,18 @@ Cg::EventType CgSubdivisionEvent::getType()
 CgBaseEvent *CgSubdivisionEvent::clone()
 {
     CgSubdivisionEvent* e = new CgSubdivisionEvent();
-
+    e->setForPointScheme(forPointScheme);
     return e;
+}
+
+bool CgSubdivisionEvent::getForPointScheme() const
+{
+    return forPointScheme;
+}
+
+void CgSubdivisionEvent::setForPointScheme(bool value)
+{
+    forPointScheme = value;
 }
 
 std::ostream& operator<<(std::ostream &os, const CgSubdivisionEvent &e)
