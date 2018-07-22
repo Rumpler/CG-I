@@ -29,8 +29,9 @@ void CgCylinder::makeCylinder(int amountOfSegments, double height, double radius
         double angleOfRotation;
         double currentAngle;
 
-        //for rotatet points
+        //for rotatet points (temp)
         glm::vec3 focus;    //focus of triangle
+        glm::vec3 normal;   //normal
         glm::vec3 normalP;  //normalPoint
 
         //for first points
@@ -116,21 +117,25 @@ void CgCylinder::makeCylinder(int amountOfSegments, double height, double radius
             fpr = CgUtils::calcFocusPointTriangle(m_vertices.at(iNextBot), m_vertices.at(iLastBot), m_vertices.at(iLastTop));
             nr  = CgUtils::calcFaceNormal(m_vertices.at(iNextBot), m_vertices.at(iLastBot), m_vertices.at(iLastTop));
             nrP = fpr + nr * 0.1f;
+            m_face_normals.push_back(nr);
             pushPoly(fpr, nrP);
             //left
             fpl  = CgUtils::calcFocusPointTriangle(m_vertices.at(iNextBot), m_vertices.at(iLastTop), m_vertices.at(iNextTop));
             nl   = CgUtils::calcFaceNormal(m_vertices.at(iNextBot), m_vertices.at(iLastTop), m_vertices.at(iNextTop));
             nlP  = fpl + nl * 0.1f;
+            m_face_normals.push_back(nl);
             pushPoly(fpl, nlP);
             //top
             fpt  = CgUtils::calcFocusPointTriangle(m_vertices.at(iTopCenter), m_vertices.at(iNextTop), m_vertices.at(iLastTop));
             nt   = CgUtils::calcFaceNormal(m_vertices.at(iTopCenter), m_vertices.at(iNextTop), m_vertices.at(iLastTop));
             ntP  = fpt + nt * 0.1f;
+            m_face_normals.push_back(nt);
             pushPoly(fpt, ntP);
             //bottom
             fpb  = CgUtils::calcFocusPointTriangle(m_vertices.at(iBottomCenter), m_vertices.at(iLastBot), m_vertices.at(iNextBot));
             nb   = CgUtils::calcFaceNormal(m_vertices.at(iBottomCenter), m_vertices.at(iLastBot), m_vertices.at(iNextBot));
             nbP  = fpb + nb * 0.1f;
+            m_face_normals.push_back(nb);
             pushPoly(fpb, nbP);
 
 
@@ -144,15 +149,17 @@ void CgCylinder::makeCylinder(int amountOfSegments, double height, double radius
 
 
             //Calculate first vertexNormal for bottomEdge
-            vnbP = (nl + nr + nb + nb + nextRightFaceNormal) / 5.0f;
-            vnbP = glm::normalize(vnbP);
-            vnbP = m_vertices.at(iNextBot) + vnbP * 0.1f;
+            vnb = (nl + nr + nb + nb + nextRightFaceNormal) / 5.0f;
+            vnb = glm::normalize(vnb);
+            vnbP = m_vertices.at(iNextBot) + vnb * 0.1f;
+            m_vertex_normals.push_back(vnb);
             pushPoly(m_vertices.at(iNextBot),vnbP);
 
             //Calculate first vertexNormal for topEdge
-            vntP = (nl + nextRightFaceNormal + nextRightFaceNormal + nt + nt) / 5.0f;
-            vntP = glm::normalize(vntP);
-            vntP = m_vertices.at(iNextTop) + vntP * 0.1f;
+            vnt = (nl + nextRightFaceNormal + nextRightFaceNormal + nt + nt) / 5.0f;
+            vnt = glm::normalize(vnt);
+            vntP = m_vertices.at(iNextTop) + vnt * 0.1f;
+            m_vertex_normals.push_back(vnb);
             pushPoly(m_vertices.at(iNextTop), vntP);
 
 
@@ -164,28 +171,46 @@ void CgCylinder::makeCylinder(int amountOfSegments, double height, double radius
 
             //right
             focus =  CgUtils::rotatePointYAxis(currentAngle, fpr);
-            normalP = CgUtils::rotatePointYAxis(currentAngle, fpr + nr * 0.1f);
+            normal = CgUtils::rotatePointYAxis(currentAngle, fpr + nr) - focus;
+            normal = glm::normalize(normal);
+            normalP = focus + normal * 0.1f;
+            m_face_normals.push_back(normal);
             pushPoly(focus, normalP);
             //left
             focus =  CgUtils::rotatePointYAxis(currentAngle, fpl);
-            normalP = CgUtils::rotatePointYAxis(currentAngle, fpl + nl * 0.1f);
+            normal = CgUtils::rotatePointYAxis(currentAngle, fpl + nl) - focus;
+            normal = glm::normalize(normal);
+            normalP = focus + normal * 0.1f;
+            m_face_normals.push_back(normal);
             pushPoly(focus, normalP);
             //top
             focus =  CgUtils::rotatePointYAxis(currentAngle, fpt);
-            normalP = CgUtils::rotatePointYAxis(currentAngle, fpt + nt * 0.1f);
+            normal = CgUtils::rotatePointYAxis(currentAngle, fpt + nt) - focus;
+            normal = glm::normalize(normal);
+            normalP = focus + normal * 0.1f;
+            m_face_normals.push_back(normal);
             pushPoly(focus,normalP);
             //bottom
             focus =  CgUtils::rotatePointYAxis(currentAngle, fpb);
-            normalP = CgUtils::rotatePointYAxis(currentAngle, fpb + nb * 0.1f);
+            normal = CgUtils::rotatePointYAxis(currentAngle, fpb + nb) - focus;
+            normal = glm::normalize(normal);
+            normalP = focus + normal * 0.1f;
+            m_face_normals.push_back(normal);
             pushPoly(focus,normalP);
 
             /************* normals per VERTEX *************/
 
             //top
+            normal = CgUtils::rotatePointYAxis(currentAngle, m_vertices.at(iTopEdge) + vnt) - CgUtils::rotatePointYAxis(currentAngle, m_vertices.at(iTopEdge));
+            normal = glm::normalize(normal);
             normalP = CgUtils::rotatePointYAxis(currentAngle, vntP);
+            m_vertex_normals.push_back(normal);
             pushPoly(m_vertices.at(iNextTop), normalP);
             //bottom
+            normal = CgUtils::rotatePointYAxis(currentAngle, m_vertices.at(iBottomEdge) + vnb) - CgUtils::rotatePointYAxis(currentAngle, m_vertices.at(iBottomEdge));
+            normal = glm::normalize(normal);
             normalP = CgUtils::rotatePointYAxis(currentAngle, vnbP);
+            m_vertex_normals.push_back(normal);
             pushPoly(m_vertices.at(iNextBot), normalP);
 
 
