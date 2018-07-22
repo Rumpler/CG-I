@@ -16,6 +16,8 @@ class CgRotationBody: public CgTriangleMesh
 public:
     CgRotationBody(int id, CgLine* contourCurve, int amountOfSegments);
 
+    void makeRotationBody(CgLine* contourCurve, int amountOfSegments);
+
 private:
     CgLine* contourCurve;
     int amountOfSegments;

@@ -4,10 +4,25 @@ CgRotationBody::CgRotationBody(int id, CgLine* contourCurve, int amountOfSegment
     contourCurve(contourCurve),
     amountOfSegments(amountOfSegments)
 {
+    makeRotationBody(contourCurve, amountOfSegments);
+}
+
+void CgRotationBody::makeRotationBody(CgLine *contourCurve, int amountOfSegments)
+{
     std::vector<glm::vec3> contourCurveVertices = contourCurve->getVertices();
 
     //Check if enough vertices exist
     if(contourCurveVertices.size() < 2 || amountOfSegments < 2){return;}
+
+    //memory if normals should be displayed
+    bool displayPolyNormals;
+    if(polylineNormals.size() > 0){displayPolyNormals = polylineNormals.at(0)->getDisplay();}else{displayPolyNormals = false;}  //else when cylinder is constructed
+
+    //reset
+    m_vertices.clear();
+    m_triangle_indices.clear();
+    polylineNormals.clear();
+
 
     //Angle calculation
     double angleOfRotation = 360.0 / amountOfSegments;
@@ -31,6 +46,7 @@ CgRotationBody::CgRotationBody(int id, CgLine* contourCurve, int amountOfSegment
     /* ##################### Add triangle indices ##################### */
     for(int i = 0; i < amountOfSegments * (contourCurveVertices.size() - 1); i++){
         layerCounter = (i / amountOfSegments);
+
         m_triangle_indices.push_back(i);
         m_triangle_indices.push_back( ((i + 1) % amountOfSegments) + (layerCounter * amountOfSegments) + amountOfSegments);
         m_triangle_indices.push_back(i + amountOfSegments);
@@ -39,6 +55,4 @@ CgRotationBody::CgRotationBody(int id, CgLine* contourCurve, int amountOfSegment
         m_triangle_indices.push_back( ((i + 1) % amountOfSegments) + (layerCounter * amountOfSegments));
         m_triangle_indices.push_back( ((i + 1) % amountOfSegments) + (layerCounter * amountOfSegments) + amountOfSegments);
     }
-
-    //CgUtils::printVecVector(&m_vertices);
 }

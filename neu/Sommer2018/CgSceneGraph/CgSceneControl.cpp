@@ -156,7 +156,7 @@ void CgSceneControl::renderObjects()
         m_renderer->render(m_rotation_curve);
     }
 
-    m_rotation_body->setDisplay(true); //TODO delete
+    //m_rotation_body->setDisplay(true); //TODO delete
 
     if(m_rotation_body->getDisplay()){
         m_renderer->setUniformValue("mycolor",glm::vec4(m_rotation_body->getColor(),0.5f));
@@ -306,6 +306,11 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         if(ev->getResetRotationCurve()){
             m_rotation_curve->setRotationCurveExample1();
             m_renderer->init(m_rotation_curve);
+        }
+
+        if(ev->getRotationBodyChanged()){
+            m_rotation_body->makeRotationBody(m_rotation_curve, ev->getValueAmountOfSegmentsRotationBody());
+            m_renderer->init(m_rotation_body);
         }
 
         m_renderer->redraw();
