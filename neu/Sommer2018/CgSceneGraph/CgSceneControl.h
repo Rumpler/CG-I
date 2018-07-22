@@ -5,6 +5,7 @@
 #include "CgBase/CgBaseSceneControl.h"
 #include "CgCube.h"
 #include "CgCylinder.h"
+#include "CgRotationBody.h"
 #include "CgTriangles.h"
 #include <glm/glm.hpp>
 
@@ -49,6 +50,8 @@ private:
     std::vector<CgLine*>* m_cylinder_normals;
 
     CgLine* m_rotation_curve;
+
+    CgRotationBody* m_rotation_body;
 
     CgTriangles* m_loaded_object;
 

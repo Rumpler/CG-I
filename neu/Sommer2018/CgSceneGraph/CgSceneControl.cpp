@@ -42,6 +42,9 @@ CgSceneControl::CgSceneControl()
     m_rotation_curve->setRotationCurveExample1();
     colorObjects.push_back(m_rotation_curve);
 
+    m_rotation_body = new CgRotationBody(idGen->getNextId(), m_rotation_curve, 50);
+    colorObjects.push_back(m_rotation_body);
+
     m_loaded_object= new CgTriangles(idGen->getNextId());
     colorObjects.push_back(m_loaded_object);
 }
@@ -55,7 +58,7 @@ CgSceneControl::~CgSceneControl()
     delete m_cylinder;
     m_cylinder_normals->clear();
     delete m_rotation_curve;
-    //delete m_rotation_body;
+    delete m_rotation_body;
     delete m_loaded_object;
 }
 
@@ -81,6 +84,8 @@ void CgSceneControl::setRenderer(CgBaseRenderer* r)
     }
 
     m_renderer->init(m_rotation_curve);
+
+    m_renderer->init(m_rotation_body);
 
     m_renderer->init(m_loaded_object);
 }
@@ -149,6 +154,13 @@ void CgSceneControl::renderObjects()
     if(m_rotation_curve->getDisplay()){
         m_renderer->setUniformValue("mycolor",glm::vec4(m_rotation_curve->getColor(),0.5f));
         m_renderer->render(m_rotation_curve);
+    }
+
+    m_rotation_body->setDisplay(true); //TODO delete
+
+    if(m_rotation_body->getDisplay()){
+        m_renderer->setUniformValue("mycolor",glm::vec4(m_rotation_body->getColor(),0.5f));
+        m_renderer->render(m_rotation_body);
     }
 
     /* loadedObject  */
@@ -270,8 +282,9 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         for(CgLine* poly : *m_cylinder_normals){                    //cylinderNormals
             poly->setDisplay(ev->getRenderCylinderNormals());
         }
-        m_rotation_curve->setDisplay(ev->getRenderRotationCurve());
-        //Todo rotationBody
+        m_rotation_curve->setDisplay(ev->getRenderRotationCurve()); //rotationCurve
+        m_rotation_body->setDisplay(ev->getRenderRotationBody());   //rotationBody
+
         m_loaded_object->setDisplay(ev->getRenderLoadedObject());   //loadedObject
         m_renderer->redraw();
     }

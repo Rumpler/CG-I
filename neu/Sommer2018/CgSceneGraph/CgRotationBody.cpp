@@ -1,9 +1,8 @@
 #include "CgRotationBody.h"
 
-CgRotationBody::CgRotationBody(int id, CgLine* contourCurve, int amountOfSegments):
-    m_type(Cg::TriangleMesh),
-    m_id(id),
-    contourCurve(contourCurve)
+CgRotationBody::CgRotationBody(int id, CgLine* contourCurve, int amountOfSegments): CgTriangleMesh::CgTriangleMesh(id),
+    contourCurve(contourCurve),
+    amountOfSegments(amountOfSegments)
 {
     std::vector<glm::vec3> contourCurveVertices = contourCurve->getVertices();
 
@@ -41,62 +40,5 @@ CgRotationBody::CgRotationBody(int id, CgLine* contourCurve, int amountOfSegment
         m_triangle_indices.push_back( ((i + 1) % amountOfSegments) + (layerCounter * amountOfSegments) + amountOfSegments);
     }
 
-
-
     //CgUtils::printVecVector(&m_vertices);
-}
-
-Cg::ObjectType CgRotationBody::getType() const
-{
-    return m_type;
-}
-
-unsigned int CgRotationBody::getID() const
-{
-    return m_id;
-}
-
-const std::vector<glm::vec3> &CgRotationBody::getVertices() const
-{
-    return m_vertices;
-}
-
-const std::vector<glm::vec3> &CgRotationBody::getVertexNormals() const
-{
-    return m_vertex_normals;
-}
-
-const std::vector<glm::vec3> &CgRotationBody::getVertexColors() const
-{
-    return m_vertex_colors;
-}
-
-const std::vector<glm::vec2> &CgRotationBody::getVertexTexCoords() const
-{
-    return m_tex_coords;
-}
-
-const std::vector<unsigned int> &CgRotationBody::getTriangleIndices() const
-{
-    return m_triangle_indices;
-}
-
-const std::vector<glm::vec3> &CgRotationBody::getFaceNormals() const
-{
-    return m_face_normals;
-}
-
-const std::vector<glm::vec3> &CgRotationBody::getFaceColors() const
-{
-    return m_face_colors;
-}
-
-const glm::vec3 CgRotationBody::getColor() const
-{
-    return m_color;
-}
-
-void CgRotationBody::setColor(const glm::vec3 &color)
-{
-    m_color = color;
 }
