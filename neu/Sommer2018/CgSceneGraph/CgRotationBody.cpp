@@ -22,6 +22,8 @@ void CgRotationBody::makeRotationBody(CgLine *contourCurve, int amountOfSegments
     m_vertices.clear();
     m_triangle_indices.clear();
     polylineNormals.clear();
+    m_vertex_normals.clear();
+    m_face_normals.clear();
 
 
     //Angle calculation

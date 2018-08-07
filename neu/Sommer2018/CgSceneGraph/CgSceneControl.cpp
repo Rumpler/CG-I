@@ -342,8 +342,13 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         }
 
         if(ev->getRotationBodyChanged()){
+            m_rotation_body_normals->clear();
             m_rotation_body->makeRotationBody(m_rotation_curve, ev->getValueAmountOfSegmentsRotationBody());
             m_renderer->init(m_rotation_body);
+            std::cout << m_rotation_body_normals->size() << std::endl;
+            for(CgLine* poly : *m_rotation_body_normals){
+                m_renderer->init(poly);
+            }
         }
 
         m_renderer->redraw();

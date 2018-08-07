@@ -177,6 +177,7 @@ void CgQtGui::createOptionPanelObjects(QWidget *parent)
 
     ButtonGroupObjects->button(2)->setDisabled(true);
     ButtonGroupObjects->button(4)->setDisabled(true);
+    ButtonGroupObjects->button(7)->setDisabled(true);
     ButtonGroupObjects->button(8)->setDisabled(true);
     ButtonGroupObjects->button(9)->setDisabled(true);
 
@@ -524,6 +525,20 @@ void CgQtGui::slotButtonGroupSelectionChanged()
         ButtonGroupObjects->button(4)->setDisabled(true);
     }else{
         ButtonGroupObjects->button(4)->setDisabled(false);
+    }
+    //disable rotation body normals
+    if( ! ButtonGroupObjects->button(6)->isChecked()){
+        ButtonGroupObjects->button(7)->setChecked(false);
+        ButtonGroupObjects->button(7)->setDisabled(true);
+    }else{
+        ButtonGroupObjects->button(7)->setDisabled(false);
+    }
+    //disable loaded object normals
+    if( ! ButtonGroupObjects->button(8)->isChecked()){
+        ButtonGroupObjects->button(9)->setChecked(false);
+        ButtonGroupObjects->button(9)->setDisabled(true);
+    }else{
+        ButtonGroupObjects->button(9)->setDisabled(false);
     }
 
     CgObjectSelectionChangeEvent* e = new CgObjectSelectionChangeEvent();
