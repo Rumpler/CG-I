@@ -65,7 +65,7 @@ protected:
     std::map<int, std::vector<glm::vec3>*> map_vertex_normals;
 
     //needs m_vertices and m_triangle_indices to be filled previously
-    void calculateNormals();
+    void computeNormals();
 
     //needs m_triangle_indeces, m_vertices, m_vertex_normals and m_face_normals to be filled previously
     void fillPolylineNormals();

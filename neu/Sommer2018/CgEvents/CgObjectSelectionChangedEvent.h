@@ -41,6 +41,9 @@ public:
     bool getRenderLoadedObjectNormals() const;
     void setRenderLoadedObjectNormals(bool value);
 
+    bool getRenderRotationBodyNormals() const;
+    void setRenderRotationBodyNormals(bool value);
+
 private:
     Cg::EventType m_type;
 
@@ -51,6 +54,7 @@ private:
     bool renderCylinderNormals;
     bool renderRotationCurve;
     bool renderRotationBody;
+    bool renderRotationBodyNormals;
     bool renderLoadedObject;
     bool renderLoadedObjectNormals;
 };

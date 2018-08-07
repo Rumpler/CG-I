@@ -30,7 +30,7 @@ CgCube::CgCube(int id) : CgTriangleMesh(id)
     initFace(7,6,2);
     initFace(2,3,7);
 
-    calculateNormals();
+    computeNormals();
     fillPolylineNormals();
 }
 

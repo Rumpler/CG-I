@@ -106,7 +106,7 @@ void CgTriangleMesh::setDisplay(bool value)
 
 
 //needs m_vertices and m_triangle_indices to be filled previously
-void CgTriangleMesh::calculateNormals()
+void CgTriangleMesh::computeNormals()
 {
     m_vertex_normals.clear();
     m_face_normals.clear();

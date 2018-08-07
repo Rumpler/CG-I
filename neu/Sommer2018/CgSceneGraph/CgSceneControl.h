@@ -47,6 +47,7 @@ private:
     CgLine* m_rotation_curve;
 
     CgRotationBody* m_rotation_body;
+    std::vector<CgLine*>* m_rotation_body_normals;
 
     CgTriangles* m_loaded_object;
     std::vector<CgLine*>* m_loaded_object_normals;

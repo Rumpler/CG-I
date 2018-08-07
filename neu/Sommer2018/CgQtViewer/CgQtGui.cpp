@@ -158,6 +158,7 @@ void CgQtGui::createOptionPanelObjects(QWidget *parent)
     QRadioButton* radiobuttonCylinderNormals = new QRadioButton("&Cylinder normals");
     QRadioButton* radiobuttonRotationCurve = new QRadioButton("&Rotation curve");
     QRadioButton* radiobuttonRotationBody = new QRadioButton("&Rotation Body");
+    QRadioButton* radiobuttonRotationBodyNormals = new QRadioButton("&Rotation Body Normals");
     QRadioButton* radiobuttonLoadedObject = new QRadioButton("&Loaded Object");
     QRadioButton* radiobuttonLoadedObjectNormals = new QRadioButton("&Loaded Object Normals");
 
@@ -170,11 +171,14 @@ void CgQtGui::createOptionPanelObjects(QWidget *parent)
     ButtonGroupObjects->addButton(radiobuttonCylinderNormals,4);
     ButtonGroupObjects->addButton(radiobuttonRotationCurve,5);
     ButtonGroupObjects->addButton(radiobuttonRotationBody,6);
-    ButtonGroupObjects->addButton(radiobuttonLoadedObject,7);
-    ButtonGroupObjects->addButton(radiobuttonLoadedObjectNormals,8);
+    ButtonGroupObjects->addButton(radiobuttonRotationBodyNormals,7);
+    ButtonGroupObjects->addButton(radiobuttonLoadedObject,8);
+    ButtonGroupObjects->addButton(radiobuttonLoadedObjectNormals,9);
 
     ButtonGroupObjects->button(2)->setDisabled(true);
     ButtonGroupObjects->button(4)->setDisabled(true);
+    ButtonGroupObjects->button(8)->setDisabled(true);
+    ButtonGroupObjects->button(9)->setDisabled(true);
 
     QVBoxLayout *vbox = new QVBoxLayout;
     vbox->addWidget(radiobuttonCoordinateSystem);
@@ -184,13 +188,15 @@ void CgQtGui::createOptionPanelObjects(QWidget *parent)
     vbox->addWidget(radiobuttonCylinderNormals);
     vbox->addWidget(radiobuttonRotationCurve);
     vbox->addWidget(radiobuttonRotationBody);
-    vbox->addWidget(radiobuttonLoadedObject);
-    vbox->addWidget(radiobuttonLoadedObjectNormals);
+    vbox->addWidget(radiobuttonRotationBodyNormals);
 
     //Button Load Mesh File
     QPushButton* buttonLoadMeshFile = new QPushButton("&Load Mesh");
     connect(buttonLoadMeshFile, SIGNAL( clicked() ), this, SLOT(slotLoadMeshFile()) );
     vbox->addWidget(buttonLoadMeshFile);
+
+    vbox->addWidget(radiobuttonLoadedObject);
+    vbox->addWidget(radiobuttonLoadedObjectNormals);
 
     vbox->addStretch(1);
     groupBox->setLayout(vbox);
@@ -446,7 +452,7 @@ void CgQtGui::slotShowRotationBody()
 
 void CgQtGui::slotShowLoadedObject()
 {
-    showObject(7);
+    showObject(8);
 }
 
 void CgQtGui::slotScalePlus()
@@ -528,8 +534,9 @@ void CgQtGui::slotButtonGroupSelectionChanged()
     e->setRenderCylinderNormals(ButtonGroupObjects->button(4)->isChecked());
     e->setRenderRotationCurve(ButtonGroupObjects->button(5)->isChecked());
     e->setRenderRotationBody(ButtonGroupObjects->button(6)->isChecked());
-    e->setRenderLoadedObject(ButtonGroupObjects->button(7)->isChecked());
-    e->setRenderLoadedObjectNormals(ButtonGroupObjects->button(8)->isChecked());
+    e->setRenderRotationBodyNormals(ButtonGroupObjects->button(7)->isChecked());
+    e->setRenderLoadedObject(ButtonGroupObjects->button(8)->isChecked());
+    e->setRenderLoadedObjectNormals(ButtonGroupObjects->button(9)->isChecked());
     notifyObserver(e);
 }
 
@@ -571,6 +578,8 @@ void CgQtGui::slotResetRotationCurve()
 
 void CgQtGui::slotLoadMeshFile()
 {
+    ButtonGroupObjects->button(8)->setDisabled(false);
+    ButtonGroupObjects->button(9)->setDisabled(false);
     QString file=  QFileDialog::getOpenFileName(this, tr("Open Obj-File"),"",tr("Model Files (*.obj)"));
     CgBaseEvent* e = new CgLoadObjFileEvent(Cg::CgLoadObjFileEvent, file.toStdString());
     notifyObserver(e);

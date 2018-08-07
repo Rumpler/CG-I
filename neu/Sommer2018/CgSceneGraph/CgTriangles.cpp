@@ -37,7 +37,7 @@ void CgTriangles::init(std::string filename)
     loader.getPositionData(m_vertices);
     //loader.getNormalData(m_vertex_normals);
     loader.getFaceIndexData(m_triangle_indices);
-    calculateNormals();
+    computeNormals();
     fillPolylineNormals();
 }
 
