@@ -2,6 +2,7 @@
 #include "CgBase/CgEnums.h"
 #include <iostream>
 #include <map>
+#include <CgUtils/CgUtils.h>
 
 
 
@@ -54,25 +55,15 @@ CgCube::CgCube(int id) : CgTriangleMesh(id)
         norm = glm::normalize(norm);
         m_vertex_normals.push_back(norm);
 
-        //Push polyline for rendering
-        poly = new CgLine(idGen->getNextId());
-        poly->addVertice(m_vertices.at(i));
-        poly->addVertice(m_vertices.at(i) + (norm * 0.1f));
-        poly->setColor(glm::vec3(1.0f,1.0f,1.0f));
-        polylineNormals.push_back(poly);
     }
 
-
-
-
-
-
+    fillPolylineNormals();
 }
 
 
 CgCube::~CgCube()
 {
-    map_vertex_normals.clear();
+
 }
 
 //Initializes face, pushes faceNormal, calculates focusPoint, pushes polyline for rendering and map faceNormal to vertex
@@ -86,11 +77,7 @@ void CgCube::initFace(int p1, int p2, int p3)
     m_triangle_indices.push_back(p3);
 
     //Calculate and push faceNormal
-    glm::vec3 u = m_vertices.at(p2) - m_vertices.at(p1);
-    glm::vec3 v = m_vertices.at(p3) - m_vertices.at(p1);
-    glm::vec3 faceNormal = glm::cross(v,u);
-    faceNormal = glm::normalize(faceNormal);
-
+    glm::vec3 faceNormal = CgUtils::calcFaceNormal(m_vertices.at(p3),m_vertices.at(p2),m_vertices.at(p1));
     m_face_normals.push_back(faceNormal);
 
     //Map faceNormal to vertex
@@ -99,15 +86,13 @@ void CgCube::initFace(int p1, int p2, int p3)
     map_vertex_normals.at(p3)->push_back(faceNormal);
 
     //Calculate focusPoint
-    glm::vec3 focusPoint = glm::vec3((m_vertices.at(p1).x + m_vertices.at(p2).x + m_vertices.at(p3).x) / 3.0,
-                                     (m_vertices.at(p1).y + m_vertices.at(p2).y + m_vertices.at(p3).y) / 3.0,
-                                     (m_vertices.at(p1).z + m_vertices.at(p2).z + m_vertices.at(p3).z) / 3.0);
+    glm::vec3 focusPoint = CgUtils::calcFocusPointTriangle(m_vertices.at(p1), m_vertices.at(p2), m_vertices.at(p3));
 
-    //Push polyline for rendering
-    CgLine* poly = new CgLine(idGen->getNextId());
-    poly->addVertice(focusPoint);
-    poly->addVertice(focusPoint + (faceNormal * 0.1f));
-    poly->setColor(glm::vec3(1.0f,1.0f,1.0f));
-    polylineNormals.push_back(poly);
+    //    //Push polyline for rendering
+    //    CgLine* poly = new CgLine(idGen->getNextId());
+    //    poly->addVertice(focusPoint);
+    //    poly->addVertice(focusPoint + (faceNormal * 0.1f));
+    //    poly->setColor(glm::vec3(1.0f,1.0f,1.0f));
+    //    polylineNormals.push_back(poly);
 }
 

@@ -1,5 +1,7 @@
 #include "CgTriangleMesh.h"
 
+#include <CgUtils/CgUtils.h>
+
 CgTriangleMesh::CgTriangleMesh(int id) : CgBaseTriangleMesh(),
     m_type(Cg::TriangleMesh),
     m_id(id)
@@ -17,6 +19,7 @@ CgTriangleMesh::~CgTriangleMesh()
     m_face_normals.clear();
     m_face_colors.clear();
 
+    map_vertex_normals.clear();
     polylineNormals.clear();
 }
 
@@ -98,4 +101,90 @@ bool CgTriangleMesh::getDisplay() const
 void CgTriangleMesh::setDisplay(bool value)
 {
     display = value;
+}
+
+
+
+//needs m_vertices and m_triangle_indices to be filled previously
+void CgTriangleMesh::calculateNormals()
+{
+    //Initialize map
+    for(int i = 0; i < (int) m_vertices.size(); i++){
+        map_vertex_normals[i] = new std::vector<glm::vec3>;
+    }
+
+    int p1, p2, p3;
+    for(int i = 0; i <= m_triangle_indices.size() - 3; i += 3){
+        p1 = m_triangle_indices.at(i);
+        p2 = m_triangle_indices.at(i+1);
+        p3 = m_triangle_indices.at(i+2);
+
+        //Calculate and push faceNormal
+        glm::vec3 faceNormal = CgUtils::calcFaceNormal(m_vertices.at(p3),m_vertices.at(p2),m_vertices.at(p1));
+        m_face_normals.push_back(faceNormal);
+
+        //Map faceNormal to vertex
+        map_vertex_normals.at(p1)->push_back(faceNormal);
+        map_vertex_normals.at(p2)->push_back(faceNormal);
+        map_vertex_normals.at(p3)->push_back(faceNormal);
+    }
+
+
+    //Calculating vertexNormals
+
+    //For everey vertex
+    for(int i = 0; i < (int) m_vertices.size(); i++){
+        std::vector<glm::vec3>* temp = map_vertex_normals.at(i);
+        glm::vec3 norm = glm::vec3(0.0,0.0,0.0);
+        float normCounter = 0.0;
+
+        //For everey normal per vertex
+        for(int j = 0; j < (int) temp->size(); j++){
+            norm = norm + temp->at(j);
+            normCounter = normCounter + 1;
+        }
+        norm = norm / normCounter;
+        norm = glm::normalize(norm);
+        m_vertex_normals.push_back(norm);
+    }
+}
+
+void CgTriangleMesh::fillPolylineNormals()
+{
+    polylineNormals.clear();
+
+    CgLine* poly;
+    int p1, p2, p3;
+    glm::vec3 focusPoint;
+
+    //faceNormals
+    for(int i = 0; i <= m_triangle_indices.size() - 3; i += 3){
+        p1 = m_triangle_indices.at(i);
+        p2 = m_triangle_indices.at(i + 1);
+        p3 = m_triangle_indices.at(i + 2);
+        poly = new CgLine(idGen->getNextId());
+        focusPoint = CgUtils::calcFocusPointTriangle(m_vertices.at(p1),m_vertices.at(p2),m_vertices.at(p3));
+        poly->addVertice(focusPoint);
+        poly->addVertice(focusPoint + m_face_normals.at(i/3) * 0.1f);
+        poly->setColor(glm::vec3(1.0f,1.0f,1.0f));
+        polylineNormals.push_back(poly);
+    }
+
+    //vertexNormals
+    for(int i = 0; i < m_vertices.size(); i++){
+        poly = new CgLine(idGen->getNextId());
+        poly->addVertice(m_vertices.at(i));
+        poly->addVertice(m_vertices.at(i) + m_vertex_normals.at(i) * 0.1f);
+        poly->setColor(glm::vec3(1.0f,1.0f,1.0f));
+        polylineNormals.push_back(poly);
+    }
+}
+
+void CgTriangleMesh::pushPoly(glm::vec3 p1, glm::vec3 p2)
+{
+//    CgLine* poly = new CgLine(idGen->getNextId());
+//    poly->addVertice(p1);
+//    poly->addVertice(p2);
+//    poly->setColor(glm::vec3(1.0f,1.0f,1.0f));
+//    polylineNormals.push_back(poly);
 }

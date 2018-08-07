@@ -2,6 +2,8 @@
 #include "CgBase/CgEnums.h"
 #include "CgUtils/ObjLoader.h"
 
+#include <CgUtils/CgUtils.h>
+
 
 CgTriangles::CgTriangles(int id) : CgTriangleMesh(id)
 {
@@ -33,7 +35,12 @@ void CgTriangles::init(std::string filename)
     loader.load(filename);
 
     loader.getPositionData(m_vertices);
-    loader.getNormalData(m_vertex_normals);
+    //loader.getNormalData(m_vertex_normals);
     loader.getFaceIndexData(m_triangle_indices);
+    calculateNormals();
 }
+
+
+
+
 

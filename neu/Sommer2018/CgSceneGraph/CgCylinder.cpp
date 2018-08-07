@@ -233,11 +233,11 @@ void CgCylinder::createFace(int p1, int p2, int p3)
     m_triangle_indices.push_back(p3);
 }
 
-void CgCylinder::pushPoly(glm::vec3 p1, glm::vec3 p2)
-{
-    CgLine* poly = new CgLine(idGen->getNextId());
-    poly->addVertice(p1);
-    poly->addVertice(p2);
-    poly->setColor(glm::vec3(1.0f,1.0f,1.0f));
-    polylineNormals.push_back(poly);
-}
+//void CgCylinder::pushPoly(glm::vec3 p1, glm::vec3 p2)
+//{
+//    CgLine* poly = new CgLine(idGen->getNextId());
+//    poly->addVertice(p1);
+//    poly->addVertice(p2);
+//    poly->setColor(glm::vec3(1.0f,1.0f,1.0f));
+//    polylineNormals.push_back(poly);
+//}

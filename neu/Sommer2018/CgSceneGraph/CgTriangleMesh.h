@@ -6,6 +6,7 @@
 #include <CgBase/CgBaseTriangleMesh.h>
 
 #include <CgUtils/IdSingleton.h>
+#include <map>
 
 
 
@@ -57,6 +58,15 @@ protected:
 
     const Cg::ObjectType m_type;
     const unsigned int m_id;
+
+    void pushPoly(glm::vec3 p1, glm::vec3 p2);
+
+    std::map<int, std::vector<glm::vec3>*> map_vertex_normals;
+
+    //needs m_vertices and m_triangle_indices to be filled previously
+    void calculateNormals();
+
+    void fillPolylineNormals();
 
 };
 

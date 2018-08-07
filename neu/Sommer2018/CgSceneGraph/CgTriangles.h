@@ -1,7 +1,8 @@
-#ifndef CGEXAMPLETRIANGLE_H
-#define CGEXAMPLETRIANGLE_H
+#ifndef CGTRIANGLES_H
+#define CGTRIANGLES_H
 
 #include <vector>
+#include <map>
 #include <glm/glm.hpp>
 #include <string>
 #include "CgBase/CgBaseTriangleMesh.h"
