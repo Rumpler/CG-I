@@ -47,6 +47,8 @@ CgSceneControl::CgSceneControl()
 
     m_loaded_object= new CgTriangles(idGen->getNextId());
     colorObjects.push_back(m_loaded_object);
+
+    m_loaded_object_normals = m_loaded_object->getPolylineNormals();
 }
 
 
@@ -168,6 +170,13 @@ void CgSceneControl::renderObjects()
         m_renderer->setUniformValue("mycolor",glm::vec4(m_loaded_object->getColor(),0.5f));
         m_renderer->render(m_loaded_object);
     }
+
+    if(renderLoadedObjectNormals){
+        for(CgLine* poly : *m_loaded_object_normals){
+            m_renderer->setUniformValue("mycolor",glm::vec4(poly->getColor(),0.5f));
+            m_renderer->render(poly);
+        }
+    }
 }
 
 void CgSceneControl::initCoordinateSystem()
@@ -249,6 +258,11 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         CgLoadObjFileEvent* ev = (CgLoadObjFileEvent*)e;
         m_loaded_object->init(ev->FileName());
         m_renderer->init(m_loaded_object);
+
+        m_loaded_object_normals = m_loaded_object->getPolylineNormals();
+        for(CgLine* poly : *m_loaded_object_normals){
+            m_renderer->init(poly);
+        }
         m_renderer->redraw();
     }
 
@@ -286,6 +300,8 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         m_rotation_body->setDisplay(ev->getRenderRotationBody());   //rotationBody
 
         m_loaded_object->setDisplay(ev->getRenderLoadedObject());   //loadedObject
+
+        renderLoadedObjectNormals = ev->getRenderLoadedObjectNormals();
         m_renderer->redraw();
     }
 

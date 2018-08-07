@@ -38,6 +38,9 @@ public:
     bool getRenderLoadedObject() const;
     void setRenderLoadedObject(bool value);
 
+    bool getRenderLoadedObjectNormals() const;
+    void setRenderLoadedObjectNormals(bool value);
+
 private:
     Cg::EventType m_type;
 
@@ -49,6 +52,7 @@ private:
     bool renderRotationCurve;
     bool renderRotationBody;
     bool renderLoadedObject;
+    bool renderLoadedObjectNormals;
 };
 
 #endif // CGOBJECTSELECTIONCHANGEEVENT_H

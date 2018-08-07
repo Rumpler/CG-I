@@ -108,6 +108,9 @@ void CgTriangleMesh::setDisplay(bool value)
 //needs m_vertices and m_triangle_indices to be filled previously
 void CgTriangleMesh::calculateNormals()
 {
+    m_vertex_normals.clear();
+    m_face_normals.clear();
+
     //Initialize map
     for(int i = 0; i < (int) m_vertices.size(); i++){
         map_vertex_normals[i] = new std::vector<glm::vec3>;
@@ -120,7 +123,7 @@ void CgTriangleMesh::calculateNormals()
         p3 = m_triangle_indices.at(i+2);
 
         //Calculate and push faceNormal
-        glm::vec3 faceNormal = CgUtils::calcFaceNormal(m_vertices.at(p3),m_vertices.at(p2),m_vertices.at(p1));
+        glm::vec3 faceNormal = CgUtils::calcFaceNormal(m_vertices.at(p1),m_vertices.at(p2),m_vertices.at(p3));
         m_face_normals.push_back(faceNormal);
 
         //Map faceNormal to vertex
@@ -149,8 +152,11 @@ void CgTriangleMesh::calculateNormals()
     }
 }
 
+//needs m_triangle_indeces, m_vertices, m_vertex_normals and m_face_normals to be filled previously
 void CgTriangleMesh::fillPolylineNormals()
 {
+    if(m_vertices.size() != m_vertex_normals.size() || m_triangle_indices.size() / 3 != m_face_normals.size()){return;} //check if presets are okay
+
     polylineNormals.clear();
 
     CgLine* poly;
@@ -187,4 +193,11 @@ void CgTriangleMesh::pushPoly(glm::vec3 p1, glm::vec3 p2)
 //    poly->addVertice(p2);
 //    poly->setColor(glm::vec3(1.0f,1.0f,1.0f));
 //    polylineNormals.push_back(poly);
+}
+
+void CgTriangleMesh::initFace(int p1, int p2, int p3)
+{
+    m_triangle_indices.push_back(p1);
+    m_triangle_indices.push_back(p2);
+    m_triangle_indices.push_back(p3);
 }

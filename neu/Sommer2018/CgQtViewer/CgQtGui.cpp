@@ -159,6 +159,7 @@ void CgQtGui::createOptionPanelObjects(QWidget *parent)
     QRadioButton* radiobuttonRotationCurve = new QRadioButton("&Rotation curve");
     QRadioButton* radiobuttonRotationBody = new QRadioButton("&Rotation Body");
     QRadioButton* radiobuttonLoadedObject = new QRadioButton("&Loaded Object");
+    QRadioButton* radiobuttonLoadedObjectNormals = new QRadioButton("&Loaded Object Normals");
 
     radiobuttonCoordinateSystem->setChecked(true);
 
@@ -170,6 +171,7 @@ void CgQtGui::createOptionPanelObjects(QWidget *parent)
     ButtonGroupObjects->addButton(radiobuttonRotationCurve,5);
     ButtonGroupObjects->addButton(radiobuttonRotationBody,6);
     ButtonGroupObjects->addButton(radiobuttonLoadedObject,7);
+    ButtonGroupObjects->addButton(radiobuttonLoadedObjectNormals,8);
 
     ButtonGroupObjects->button(2)->setDisabled(true);
     ButtonGroupObjects->button(4)->setDisabled(true);
@@ -183,6 +185,7 @@ void CgQtGui::createOptionPanelObjects(QWidget *parent)
     vbox->addWidget(radiobuttonRotationCurve);
     vbox->addWidget(radiobuttonRotationBody);
     vbox->addWidget(radiobuttonLoadedObject);
+    vbox->addWidget(radiobuttonLoadedObjectNormals);
 
     //Button Load Mesh File
     QPushButton* buttonLoadMeshFile = new QPushButton("&Load Mesh");
@@ -526,6 +529,7 @@ void CgQtGui::slotButtonGroupSelectionChanged()
     e->setRenderRotationCurve(ButtonGroupObjects->button(5)->isChecked());
     e->setRenderRotationBody(ButtonGroupObjects->button(6)->isChecked());
     e->setRenderLoadedObject(ButtonGroupObjects->button(7)->isChecked());
+    e->setRenderLoadedObjectNormals(ButtonGroupObjects->button(8)->isChecked());
     notifyObserver(e);
 }
 

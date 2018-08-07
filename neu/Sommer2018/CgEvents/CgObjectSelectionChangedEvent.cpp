@@ -23,6 +23,7 @@ CgBaseEvent *CgObjectSelectionChangeEvent::clone()
     e->setRenderRotationCurve(renderRotationCurve);
     e->setRenderRotationBody(renderRotationBody);
     e->setRenderLoadedObject(renderLoadedObject);
+    e->setRenderLoadedObjectNormals(renderLoadedObjectNormals);
     return e;
 }
 
@@ -104,4 +105,14 @@ bool CgObjectSelectionChangeEvent::getRenderLoadedObject() const
 void CgObjectSelectionChangeEvent::setRenderLoadedObject(bool value)
 {
     renderLoadedObject = value;
+}
+
+bool CgObjectSelectionChangeEvent::getRenderLoadedObjectNormals() const
+{
+    return renderLoadedObjectNormals;
+}
+
+void CgObjectSelectionChangeEvent::setRenderLoadedObjectNormals(bool value)
+{
+    renderLoadedObjectNormals = value;
 }

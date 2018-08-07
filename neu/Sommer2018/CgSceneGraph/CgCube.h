@@ -18,14 +18,6 @@ class CgCube : public CgTriangleMesh
 public:
     CgCube(int id);
     ~CgCube();
-
-private:
-
-    std::map<int, std::vector<glm::vec3>*> map_vertex_normals;
-
-    void initFace(int p1, int p2, int p3);
-
-
 };
 
 #endif // CGCUBE_H

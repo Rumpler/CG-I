@@ -33,11 +33,6 @@ private:
     IdSingleton* idGen;
     //glm::vec3 customColor = glm::vec3(0.7f,0.0f,1.0f);
 
-    //Display objects?
-    bool renderCoordinateSystem = true;
-    bool renderLoadedObject = false;
-    bool renderCubeNormals = false;
-
     //contains all objects for recoloring
     std::vector<CgBaseRenderableObject*> colorObjects;
 
@@ -54,6 +49,8 @@ private:
     CgRotationBody* m_rotation_body;
 
     CgTriangles* m_loaded_object;
+    std::vector<CgLine*>* m_loaded_object_normals;
+    bool renderLoadedObjectNormals = false;
 
 
 

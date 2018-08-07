@@ -17,46 +17,20 @@ CgCube::CgCube(int id) : CgTriangleMesh(id)
     m_vertices.push_back(glm::vec3(.5,-.5,-.5));    //6
     m_vertices.push_back(glm::vec3(-.5,-.5,-.5));   //7
 
+    initFace(4,6,7);
+    initFace(7,5,4);
+    initFace(0,2,6);
+    initFace(6,4,0);
+    initFace(1,3,2);
+    initFace(2,0,1);
+    initFace(5,7,3);
+    initFace(3,1,5);
+    initFace(4,5,1);
+    initFace(1,0,4);
+    initFace(7,6,2);
+    initFace(2,3,7);
 
-    //Initialize map
-    for(int i = 0; i < (int) m_vertices.size(); i++){
-        map_vertex_normals[i] = new std::vector<glm::vec3>;
-    }
-
-    initFace(7,6,4);
-    initFace(4,5,7);
-    initFace(6,2,0);
-    initFace(0,4,6);
-    initFace(2,3,1);
-    initFace(1,0,2);
-    initFace(3,7,5);
-    initFace(5,1,3);
-    initFace(1,5,4);
-    initFace(4,0,1);
-    initFace(2,6,7);
-    initFace(7,3,2);
-
-    //Calculating vertexNormals
-
-    CgLine* poly;
-
-    //For everey vertex
-    for(int i = 0; i < (int) m_vertices.size(); i++){
-        std::vector<glm::vec3>* temp = map_vertex_normals.at(i);
-        glm::vec3 norm = glm::vec3(0.0,0.0,0.0);
-        float normCounter = 0.0;
-
-        //For everey normal per vertex
-        for(int j = 0; j < (int) temp->size(); j++){
-            norm = norm + temp->at(j);
-            normCounter = normCounter + 1;
-        }
-        norm = norm / normCounter;
-        norm = glm::normalize(norm);
-        m_vertex_normals.push_back(norm);
-
-    }
-
+    calculateNormals();
     fillPolylineNormals();
 }
 
@@ -66,33 +40,4 @@ CgCube::~CgCube()
 
 }
 
-//Initializes face, pushes faceNormal, calculates focusPoint, pushes polyline for rendering and map faceNormal to vertex
-void CgCube::initFace(int p1, int p2, int p3)
-{
-
-
-    //Init face
-    m_triangle_indices.push_back(p1);
-    m_triangle_indices.push_back(p2);
-    m_triangle_indices.push_back(p3);
-
-    //Calculate and push faceNormal
-    glm::vec3 faceNormal = CgUtils::calcFaceNormal(m_vertices.at(p3),m_vertices.at(p2),m_vertices.at(p1));
-    m_face_normals.push_back(faceNormal);
-
-    //Map faceNormal to vertex
-    map_vertex_normals.at(p1)->push_back(faceNormal);
-    map_vertex_normals.at(p2)->push_back(faceNormal);
-    map_vertex_normals.at(p3)->push_back(faceNormal);
-
-    //Calculate focusPoint
-    glm::vec3 focusPoint = CgUtils::calcFocusPointTriangle(m_vertices.at(p1), m_vertices.at(p2), m_vertices.at(p3));
-
-    //    //Push polyline for rendering
-    //    CgLine* poly = new CgLine(idGen->getNextId());
-    //    poly->addVertice(focusPoint);
-    //    poly->addVertice(focusPoint + (faceNormal * 0.1f));
-    //    poly->setColor(glm::vec3(1.0f,1.0f,1.0f));
-    //    polylineNormals.push_back(poly);
-}
 

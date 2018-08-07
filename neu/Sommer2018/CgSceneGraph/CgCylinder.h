@@ -15,9 +15,6 @@ public:
 private:
     int amountOfSegments;
     double height;
-
-    void createFace(int p1, int p2, int p3);
-//    void pushPoly(glm::vec3 p1, glm::vec3 p2);
 };
 
 #endif // CGCYLINDER_H
