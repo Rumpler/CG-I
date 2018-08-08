@@ -19,17 +19,7 @@
 
 CgSceneControl::CgSceneControl()
 {
-    m_current_transformation=glm::mat4(1.);
-    m_lookAt_matrix= glm::lookAt(glm::vec3(0.0,0.0,1.0),glm::vec3(0.0,0.0,0.0),glm::vec3(0.0,1.0,0.0));
-    m_proj_matrix= glm::mat4x4(glm::vec4(1.792591, 0.0, 0.0, 0.0), glm::vec4(0.0, 1.792591, 0.0, 0.0), glm::vec4(0.0, 0.0, -1.0002, -1.0), glm::vec4(0.0, 0.0, -0.020002, 0.0));
-    m_trackball_rotation=glm::mat4(1.);
-
     idGen = IdSingleton::instance();
-
-
-    //m_scene_graph = new CgSceneGraph();
-
-
 
     initCoordinateSystem();
 
@@ -56,6 +46,7 @@ CgSceneControl::CgSceneControl()
     colorObjects.push_back(m_loaded_object);
 
     m_loaded_object_normals = m_loaded_object->getPolylineNormals();
+
 }
 
 
@@ -100,33 +91,16 @@ void CgSceneControl::setRenderer(CgBaseRenderer* r)
     }
 
     m_renderer->init(m_loaded_object);
+
+    m_scene_graph = new CgSceneGraph(m_renderer);
 }
 
 
 void CgSceneControl::renderObjects()
 {
-    //m_scene_graph->render(m_renderer);
 
+    m_scene_graph->render();
 
-
-    m_renderer->setUniformValue("mycolor",glm::vec4(1.0f,1.0f,1.0f,1.0f));
-
-    m_renderer->setUniformValue("matDiffuseColor",glm::vec4(0.35,0.31,0.09,1.0));
-    m_renderer->setUniformValue("lightDiffuseColor",glm::vec4(1.0,1.0,1.0,1.0));
-
-    m_renderer->setUniformValue("matAmbientColor",glm::vec4(0.25,0.22,0.06,1.0));
-    m_renderer->setUniformValue("lightAmbientColor",glm::vec4(1.0,1.0,1.0,1.0));
-
-    m_renderer->setUniformValue("matSpecularColor",glm::vec4(0.8,0.72,0.21,1.0));
-    m_renderer->setUniformValue("lightSpecularColor",glm::vec4(1.0,1.0,1.0,1.0));
-
-
-    glm::mat4 mv_matrix = m_lookAt_matrix * m_trackball_rotation* m_current_transformation ;
-    glm::mat3 normal_matrix = glm::transpose(glm::inverse(glm::mat3(mv_matrix)));
-
-    m_renderer->setUniformValue("projMatrix",m_proj_matrix);
-    m_renderer->setUniformValue("modelviewMatrix",mv_matrix);
-    m_renderer->setUniformValue("normalMatrix",normal_matrix);
 
 
     /* coordinatesystem  */
@@ -137,70 +111,75 @@ void CgSceneControl::renderObjects()
         }
     }
 
-    /* cube  */
-    if(m_cube->getDisplay()){
-        m_renderer->setUniformValue("mycolor",glm::vec4(m_cube->getColor(),1.0f));
-        m_renderer->render(m_cube);
-    }
+//    /* cube  */
+//    if(m_cube->getDisplay()){
+//        m_renderer->setUniformValue("mycolor",glm::vec4(m_cube->getColor(),1.0f));
+//        m_renderer->render(m_cube);
+//    }
 
-    /* cubeNormals  */
-    for(CgLine* poly : *m_cube_normals){
-        if(poly->getDisplay()){
-            m_renderer->setUniformValue("mycolor",glm::vec4(poly->getColor(),1.0f));
-            m_renderer->render(poly);
-        }
-    }
+//    /* cubeNormals  */
+//    for(CgLine* poly : *m_cube_normals){
+//        if(poly->getDisplay()){
+//            m_renderer->setUniformValue("mycolor",glm::vec4(poly->getColor(),1.0f));
+//            m_renderer->render(poly);
+//        }
+//    }
 
-    /* cylinder  */
-    if(m_cylinder->getDisplay()){
-        m_renderer->setUniformValue("mycolor",glm::vec4(m_cylinder->getColor(),0.5f));
-        m_renderer->render(m_cylinder);
-    }
+//    /* cylinder  */
+//    if(m_cylinder->getDisplay()){
+//        m_renderer->setUniformValue("mycolor",glm::vec4(m_cylinder->getColor(),0.5f));
+//        m_renderer->render(m_cylinder);
+//    }
 
 
-    /* cylinderNormals  */
-    for(CgLine* poly : *m_cylinder_normals){
-        if(poly->getDisplay()){
-            m_renderer->setUniformValue("mycolor",glm::vec4(poly->getColor(),0.5f));
-            m_renderer->render(poly);
-        }
+//    /* cylinderNormals  */
+//    for(CgLine* poly : *m_cylinder_normals){
+//        if(poly->getDisplay()){
+//            m_renderer->setUniformValue("mycolor",glm::vec4(poly->getColor(),0.5f));
+//            m_renderer->render(poly);
+//        }
 
-    }
+//    }
 
-    /* rotationCurve  */
-    if(m_rotation_curve->getDisplay()){
-        m_renderer->setUniformValue("mycolor",glm::vec4(m_rotation_curve->getColor(),0.5f));
-        m_renderer->render(m_rotation_curve);
-    }
+//    /* rotationCurve  */
+//    if(m_rotation_curve->getDisplay()){
+//        m_renderer->setUniformValue("mycolor",glm::vec4(m_rotation_curve->getColor(),0.5f));
+//        m_renderer->render(m_rotation_curve);
+//    }
 
-    /* rotationBody  */
-    if(m_rotation_body->getDisplay()){
-        m_renderer->setUniformValue("mycolor",glm::vec4(m_rotation_body->getColor(),0.5f));
-        m_renderer->render(m_rotation_body);
-    }
+//    /* rotationBody  */
+//    if(m_rotation_body->getDisplay()){
+//        m_renderer->setUniformValue("mycolor",glm::vec4(m_rotation_body->getColor(),0.5f));
+//        m_renderer->render(m_rotation_body);
+//    }
 
-    /* rotationBodyNormals  */
-    for(CgLine* poly : *m_rotation_body_normals){
-        if(poly->getDisplay()){
-            m_renderer->setUniformValue("mycolor",glm::vec4(poly->getColor(),0.5f));
-            m_renderer->render(poly);
-        }
+//    /* rotationBodyNormals  */
+//    for(CgLine* poly : *m_rotation_body_normals){
+//        if(poly->getDisplay()){
+//            m_renderer->setUniformValue("mycolor",glm::vec4(poly->getColor(),0.5f));
+//            m_renderer->render(poly);
+//        }
 
-    }
+//    }
 
-    /* loadedObject  */
-    if(m_loaded_object->getDisplay()) {
-        m_renderer->setUniformValue("mycolor",glm::vec4(m_loaded_object->getColor(),0.5f));
-        m_renderer->render(m_loaded_object);
-    }
+//    /* loadedObject  */
+//    if(m_loaded_object->getDisplay()) {
+//        m_renderer->setUniformValue("mycolor",glm::vec4(m_loaded_object->getColor(),0.5f));
+//        m_renderer->render(m_loaded_object);
+//    }
 
-    /* loadedObjectNormals  */
-    if(renderLoadedObjectNormals){
-        for(CgLine* poly : *m_loaded_object_normals){
-            m_renderer->setUniformValue("mycolor",glm::vec4(poly->getColor(),0.5f));
-            m_renderer->render(poly);
-        }
-    }
+//    /* loadedObjectNormals  */
+//    if(renderLoadedObjectNormals){
+//        for(CgLine* poly : *m_loaded_object_normals){
+//            m_renderer->setUniformValue("mycolor",glm::vec4(poly->getColor(),0.5f));
+//            m_renderer->render(poly);
+//        }
+//    }
+
+
+//    m_scene_graph->render(m_trackball_rotation);
+
+
 }
 
 void CgSceneControl::initCoordinateSystem()
@@ -245,7 +224,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     {
         CgTrackballEvent* ev = (CgTrackballEvent*)e;
         //        std::cout << *ev << std::endl;
-        m_trackball_rotation=ev->getRotationMatrix();
+        m_scene_graph->setTrackball_rotation(ev->getRotationMatrix());
         m_renderer->redraw();
 
     }
@@ -253,28 +232,12 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     if(e->getType() == Cg::CgKeyPressEvent)
     {
         CgKeyEvent* ev = (CgKeyEvent*)e;
-        //        std::cout << *ev <<std::endl;
-
-        if(ev->text()=="+")
-        {
-            glm::mat4 scalemat;
-            scalemat= glm::scale(scalemat,glm::vec3(1.2,1.2,1.2));
-            m_current_transformation=m_current_transformation*scalemat;
-            m_renderer->redraw();
-        }
-        if(ev->text()=="-")
-        {
-            glm::mat4 scalemat;
-            scalemat= glm::scale(scalemat,glm::vec3(0.8,0.8,0.8));
-            m_current_transformation=m_current_transformation*scalemat;
-            m_renderer->redraw();
-        }
     }
 
     if(e->getType() == Cg::CgWindowResizeEvent)
     {
         CgWindowResizeEvent* ev = (CgWindowResizeEvent*)e;
-        m_proj_matrix=glm::perspective(45.0f, (float)(ev->w()) / ev->h(), 0.01f, 100.0f);
+        m_scene_graph->setProj_matrix(glm::perspective(45.0f, (float)(ev->w()) / ev->h(), 0.01f, 100.0f));
     }
 
     if(e->getType() == Cg::CgLoadObjFileEvent)
