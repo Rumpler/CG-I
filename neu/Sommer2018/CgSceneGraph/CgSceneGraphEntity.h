@@ -19,6 +19,8 @@ private:
     glm::mat4 m_current_transformation;
     CgAppearance* m_appearance;
 
+    bool renderObjects = false;
+
 
 public:
     CgSceneGraphEntity();
@@ -38,6 +40,8 @@ public:
     std::vector<CgBaseRenderableObject *> getObjects() const;
     std::vector<CgSceneGraphEntity *> getChildren() const;
 
+    bool getRenderObjects();
+    void setRenderObjects(bool value);
 };
 
 #endif // CGSCENEGRAPHENTITY_H

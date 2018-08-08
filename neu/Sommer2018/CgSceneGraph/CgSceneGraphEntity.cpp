@@ -1,5 +1,15 @@
 #include "CgSceneGraphEntity.h"
 
+bool CgSceneGraphEntity::getRenderObjects()
+{
+    return renderObjects;
+}
+
+void CgSceneGraphEntity::setRenderObjects(bool value)
+{
+    renderObjects = value;
+}
+
 CgSceneGraphEntity::CgSceneGraphEntity()
 {
     m_current_transformation = glm::mat4(1.0f);
@@ -8,6 +18,7 @@ CgSceneGraphEntity::CgSceneGraphEntity()
 
 CgSceneGraphEntity::~CgSceneGraphEntity()
 {
+    //TODO?
     delete m_appearance;
 }
 

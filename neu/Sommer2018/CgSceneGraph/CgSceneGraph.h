@@ -15,9 +15,7 @@ class CgSceneGraph
 {
 private:
     IdSingleton* idGen;
-
     CgBaseRenderer *m_renderer;
-//    glm::mat4 m_current_transformation;
     glm::mat4 m_trackball_rotation;
     glm::mat4 m_lookAt_matrix;
     glm::mat4 m_proj_matrix;
@@ -25,17 +23,38 @@ private:
     CgSceneGraphEntity* m_root_node;
     std::stack<glm::mat4> m_mat_stack;
 
+    CgSceneGraphEntity* coordinateSystem;
+    CgSceneGraphEntity* variousObjects;
+    CgSceneGraphEntity* sceneObjects;
+
+    CgSceneGraphEntity* cubeEntity;
+    CgSceneGraphEntity* cubeNormalsEntity;
+
+    CgSceneGraphEntity* cylinderEntity;
+    CgSceneGraphEntity* cylinderNormalsEntity;
+
+
     void pushMatrix(){m_mat_stack.push(m_mat_stack.top());}
     void popMatrix(){m_mat_stack.pop();}
     void applyTransform(glm::mat4 arg){m_mat_stack.top() *= arg;}
 
+    void initCoordinateSystem();
+    void initVariousObjects();
+    void initSceneObjects();
 
+
+    void initCube();
+    void initCylinder();
+
+
+    void selectItemsToDisplay();
 
 
 
 
 public:
     CgSceneGraph(CgBaseRenderer *renderer);
+    ~CgSceneGraph();
 
     void render();
     void recursiveRender(CgSceneGraphEntity* currentEntity);
