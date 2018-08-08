@@ -41,7 +41,7 @@ void CgRotationBody::makeRotationBody(CgLine *contourCurve, int amountOfSegments
 
         for(int j = 0; j < amountOfSegments; j++){                  //Rotate current vertice and add to vertices
             currentAngle = angleOfRotation * j;
-            m_vertices.push_back(CgUtils::rotatePointYAxis(currentAngle, currentRotateVertice));
+            m_vertices.push_back(CgU::rotatePointYAxis(currentAngle, currentRotateVertice));
         }
     }
 

@@ -26,6 +26,11 @@ CgSceneControl::CgSceneControl()
 
     idGen = IdSingleton::instance();
 
+
+    //m_scene_graph = new CgSceneGraph();
+
+
+
     initCoordinateSystem();
 
     m_cube = new CgCube(idGen->getNextId());
@@ -100,6 +105,10 @@ void CgSceneControl::setRenderer(CgBaseRenderer* r)
 
 void CgSceneControl::renderObjects()
 {
+    //m_scene_graph->render(m_renderer);
+
+
+
     m_renderer->setUniformValue("mycolor",glm::vec4(1.0f,1.0f,1.0f,1.0f));
 
     m_renderer->setUniformValue("matDiffuseColor",glm::vec4(0.35,0.31,0.09,1.0));

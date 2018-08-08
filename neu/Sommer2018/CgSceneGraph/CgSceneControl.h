@@ -6,6 +6,7 @@
 #include "CgCube.h"
 #include "CgCylinder.h"
 #include "CgRotationBody.h"
+#include "CgSceneGraph.h"
 #include "CgTriangles.h"
 #include <glm/glm.hpp>
 
@@ -35,6 +36,8 @@ private:
 
     //contains all objects for recoloring
     std::vector<CgBaseRenderableObject*> colorObjects;
+
+    //CgSceneGraph *m_scene_graph;
 
     //Objects
     std::vector<CgLine*> m_coordinate_system;

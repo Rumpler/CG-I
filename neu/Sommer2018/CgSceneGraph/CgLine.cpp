@@ -45,10 +45,10 @@ void CgLine::sdForPointScheme()
         p3 = posVertices + 2;
 
         //Calculate new Point
-        futureVertices.push_back(glm::vec3(CgUtils::multVecScalar(-w, vertices.at(p0)) +
-                                           CgUtils::multVecScalar(0.5 + w, vertices.at(p1)) +
-                                           CgUtils::multVecScalar(0.5 + w, vertices.at(p2)) -
-                                           CgUtils::multVecScalar(w, vertices.at(p3))));
+        futureVertices.push_back(glm::vec3(CgU::multVecScalar(-w, vertices.at(p0)) +
+                                           CgU::multVecScalar(0.5 + w, vertices.at(p1)) +
+                                           CgU::multVecScalar(0.5 + w, vertices.at(p2)) -
+                                           CgU::multVecScalar(w, vertices.at(p3))));
     }
 
     //Update futureVertices with last two old points

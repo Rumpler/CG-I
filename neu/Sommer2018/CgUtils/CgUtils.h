@@ -5,10 +5,10 @@
 #include <string>
 #include <vector>
 
-class CgUtils
+class CgU
 {
 public:
-    CgUtils();
+    CgU();
 
     void static printVec3(glm::vec3* vec);
     void static printVec3(std::string str, glm::vec3* vec);

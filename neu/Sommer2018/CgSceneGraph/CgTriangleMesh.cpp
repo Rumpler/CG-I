@@ -123,7 +123,7 @@ void CgTriangleMesh::computeNormals()
         p3 = m_triangle_indices.at(i+2);
 
         //Calculate and push faceNormal
-        glm::vec3 faceNormal = CgUtils::calcFaceNormal(m_vertices.at(p1),m_vertices.at(p2),m_vertices.at(p3));
+        glm::vec3 faceNormal = CgU::calcFaceNormal(m_vertices.at(p1),m_vertices.at(p2),m_vertices.at(p3));
         m_face_normals.push_back(faceNormal);
 
         //Map faceNormal to vertex
@@ -169,7 +169,7 @@ void CgTriangleMesh::fillPolylineNormals()
         p2 = m_triangle_indices.at(i + 1);
         p3 = m_triangle_indices.at(i + 2);
         poly = new CgLine(idGen->getNextId());
-        focusPoint = CgUtils::calcFocusPointTriangle(m_vertices.at(p1),m_vertices.at(p2),m_vertices.at(p3));
+        focusPoint = CgU::calcFocusPointTriangle(m_vertices.at(p1),m_vertices.at(p2),m_vertices.at(p3));
         poly->addVertice(focusPoint);
         poly->addVertice(focusPoint + m_face_normals.at(i/3) * 0.1f);
         poly->setColor(glm::vec3(1.0f,1.0f,1.0f));
