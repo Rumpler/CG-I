@@ -158,6 +158,7 @@ void CgSceneControl::renderObjects()
 
     }
 
+    /* rotationCurve  */
     if(m_rotation_curve->getDisplay()){
         m_renderer->setUniformValue("mycolor",glm::vec4(m_rotation_curve->getColor(),0.5f));
         m_renderer->render(m_rotation_curve);
@@ -345,7 +346,6 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
             m_rotation_body_normals->clear();
             m_rotation_body->makeRotationBody(m_rotation_curve, ev->getValueAmountOfSegmentsRotationBody());
             m_renderer->init(m_rotation_body);
-            std::cout << m_rotation_body_normals->size() << std::endl;
             for(CgLine* poly : *m_rotation_body_normals){
                 m_renderer->init(poly);
             }

@@ -139,6 +139,7 @@ private slots:
     void slotShowCylinder();
     void slotShowRotationCurve();
     void slotShowRotationBody();
+    void slotShowRotationBodyNormals();
     void slotShowLoadedObject();
 
     void slotScalePlus();

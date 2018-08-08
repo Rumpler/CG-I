@@ -451,6 +451,12 @@ void CgQtGui::slotShowRotationBody()
     showObject(6);
 }
 
+void CgQtGui::slotShowRotationBodyNormals()
+{
+    showObject(6);
+    ButtonGroupObjects->button(7)->setChecked(true);
+}
+
 void CgQtGui::slotShowLoadedObject()
 {
     showObject(8);
@@ -572,6 +578,7 @@ void CgQtGui::slotRotationBodyChanged()
     e->setRotationBodyChanged(true);
     e->setValueAmountOfSegmentsRotationBody(spinBoxAmountOfSegmentsRotationBody->value());
     notifyObserver(e);
+    slotShowRotationBody();
 }
 
 void CgQtGui::slotResetCylinder()
