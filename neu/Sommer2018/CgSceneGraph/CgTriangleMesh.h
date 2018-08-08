@@ -9,7 +9,11 @@
 #include <map>
 
 
-
+/*!
+ * \brief The CgTriangleMesh class
+ *
+ * test
+ */
 class CgTriangleMesh : public CgBaseTriangleMesh
 {
 public:
@@ -41,7 +45,7 @@ public:
     void setDisplay(bool value);
 
 protected:
-    IdSingleton* idGen;
+    IdSingleton* idGen;     //!< Detailed description
     std::vector<CgLine*> polylineNormals;
     glm::vec3 color = glm::vec3(0.7f,0.0f,1.0f);
     bool display = false;

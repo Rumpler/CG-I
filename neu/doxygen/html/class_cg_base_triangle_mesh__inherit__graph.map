@@ -1,0 +1,9 @@
+<map id="CgBaseTriangleMesh" name="CgBaseTriangleMesh">
+<area shape="rect" id="node3" href="$class_cg_cone.html" title="The CgCone class is an old implentation from the first exercise and is not used in the project..." alt="" coords="52,155,123,181"/>
+<area shape="rect" id="node4" href="$class_cg_triangle_mesh.html" title="The CgTriangleMesh class. " alt="" coords="147,155,265,181"/>
+<area shape="rect" id="node2" href="$class_cg_base_renderable_object.html" title="CgBaseRenderableObject" alt="" coords="59,5,233,32"/>
+<area shape="rect" id="node5" href="$class_cg_cube.html" title="The CgCube class is a TriangleMesh with fix faces and normals. " alt="" coords="5,229,76,256"/>
+<area shape="rect" id="node6" href="$class_cg_cylinder.html" title="The CgCylinder class is a special TriangleMesh which is defined by the amount of segments ant the hei..." alt="" coords="100,229,187,256"/>
+<area shape="rect" id="node7" href="$class_cg_rotation_body.html" title="CgRotationBody" alt="" coords="211,229,329,256"/>
+<area shape="rect" id="node8" href="$class_cg_triangles.html" title="CgTriangles" alt="" coords="353,229,445,256"/>
+</map>

@@ -1,0 +1,45 @@
+\hypertarget{class_cg_observable}{}\section{Cg\+Observable Class Reference}
+\label{class_cg_observable}\index{Cg\+Observable@{Cg\+Observable}}
+
+
+Inheritance diagram for Cg\+Observable\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=159pt]{class_cg_observable__inherit__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_cg_observable_aa2a6c334ca62dec6257fd1e222ee7888}\label{class_cg_observable_aa2a6c334ca62dec6257fd1e222ee7888}} 
+virtual void {\bfseries attach\+Observer} (\hyperlink{class_cg_observer}{Cg\+Observer} $\ast$)
+\item 
+\mbox{\Hypertarget{class_cg_observable_aa839f3551b700db641e6e21c2456e2fd}\label{class_cg_observable_aa839f3551b700db641e6e21c2456e2fd}} 
+virtual void {\bfseries detach\+Observer} (\hyperlink{class_cg_observer}{Cg\+Observer} $\ast$)
+\item 
+\mbox{\Hypertarget{class_cg_observable_ab7e4a440249c3db38c3122951206dfaf}\label{class_cg_observable_ab7e4a440249c3db38c3122951206dfaf}} 
+virtual bool {\bfseries notify\+Observer} (\hyperlink{class_cg_base_event}{Cg\+Base\+Event} $\ast$e)
+\end{DoxyCompactItemize}
+\subsection*{Protected Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_cg_observable_a966c422e2dff169b76f90dd45fd367b6}\label{class_cg_observable_a966c422e2dff169b76f90dd45fd367b6}} 
+typedef std\+::list$<$ \hyperlink{class_cg_observer}{Cg\+Observer} $\ast$ $>$ {\bfseries Cg\+Observer\+List}
+\item 
+\mbox{\Hypertarget{class_cg_observable_af8fd10d5fa175fdfc3b9483c216937c1}\label{class_cg_observable_af8fd10d5fa175fdfc3b9483c216937c1}} 
+typedef Cg\+Observer\+List\+::iterator {\bfseries Cg\+Observer\+List\+Iterator}
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_cg_observable_ac1b2ba8f2fff7361e7ef930f8a47c63f}\label{class_cg_observable_ac1b2ba8f2fff7361e7ef930f8a47c63f}} 
+Cg\+Observer\+List {\bfseries m\+\_\+observers}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/gerrit/git/\+C\+G-\/\+I/neu/\+Sommer2018/\+Cg\+Base/Cg\+Observable.\+h\item 
+/home/gerrit/git/\+C\+G-\/\+I/neu/\+Sommer2018/\+Cg\+Base/Cg\+Observable.\+cpp\end{DoxyCompactItemize}

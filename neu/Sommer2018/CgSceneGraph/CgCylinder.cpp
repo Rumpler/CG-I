@@ -213,9 +213,6 @@ void CgCylinder::makeCylinder(int amountOfSegments, double height, double radius
     }
 
     computeNormals(); //Should be computed with calculation above
-//    std::cout << "m_face_normals "  << m_face_normals.size() <<std::endl;
-//    std::cout << "m_vertex_normals "  << m_vertex_normals.size() <<std::endl;
-//    std::cout << "m_vertices " << m_vertices.size() <<std::endl;
     fillPolylineNormals();
 }
 

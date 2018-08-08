@@ -10,6 +10,12 @@
 #include <iostream>
 #include <string>
 
+/*!
+ * \brief The CgLoadObjFileEvent class transports the filename from the GUI to scenecontroll
+ *
+ * \author Gerrit Harmes
+ */
+
 class CgLoadObjFileEvent : public CgBaseEvent
 {
 public:
@@ -21,7 +27,7 @@ public:
     Cg::EventType  getType();
     CgBaseEvent* clone();
 
-    std::string FileName(){return m_filename;}
+    std::string fileName(){return m_filename;}
 
 
     friend std::ostream& operator <<(std::ostream& os, const CgLoadObjFileEvent& e);

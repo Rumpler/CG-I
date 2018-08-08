@@ -11,7 +11,9 @@
 #include "CgBase/CgBaseRenderer.h"
 #include "CgUtils/IdSingleton.h"
 
-//@author Gerrit
+/*!
+ * \brief The CgCube class is a TriangleMesh with fix faces and normals
+ */
 class CgCube : public CgTriangleMesh
 {
 

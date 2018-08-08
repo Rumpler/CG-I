@@ -4,7 +4,12 @@
 #include <CgBase/CgBaseEvent.h>
 #include <glm/glm.hpp>
 
-
+//TODO
+/*!
+ * \brief The CgTransformationEvent class transports information about camerachanges
+ *
+ * \author Gerrit Harmes
+ */
 
 class CgTransformationEvent : public CgBaseEvent
 {

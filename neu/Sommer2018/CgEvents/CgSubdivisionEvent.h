@@ -4,7 +4,11 @@
 #include <CgBase/CgBaseEvent.h>
 #include <iostream>
 
-
+/*!
+ * \brief The CgSubdivisionEvent class informs scenecontroll to perform a subdivision and defines which one
+ *
+ * \author Gerrit Harmes
+ */
 
 class CgSubdivisionEvent : public CgBaseEvent
 {

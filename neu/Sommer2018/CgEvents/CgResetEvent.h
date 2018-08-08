@@ -6,6 +6,12 @@
 
 #include <iostream>
 
+/*!
+ * \brief The CgResetEvent class informs scenecontroll which object it should reset
+ *
+ * \author Gerrit Harmes
+ */
+
 class CgResetEvent : public CgBaseEvent
 {
 public:

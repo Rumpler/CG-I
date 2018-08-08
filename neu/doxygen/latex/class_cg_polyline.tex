@@ -1,0 +1,88 @@
+\hypertarget{class_cg_polyline}{}\section{Cg\+Polyline Class Reference}
+\label{class_cg_polyline}\index{Cg\+Polyline@{Cg\+Polyline}}
+
+
+Inheritance diagram for Cg\+Polyline\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=210pt]{class_cg_polyline__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Cg\+Polyline\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=210pt]{class_cg_polyline__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_cg_polyline_a55e81a83ae00173431c8c2cf9784c950}\label{class_cg_polyline_a55e81a83ae00173431c8c2cf9784c950}} 
+{\bfseries Cg\+Polyline} (int id)
+\item 
+\mbox{\Hypertarget{class_cg_polyline_a271cfa5c2c17c9c9f42ef9bc191a52a8}\label{class_cg_polyline_a271cfa5c2c17c9c9f42ef9bc191a52a8}} 
+void {\bfseries set\+Color} (const glm\+::vec3 value)
+\item 
+\mbox{\Hypertarget{class_cg_polyline_af4fbeb4776b0b20268dce3a78c655da3}\label{class_cg_polyline_af4fbeb4776b0b20268dce3a78c655da3}} 
+void {\bfseries set\+Line\+Width} (unsigned int value)
+\item 
+\mbox{\Hypertarget{class_cg_polyline_a769032aa5f5b8efcdcebc563f9bc4ebd}\label{class_cg_polyline_a769032aa5f5b8efcdcebc563f9bc4ebd}} 
+void {\bfseries set\+Rotation\+Curve\+Example1} ()
+\item 
+\mbox{\Hypertarget{class_cg_polyline_a2a689f9f1a9f8c1565004514479973ce}\label{class_cg_polyline_a2a689f9f1a9f8c1565004514479973ce}} 
+void {\bfseries add\+Vertice} (glm\+::vec3 vertice)
+\item 
+\mbox{\Hypertarget{class_cg_polyline_a36b93b19e72a47e9eb497e17618dcb6a}\label{class_cg_polyline_a36b93b19e72a47e9eb497e17618dcb6a}} 
+bool {\bfseries get\+Display} () const
+\item 
+\mbox{\Hypertarget{class_cg_polyline_aaae0548c1e6c2fc8867898fb8c978dae}\label{class_cg_polyline_aaae0548c1e6c2fc8867898fb8c978dae}} 
+void {\bfseries set\+Display} (bool value)
+\item 
+\mbox{\Hypertarget{class_cg_polyline_af8587c83f1cfaa64aa449fec535a2d1d}\label{class_cg_polyline_af8587c83f1cfaa64aa449fec535a2d1d}} 
+Cg\+::\+Object\+Type {\bfseries get\+Type} () const
+\item 
+\mbox{\Hypertarget{class_cg_polyline_ae72c48d98b0636c3ca79f35436aaa8e4}\label{class_cg_polyline_ae72c48d98b0636c3ca79f35436aaa8e4}} 
+unsigned int {\bfseries get\+ID} () const
+\item 
+\mbox{\Hypertarget{class_cg_polyline_a5c556245522c9b9fb23330a2b8170ef8}\label{class_cg_polyline_a5c556245522c9b9fb23330a2b8170ef8}} 
+const std\+::vector$<$ glm\+::vec3 $>$ \& {\bfseries get\+Vertices} () const
+\item 
+\mbox{\Hypertarget{class_cg_polyline_a9bd531ec6ff42ba9c9d4e817170a267b}\label{class_cg_polyline_a9bd531ec6ff42ba9c9d4e817170a267b}} 
+glm\+::vec3 {\bfseries get\+Color} () const
+\item 
+\mbox{\Hypertarget{class_cg_polyline_a8fe71d5aed4cca9baeed4418afea0101}\label{class_cg_polyline_a8fe71d5aed4cca9baeed4418afea0101}} 
+unsigned int {\bfseries get\+Line\+Width} () const
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_cg_polyline_abae32dcd9eb5df0f6a673b92f29f7c50}\label{class_cg_polyline_abae32dcd9eb5df0f6a673b92f29f7c50}} 
+bool {\bfseries display} = false
+\item 
+\mbox{\Hypertarget{class_cg_polyline_a64fc9c5e9b136acc5dd1f5be857b69bd}\label{class_cg_polyline_a64fc9c5e9b136acc5dd1f5be857b69bd}} 
+const Cg\+::\+Object\+Type {\bfseries m\+\_\+type}
+\item 
+\mbox{\Hypertarget{class_cg_polyline_a62b1fa48f556ddc317e38ab550e719b7}\label{class_cg_polyline_a62b1fa48f556ddc317e38ab550e719b7}} 
+const unsigned int {\bfseries m\+\_\+id}
+\item 
+\mbox{\Hypertarget{class_cg_polyline_a60aa60140a8ff84ae2a742127bbbcf4a}\label{class_cg_polyline_a60aa60140a8ff84ae2a742127bbbcf4a}} 
+std\+::vector$<$ glm\+::vec3 $>$ {\bfseries vertices}
+\item 
+\mbox{\Hypertarget{class_cg_polyline_a26918fbf4b5bc4b96acad2dbabf922ba}\label{class_cg_polyline_a26918fbf4b5bc4b96acad2dbabf922ba}} 
+glm\+::vec3 {\bfseries color} = glm\+::vec3(0.\+7f,0.\+0f,1.\+0f)
+\item 
+\mbox{\Hypertarget{class_cg_polyline_a087f129678e52fb764d1d948e8d6a523}\label{class_cg_polyline_a087f129678e52fb764d1d948e8d6a523}} 
+unsigned int {\bfseries line\+Width} = 1
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/gerrit/git/\+C\+G-\/\+I/neu/\+Sommer2018/\+Cg\+Scene\+Graph/Cg\+Polyline.\+h\item 
+/home/gerrit/git/\+C\+G-\/\+I/neu/\+Sommer2018/\+Cg\+Scene\+Graph/Cg\+Polyline.\+cpp\end{DoxyCompactItemize}

@@ -4,6 +4,12 @@
 #include "../CgBase/CgBaseEvent.h"
 #include "../CgBase/CgEnums.h"
 
+/*!
+ * \brief The CgObjectSelectionChangeEvent class contains and transports bool values for which objects should be displayed
+ *
+ * \author Gerrit Harmes
+ */
+
 class CgObjectSelectionChangeEvent : public CgBaseEvent
 {
 public:

@@ -4,7 +4,13 @@
 #include <CgBase/CgBaseEvent.h>
 #include <iostream>
 
-
+/*!
+ * \brief The CgValueChangedEvent class contains bools wich objects are changed and special params for each object
+ *
+ * It is neccessary to set the specifc params for each object when the bool for the object is true
+ *
+ * \author Gerrit Harmes
+ */
 
 class CgValueChangedEvent : public CgBaseEvent
 {

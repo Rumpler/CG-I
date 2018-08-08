@@ -6,6 +6,14 @@
 
 #include <iostream>
 
+/*!
+ * \brief The CgColorChangeEvent class is an event called when the color of an object is changed.
+ *
+ * Contains three parameters for red, green and blue with getters und setters
+ *
+ * \author Gerrit Harmes
+ */
+
 class CgColorChangeEvent : public CgBaseEvent
 {
 public:

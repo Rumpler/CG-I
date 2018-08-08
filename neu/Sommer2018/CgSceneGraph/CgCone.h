@@ -5,6 +5,14 @@
 #include "CgLine.h"
 #include <CgUtils/IdSingleton.h>
 
+/*!
+ * \brief The CgCone class is an old implentation from the first exercise. Is not used in the project. However, it should work properbly.
+ *
+ * Does not use the new inheritence structure.
+ *
+ * \author Gerrit Harmes
+ */
+
 class CgCone : public CgBaseTriangleMesh
 {
 public:

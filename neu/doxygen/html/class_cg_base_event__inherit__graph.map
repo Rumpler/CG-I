@@ -1,0 +1,13 @@
+<map id="CgBaseEvent" name="CgBaseEvent">
+<area shape="rect" id="node2" href="$class_cg_color_change_event.html" title="The CgColorChangeEvent class is an event called when the color of an object is changed. " alt="" coords="187,5,336,32"/>
+<area shape="rect" id="node3" href="$class_cg_key_event.html" title="CgKeyEvent" alt="" coords="213,56,309,83"/>
+<area shape="rect" id="node4" href="$class_cg_load_obj_file_event.html" title="The CgLoadObjFileEvent class transports the filename from the GUI to scenecontroll. " alt="" coords="190,107,333,133"/>
+<area shape="rect" id="node5" href="$class_cg_mouse_event.html" title="CgMouseEvent" alt="" coords="205,157,317,184"/>
+<area shape="rect" id="node6" href="$class_cg_object_selection_change_event.html" title="The CgObjectSelectionChangeEvent class contains and transports bool values for which objects should b..." alt="" coords="156,208,367,235"/>
+<area shape="rect" id="node7" href="$class_cg_reset_event.html" title="The CgResetEvent class informs scenecontroll which object it should reset. " alt="" coords="207,259,315,285"/>
+<area shape="rect" id="node8" href="$class_cg_subdivision_event.html" title="The CgSubdivisionEvent class informs scenecontroll to perform a subdivision and defines which one..." alt="" coords="191,309,331,336"/>
+<area shape="rect" id="node9" href="$class_cg_trackball_event.html" title="CgTrackballEvent" alt="" coords="198,360,325,387"/>
+<area shape="rect" id="node10" href="$class_cg_transformation_event.html" title="The CgTransformationEvent class transports information about camerachanges. " alt="" coords="181,411,341,437"/>
+<area shape="rect" id="node11" href="$class_cg_value_changed_event.html" title="The CgValueChangedEvent class contains bools wich objects are changed and special params for each obj..." alt="" coords="182,461,341,488"/>
+<area shape="rect" id="node12" href="$class_cg_window_resize_event.html" title="CgWindowResizeEvent" alt="" coords="181,512,342,539"/>
+</map>

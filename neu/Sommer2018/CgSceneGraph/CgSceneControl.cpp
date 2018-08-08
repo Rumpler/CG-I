@@ -270,7 +270,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     if(e->getType() == Cg::CgLoadObjFileEvent)
     {
         CgLoadObjFileEvent* ev = (CgLoadObjFileEvent*)e;
-        m_loaded_object->init(ev->FileName());
+        m_loaded_object->init(ev->fileName());
         m_renderer->init(m_loaded_object);
 
         m_loaded_object_normals = m_loaded_object->getPolylineNormals();
