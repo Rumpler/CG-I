@@ -325,6 +325,11 @@ void CgQtGui::createOptionPanelRotateObjects(QWidget *parent)
     connect(buttonShowRotationBody, SIGNAL( clicked() ), this, SLOT(slotShowRotationBody()) );
     vboxRotationBody->addWidget(buttonShowRotationBody);
 
+    //Button Show RotationBodyNormals
+    QPushButton* buttonShowRotationBodyNormals = new QPushButton("&Show Normals");
+    connect(buttonShowRotationBodyNormals, SIGNAL( clicked() ), this, SLOT(slotShowRotationBodyNormals()) );
+    vboxRotationBody->addWidget(buttonShowRotationBodyNormals);
+
     //Lable
     QLabel* labelAmountOfSegmentsRotationBody = new QLabel("Amount of Segments:");
     labelAmountOfSegmentsRotationBody->setAlignment(Qt::AlignLeft);
@@ -349,7 +354,7 @@ void CgQtGui::createOptionPanelRotateObjects(QWidget *parent)
 
     //Button Reset RotationCurve
     QPushButton* buttonResetRotationCurve = new QPushButton("&Reset Rotation Curve");
-    connect(buttonResetRotationCurve, SIGNAL( clicked() ), this, SLOT(slotResetRotationCurve()) );
+    connect(buttonResetRotationCurve, SIGNAL( clicked() ), this, SLOT(slotResetRotationObjects()) );
     vboxSubdivision->addWidget(buttonResetRotationCurve);
 
     groupBoxSubdivision->setLayout(vboxSubdivision);
@@ -448,13 +453,21 @@ void CgQtGui::slotShowRotationCurve()
 
 void CgQtGui::slotShowRotationBody()
 {
+    std::cout << "slotShowRotationBody" << std::endl;
     showObject(6);
+
 }
 
 void CgQtGui::slotShowRotationBodyNormals()
 {
-    showObject(6);
+    std::cout << "slotShowRotationBodyNormals" << std::endl;
+    for(QAbstractButton* b : ButtonGroupObjects->buttons()){
+        b->setChecked(false);
+    }
+    ButtonGroupObjects->button(0)->setChecked(true);
+    ButtonGroupObjects->button(6)->setChecked(true);
     ButtonGroupObjects->button(7)->setChecked(true);
+    slotButtonGroupSelectionChanged();
 }
 
 void CgQtGui::slotShowLoadedObject()
@@ -514,6 +527,7 @@ void CgQtGui::slotSubdivision()
     e->setForPointScheme(true);
     notifyObserver(e);
     slotRotationBodyChanged();
+    slotShowRotationCurve();
 }
 
 void CgQtGui::slotButtonGroupSelectionChanged()
@@ -590,7 +604,7 @@ void CgQtGui::slotResetCylinder()
     slotCylinderChanged();
 }
 
-void CgQtGui::slotResetRotationCurve()
+void CgQtGui::slotResetRotationObjects()
 {
     CgValueChangedEvent* e = new CgValueChangedEvent();
     e->setResetRotationCurve(true);

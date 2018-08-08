@@ -134,7 +134,7 @@ private slots:
     void slotRotationBodyChanged();
 
     void slotResetCylinder();
-    void slotResetRotationCurve();
+    void slotResetRotationObjects();
 
     void slotShowCylinder();
     void slotShowRotationCurve();
