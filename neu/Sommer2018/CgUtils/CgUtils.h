@@ -10,8 +10,8 @@ class CgU
 public:
     CgU();
 
-    void static printVec3(glm::vec3* vec);
-    void static printVec3(std::string str, glm::vec3* vec);
+    void static printVec3(glm::vec3 vec);
+    void static printVec3(std::string str, glm::vec3 vec);
 
     void static printVecVector(std::vector<glm::vec3>* vector);
 
@@ -21,6 +21,14 @@ public:
     glm::vec3 static rotatePointYAxis(double angle, glm::vec3 p);
 
     glm::vec3 static multVecScalar(double scalar, glm::vec3 vec);
+
+    glm::mat4 static rotateMatZ(float angle);
+    glm::mat4 static rotateMatX(float angle);
+    glm::mat4 static rotateMatY(float angle);
+
+    float static translateDegreeToRad(float degree);
+
+
 };
 
 #endif // CGUTILS_H

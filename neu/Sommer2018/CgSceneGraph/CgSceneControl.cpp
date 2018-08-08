@@ -98,18 +98,25 @@ void CgSceneControl::setRenderer(CgBaseRenderer* r)
 
 void CgSceneControl::renderObjects()
 {
+    m_renderer->setUniformValue("mycolor",glm::vec4(1.0f,1.0f,1.0f,1.0f));
+    m_renderer->setUniformValue("matDiffuseColor",glm::vec4(0.35,0.31,0.09,1.0));
+    m_renderer->setUniformValue("lightDiffuseColor",glm::vec4(1.0,1.0,1.0,1.0));
+    m_renderer->setUniformValue("matAmbientColor",glm::vec4(0.25,0.22,0.06,1.0));
+    m_renderer->setUniformValue("lightAmbientColor",glm::vec4(1.0,1.0,1.0,1.0));
+    m_renderer->setUniformValue("matSpecularColor",glm::vec4(0.8,0.72,0.21,1.0));
+    m_renderer->setUniformValue("lightSpecularColor",glm::vec4(1.0,1.0,1.0,1.0));
 
     m_scene_graph->render();
 
 
 
-    /* coordinatesystem  */
-    for(CgLine* poly : m_coordinate_system){
-        if(poly->getDisplay()){
-            m_renderer->setUniformValue("mycolor",glm::vec4(poly->getColor(),0.5f));
-            m_renderer->render(poly);
-        }
-    }
+//    /* coordinatesystem  */
+//    for(CgLine* poly : m_coordinate_system){
+//        if(poly->getDisplay()){
+//            m_renderer->setUniformValue("mycolor",glm::vec4(poly->getColor(),0.5f));
+//            m_renderer->render(poly);
+//        }
+//    }
 
 //    /* cube  */
 //    if(m_cube->getDisplay()){
@@ -224,7 +231,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     {
         CgTrackballEvent* ev = (CgTrackballEvent*)e;
         //        std::cout << *ev << std::endl;
-        m_scene_graph->setTrackball_rotation(ev->getRotationMatrix());
+        m_scene_graph->setTrackballRotation(ev->getRotationMatrix());
         m_renderer->redraw();
 
     }
@@ -237,7 +244,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     if(e->getType() == Cg::CgWindowResizeEvent)
     {
         CgWindowResizeEvent* ev = (CgWindowResizeEvent*)e;
-        m_scene_graph->setProj_matrix(glm::perspective(45.0f, (float)(ev->w()) / ev->h(), 0.01f, 100.0f));
+        m_scene_graph->setProjectionMatrix(glm::perspective(45.0f, (float)(ev->w()) / ev->h(), 0.01f, 100.0f));
     }
 
     if(e->getType() == Cg::CgLoadObjFileEvent)

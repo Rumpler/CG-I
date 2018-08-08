@@ -12,10 +12,12 @@ private:
     glm::vec3 difuse_material;
 public:
     CgAppearance();
-    glm::vec3 getObject_color() const;
-    void setObject_color(const glm::vec3 &value);
-    glm::vec3 getDifuse_material() const;
-    void setDifuse_material(const glm::vec3 &value);
+
+    glm::vec3 getObjectColor() const;
+    void setObjectColor(const glm::vec3 &value);
+
+//    glm::vec3 getDifuse_material() const;
+//    void setDifuse_material(const glm::vec3 &value);
 };
 
 #endif // CGAPPEARANCE_H

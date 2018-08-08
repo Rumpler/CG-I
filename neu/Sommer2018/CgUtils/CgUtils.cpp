@@ -6,21 +6,21 @@ CgU::CgU()
 
 }
 
-void CgU::printVec3(glm::vec3 *vec)
+void CgU::printVec3(glm::vec3 vec)
 {
-    std::cout << "Vec3:(" << vec->x << "," << vec->y << "," << vec->z << ")" << std::endl;
+    std::cout << "Vec3:(" << vec.x << "," << vec.y << "," << vec.z << ")" << std::endl;
 }
 
-void CgU::printVec3(std::string str, glm::vec3 *vec)
+void CgU::printVec3(std::string str, glm::vec3 vec)
 {
-    std::cout<< str << ":(" << vec->x << "," << vec->y << "," << vec->z << ")" << std::endl;
+    std::cout<< str << ":(" << vec.x << "," << vec.y << "," << vec.z << ")" << std::endl;
 }
 
 void CgU::printVecVector(std::vector<glm::vec3>* vector)
 {
     std::cout << "Vector of size: " << vector->size() <<std::endl;
     for(glm::vec3 v : *(vector)){
-        printVec3(&v);
+        printVec3(v);
     }
 }
 
@@ -50,4 +50,36 @@ glm::vec3 CgU::rotatePointYAxis(double angle, glm::vec3 p)
 glm::vec3 CgU::multVecScalar(double scalar, glm::vec3 vec)
 {
     return glm::vec3(vec.x * scalar, vec.y * scalar, vec.z * scalar);
+}
+
+glm::mat4 CgU::rotateMatZ(float angle)
+{
+    angle = translateDegreeToRad(angle);
+    glm::mat4 result = glm::mat4(1.0f);
+    result[0] = glm::vec4(cos(angle), sin(angle), 0, 0);
+    result[1] = glm::vec4(-sin(angle), cos(angle), 0, 0);
+    return result;
+}
+
+glm::mat4 CgU::rotateMatX(float angle)
+{
+    angle = translateDegreeToRad(angle);
+    glm::mat4 result = glm::mat4(1.0f);
+    result[1] = glm::vec4(0, cos(angle), sin(angle), 0);
+    result[2] = glm::vec4(0, -sin(angle), cos(angle), 0);
+    return result;
+}
+
+glm::mat4 CgU::rotateMatY(float angle)
+{
+    angle = translateDegreeToRad(angle);
+    glm::mat4 result = glm::mat4(1.0f);
+    result[0] = glm::vec4(cos(angle), 0, -sin(angle), 0);
+    result[2] = glm::vec4(sin(angle), 0, cos(angle), 0);
+    return result;
+}
+
+float CgU::translateDegreeToRad(float degree)
+{
+    return (2.0 * M_PI / 360.0) * degree;
 }

@@ -12,28 +12,32 @@
 class CgSceneGraphEntity
 {
 private:
-    std::vector<CgBaseRenderableObject*> list_of_objects;
-    glm::mat4 m_current_transformation;
-
-    CgAppearance m_appearance;
-
     CgSceneGraphEntity* m_parent;
+    std::vector<CgBaseRenderableObject*> m_objects;
     std::vector<CgSceneGraphEntity*> m_children;
+
+    glm::mat4 m_current_transformation;
+    CgAppearance* m_appearance;
+
 
 public:
     CgSceneGraphEntity();
+    ~CgSceneGraphEntity();
 
-    void addObject(CgBaseRenderableObject* arg);
+    void addObject(CgBaseRenderableObject* obj);
+    void addChild(CgSceneGraphEntity* child);
 
     CgSceneGraphEntity *parent() const;
     void setParent(CgSceneGraphEntity *parent);
     glm::mat4 current_transformation() const;
-    void setCurrent_transformation(const glm::mat4 &current_transformation);
+    void setCurrentTransformation(const glm::mat4 &current_transformation);
+    glm::mat4 getCurrentTransformation() const;
+    CgAppearance* appearance() const;
+    void setAppearance(CgAppearance* appearance);
 
+    std::vector<CgBaseRenderableObject *> getObjects() const;
+    std::vector<CgSceneGraphEntity *> getChildren() const;
 
-    CgAppearance appearance() const;
-    void setAppearance(const CgAppearance &appearance);
-    std::vector<CgBaseRenderableObject *> getList_of_objects() const;
 };
 
 #endif // CGSCENEGRAPHENTITY_H

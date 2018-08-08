@@ -1,5 +1,17 @@
 #include "CgSceneGraphEntity.h"
 
+CgSceneGraphEntity::CgSceneGraphEntity()
+{
+    m_current_transformation = glm::mat4(1.0f);
+    m_appearance = new CgAppearance();
+}
+
+CgSceneGraphEntity::~CgSceneGraphEntity()
+{
+    delete m_appearance;
+}
+
+
 CgSceneGraphEntity *CgSceneGraphEntity::parent() const
 {
     return m_parent;
@@ -15,33 +27,45 @@ glm::mat4 CgSceneGraphEntity::current_transformation() const
     return m_current_transformation;
 }
 
-void CgSceneGraphEntity::setCurrent_transformation(const glm::mat4 &current_transformation)
+void CgSceneGraphEntity::setCurrentTransformation(const glm::mat4 &current_transformation)
 {
     m_current_transformation = current_transformation;
 }
 
-void CgSceneGraphEntity::addObject(CgBaseRenderableObject * arg)
+void CgSceneGraphEntity::addObject(CgBaseRenderableObject * obj)
 {
-    list_of_objects.push_back(arg);
+    m_objects.push_back(obj);
 }
 
-CgAppearance CgSceneGraphEntity::appearance() const
+void CgSceneGraphEntity::addChild(CgSceneGraphEntity *child)
+{
+    m_children.push_back(child);
+}
+
+CgAppearance* CgSceneGraphEntity::appearance() const
 {
     return m_appearance;
 }
 
-void CgSceneGraphEntity::setAppearance(const CgAppearance &appearance)
+void CgSceneGraphEntity::setAppearance(CgAppearance* appearance)
 {
     m_appearance = appearance;
 }
 
-std::vector<CgBaseRenderableObject *> CgSceneGraphEntity::getList_of_objects() const
+std::vector<CgBaseRenderableObject *> CgSceneGraphEntity::getObjects() const
 {
-    return list_of_objects;
+    return m_objects;
 }
 
 
-CgSceneGraphEntity::CgSceneGraphEntity()
+std::vector<CgSceneGraphEntity *> CgSceneGraphEntity::getChildren() const
 {
-
+    return m_children;
 }
+
+glm::mat4 CgSceneGraphEntity::getCurrentTransformation() const
+{
+    return m_current_transformation;
+}
+
+

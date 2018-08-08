@@ -17,19 +17,18 @@ private:
     IdSingleton* idGen;
 
     CgBaseRenderer *m_renderer;
-    glm::mat4 m_current_transformation;
+//    glm::mat4 m_current_transformation;
     glm::mat4 m_trackball_rotation;
     glm::mat4 m_lookAt_matrix;
     glm::mat4 m_proj_matrix;
 
     CgSceneGraphEntity* m_root_node;
-    std::stack<glm::mat4> m_modelview_matrix_stack;
+    std::stack<glm::mat4> m_mat_stack;
 
-    void pushMatrix(){m_modelview_matrix_stack.push(m_modelview_matrix_stack.top());}
-    void popMatrix(){m_modelview_matrix_stack.pop();}
-    void applyTransform(glm::mat4 arg){m_modelview_matrix_stack.top() *= arg;}
+    void pushMatrix(){m_mat_stack.push(m_mat_stack.top());}
+    void popMatrix(){m_mat_stack.pop();}
+    void applyTransform(glm::mat4 arg){m_mat_stack.top() *= arg;}
 
-    CgCube* cube;
 
 
 
@@ -39,11 +38,12 @@ public:
     CgSceneGraph(CgBaseRenderer *renderer);
 
     void render();
+    void recursiveRender(CgSceneGraphEntity* currentEntity);
 
-    glm::mat4 proj_matrix() const;
-    void setProj_matrix(const glm::mat4 &proj_matrix);
-    glm::mat4 trackball_rotation() const;
-    void setTrackball_rotation(const glm::mat4 &trackball_rotation);
+    glm::mat4 projectionMatrix() const;
+    void setProjectionMatrix(const glm::mat4 &projectionMatrix);
+    glm::mat4 trackballRotation() const;
+    void setTrackballRotation(const glm::mat4 &trackballRotation);
 };
 
 #endif // CGSCENEGRAPH_H
