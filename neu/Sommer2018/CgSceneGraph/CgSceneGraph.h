@@ -34,6 +34,10 @@ private:
     CgSceneGraphEntity* cylinderNormalsEntity;
 
 
+    glm::vec3 defaultColor = glm::vec3(1.0f, 1.0f, 0.0f);
+    glm::vec3 defaultColorNormals = glm::vec3(1.0f, 1.0f, 1.0f);
+
+
     void pushMatrix(){m_mat_stack.push(m_mat_stack.top());}
     void popMatrix(){m_mat_stack.pop();}
     void applyTransform(glm::mat4 arg){m_mat_stack.top() *= arg;}

@@ -143,7 +143,7 @@ void CgSceneGraph::initCube()
     //cubeEntity->getRenderObjects() = true;
     cubeEntity->setParent(variousObjects);
     variousObjects->addChild(cubeEntity);
-    cubeEntity->appearance()->setObjectColor(glm::vec3(0.0f, 1.0f, 0.0f));
+    cubeEntity->appearance()->setObjectColor(defaultColor);
     cubeEntity->addObject(cube);
     cubeEntity->setCurrentTransformation(m_mat_stack.top());
 
@@ -151,7 +151,7 @@ void CgSceneGraph::initCube()
         cubeNormalsEntity = new CgSceneGraphEntity();
         cubeNormalsEntity->setParent(cubeEntity);
         cubeEntity->addChild(cubeNormalsEntity);
-        cubeNormalsEntity->appearance()->setObjectColor(glm::vec3(1.0f, 1.0f, 1.0f));
+        cubeNormalsEntity->appearance()->setObjectColor(defaultColorNormals);
         cubeNormalsEntity->setCurrentTransformation(m_mat_stack.top());
 
         std::vector<CgLine*>* cubeNormals = cube->getPolylineNormals();
@@ -174,36 +174,36 @@ void CgSceneGraph::initCylinder()
     //cubeEntity->getRenderObjects() = true;
     cylinderEntity->setParent(variousObjects);
     variousObjects->addChild(cylinderEntity);
-    cylinderEntity->appearance()->setObjectColor(glm::vec3(0.0f, 1.0f, 0.0f));
+    cylinderEntity->appearance()->setObjectColor(defaultColor);
     cylinderEntity->addObject(cylinder);
     cylinderEntity->setCurrentTransformation(m_mat_stack.top());
 
-        // entity cube normals
+        // entity cylinder normals
         cylinderNormalsEntity = new CgSceneGraphEntity();
         cylinderNormalsEntity->setRenderObjects(true);
         cylinderNormalsEntity->setParent(cylinderEntity);
         cylinderEntity->addChild(cylinderNormalsEntity);
-        cylinderNormalsEntity->appearance()->setObjectColor(glm::vec3(1.0f, 1.0f, 1.0f));
+        cylinderNormalsEntity->appearance()->setObjectColor(defaultColorNormals);
         cylinderNormalsEntity->setCurrentTransformation(m_mat_stack.top());
 
         std::vector<CgLine*>* cylinderNormals = cylinder->getPolylineNormals();
         for(CgLine* line : *cylinderNormals){
             m_renderer->init(line);
-            cubeNormalsEntity->addObject(line);
+            cylinderNormalsEntity->addObject(line);
         }
 }
 
 void CgSceneGraph::selectItemsToDisplay()
 {
-    coordinateSystem->setRenderObjects(false);
+    coordinateSystem->setRenderObjects(true);
     variousObjects->setRenderObjects(true);
     sceneObjects->setRenderObjects(true);
 
-    cubeEntity->setRenderObjects(true);
+    cubeEntity->setRenderObjects(false);
     cubeNormalsEntity->setRenderObjects(false);
 
-    cylinderEntity->setRenderObjects(true);
-    cylinderNormalsEntity->setRenderObjects(true);
+    cylinderEntity->setRenderObjects(false);
+    cylinderNormalsEntity->setRenderObjects(false);
 }
 
 glm::mat4 CgSceneGraph::projectionMatrix() const
