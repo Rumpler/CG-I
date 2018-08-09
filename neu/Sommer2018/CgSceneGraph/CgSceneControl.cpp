@@ -19,79 +19,19 @@
 
 CgSceneControl::CgSceneControl()
 {
-    idGen = IdSingleton::instance();
-
-    initCoordinateSystem();
-
-    m_cube = new CgCube(idGen->getNextId());
-    colorObjects.push_back(m_cube);
-
-    m_cube_normals = m_cube->getPolylineNormals();
-
-    m_cylinder = new CgCylinder(idGen->getNextId(), 50, 0.3, 0.2);
-    colorObjects.push_back(m_cylinder);
-
-    m_cylinder_normals = m_cylinder->getPolylineNormals();
-
-    m_rotation_curve = new CgLine(idGen->getNextId());
-    m_rotation_curve->setRotationCurveExample1();
-    colorObjects.push_back(m_rotation_curve);
-
-    m_rotation_body = new CgRotationBody(idGen->getNextId(), m_rotation_curve, 50);
-    colorObjects.push_back(m_rotation_body);
-
-    m_rotation_body_normals = m_rotation_body->getPolylineNormals();
-
-    m_loaded_object= new CgTriangles(idGen->getNextId());
-    colorObjects.push_back(m_loaded_object);
-
-    m_loaded_object_normals = m_loaded_object->getPolylineNormals();
 
 }
 
 
 CgSceneControl::~CgSceneControl()
 {
-    m_coordinate_system.clear();
-    delete m_cube;
-    m_cube_normals->clear();
-    delete m_cylinder;
-    m_cylinder_normals->clear();
-    delete m_rotation_curve;
-    delete m_rotation_body;
-    delete m_loaded_object;
+
 }
 
 void CgSceneControl::setRenderer(CgBaseRenderer* r)
 {
     m_renderer = r;
     m_renderer->setSceneControl(this);
-
-    for(CgLine* poly : m_coordinate_system){
-        m_renderer->init(poly);
-    }
-
-    m_renderer->init(m_cube);
-
-    for(CgLine* poly : *m_cube_normals){
-        m_renderer->init(poly);
-    }
-
-    m_renderer->init(m_cylinder);
-
-    for(CgLine* poly : *m_cylinder_normals){
-        m_renderer->init(poly);
-    }
-
-    m_renderer->init(m_rotation_curve);
-
-    m_renderer->init(m_rotation_body);
-    for(CgLine* poly : *m_rotation_body_normals){
-        m_renderer->init(poly);
-    }
-
-    m_renderer->init(m_loaded_object);
-
     m_scene_graph = new CgSceneGraph(m_renderer);
 }
 
@@ -107,130 +47,18 @@ void CgSceneControl::renderObjects()
     m_renderer->setUniformValue("lightSpecularColor",glm::vec4(1.0,1.0,1.0,1.0));
 
     m_scene_graph->render();
-
-
-
-//    /* coordinatesystem  */
-//    for(CgLine* poly : m_coordinate_system){
-//        if(poly->getDisplay()){
-//            m_renderer->setUniformValue("mycolor",glm::vec4(poly->getColor(),0.5f));
-//            m_renderer->render(poly);
-//        }
-//    }
-
-//    /* cube  */
-//    if(m_cube->getDisplay()){
-//        m_renderer->setUniformValue("mycolor",glm::vec4(m_cube->getColor(),1.0f));
-//        m_renderer->render(m_cube);
-//    }
-
-//    /* cubeNormals  */
-//    for(CgLine* poly : *m_cube_normals){
-//        if(poly->getDisplay()){
-//            m_renderer->setUniformValue("mycolor",glm::vec4(poly->getColor(),1.0f));
-//            m_renderer->render(poly);
-//        }
-//    }
-
-//    /* cylinder  */
-//    if(m_cylinder->getDisplay()){
-//        m_renderer->setUniformValue("mycolor",glm::vec4(m_cylinder->getColor(),0.5f));
-//        m_renderer->render(m_cylinder);
-//    }
-
-
-//    /* cylinderNormals  */
-//    for(CgLine* poly : *m_cylinder_normals){
-//        if(poly->getDisplay()){
-//            m_renderer->setUniformValue("mycolor",glm::vec4(poly->getColor(),0.5f));
-//            m_renderer->render(poly);
-//        }
-
-//    }
-
-//    /* rotationCurve  */
-//    if(m_rotation_curve->getDisplay()){
-//        m_renderer->setUniformValue("mycolor",glm::vec4(m_rotation_curve->getColor(),0.5f));
-//        m_renderer->render(m_rotation_curve);
-//    }
-
-//    /* rotationBody  */
-//    if(m_rotation_body->getDisplay()){
-//        m_renderer->setUniformValue("mycolor",glm::vec4(m_rotation_body->getColor(),0.5f));
-//        m_renderer->render(m_rotation_body);
-//    }
-
-//    /* rotationBodyNormals  */
-//    for(CgLine* poly : *m_rotation_body_normals){
-//        if(poly->getDisplay()){
-//            m_renderer->setUniformValue("mycolor",glm::vec4(poly->getColor(),0.5f));
-//            m_renderer->render(poly);
-//        }
-
-//    }
-
-//    /* loadedObject  */
-//    if(m_loaded_object->getDisplay()) {
-//        m_renderer->setUniformValue("mycolor",glm::vec4(m_loaded_object->getColor(),0.5f));
-//        m_renderer->render(m_loaded_object);
-//    }
-
-//    /* loadedObjectNormals  */
-//    if(renderLoadedObjectNormals){
-//        for(CgLine* poly : *m_loaded_object_normals){
-//            m_renderer->setUniformValue("mycolor",glm::vec4(poly->getColor(),0.5f));
-//            m_renderer->render(poly);
-//        }
-//    }
-
-
-//    m_scene_graph->render(m_trackball_rotation);
-
-
 }
-
-void CgSceneControl::initCoordinateSystem()
-{
-    //X
-    CgLine* axis = new CgLine(idGen->getNextId());
-    axis->addVertice(glm::vec3(0.0f,0.0f,0.0f));
-    axis->addVertice(glm::vec3(1.0f,0.0f,0.0f));
-    axis->setColor(glm::vec3(1.0f,0.0f,0.0f));
-    axis->setDisplay(true);
-    m_coordinate_system.push_back(axis);
-    //Y
-    axis = new CgLine(idGen->getNextId());
-    axis->addVertice(glm::vec3(0.0f,0.0f,0.0f));
-    axis->addVertice(glm::vec3(0.0f,1.0f,0.0f));
-    axis->setColor(glm::vec3(0.0f,1.0f,0.0f));
-    axis->setDisplay(true);
-    m_coordinate_system.push_back(axis);
-    //Z
-    axis = new CgLine(idGen->getNextId());
-    axis->addVertice(glm::vec3(0.0f,0.0f,0.0f));
-    axis->addVertice(glm::vec3(0.0f,0.0f,1.0f));
-    axis->setColor(glm::vec3(0.0f,0.0f,1.0f));
-    axis->setDisplay(true);
-    m_coordinate_system.push_back(axis);
-}
-
-
 
 void CgSceneControl::handleEvent(CgBaseEvent* e)
 {
-    //    std::cout << e->getType() << " reached" << std::endl;
-    //    std::cout << Cg::CgObjectSelectionChangeEvent << " estimated" << std::endl;
-
     if(e->getType() == Cg::CgMouseButtonPress || e->getType() == Cg::CgMouseMove)
     {
         CgMouseEvent* ev = (CgMouseEvent*)e;
-        //        std::cout << *ev<< "called" << std::endl;
     }
 
     if(e->getType() == Cg::CgTrackballEvent)
     {
         CgTrackballEvent* ev = (CgTrackballEvent*)e;
-        //        std::cout << *ev << std::endl;
         m_scene_graph->setTrackballRotation(ev->getRotationMatrix());
         m_renderer->redraw();
 
@@ -249,98 +77,106 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
 
     if(e->getType() == Cg::CgLoadObjFileEvent)
     {
+        std::cout << "currently not implemented" << std::endl;
         CgLoadObjFileEvent* ev = (CgLoadObjFileEvent*)e;
-        m_loaded_object->init(ev->fileName());
-        m_renderer->init(m_loaded_object);
+//        m_loaded_object->init(ev->fileName());
+//        m_renderer->init(m_loaded_object);
 
-        m_loaded_object_normals = m_loaded_object->getPolylineNormals();
-        for(CgLine* poly : *m_loaded_object_normals){
-            m_renderer->init(poly);
-        }
-        m_renderer->redraw();
+//        m_loaded_object_normals = m_loaded_object->getPolylineNormals();
+//        for(CgLine* poly : *m_loaded_object_normals){
+//            m_renderer->init(poly);
+//        }
+//        m_renderer->redraw();
     }
 
-    if(e->getType() == Cg::CgColorChangeEvent){
+    if(e->getType() == Cg::CgColorChangeEvent)
+    {
+        std::cout << "currently not implemented" << std::endl;
         CgColorChangeEvent* ev = (CgColorChangeEvent*) e;
-        glm::vec3 customColor = glm::vec3((float)(ev->getRed() * 0.01f), (float)(ev->getGreen() * 0.01f), (float)(ev->getBlue() * 0.01f));
+//        glm::vec3 customColor = glm::vec3((float)(ev->getRed() * 0.01f), (float)(ev->getGreen() * 0.01f), (float)(ev->getBlue() * 0.01f));
 
-        for(CgBaseRenderableObject* obj : colorObjects){
-            if(obj->getType() == Cg::TriangleMesh){
-                CgTriangleMesh* o = (CgTriangleMesh*) obj;
-                o->setColor(customColor);
-            }else if(obj->getType() == Cg::Polyline){
-                CgPolyline* o = (CgPolyline*) obj;
-                o->setColor(customColor);
-            }
-        }
-        m_renderer->redraw();
+//        for(CgBaseRenderableObject* obj : colorObjects){
+//            if(obj->getType() == Cg::TriangleMesh){
+//                CgTriangleMesh* o = (CgTriangleMesh*) obj;
+//                o->setColor(customColor);
+//            }else if(obj->getType() == Cg::Polyline){
+//                CgPolyline* o = (CgPolyline*) obj;
+//                o->setColor(customColor);
+//            }
+//        }
+//        m_renderer->redraw();
     }
 
-    if(e->getType() == Cg::CgObjectSelectionChangeEvent){
+    if(e->getType() == Cg::CgObjectSelectionChangeEvent)
+    {
+        std::cout << "currently not implemented" << std::endl;
         CgObjectSelectionChangeEvent *ev = (CgObjectSelectionChangeEvent*) e;
 
-        for(CgLine* poly : m_coordinate_system){                    //coordinateSystem
-            poly->setDisplay(ev->getRenderCoordinateSystem());
-        }
-        m_cube->setDisplay(ev->getRenderCube());                    //cube
-        for(CgLine* poly : *m_cube_normals){                        //cubeNormals
-            poly->setDisplay(ev->getRenderCubeNormals());
-        }
-        m_cylinder->setDisplay(ev->getRenderCylinder());            //cylinder
-        for(CgLine* poly : *m_cylinder_normals){                    //cylinderNormals
-            poly->setDisplay(ev->getRenderCylinderNormals());
-        }
-        m_rotation_curve->setDisplay(ev->getRenderRotationCurve()); //rotationCurve
-        m_rotation_body->setDisplay(ev->getRenderRotationBody());   //rotationBody
+//        for(CgLine* poly : m_coordinate_system){                    //coordinateSystem
+//            poly->setDisplay(ev->getRenderCoordinateSystem());
+//        }
+//        m_cube->setDisplay(ev->getRenderCube());                    //cube
+//        for(CgLine* poly : *m_cube_normals){                        //cubeNormals
+//            poly->setDisplay(ev->getRenderCubeNormals());
+//        }
+//        m_cylinder->setDisplay(ev->getRenderCylinder());            //cylinder
+//        for(CgLine* poly : *m_cylinder_normals){                    //cylinderNormals
+//            poly->setDisplay(ev->getRenderCylinderNormals());
+//        }
+//        m_rotation_curve->setDisplay(ev->getRenderRotationCurve()); //rotationCurve
+//        m_rotation_body->setDisplay(ev->getRenderRotationBody());   //rotationBody
 
-        for(CgLine* poly : *m_rotation_body_normals){               //rotationBodyNormals
-            poly->setDisplay(ev->getRenderRotationBodyNormals());
-        }
+//        for(CgLine* poly : *m_rotation_body_normals){               //rotationBodyNormals
+//            poly->setDisplay(ev->getRenderRotationBodyNormals());
+//        }
 
-        m_loaded_object->setDisplay(ev->getRenderLoadedObject());   //loadedObject
+//        m_loaded_object->setDisplay(ev->getRenderLoadedObject());   //loadedObject
 
-        renderLoadedObjectNormals = ev->getRenderLoadedObjectNormals();
+//        renderLoadedObjectNormals = ev->getRenderLoadedObjectNormals();
         m_renderer->redraw();
     }
 
-    if(e->getType() == Cg::CgValueChangedEvent){
+    if(e->getType() == Cg::CgValueChangedEvent)
+    {
+        std::cout << "currently not implemented" << std::endl;
         CgValueChangedEvent* ev = (CgValueChangedEvent*) e;
 
-        if(ev->getCylinderChanged()){
-            if(ev->getValueAmountOfSegmentsCylinder() >= 2 && ev->getValueHeightCylinder() >= 0 && ev->getValueRadiusCylinder() >= 0){
-                m_cylinder->makeCylinder(ev->getValueAmountOfSegmentsCylinder(), ev->getValueHeightCylinder(), ev->getValueRadiusCylinder());
-                m_renderer->init(m_cylinder);
-                m_cylinder_normals = m_cylinder->getPolylineNormals();
-                for(CgLine* poly : *m_cylinder_normals){
-                    m_renderer->init(poly);
-                }
-            }
-        }
+//        if(ev->getCylinderChanged()){
+//            if(ev->getValueAmountOfSegmentsCylinder() >= 2 && ev->getValueHeightCylinder() >= 0 && ev->getValueRadiusCylinder() >= 0){
+//                m_cylinder->makeCylinder(ev->getValueAmountOfSegmentsCylinder(), ev->getValueHeightCylinder(), ev->getValueRadiusCylinder());
+//                m_renderer->init(m_cylinder);
+//                m_cylinder_normals = m_cylinder->getPolylineNormals();
+//                for(CgLine* poly : *m_cylinder_normals){
+//                    m_renderer->init(poly);
+//                }
+//            }
+//        }
 
-        if(ev->getResetRotationCurve()){
-            m_rotation_curve->setRotationCurveExample1();
-            m_renderer->init(m_rotation_curve);
-        }
+//        if(ev->getResetRotationCurve()){
+//            m_rotation_curve->setRotationCurveExample1();
+//            m_renderer->init(m_rotation_curve);
+//        }
 
-        if(ev->getRotationBodyChanged()){
-            m_rotation_body_normals->clear();
-            m_rotation_body->makeRotationBody(m_rotation_curve, ev->getValueAmountOfSegmentsRotationBody());
-            m_renderer->init(m_rotation_body);
-            for(CgLine* poly : *m_rotation_body_normals){
-                m_renderer->init(poly);
-            }
-        }
+//        if(ev->getRotationBodyChanged()){
+//            m_rotation_body_normals->clear();
+//            m_rotation_body->makeRotationBody(m_rotation_curve, ev->getValueAmountOfSegmentsRotationBody());
+//            m_renderer->init(m_rotation_body);
+//            for(CgLine* poly : *m_rotation_body_normals){
+//                m_renderer->init(poly);
+//            }
+//        }
 
         m_renderer->redraw();
     }
 
     if(e->getType() == Cg::CgSubdivisionEvent){
+        std::cout << "currently not implemented" << std::endl;
         CgSubdivisionEvent* ev = (CgSubdivisionEvent*) e;
 
-        if(ev->getForPointScheme()){
-            m_rotation_curve->sdForPointScheme();
-            m_renderer->init(m_rotation_curve);
-        }
+//        if(ev->getForPointScheme()){
+//            m_rotation_curve->sdForPointScheme();
+//            m_renderer->init(m_rotation_curve);
+//        }
         m_renderer->redraw();
     }
 

@@ -21,41 +21,11 @@ public:
     ~CgSceneControl();
     void handleEvent(CgBaseEvent* e);
     void setRenderer(CgBaseRenderer* r);
-
     void renderObjects();
 
 private:
     CgBaseRenderer* m_renderer;
-
-    IdSingleton* idGen;
-    //glm::vec3 customColor = glm::vec3(0.7f,0.0f,1.0f);
-
-    //contains all objects for recoloring
-    std::vector<CgBaseRenderableObject*> colorObjects;
-
     CgSceneGraph *m_scene_graph;
-
-    //Objects
-    std::vector<CgLine*> m_coordinate_system;
-    CgCube* m_cube;
-    std::vector<CgLine*>* m_cube_normals;
-
-    CgCylinder* m_cylinder;
-    std::vector<CgLine*>* m_cylinder_normals;
-
-    CgLine* m_rotation_curve;
-
-    CgRotationBody* m_rotation_body;
-    std::vector<CgLine*>* m_rotation_body_normals;
-
-    CgTriangles* m_loaded_object;
-    std::vector<CgLine*>* m_loaded_object_normals;
-    bool renderLoadedObjectNormals = false;
-
-
-
-
-    void initCoordinateSystem();
 
 };
 
