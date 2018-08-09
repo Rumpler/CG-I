@@ -33,8 +33,12 @@ private:
     CgSceneGraphEntity* cylinderEntity;
     CgSceneGraphEntity* cylinderNormalsEntity;
 
+    CgSceneGraphEntity* rotationCurveEntity;
+    CgSceneGraphEntity* rotationBodyEntity;
+    CgSceneGraphEntity* rotationBodyNormalsEntity;
 
-    glm::vec3 defaultColor = glm::vec3(1.0f, 1.0f, 0.0f);
+
+    glm::vec3 defaultColor = glm::vec3(0.0f, 1.0f, 0.0f);
     glm::vec3 defaultColorNormals = glm::vec3(1.0f, 1.0f, 1.0f);
 
 
@@ -49,6 +53,7 @@ private:
 
     void initCube();
     void initCylinder();
+    void initRotationObjects();
 
 
     void selectItemsToDisplay();

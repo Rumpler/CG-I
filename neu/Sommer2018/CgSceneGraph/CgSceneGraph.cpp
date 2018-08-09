@@ -1,5 +1,6 @@
 #include "CgCube.h"
 #include "CgCylinder.h"
+#include "CgRotationBody.h"
 #include "CgSceneGraph.h"
 
 #include <CgUtils/CgUtils.h>
@@ -123,6 +124,7 @@ void CgSceneGraph::initVariousObjects()
 
     initCube();
     initCylinder();
+    initRotationObjects();
 }
 
 void CgSceneGraph::initSceneObjects()
@@ -169,33 +171,69 @@ void CgSceneGraph::initCylinder()
     m_renderer->init(cylinder);
 
 
-    // entity cylinder
-    cylinderEntity = new CgSceneGraphEntity();
-    //cubeEntity->getRenderObjects() = true;
-    cylinderEntity->setParent(variousObjects);
-    variousObjects->addChild(cylinderEntity);
-    cylinderEntity->appearance()->setObjectColor(defaultColor);
-    cylinderEntity->addObject(cylinder);
-    cylinderEntity->setCurrentTransformation(m_mat_stack.top());
+        // entity cylinder
+        cylinderEntity = new CgSceneGraphEntity();
+        cylinderEntity->setParent(variousObjects);
+        variousObjects->addChild(cylinderEntity);
+        cylinderEntity->appearance()->setObjectColor(defaultColor);
+        cylinderEntity->addObject(cylinder);
+        cylinderEntity->setCurrentTransformation(m_mat_stack.top());
 
-        // entity cylinder normals
-        cylinderNormalsEntity = new CgSceneGraphEntity();
-        cylinderNormalsEntity->setRenderObjects(true);
-        cylinderNormalsEntity->setParent(cylinderEntity);
-        cylinderEntity->addChild(cylinderNormalsEntity);
-        cylinderNormalsEntity->appearance()->setObjectColor(defaultColorNormals);
-        cylinderNormalsEntity->setCurrentTransformation(m_mat_stack.top());
+            // entity cylinder normals
+            cylinderNormalsEntity = new CgSceneGraphEntity();
+            cylinderNormalsEntity->setRenderObjects(true);
+            cylinderNormalsEntity->setParent(cylinderEntity);
+            cylinderEntity->addChild(cylinderNormalsEntity);
+            cylinderNormalsEntity->appearance()->setObjectColor(defaultColorNormals);
+            cylinderNormalsEntity->setCurrentTransformation(m_mat_stack.top());
 
-        std::vector<CgLine*>* cylinderNormals = cylinder->getPolylineNormals();
-        for(CgLine* line : *cylinderNormals){
-            m_renderer->init(line);
-            cylinderNormalsEntity->addObject(line);
-        }
+            std::vector<CgLine*>* cylinderNormals = cylinder->getPolylineNormals();
+            for(CgLine* line : *cylinderNormals){
+                m_renderer->init(line);
+                cylinderNormalsEntity->addObject(line);
+            }
+}
+
+void CgSceneGraph::initRotationObjects()
+{
+    CgLine* rotationCurve = new CgLine(idGen->getNextId());
+    rotationCurve->setRotationCurveExample1();
+    m_renderer->init(rotationCurve);
+
+    CgRotationBody* rotationBody = new CgRotationBody(idGen->getNextId(), rotationCurve, 50);
+    m_renderer->init(rotationBody);
+
+        rotationCurveEntity = new CgSceneGraphEntity();
+        rotationCurveEntity->setParent(variousObjects);
+        variousObjects->addChild(rotationCurveEntity);
+        rotationCurveEntity->appearance()->setObjectColor(defaultColor);
+        rotationCurveEntity->addObject(rotationCurve);
+        rotationCurveEntity->setCurrentTransformation(m_mat_stack.top());
+
+        rotationBodyEntity = new CgSceneGraphEntity();
+        rotationBodyEntity->setParent(variousObjects);
+        variousObjects->addChild(rotationBodyEntity);
+        rotationBodyEntity->appearance()->setObjectColor(defaultColor);
+        rotationBodyEntity->addObject(rotationBody);
+        rotationBodyEntity->setCurrentTransformation(m_mat_stack.top());
+
+            rotationBodyNormalsEntity = new CgSceneGraphEntity();
+            rotationBodyNormalsEntity->setParent(rotationBodyEntity);
+            rotationBodyEntity->addChild(rotationBodyNormalsEntity);
+            rotationBodyNormalsEntity->appearance()->setObjectColor(defaultColorNormals);
+            rotationBodyNormalsEntity->setCurrentTransformation(m_mat_stack.top());
+
+            std::vector<CgLine*>* rotationBodyNormals = rotationBody->getPolylineNormals();
+            for(CgLine* line : *rotationBodyNormals){
+                m_renderer->init(line);
+                rotationBodyNormalsEntity->addObject(line);
+            }
+
 }
 
 void CgSceneGraph::selectItemsToDisplay()
 {
-    coordinateSystem->setRenderObjects(true);
+    coordinateSystem->setRenderObjects(false);
     variousObjects->setRenderObjects(true);
     sceneObjects->setRenderObjects(true);
 
@@ -204,6 +242,10 @@ void CgSceneGraph::selectItemsToDisplay()
 
     cylinderEntity->setRenderObjects(false);
     cylinderNormalsEntity->setRenderObjects(false);
+
+    rotationCurveEntity->setRenderObjects(false);
+    rotationBodyEntity->setRenderObjects(true);
+    rotationBodyNormalsEntity->setRenderObjects(true);
 }
 
 glm::mat4 CgSceneGraph::projectionMatrix() const
