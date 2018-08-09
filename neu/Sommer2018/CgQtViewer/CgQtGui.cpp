@@ -178,8 +178,8 @@ void CgQtGui::createOptionPanelObjects(QWidget *parent)
     ButtonGroupObjects->button(2)->setDisabled(true);
     ButtonGroupObjects->button(4)->setDisabled(true);
     ButtonGroupObjects->button(7)->setDisabled(true);
-    ButtonGroupObjects->button(8)->setDisabled(true);
-    ButtonGroupObjects->button(9)->setDisabled(true);
+//    ButtonGroupObjects->button(8)->setDisabled(true);
+//    ButtonGroupObjects->button(9)->setDisabled(true);
 
     QVBoxLayout *vbox = new QVBoxLayout;
     vbox->addWidget(radiobuttonCoordinateSystem);
@@ -614,9 +614,7 @@ void CgQtGui::slotResetRotationObjects()
 
 void CgQtGui::slotLoadMeshFile()
 {
-    ButtonGroupObjects->button(8)->setDisabled(false);
-    ButtonGroupObjects->button(9)->setDisabled(false);
-    QString file=  QFileDialog::getOpenFileName(this, tr("Open Obj-File"),"",tr("Model Files (*.obj)"));
+    QString file =  QFileDialog::getOpenFileName(this, tr("Open Obj-File"),"",tr("Model Files (*.obj)"));
     CgBaseEvent* e = new CgLoadObjFileEvent(Cg::CgLoadObjFileEvent, file.toStdString());
     notifyObserver(e);
     slotShowLoadedObject();

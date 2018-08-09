@@ -1,8 +1,8 @@
 #include "CgSceneGraphEntity.h"
 
-bool CgSceneGraphEntity::getRenderObject()
+bool* CgSceneGraphEntity::getRenderObject()
 {
-    return renderObjects;
+    return &renderObjects;
 }
 
 void CgSceneGraphEntity::setRenderObjects(bool value)
@@ -48,9 +48,19 @@ void CgSceneGraphEntity::addObject(CgBaseRenderableObject * obj)
     m_objects.push_back(obj);
 }
 
+void CgSceneGraphEntity::clearObjects()
+{
+    m_objects.clear();
+}
+
 void CgSceneGraphEntity::addChild(CgSceneGraphEntity *child)
 {
     m_children.push_back(child);
+}
+
+void CgSceneGraphEntity::clearChildren()
+{
+    m_children.clear();
 }
 
 CgAppearance* CgSceneGraphEntity::appearance() const

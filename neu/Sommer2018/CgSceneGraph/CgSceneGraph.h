@@ -44,6 +44,19 @@ private:
     glm::vec3 defaultColor = glm::vec3(0.0f, 1.0f, 0.0f);
     glm::vec3 defaultColorNormals = glm::vec3(1.0f, 1.0f, 1.0f);
 
+    bool* renderCoordinateSystem;
+    bool* renderVariousObjects;
+        bool* renderCube;
+        bool* renderCubeNormals;
+        bool* renderCylinder;
+        bool* renderCylinderNormals;
+        bool* renderRotationCurve;
+        bool* renderRotationBody;
+        bool* renderRotationBodyNormals;
+        bool* renderLoadedObject;
+        bool* renderLoadedObjectNormals;
+    bool* renderScene;
+
 
     void pushMatrix(){m_mat_stack.push(m_mat_stack.top());}
     void popMatrix(){m_mat_stack.pop();}
@@ -76,6 +89,33 @@ public:
     void setProjectionMatrix(const glm::mat4 &projectionMatrix);
     glm::mat4 trackballRotation() const;
     void setTrackballRotation(const glm::mat4 &trackballRotation);
+
+    void loadObject(std::string str);
+
+    bool getRenderCoordinateSystem() const;
+    void setRenderCoordinateSystem(bool value);
+    bool getRenderVariousObjects() const;
+    void setRenderVariousObjects(bool value);
+    bool getRenderCube() const;
+    void setRenderCube(bool value);
+    bool getRenderCubeNormals() const;
+    void setRenderCubeNormals(bool value);
+    bool getRenderCylinder() const;
+    void setRenderCylinder(bool value);
+    bool getRenderCylinderNormals() const;
+    void setRenderCylinderNormals(bool value);
+    bool getRenderRotationCurve() const;
+    void setRenderRotationCurve(bool value);
+    bool getRenderRotationBody() const;
+    void setRenderRotationBody(bool value);
+    bool getRenderRotationBodyNormals() const;
+    void setRenderRotationBodyNormals(bool value);
+    bool getRenderLoadedObject() const;
+    void setRenderLoadedObject(bool value);
+    bool getRenderLoadedObjectNormals() const;
+    void setRenderLoadedObjectNormals(bool value);
+    bool getRenderScene() const;
+    void setRenderScene(bool value);
 };
 
 #endif // CGSCENEGRAPH_H

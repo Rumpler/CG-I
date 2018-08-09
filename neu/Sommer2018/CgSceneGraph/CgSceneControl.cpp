@@ -77,17 +77,10 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
 
     if(e->getType() == Cg::CgLoadObjFileEvent)
     {
-        std::cout << "currently not implemented" << std::endl;
         CgLoadObjFileEvent* ev = (CgLoadObjFileEvent*)e;
-        std::cout << ev->fileName() << std::endl;
-//        m_loaded_object->init(ev->fileName());
-//        m_renderer->init(m_loaded_object);
 
-//        m_loaded_object_normals = m_loaded_object->getPolylineNormals();
-//        for(CgLine* poly : *m_loaded_object_normals){
-//            m_renderer->init(poly);
-//        }
-//        m_renderer->redraw();
+        m_scene_graph->loadObject(ev->fileName());
+        m_renderer->redraw();
     }
 
     if(e->getType() == Cg::CgColorChangeEvent)
@@ -110,30 +103,21 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
 
     if(e->getType() == Cg::CgObjectSelectionChangeEvent)
     {
-        std::cout << "currently not implemented" << std::endl;
         CgObjectSelectionChangeEvent *ev = (CgObjectSelectionChangeEvent*) e;
 
-//        for(CgLine* poly : m_coordinate_system){                    //coordinateSystem
-//            poly->setDisplay(ev->getRenderCoordinateSystem());
-//        }
-//        m_cube->setDisplay(ev->getRenderCube());                    //cube
-//        for(CgLine* poly : *m_cube_normals){                        //cubeNormals
-//            poly->setDisplay(ev->getRenderCubeNormals());
-//        }
-//        m_cylinder->setDisplay(ev->getRenderCylinder());            //cylinder
-//        for(CgLine* poly : *m_cylinder_normals){                    //cylinderNormals
-//            poly->setDisplay(ev->getRenderCylinderNormals());
-//        }
-//        m_rotation_curve->setDisplay(ev->getRenderRotationCurve()); //rotationCurve
-//        m_rotation_body->setDisplay(ev->getRenderRotationBody());   //rotationBody
+        m_scene_graph->setRenderCoordinateSystem(ev->getRenderCoordinateSystem());
 
-//        for(CgLine* poly : *m_rotation_body_normals){               //rotationBodyNormals
-//            poly->setDisplay(ev->getRenderRotationBodyNormals());
-//        }
+        m_scene_graph->setRenderVariousObjects(true);
+            m_scene_graph->setRenderCube(ev->getRenderCube());
+            m_scene_graph->setRenderCubeNormals(ev->getRenderCubeNormals());
+            m_scene_graph->setRenderCylinder(ev->getRenderCylinder());
+            m_scene_graph->setRenderCylinderNormals(ev->getRenderCylinderNormals());
+            m_scene_graph->setRenderRotationCurve(ev->getRenderRotationCurve());
+            m_scene_graph->setRenderRotationBody(ev->getRenderRotationBody());
+            m_scene_graph->setRenderRotationBodyNormals(ev->getRenderRotationBodyNormals());
+            m_scene_graph->setRenderLoadedObject(ev->getRenderLoadedObject());
+            m_scene_graph->setRenderLoadedObjectNormals(ev->getRenderLoadedObjectNormals());
 
-//        m_loaded_object->setDisplay(ev->getRenderLoadedObject());   //loadedObject
-
-//        renderLoadedObjectNormals = ev->getRenderLoadedObjectNormals();
         m_renderer->redraw();
     }
 

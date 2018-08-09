@@ -27,7 +27,9 @@ public:
     ~CgSceneGraphEntity();
 
     void addObject(CgBaseRenderableObject* obj);
+    void clearObjects();
     void addChild(CgSceneGraphEntity* child);
+    void clearChildren();
 
     CgSceneGraphEntity *parent() const;
     void setParent(CgSceneGraphEntity *parent);
@@ -40,7 +42,7 @@ public:
     std::vector<CgBaseRenderableObject *> getObjects() const;
     std::vector<CgSceneGraphEntity *> getChildren() const;
 
-    bool getRenderObject();
+    bool* getRenderObject();
     void setRenderObjects(bool value);
 };
 
