@@ -2,6 +2,7 @@
 #include "CgCylinder.h"
 #include "CgRotationBody.h"
 #include "CgSceneGraph.h"
+#include "CgTriangles.h"
 
 #include <CgUtils/CgUtils.h>
 
@@ -44,7 +45,7 @@ void CgSceneGraph::render()
 
 void CgSceneGraph::recursiveRender(CgSceneGraphEntity *currentEntity)
 {
-    if(currentEntity->getRenderObjects()){
+    if(currentEntity->getRenderObject()){
         glm::mat4 mv_matrix = m_lookAt_matrix * m_trackball_rotation * currentEntity->getCurrentTransformation();
         glm::mat3 normal_matrix = glm::transpose(glm::inverse(glm::mat3(mv_matrix)));
 
@@ -125,6 +126,7 @@ void CgSceneGraph::initVariousObjects()
     initCube();
     initCylinder();
     initRotationObjects();
+    initLoadedObject();
 }
 
 void CgSceneGraph::initSceneObjects()
@@ -231,21 +233,55 @@ void CgSceneGraph::initRotationObjects()
 
 }
 
+void CgSceneGraph::initLoadedObject()
+{
+    CgTriangles* loadedObject = new CgTriangles(idGen->getNextId());
+    loadedObject->init("/home/gerrit/git/CG-I/neu/Sommer2018/CgData/porsche.obj");
+    m_renderer->init(loadedObject);
+
+        loadedObjectEntity = new CgSceneGraphEntity();
+        loadedObjectEntity->setParent(variousObjects);
+        variousObjects->addChild(loadedObjectEntity);
+        loadedObjectEntity->appearance()->setObjectColor(defaultColor);
+        loadedObjectEntity->addObject(loadedObject);
+        loadedObjectEntity->setCurrentTransformation(m_mat_stack.top());
+
+            loadedObjectNormalsEntity = new CgSceneGraphEntity();
+            loadedObjectNormalsEntity->setParent(loadedObjectEntity);
+            loadedObjectEntity->addChild(loadedObjectNormalsEntity);
+            loadedObjectNormalsEntity->appearance()->setObjectColor(defaultColorNormals);
+            loadedObjectNormalsEntity->setCurrentTransformation(m_mat_stack.top());
+
+            std::vector<CgLine*>* loadedObjectNormals = loadedObject->getPolylineNormals();
+            for(CgLine* line : *loadedObjectNormals){
+                m_renderer->init(line);
+                loadedObjectNormalsEntity->addObject(line);
+            }
+
+
+}
+
 void CgSceneGraph::selectItemsToDisplay()
 {
     coordinateSystem->setRenderObjects(false);
+
     variousObjects->setRenderObjects(true);
+        cubeEntity->setRenderObjects(false);
+        cubeNormalsEntity->setRenderObjects(false);
+
+        cylinderEntity->setRenderObjects(false);
+        cylinderNormalsEntity->setRenderObjects(false);
+
+        rotationCurveEntity->setRenderObjects(false);
+        rotationBodyEntity->setRenderObjects(false);
+        rotationBodyNormalsEntity->setRenderObjects(false);
+
     sceneObjects->setRenderObjects(true);
 
-    cubeEntity->setRenderObjects(false);
-    cubeNormalsEntity->setRenderObjects(false);
 
-    cylinderEntity->setRenderObjects(false);
-    cylinderNormalsEntity->setRenderObjects(false);
 
-    rotationCurveEntity->setRenderObjects(false);
-    rotationBodyEntity->setRenderObjects(true);
-    rotationBodyNormalsEntity->setRenderObjects(true);
+    loadedObjectEntity->setRenderObjects(true);
+    loadedObjectNormalsEntity->setRenderObjects(true);
 }
 
 glm::mat4 CgSceneGraph::projectionMatrix() const

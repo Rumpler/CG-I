@@ -40,7 +40,7 @@ public:
     std::vector<CgBaseRenderableObject *> getObjects() const;
     std::vector<CgSceneGraphEntity *> getChildren() const;
 
-    bool getRenderObjects();
+    bool getRenderObject();
     void setRenderObjects(bool value);
 };
 

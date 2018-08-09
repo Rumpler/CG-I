@@ -79,6 +79,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     {
         std::cout << "currently not implemented" << std::endl;
         CgLoadObjFileEvent* ev = (CgLoadObjFileEvent*)e;
+        std::cout << ev->fileName() << std::endl;
 //        m_loaded_object->init(ev->fileName());
 //        m_renderer->init(m_loaded_object);
 
