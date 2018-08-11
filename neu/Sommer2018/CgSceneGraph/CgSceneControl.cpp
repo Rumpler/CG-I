@@ -127,11 +127,9 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
 
         if(ev->getRotationCurveChanged()){
             if(ev->getSdForPointScheme()){
-                std::cout << "4PS" << std::endl;
                 m_scene_graph->changeRotationCurveForPointScheme();
             }
             if(ev->getResetRotationCurve()){
-                std::cout << "reset rotationCurve" << std::endl;
                 m_scene_graph->changeRotationCurveReset();
             }
         }

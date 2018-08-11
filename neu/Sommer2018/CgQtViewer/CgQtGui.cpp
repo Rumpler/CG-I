@@ -458,7 +458,6 @@ void CgQtGui::slotShowRotationBody()
 
 void CgQtGui::slotShowRotationBodyNormals()
 {
-    std::cout << "slotShowRotationBodyNormals" << std::endl;
     for(QAbstractButton* b : ButtonGroupObjects->buttons()){
         b->setChecked(false);
     }
@@ -608,8 +607,10 @@ void CgQtGui::slotResetRotationObjects()
 {
     CgValueChangedEvent* e = new CgValueChangedEvent();
     e->setRotationCurveChanged(true);
+    e->setResetRotationCurve(true);
     notifyObserver(e);
     slotRotationBodyChanged();
+    slotShowRotationCurve();
 }
 
 void CgQtGui::slotLoadMeshFile()
