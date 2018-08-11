@@ -15,7 +15,7 @@ CgBaseEvent* CgValueChangedEvent::clone()
 {
     CgValueChangedEvent* e = new CgValueChangedEvent();
     e->setCylinderChanged(cylinderChanged);
-    e->setResetRotationCurve(resetRotationCurve);
+    e->setRotationCurveChanged(rotationCurveChanged);
     e->setRotationBodyChanged(rotationBodyChanged);
 
     e->setValueAmountOfSegmentsCylinder(valueAmountOfSegmentsCylinder);
@@ -23,6 +23,8 @@ CgBaseEvent* CgValueChangedEvent::clone()
     e->setValueRadiusCylinder(valueRadiusCylinder);
 
     e->setValueAmountOfSegmentsRotationBody(valueAmountOfSegmentsRotationBody);
+    e->setSdForPointScheme(sdForPointScheme);
+    e->setResetRotationCurve(resetRotationCurve);
 
     return e;
 }
@@ -82,14 +84,14 @@ void CgValueChangedEvent::setValueAmountOfSegmentsRotationBody(int value)
     valueAmountOfSegmentsRotationBody = value;
 }
 
-bool CgValueChangedEvent::getResetRotationCurve() const
+bool CgValueChangedEvent::getRotationCurveChanged() const
 {
-    return resetRotationCurve;
+    return rotationCurveChanged;
 }
 
-void CgValueChangedEvent::setResetRotationCurve(bool value)
+void CgValueChangedEvent::setRotationCurveChanged(bool value)
 {
-    resetRotationCurve = value;
+    rotationCurveChanged = value;
 }
 
 double CgValueChangedEvent::getValueRadiusCylinder() const
@@ -100,6 +102,26 @@ double CgValueChangedEvent::getValueRadiusCylinder() const
 void CgValueChangedEvent::setValueRadiusCylinder(double value)
 {
     valueRadiusCylinder = value;
+}
+
+bool CgValueChangedEvent::getSdForPointScheme() const
+{
+    return sdForPointScheme;
+}
+
+void CgValueChangedEvent::setSdForPointScheme(bool value)
+{
+    sdForPointScheme = value;
+}
+
+bool CgValueChangedEvent::getResetRotationCurve() const
+{
+    return resetRotationCurve;
+}
+
+void CgValueChangedEvent::setResetRotationCurve(bool value)
+{
+    resetRotationCurve = value;
 }
 
 std::ostream& operator<<(std::ostream& os,const CgValueChangedEvent& e)

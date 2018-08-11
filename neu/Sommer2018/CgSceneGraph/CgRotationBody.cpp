@@ -70,3 +70,8 @@ void CgRotationBody::makeRotationBody(CgLine *contourCurve, int amountOfSegments
     computeNormals(); //Should be computed with calculation above
     fillPolylineNormals();
 }
+
+int CgRotationBody::getAmountOfSegments() const
+{
+    return amountOfSegments;
+}

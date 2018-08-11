@@ -85,6 +85,11 @@ public:
     ~CgSceneGraph();
 
     void changeColorOfVariousObjects(glm::vec3 color);
+    void changeCylinder(int amountOfSegments, double height, double radius);
+    void changeRotationBody(int amountOfSegments);
+    void changeRotationBody();
+    void changeRotationCurveForPointScheme();
+    void changeRotationCurveReset();
 
 
     void render();

@@ -453,9 +453,7 @@ void CgQtGui::slotShowRotationCurve()
 
 void CgQtGui::slotShowRotationBody()
 {
-    std::cout << "slotShowRotationBody" << std::endl;
     showObject(6);
-
 }
 
 void CgQtGui::slotShowRotationBodyNormals()
@@ -523,8 +521,10 @@ void CgQtGui::showObject(int i)
 
 void CgQtGui::slotSubdivision()
 {
-    CgSubdivisionEvent* e = new CgSubdivisionEvent();
-    e->setForPointScheme(true);
+    CgValueChangedEvent* e = new CgValueChangedEvent();
+
+    e->setRotationCurveChanged(true);
+    e->setSdForPointScheme(true);
     notifyObserver(e);
     slotRotationBodyChanged();
     slotShowRotationCurve();
@@ -607,7 +607,7 @@ void CgQtGui::slotResetCylinder()
 void CgQtGui::slotResetRotationObjects()
 {
     CgValueChangedEvent* e = new CgValueChangedEvent();
-    e->setResetRotationCurve(true);
+    e->setRotationCurveChanged(true);
     notifyObserver(e);
     slotRotationBodyChanged();
 }

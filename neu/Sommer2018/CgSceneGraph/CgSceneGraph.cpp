@@ -46,6 +46,58 @@ void CgSceneGraph::changeColorOfVariousObjects(glm::vec3 color)
     }
 }
 
+void CgSceneGraph::changeCylinder(int amountOfSegments, double height, double radius)
+{
+    if(amountOfSegments >= 2 && height >= 0 && radius >= 0){
+        CgCylinder* cylinder = (CgCylinder*) cylinderEntity->getObjects().at(0);
+        cylinder->makeCylinder(amountOfSegments, height, radius);
+        m_renderer->init(cylinder);
+
+
+        std::vector<CgLine*>* cylinderNormals = cylinder->getPolylineNormals();
+        cylinderNormalsEntity->clearObjects();
+        for(CgLine* line : *cylinderNormals){
+            m_renderer->init(line);
+            cylinderNormalsEntity->addObject(line);
+        }
+    }
+}
+
+void CgSceneGraph::changeRotationBody(int amountOfSegments)
+{
+    CgRotationBody* rotationBody = (CgRotationBody*) rotationBodyEntity->getObjects().at(0);
+    rotationBody->makeRotationBody((CgLine*)rotationCurveEntity->getObjects().at(0), amountOfSegments);
+    m_renderer->init(rotationBody);
+
+    std::vector<CgLine*>* rotationBodyNormals = rotationBody->getPolylineNormals();
+    rotationBodyNormalsEntity->clearObjects();
+    for(CgLine* line : *rotationBodyNormals){
+        m_renderer->init(line);
+        rotationBodyNormalsEntity->addObject(line);
+    }
+}
+
+void CgSceneGraph::changeRotationBody()
+{
+    CgRotationBody* rotationBody = (CgRotationBody*) rotationBodyEntity->getObjects().at(0);
+    int amountOfSegments = rotationBody->getAmountOfSegments();
+    changeRotationBody(amountOfSegments);
+}
+
+void CgSceneGraph::changeRotationCurveForPointScheme()
+{
+    CgLine* rotationCurve = (CgLine*) rotationCurveEntity->getObjects().at(0);
+    rotationCurve->sdForPointScheme();
+    m_renderer->init(rotationCurve);
+}
+
+void CgSceneGraph::changeRotationCurveReset()
+{
+    CgLine* rotationCurve = (CgLine*) rotationCurveEntity->getObjects().at(0);
+    rotationCurve->setRotationCurveExample1();
+    m_renderer->init(rotationCurve);
+}
+
 
 
 void CgSceneGraph::render()
@@ -190,7 +242,7 @@ void CgSceneGraph::initCube()
 
 void CgSceneGraph::initCylinder()
 {
-    CgCylinder* cylinder = new CgCylinder(idGen->getNextId(), 50, 0.5f, 0.2);
+    CgCylinder* cylinder = new CgCylinder(idGen->getNextId(), 50, 0.3f, 0.2);
     m_renderer->init(cylinder);
 
 

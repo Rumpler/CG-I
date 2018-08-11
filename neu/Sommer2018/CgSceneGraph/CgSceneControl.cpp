@@ -115,33 +115,39 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
 
     if(e->getType() == Cg::CgValueChangedEvent)
     {
-        std::cout << "currently not implemented" << std::endl;
         CgValueChangedEvent* ev = (CgValueChangedEvent*) e;
 
-//        if(ev->getCylinderChanged()){
-//            if(ev->getValueAmountOfSegmentsCylinder() >= 2 && ev->getValueHeightCylinder() >= 0 && ev->getValueRadiusCylinder() >= 0){
-//                m_cylinder->makeCylinder(ev->getValueAmountOfSegmentsCylinder(), ev->getValueHeightCylinder(), ev->getValueRadiusCylinder());
-//                m_renderer->init(m_cylinder);
-//                m_cylinder_normals = m_cylinder->getPolylineNormals();
-//                for(CgLine* poly : *m_cylinder_normals){
-//                    m_renderer->init(poly);
-//                }
-//            }
-//        }
+        if(ev->getCylinderChanged()){
+            if(ev->getValueAmountOfSegmentsCylinder() >= 2 && ev->getValueHeightCylinder() >= 0 && ev->getValueRadiusCylinder() >= 0){
+                m_scene_graph->changeCylinder(ev->getValueAmountOfSegmentsCylinder(), ev->getValueHeightCylinder(), ev->getValueRadiusCylinder());
+            }else{
+                std::cout << "bad values for cylinder" << std::endl;
+            }
+        }
+
+        if(ev->getRotationCurveChanged()){
+            if(ev->getSdForPointScheme()){
+                std::cout << "4PS" << std::endl;
+                m_scene_graph->changeRotationCurveForPointScheme();
+            }
+            if(ev->getResetRotationCurve()){
+                std::cout << "reset rotationCurve" << std::endl;
+                m_scene_graph->changeRotationCurveReset();
+            }
+        }
 
 //        if(ev->getResetRotationCurve()){
 //            m_rotation_curve->setRotationCurveExample1();
 //            m_renderer->init(m_rotation_curve);
 //        }
 
-//        if(ev->getRotationBodyChanged()){
-//            m_rotation_body_normals->clear();
-//            m_rotation_body->makeRotationBody(m_rotation_curve, ev->getValueAmountOfSegmentsRotationBody());
-//            m_renderer->init(m_rotation_body);
-//            for(CgLine* poly : *m_rotation_body_normals){
-//                m_renderer->init(poly);
-//            }
-//        }
+        if(ev->getRotationBodyChanged()){
+            if(ev->getValueAmountOfSegmentsRotationBody() > 1){
+                m_scene_graph->changeRotationBody(ev->getValueAmountOfSegmentsRotationBody());
+            }else{
+                std::cout << "bad values for rotationBody" << std::endl;
+            }
+        }
 
         m_renderer->redraw();
     }

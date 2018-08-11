@@ -38,23 +38,31 @@ public:
     int getValueAmountOfSegmentsRotationBody() const;
     void setValueAmountOfSegmentsRotationBody(int value);
 
-    bool getResetRotationCurve() const;
-    void setResetRotationCurve(bool value);
+    bool getRotationCurveChanged() const;
+    void setRotationCurveChanged(bool value);
 
     double getValueRadiusCylinder() const;
     void setValueRadiusCylinder(double value);
+
+    bool getSdForPointScheme() const;
+    void setSdForPointScheme(bool value);
+
+    bool getResetRotationCurve() const;
+    void setResetRotationCurve(bool value);
 
 private:
     Cg::EventType m_type;
 
     bool cylinderChanged = false;
-    bool resetRotationCurve = false;
-    bool rotationBodyChanged = false;
-
     int valueAmountOfSegmentsCylinder;
     double valueHeightCylinder;
     double valueRadiusCylinder;
 
+    bool rotationCurveChanged = false;
+    bool sdForPointScheme = false;
+    bool resetRotationCurve = false;
+
+    bool rotationBodyChanged = false;
     int valueAmountOfSegmentsRotationBody;
 };
 

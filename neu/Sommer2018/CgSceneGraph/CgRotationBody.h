@@ -18,6 +18,8 @@ public:
 
     void makeRotationBody(CgLine* contourCurve, int amountOfSegments);
 
+    int getAmountOfSegments() const;
+
 private:
     CgLine* contourCurve;
     int amountOfSegments;
