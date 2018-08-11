@@ -85,20 +85,12 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
 
     if(e->getType() == Cg::CgColorChangeEvent)
     {
-        std::cout << "currently not implemented" << std::endl;
         CgColorChangeEvent* ev = (CgColorChangeEvent*) e;
-//        glm::vec3 customColor = glm::vec3((float)(ev->getRed() * 0.01f), (float)(ev->getGreen() * 0.01f), (float)(ev->getBlue() * 0.01f));
+        glm::vec3 customColor = glm::vec3((float)(ev->getRed() * 0.01f), (float)(ev->getGreen() * 0.01f), (float)(ev->getBlue() * 0.01f));
 
-//        for(CgBaseRenderableObject* obj : colorObjects){
-//            if(obj->getType() == Cg::TriangleMesh){
-//                CgTriangleMesh* o = (CgTriangleMesh*) obj;
-//                o->setColor(customColor);
-//            }else if(obj->getType() == Cg::Polyline){
-//                CgPolyline* o = (CgPolyline*) obj;
-//                o->setColor(customColor);
-//            }
-//        }
-//        m_renderer->redraw();
+        m_scene_graph->changeColorOfVariousObjects(customColor);
+
+        m_renderer->redraw();
     }
 
     if(e->getType() == Cg::CgObjectSelectionChangeEvent)

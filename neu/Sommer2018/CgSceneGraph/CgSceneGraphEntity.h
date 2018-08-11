@@ -20,6 +20,7 @@ private:
     CgAppearance* m_appearance;
 
     bool renderObjects = false;
+    bool colorChangeable = true;
 
 
 public:
@@ -44,6 +45,8 @@ public:
 
     bool* getRenderObject();
     void setRenderObjects(bool value);
+    bool getIsColorChangeable() const;
+    void setIsColorChangeable(bool value);
 };
 
 #endif // CGSCENEGRAPHENTITY_H

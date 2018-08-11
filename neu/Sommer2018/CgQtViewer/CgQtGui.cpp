@@ -216,9 +216,9 @@ void CgQtGui::createOptionPanelObjects(QWidget *parent)
     QLabel *label_green = new QLabel("Green");
     QLabel *label_blue = new QLabel("Blue");
 
-    sliderRed->setValue(70);
-    sliderGreen->setValue(0);
-    sliderBlue->setValue(100);
+    sliderRed->setValue(45);
+    sliderGreen->setValue(45);
+    sliderBlue->setValue(50);
 
 
     connect(sliderRed, SIGNAL( valueChanged(int) ), this, SLOT( slotColorChanged() ));

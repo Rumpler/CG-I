@@ -23,9 +23,11 @@ private:
     CgSceneGraphEntity* m_root_node;
     std::stack<glm::mat4> m_mat_stack;
 
-    CgSceneGraphEntity* coordinateSystem;
-    CgSceneGraphEntity* variousObjects;
-    CgSceneGraphEntity* sceneObjects;
+    CgSceneGraphEntity* selectedEntity;
+
+    CgSceneGraphEntity* coordinateSystemEntity;
+    CgSceneGraphEntity* variousObjectsEntity;
+    CgSceneGraphEntity* sceneObjectsEntity;
 
     CgSceneGraphEntity* cubeEntity;
     CgSceneGraphEntity* cubeNormalsEntity;
@@ -41,7 +43,7 @@ private:
     CgSceneGraphEntity* loadedObjectNormalsEntity;
 
 
-    glm::vec3 defaultColor = glm::vec3(0.0f, 1.0f, 0.0f);
+    glm::vec3 defaultColor = glm::vec3(0.45f, 0.45f, 0.5f);
     glm::vec3 defaultColorNormals = glm::vec3(1.0f, 1.0f, 1.0f);
 
     bool* renderCoordinateSystem;
@@ -75,15 +77,18 @@ private:
 
     void selectItemsToDisplay();
 
-
+    void changeColorRecursiv(CgSceneGraphEntity* currentEntity, glm::vec3 color);
 
 
 public:
     CgSceneGraph(CgBaseRenderer *renderer);
     ~CgSceneGraph();
 
+    void changeColorOfVariousObjects(glm::vec3 color);
+
+
     void render();
-    void recursiveRender(CgSceneGraphEntity* currentEntity);
+    void renderRecursive(CgSceneGraphEntity* currentEntity);
 
     glm::mat4 projectionMatrix() const;
     void setProjectionMatrix(const glm::mat4 &projectionMatrix);

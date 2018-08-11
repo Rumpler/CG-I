@@ -10,6 +10,16 @@ void CgSceneGraphEntity::setRenderObjects(bool value)
     renderObjects = value;
 }
 
+bool CgSceneGraphEntity::getIsColorChangeable() const
+{
+    return colorChangeable;
+}
+
+void CgSceneGraphEntity::setIsColorChangeable(bool value)
+{
+    colorChangeable = value;
+}
+
 CgSceneGraphEntity::CgSceneGraphEntity()
 {
     m_current_transformation = glm::mat4(1.0f);
