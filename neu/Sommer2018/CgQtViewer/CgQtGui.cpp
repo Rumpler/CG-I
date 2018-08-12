@@ -28,6 +28,7 @@
 #include <QActionGroup>
 #include <iostream>
 #include <QFileDialog>
+#include <CgEvents/CgButtonEvent.h>
 #include <CgEvents/CgLoadObjFileEvent.h>
 #include <CgEvents/CgResetEvent.h>
 #include <CgEvents/CgSubdivisionEvent.h>
@@ -203,6 +204,15 @@ void CgQtGui::createOptionPanelObjects(QWidget *parent)
     groupBox->setLayout(vbox);
     subBox->addWidget(groupBox);
 
+    // ------------------------------------------
+
+
+    //Button select next objects
+    QPushButton* btSelectNnextObject = new QPushButton("&Select next object (n)");
+    connect(btSelectNnextObject, SIGNAL( clicked() ), this, SLOT(slotSelectNextObject()) );
+    vbox->addWidget(btSelectNnextObject);
+
+
     // COLOR ------------------------------------
 
     QGroupBox* groupBoxColor = new QGroupBox("Color");
@@ -216,7 +226,7 @@ void CgQtGui::createOptionPanelObjects(QWidget *parent)
     QLabel *label_green = new QLabel("Green");
     QLabel *label_blue = new QLabel("Blue");
 
-    sliderRed->setValue(45);
+    sliderRed->setValue(0);
     sliderGreen->setValue(45);
     sliderBlue->setValue(50);
 
@@ -624,6 +634,13 @@ void CgQtGui::slotLoadMeshFile()
 void CgQtGui::slotTrackballChanged()
 {
     CgBaseEvent* e = new CgTrackballEvent(Cg::CgTrackballEvent, m_glRenderWidget->getTrackballRotation());
+    notifyObserver(e);
+}
+
+void CgQtGui::slotSelectNextObject()
+{
+    CgButtonEvent* e = new CgButtonEvent();
+    e->setBtSelectNextObject(true);
     notifyObserver(e);
 }
 

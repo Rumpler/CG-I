@@ -16,7 +16,7 @@ private:
     std::vector<CgBaseRenderableObject*> m_objects;
     std::vector<CgSceneGraphEntity*> m_children;
 
-    glm::mat4 m_current_transformation;
+    glm::mat4 m_current_transformation = glm::mat4(1.0f);
     CgAppearance* m_appearance;
 
     bool renderObjects = false;
@@ -43,7 +43,7 @@ public:
     std::vector<CgBaseRenderableObject *> getObjects() const;
     std::vector<CgSceneGraphEntity *> getChildren() const;
 
-    bool* getRenderObject();
+    bool* renderObject();
     void setRenderObjects(bool value);
     bool getIsColorChangeable() const;
     void setIsColorChangeable(bool value);

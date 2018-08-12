@@ -1,6 +1,6 @@
 #include "CgSceneGraphEntity.h"
 
-bool* CgSceneGraphEntity::getRenderObject()
+bool* CgSceneGraphEntity::renderObject()
 {
     return &renderObjects;
 }

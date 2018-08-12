@@ -9,6 +9,7 @@
 #include "CgTriangles.h"
 #include <iostream>
 #include <glm/gtc/matrix_transform.hpp>
+#include <CgEvents/CgButtonEvent.h>
 #include <CgEvents/CgColorChangeEvent.h>
 #include <CgEvents/CgObjectSelectionChangedEvent.h>
 #include <CgEvents/CgSubdivisionEvent.h>
@@ -67,12 +68,30 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     if(e->getType() == Cg::CgKeyPressEvent)
     {
         CgKeyEvent* ev = (CgKeyEvent*)e;
+
+        if(ev->key() == Cg::Key_N){
+            m_scene_graph->selectNextEnitiy();
+        }
+        if(ev->key() == Cg::Key_Minus){
+            m_scene_graph->tScaleSelectedEntity(glm::vec3(0.9f,0.9f,0.9f));
+        }
+        if(ev->key() == Cg::Key_Plus){
+            m_scene_graph->tScaleSelectedEntity(glm::vec3(1.1f,1.1f,1.1f));
+        }
     }
 
     if(e->getType() == Cg::CgWindowResizeEvent)
     {
         CgWindowResizeEvent* ev = (CgWindowResizeEvent*)e;
         m_scene_graph->setProjectionMatrix(glm::perspective(45.0f, (float)(ev->w()) / ev->h(), 0.01f, 100.0f));
+    }
+
+    if(e->getType() == Cg::CgButtonEvent){
+        CgButtonEvent* ev = (CgButtonEvent*) e;
+
+        if(ev->getBtSelectNextObject()){
+            m_scene_graph->selectNextEnitiy();
+        }
     }
 
     if(e->getType() == Cg::CgLoadObjFileEvent)

@@ -30,6 +30,7 @@ typedef enum EventType {
     CgTransformationEvent           = 15,
     CgLoadObjFileEvent              = 16,
     CgTrackballEvent                = 17,
+    CgButtonEvent                   = 18,
 
     //    CgMouseButtonPress              = 0x00000001,
     //    CgMouseButtonRelease            = 0x00000002,

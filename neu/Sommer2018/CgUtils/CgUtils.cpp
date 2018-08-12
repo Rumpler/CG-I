@@ -16,6 +16,22 @@ void CgU::printVec3(std::string str, glm::vec3 vec)
     std::cout<< str << ":(" << vec.x << "," << vec.y << "," << vec.z << ")" << std::endl;
 }
 
+void CgU::printMat4(glm::mat4 mat)
+{
+    std::cout << "------------------------------------" << std::endl;
+    std::cout << mat[0].x << "\t" << mat[1].x << "\t" << mat[2].x << "\t" << mat[3].x << std::endl;
+    std::cout << mat[0].y << "\t" << mat[1].y << "\t" << mat[2].y << "\t" << mat[3].y << std::endl;
+    std::cout << mat[0].z << "\t" << mat[1].z << "\t" << mat[2].z << "\t" << mat[3].z << std::endl;
+    std::cout << mat[0].w << "\t" << mat[1].w << "\t" << mat[2].w << "\t" << mat[3].w << std::endl;
+    std::cout << "------------------------------------" << std::endl;
+}
+
+void CgU::printMat4(std::string str, glm::mat4 mat)
+{
+    std::cout << str << std::endl;
+    printMat4(mat);
+}
+
 void CgU::printVecVector(std::vector<glm::vec3>* vector)
 {
     std::cout << "Vector of size: " << vector->size() <<std::endl;
@@ -76,6 +92,16 @@ glm::mat4 CgU::rotateMatY(float angle)
     glm::mat4 result = glm::mat4(1.0f);
     result[0] = glm::vec4(cos(angle), 0, -sin(angle), 0);
     result[2] = glm::vec4(sin(angle), 0, cos(angle), 0);
+    return result;
+}
+
+glm::mat4 CgU::tScaleMat(glm::vec3 factor)
+{
+    glm::mat4 result = glm::mat4(1.0f);
+    result[0].x = factor.x;
+    result[1].y = factor.y;
+    result[2].z = factor.z;
+
     return result;
 }
 

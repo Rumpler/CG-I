@@ -12,6 +12,8 @@ public:
 
     void static printVec3(glm::vec3 vec);
     void static printVec3(std::string str, glm::vec3 vec);
+    void static printMat4(glm::mat4 mat);
+    void static printMat4(std::string str, glm::mat4 mat);
 
     void static printVecVector(std::vector<glm::vec3>* vector);
 
@@ -26,7 +28,11 @@ public:
     glm::mat4 static rotateMatX(float angle);
     glm::mat4 static rotateMatY(float angle);
 
+    glm::mat4 static tScaleMat(glm::vec3 factor);
+
     float static translateDegreeToRad(float degree);
+
+
 
 
 };

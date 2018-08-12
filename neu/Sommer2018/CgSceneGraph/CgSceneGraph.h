@@ -43,8 +43,10 @@ private:
     CgSceneGraphEntity* loadedObjectNormalsEntity;
 
 
-    glm::vec3 defaultColor = glm::vec3(0.45f, 0.45f, 0.5f);
+    glm::vec3 defaultColor = glm::vec3(0.0f, 0.45f, 0.5f);
     glm::vec3 defaultColorNormals = glm::vec3(1.0f, 1.0f, 1.0f);
+    glm::vec3 currentColor = defaultColor;
+    glm::vec3 selectedColor = glm::vec3(0.0f,1.0f,0.5f);
 
     bool* renderCoordinateSystem;
     bool* renderVariousObjects;
@@ -58,6 +60,9 @@ private:
         bool* renderLoadedObject;
         bool* renderLoadedObjectNormals;
     bool* renderScene;
+
+    int selectedEntityPosition = 0;
+    std::vector<CgSceneGraphEntity*> selectableEntitys;
 
 
     void pushMatrix(){m_mat_stack.push(m_mat_stack.top());}
@@ -77,7 +82,7 @@ private:
 
     void selectItemsToDisplay();
 
-    void changeColorRecursiv(CgSceneGraphEntity* currentEntity, glm::vec3 color);
+    void changeColorOfAllChildrenRecursiv(CgSceneGraphEntity* currentEntity, glm::vec3 color);
 
 
 public:
@@ -90,6 +95,10 @@ public:
     void changeRotationBody();
     void changeRotationCurveForPointScheme();
     void changeRotationCurveReset();
+
+    void selectNextEnitiy();
+
+    void tScaleSelectedEntity(glm::vec3 factor);
 
 
     void render();

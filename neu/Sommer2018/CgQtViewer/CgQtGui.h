@@ -126,6 +126,8 @@ private slots:
     void slotLoadMeshFile();
     void slotTrackballChanged();
 
+    void slotSelectNextObject();
+
     //Gerrit
     void slotColorChanged();
     void slotButtonGroupSelectionChanged();

@@ -36,7 +36,8 @@ SOURCES += main.cpp \
     CgSceneGraph/CgCylinder.cpp \
     CgSceneGraph/CgSceneGraphEntity.cpp \
     CgSceneGraph/CgAppearance.cpp \
-    CgSceneGraph/CgSceneGraph.cpp
+    CgSceneGraph/CgSceneGraph.cpp \
+    CgEvents/CgButtonEvent.cpp
 
 
 
@@ -83,5 +84,6 @@ HEADERS += \
     CgSceneGraph/CgCylinder.h \
     CgSceneGraph/CgSceneGraphEntity.h \
     CgSceneGraph/CgAppearance.h \
-    CgSceneGraph/CgSceneGraph.h
+    CgSceneGraph/CgSceneGraph.h \
+    CgEvents/CgButtonEvent.h
 
