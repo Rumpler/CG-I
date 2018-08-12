@@ -99,7 +99,7 @@ public:
     void selectNextEnitiy();
 
     void tScaleSelectedEntity(glm::vec3 factor);
-    void tRotateSelectedEntity(glm::vec3 axis, float angle);
+    void tRotateSelectedEntity(float angle, char c);
 
 
     void render();

@@ -132,11 +132,16 @@ void CgSceneGraph::tScaleSelectedEntity(glm::vec3 factor)
     m_renderer->redraw();
 }
 
-void CgSceneGraph::tRotateSelectedEntity(glm::vec3 axis, float angle)
+void CgSceneGraph::tRotateSelectedEntity(float angle, char c)
 {
-    glm::mat4 rotateMat = CgU::tRotateMatZ(angle);
-    CgU::printMat4(rotateMat);
-
+    glm::mat4 rotateMat;
+    if(c == 'x'){
+        rotateMat = CgU::tRotateMatX(angle);
+    }else if(c == 'y'){
+        rotateMat = CgU::tRotateMatY(angle);
+    }else if(c == 'z'){
+        rotateMat = CgU::tRotateMatZ(angle);
+    }
     selectedEntity->setCurrentTransformation(selectedEntity->getCurrentTransformation()* rotateMat);
     m_renderer->redraw();
 }

@@ -78,8 +78,14 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         if(ev->key() == Cg::Key_Plus){
             m_scene_graph->tScaleSelectedEntity(glm::vec3(1.1f,1.1f,1.1f));
         }
+        if(ev->key() == Cg::Key_X){
+            m_scene_graph->tRotateSelectedEntity(45.0, 'x');
+        }
+        if(ev->key() == Cg::Key_Y){
+            m_scene_graph->tRotateSelectedEntity(45.0, 'y');
+        }
         if(ev->key() == Cg::Key_Z){
-            m_scene_graph->tRotateSelectedEntity(glm::vec3(0.0f,0.0f,1.0f), 90.0);
+            m_scene_graph->tRotateSelectedEntity(45.0, 'z');
         }
     }
 
@@ -94,6 +100,21 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
 
         if(ev->getBtSelectNextObject()){
             m_scene_graph->selectNextEnitiy();
+        }
+        if(ev->getBtScalePlus()){
+            m_scene_graph->tScaleSelectedEntity(glm::vec3(1.1f,1.1f,1.1f));
+        }
+        if(ev->getBtScaleMinus()){
+            m_scene_graph->tScaleSelectedEntity(glm::vec3(0.9f,0.9f,0.9f));
+        }
+        if(ev->getBtRotateX()){
+            m_scene_graph->tRotateSelectedEntity(45.0, 'x');
+        }
+        if(ev->getBtRotateY()){
+            m_scene_graph->tRotateSelectedEntity(45.0, 'y');
+        }
+        if(ev->getBtRotateZ()){
+            m_scene_graph->tRotateSelectedEntity(45.0, 'z');
         }
     }
 

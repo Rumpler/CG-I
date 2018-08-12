@@ -204,13 +204,68 @@ void CgQtGui::createOptionPanelObjects(QWidget *parent)
     groupBox->setLayout(vbox);
     subBox->addWidget(groupBox);
 
-    // ------------------------------------------
+
+
+    // Transformation ------------------------------------------
+
+
+    QGroupBox* groupBoxTranformation = new QGroupBox("Transformation");
+    QVBoxLayout* vboxTransformattion = new QVBoxLayout();
 
 
     //Button select next objects
     QPushButton* btSelectNnextObject = new QPushButton("&Select next object (n)");
     connect(btSelectNnextObject, SIGNAL( clicked() ), this, SLOT(slotSelectNextObject()) );
-    vbox->addWidget(btSelectNnextObject);
+    vboxTransformattion->addWidget(btSelectNnextObject);
+
+
+        QGroupBox* gbScale = new QGroupBox("Scaling");
+        QHBoxLayout* gblScale = new QHBoxLayout;
+
+        //Button Scale +
+        QPushButton* btScalePlus = new QPushButton("&Scale bigger (+)");
+        connect(btScalePlus, SIGNAL( clicked() ), this, SLOT(slotScalePlus()) );
+        btScalePlus->setAutoRepeat(true);
+        gblScale->addWidget(btScalePlus);
+
+        //Button Scale -
+        QPushButton* btScaleMinus = new QPushButton("&Scale smaller (-)");
+        connect(btScaleMinus, SIGNAL( clicked() ), this, SLOT(slotScaleMinus()) );
+        btScaleMinus->setAutoRepeat(true);
+        gblScale->addWidget(btScaleMinus);
+
+        gbScale->setLayout(gblScale);
+        vboxTransformattion->addWidget(gbScale);
+
+
+        QGroupBox* gbRotating = new QGroupBox("Rotating");
+        QHBoxLayout* gblRotating = new QHBoxLayout;
+
+        //Button Rotate X Axis
+        QPushButton* btRotateX = new QPushButton("&X Axis (x)");
+        connect(btRotateX, SIGNAL( clicked() ), this, SLOT(slotRotateX()) );
+        btRotateX->setAutoRepeat(true);
+        gblRotating->addWidget(btRotateX);
+
+        //Button Rotate Y Axis
+        QPushButton* btRotateY = new QPushButton("&Y Axis (y)");
+        connect(btRotateY, SIGNAL( clicked() ), this, SLOT(slotRotateY()) );
+        btRotateY->setAutoRepeat(true);
+        gblRotating->addWidget(btRotateY);
+
+        //Button Rotate Z Axis
+        QPushButton* btRotateZ = new QPushButton("&Z Axis (z)");
+        connect(btRotateZ, SIGNAL( clicked() ), this, SLOT(slotRotateZ()) );
+        btRotateZ->setAutoRepeat(true);
+        gblRotating->addWidget(btRotateZ);
+
+        gbRotating->setLayout(gblRotating);
+        vboxTransformattion->addWidget(gbRotating);
+
+        vboxTransformattion->addStretch(1);
+
+    groupBoxTranformation->setLayout(vboxTransformattion);
+    subBox->addWidget(groupBoxTranformation);
 
 
     // COLOR ------------------------------------
@@ -484,37 +539,36 @@ void CgQtGui::slotShowLoadedObject()
 
 void CgQtGui::slotScalePlus()
 {
-    CgTransformationEvent *e = new CgTransformationEvent(glm::vec3(1.1f));
+    CgButtonEvent* e = new CgButtonEvent();
+    e->setBtScalePlus(true);
     notifyObserver(e);
 }
 
 void CgQtGui::slotScaleMinus()
 {
-    CgTransformationEvent *e = new CgTransformationEvent(glm::vec3(0.9f));
+    CgButtonEvent* e = new CgButtonEvent();
+    e->setBtScaleMinus(true);
     notifyObserver(e);
 }
 
 void CgQtGui::slotRotateX()
 {
-    CgTransformationEvent *e = new CgTransformationEvent(glm::vec3(1.0f));
-    e->setRotate(true);
-    e->setRotateAxis(glm::vec3(1.0f,0.0f,0.0f));
+    CgButtonEvent* e = new CgButtonEvent();
+    e->setBtRotateX(true);
     notifyObserver(e);
 }
 
 void CgQtGui::slotRotateY()
 {
-    CgTransformationEvent *e = new CgTransformationEvent(glm::vec3(1.0f));
-    e->setRotate(true);
-    e->setRotateAxis(glm::vec3(0.0f,1.0f,0.0f));
+    CgButtonEvent* e = new CgButtonEvent();
+    e->setBtRotateY(true);
     notifyObserver(e);
 }
 
 void CgQtGui::slotRotateZ()
 {
-    CgTransformationEvent *e = new CgTransformationEvent(glm::vec3(1.0f));
-    e->setRotate(true);
-    e->setRotateAxis(glm::vec3(0.0f,0.0f,1.0f));
+    CgButtonEvent* e = new CgButtonEvent();
+    e->setBtRotateZ(true);
     notifyObserver(e);
 }
 

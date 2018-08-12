@@ -12,6 +12,13 @@ private:
 
     bool btSelectNextObject = false;
 
+    bool btScalePlus = false;
+    bool btScaleMinus = false;
+
+    bool btRotateX = false;
+    bool btRotateY = false;
+    bool btRotateZ = false;
+
 public:
     CgButtonEvent();
 
@@ -20,6 +27,16 @@ public:
 
     bool getBtSelectNextObject() const;
     void setBtSelectNextObject(bool value);
+    bool getBtScalePlus() const;
+    void setBtScalePlus(bool value);
+    bool getBtScaleMinus() const;
+    void setBtScaleMinus(bool value);
+    bool getBtRotateX() const;
+    void setBtRotateX(bool value);
+    bool getBtRotateY() const;
+    void setBtRotateY(bool value);
+    bool getBtRotateZ() const;
+    void setBtRotateZ(bool value);
 };
 
 #endif // CGBUTTONEVENT_H

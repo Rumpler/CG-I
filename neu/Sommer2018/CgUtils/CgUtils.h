@@ -27,8 +27,11 @@ public:
     glm::mat4 static tRotateMatZ(float angle);
     glm::mat4 static tRotateMatX(float angle);
     glm::mat4 static tRotateMatY(float angle);
+    glm::mat4 static tRotateMat(glm::vec3 axis, float angle);
 
     glm::mat4 static tScaleMat(glm::vec3 factor);
+
+    glm::mat4 static tTranslateMat(glm::vec3 vec);
 
     float static translateDegreeToRad(float degree);
 

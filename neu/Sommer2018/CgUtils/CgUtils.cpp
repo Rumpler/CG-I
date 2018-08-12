@@ -95,6 +95,20 @@ glm::mat4 CgU::tRotateMatY(float angle)
     return result;
 }
 
+glm::mat4 CgU::tRotateMat(glm::vec3 axis, float angle)
+{
+    //TODO untested, maybe mixed degree and rad, test and fix later
+
+    float angleZ = acos( axis.x / sqrt(axis.x * axis.x + axis.b * axis.b) );
+    float angleY = acos( axis.z );
+
+    glm::mat4 result = tTranslateMat(axis) * tRotateMatZ(angleZ) * tRotateMatY(angleY)
+                        * tRotateMatZ(angle) * tRotateMatY(-angleY) * tRotateMatZ(-angleZ)
+                        * tTranslateMat(glm::vec3(- axis.x, -axis.y, - axis.z));
+    return result;
+
+}
+
 glm::mat4 CgU::tScaleMat(glm::vec3 factor)
 {
     glm::mat4 result = glm::mat4(1.0f);
@@ -102,6 +116,13 @@ glm::mat4 CgU::tScaleMat(glm::vec3 factor)
     result[1].y = factor.y;
     result[2].z = factor.z;
 
+    return result;
+}
+
+glm::mat4 CgU::tTranslateMat(glm::vec3 vec)
+{
+    glm::mat4 result = glm::mat4(1.0f);
+    result[3] = glm::vec4(vec,1);
     return result;
 }
 
