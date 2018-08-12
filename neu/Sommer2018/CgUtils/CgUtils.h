@@ -24,9 +24,9 @@ public:
 
     glm::vec3 static multVecScalar(double scalar, glm::vec3 vec);
 
-    glm::mat4 static rotateMatZ(float angle);
-    glm::mat4 static rotateMatX(float angle);
-    glm::mat4 static rotateMatY(float angle);
+    glm::mat4 static tRotateMatZ(float angle);
+    glm::mat4 static tRotateMatX(float angle);
+    glm::mat4 static tRotateMatY(float angle);
 
     glm::mat4 static tScaleMat(glm::vec3 factor);
 

@@ -68,7 +68,7 @@ glm::vec3 CgU::multVecScalar(double scalar, glm::vec3 vec)
     return glm::vec3(vec.x * scalar, vec.y * scalar, vec.z * scalar);
 }
 
-glm::mat4 CgU::rotateMatZ(float angle)
+glm::mat4 CgU::tRotateMatZ(float angle)
 {
     angle = translateDegreeToRad(angle);
     glm::mat4 result = glm::mat4(1.0f);
@@ -77,7 +77,7 @@ glm::mat4 CgU::rotateMatZ(float angle)
     return result;
 }
 
-glm::mat4 CgU::rotateMatX(float angle)
+glm::mat4 CgU::tRotateMatX(float angle)
 {
     angle = translateDegreeToRad(angle);
     glm::mat4 result = glm::mat4(1.0f);
@@ -86,7 +86,7 @@ glm::mat4 CgU::rotateMatX(float angle)
     return result;
 }
 
-glm::mat4 CgU::rotateMatY(float angle)
+glm::mat4 CgU::tRotateMatY(float angle)
 {
     angle = translateDegreeToRad(angle);
     glm::mat4 result = glm::mat4(1.0f);

@@ -78,6 +78,9 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         if(ev->key() == Cg::Key_Plus){
             m_scene_graph->tScaleSelectedEntity(glm::vec3(1.1f,1.1f,1.1f));
         }
+        if(ev->key() == Cg::Key_Z){
+            m_scene_graph->tRotateSelectedEntity(glm::vec3(0.0f,0.0f,1.0f), 90.0);
+        }
     }
 
     if(e->getType() == Cg::CgWindowResizeEvent)

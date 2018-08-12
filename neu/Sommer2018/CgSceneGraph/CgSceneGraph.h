@@ -69,7 +69,7 @@ private:
     void popMatrix(){m_mat_stack.pop();}
     void applyTransform(glm::mat4 arg){m_mat_stack.top() *= arg;}
 
-    void initCoordinateSystem();
+    void initCoordinateSystem(bool cylinder);
     void initVariousObjects();
     void initSceneObjects();
 
@@ -99,6 +99,7 @@ public:
     void selectNextEnitiy();
 
     void tScaleSelectedEntity(glm::vec3 factor);
+    void tRotateSelectedEntity(glm::vec3 axis, float angle);
 
 
     void render();

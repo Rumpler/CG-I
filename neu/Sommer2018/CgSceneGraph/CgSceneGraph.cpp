@@ -22,7 +22,7 @@ CgSceneGraph::CgSceneGraph(CgBaseRenderer *renderer):
     m_root_node->setRenderObjects(true);
 
 
-    initCoordinateSystem();
+    initCoordinateSystem(false);
     initVariousObjects();
     initSceneObjects();
 
@@ -132,6 +132,15 @@ void CgSceneGraph::tScaleSelectedEntity(glm::vec3 factor)
     m_renderer->redraw();
 }
 
+void CgSceneGraph::tRotateSelectedEntity(glm::vec3 axis, float angle)
+{
+    glm::mat4 rotateMat = CgU::tRotateMatZ(angle);
+    CgU::printMat4(rotateMat);
+
+    selectedEntity->setCurrentTransformation(selectedEntity->getCurrentTransformation()* rotateMat);
+    m_renderer->redraw();
+}
+
 
 
 void CgSceneGraph::render()
@@ -164,14 +173,15 @@ void CgSceneGraph::renderRecursive(CgSceneGraphEntity *currentEntity)
 
 
 
-void CgSceneGraph::initCoordinateSystem()
+void CgSceneGraph::initCoordinateSystem(bool cylinder)
 {
-    //Objects
-    CgLine* axis = new CgLine(idGen->getNextId());
-    axis->addVertice(glm::vec3(0.0f,0.0f,0.0f));
-    axis->addVertice(glm::vec3(1.0f,0.0f,0.0f));
-    m_renderer->init(axis);
+        CgCylinder* axis = new CgCylinder(idGen->getNextId(), 5, 1.0f, 0.0001);
 
+//        CgLine* axis = new CgLine(idGen->getNextId());
+//        axis->addVertice(glm::vec3(0.0f,0.0f,0.0f));
+//        axis->addVertice(glm::vec3(1.0f,0.0f,0.0f));
+
+        m_renderer->init(axis);
 
     /*********** coordinate system ***********/
 
@@ -182,7 +192,7 @@ void CgSceneGraph::initCoordinateSystem()
     renderCoordinateSystem = coordinateSystemEntity->renderObject();
     setRenderCoordinateSystem(true);
 
-        m_mat_stack.push(m_mat_stack.top());
+        m_mat_stack.push(m_mat_stack.top() * CgU::tRotateMatZ(-90.0f));
 
             CgSceneGraphEntity* xAxis = new CgSceneGraphEntity();
             xAxis->setRenderObjects(true);
@@ -193,7 +203,7 @@ void CgSceneGraph::initCoordinateSystem()
             xAxis->setCurrentTransformation(m_mat_stack.top());
 
         m_mat_stack.pop();
-        m_mat_stack.push(m_mat_stack.top() * CgU::rotateMatZ(90.0f));
+        m_mat_stack.push(m_mat_stack.top());
 
             CgSceneGraphEntity* yAxis = new CgSceneGraphEntity();
             yAxis->setRenderObjects(true);
@@ -204,7 +214,7 @@ void CgSceneGraph::initCoordinateSystem()
             yAxis->setCurrentTransformation(m_mat_stack.top());
 
         m_mat_stack.pop();
-        m_mat_stack.push(m_mat_stack.top() * CgU::rotateMatY(-90.0f));
+        m_mat_stack.push(m_mat_stack.top() * CgU::tRotateMatX(90.0f));
 
             CgSceneGraphEntity* zAxis = new CgSceneGraphEntity();
             zAxis->setRenderObjects(true);
