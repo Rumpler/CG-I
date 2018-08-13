@@ -60,6 +60,26 @@ void CgButtonEvent::setBtRotateZ(bool value)
     btRotateZ = value;
 }
 
+bool CgButtonEvent::getBtTranslate() const
+{
+    return btTranslate;
+}
+
+void CgButtonEvent::setBtTranslate(bool value, glm::vec3 translateVec)
+{
+    btTranslate = value;
+}
+
+glm::vec3 CgButtonEvent::getTranslateVec() const
+{
+    return translateVec;
+}
+
+void CgButtonEvent::setTranslateVec(const glm::vec3 &value)
+{
+    translateVec = value;
+}
+
 CgButtonEvent::CgButtonEvent() :
     m_type(Cg::CgButtonEvent)
 {
@@ -82,5 +102,7 @@ CgBaseEvent *CgButtonEvent::clone()
     e->setBtRotateX(btRotateX);
     e->setBtRotateY(btRotateY);
     e->setBtRotateZ(btRotateZ);
+
+    e->setBtTranslate(btTranslate, translateVec);
     return e;
 }

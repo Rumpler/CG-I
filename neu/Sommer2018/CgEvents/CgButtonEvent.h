@@ -2,6 +2,7 @@
 #define CGBUTTONEVENT_H
 
 #include <CgBase/CgBaseEvent.h>
+#include <glm/gtc/matrix_transform.hpp>
 
 
 
@@ -18,6 +19,9 @@ private:
     bool btRotateX = false;
     bool btRotateY = false;
     bool btRotateZ = false;
+
+    bool btTranslate = false;
+        glm::vec3 translateVec = glm::vec3(0.0f);
 
 public:
     CgButtonEvent();
@@ -37,6 +41,10 @@ public:
     void setBtRotateY(bool value);
     bool getBtRotateZ() const;
     void setBtRotateZ(bool value);
+    bool getBtTranslate() const;
+    void setBtTranslate(bool value, glm::vec3 translateVec);
+    glm::vec3 getTranslateVec() const;
+    void setTranslateVec(const glm::vec3 &value);
 };
 
 #endif // CGBUTTONEVENT_H
