@@ -14,80 +14,80 @@
 class CgSceneGraph
 {
 private:
+    //Basic vars
     IdSingleton* idGen;
     CgBaseRenderer *m_renderer;
     glm::mat4 m_trackball_rotation;
     glm::mat4 m_lookAt_matrix;
     glm::mat4 m_proj_matrix;
-
-    CgSceneGraphEntity* m_root_node;
     std::stack<glm::mat4> m_mat_stack;
 
-    CgSceneGraphEntity* selectedEntity;
-
-    CgSceneGraphEntity* coordinateSystemEntity;
-    CgSceneGraphEntity* variousObjectsEntity;
-    CgSceneGraphEntity* sceneObjectsEntity;
-
-    CgSceneGraphEntity* cubeEntity;
-    CgSceneGraphEntity* cubeNormalsEntity;
-
-    CgSceneGraphEntity* cylinderEntity;
-    CgSceneGraphEntity* cylinderNormalsEntity;
-
-    CgSceneGraphEntity* rotationCurveEntity;
-    CgSceneGraphEntity* rotationBodyEntity;
-    CgSceneGraphEntity* rotationBodyNormalsEntity;
-
-    CgSceneGraphEntity* loadedObjectEntity;
-    CgSceneGraphEntity* loadedObjectNormalsEntity;
-
-
+    //Colors
     glm::vec3 defaultColor = glm::vec3(0.0f, 0.45f, 0.5f);
     glm::vec3 defaultColorNormals = glm::vec3(1.0f, 1.0f, 1.0f);
     glm::vec3 currentColor = defaultColor;
     glm::vec3 selectedColor = glm::vec3(0.0f,1.0f,0.5f);
 
-    bool* renderCoordinateSystem;
-    bool* renderVariousObjects;
-        bool* renderCube;
-        bool* renderCubeNormals;
-        bool* renderCylinder;
-        bool* renderCylinderNormals;
-        bool* renderRotationCurve;
-        bool* renderRotationBody;
-        bool* renderRotationBodyNormals;
-        bool* renderLoadedObject;
-        bool* renderLoadedObjectNormals;
-    bool* renderScene;
-
+    //Helper for chosing next selected entity
     int selectedEntityPosition = 0;
     std::vector<CgSceneGraphEntity*> selectableEntitys;
 
+    //Entitys*
+    CgSceneGraphEntity* selectedEntity;
+    CgSceneGraphEntity* m_root_node;
+        CgSceneGraphEntity* coordinateSystemEntity;
+        CgSceneGraphEntity* variousObjectsEntity;
+            CgSceneGraphEntity* cubeEntity;
+                CgSceneGraphEntity* cubeNormalsEntity;
+            CgSceneGraphEntity* cylinderEntity;
+                CgSceneGraphEntity* cylinderNormalsEntity;
+            CgSceneGraphEntity* rotationCurveEntity;
+            CgSceneGraphEntity* rotationBodyEntity;
+                CgSceneGraphEntity* rotationBodyNormalsEntity;
+            CgSceneGraphEntity* loadedObjectEntity;
+                CgSceneGraphEntity* loadedObjectNormalsEntity;
+        CgSceneGraphEntity* sceneObjectsEntity;
 
+    //Bools* for rendering
+    bool* renderCoordinateSystem;
+    bool* renderVariousObjects;
+        bool* renderCube;
+            bool* renderCubeNormals;
+        bool* renderCylinder;
+            bool* renderCylinderNormals;
+        bool* renderRotationCurve;
+        bool* renderRotationBody;
+            bool* renderRotationBodyNormals;
+        bool* renderLoadedObject;
+            bool* renderLoadedObjectNormals;
+    bool* renderScene;
+
+
+    //Private helper methodes for matrix stack
     void pushMatrix(){m_mat_stack.push(m_mat_stack.top());}
     void popMatrix(){m_mat_stack.pop();}
     void applyTransform(glm::mat4 arg){m_mat_stack.top() *= arg;}
 
+    //Recursiv helper methodes to apply changes to all children of entity
+    void changeColorRecursiv(CgSceneGraphEntity* currentEntity, glm::vec3 color);
+    void addTransformationRecursive(CgSceneGraphEntity* current, glm::mat4 transformation);
+    void renderRecursive(CgSceneGraphEntity* currentEntity);
+
+    //Helper methods for initialization
     void initCoordinateSystem(bool cylinder);
     void initVariousObjects();
+        void initCube();
+        void initCylinder();
+        void initRotationObjects();
+        void initLoadedObject();
     void initSceneObjects();
-
-
-    void initCube();
-    void initCylinder();
-    void initRotationObjects();
-    void initLoadedObject();
-
-
-    void selectItemsToDisplay();
-
-    void changeColorOfAllChildrenRecursiv(CgSceneGraphEntity* currentEntity, glm::vec3 color);
-
 
 public:
     CgSceneGraph(CgBaseRenderer *renderer);
     ~CgSceneGraph();
+
+    //Public methodes for interacton with Scenegraph
+    void render();
 
     void changeColorOfVariousObjects(glm::vec3 color);
     void changeCylinder(int amountOfSegments, double height, double radius);
@@ -97,21 +97,17 @@ public:
     void changeRotationCurveReset();
 
     void selectNextEnitiy();
+    void loadObject(std::string str);
 
+    //Transformation methodes
     void tScaleSelectedEntity(glm::vec3 factor);
     void tRotateSelectedEntity(float angle, char c);
 
-
-    void render();
-    void renderRecursive(CgSceneGraphEntity* currentEntity);
-
+    //Getter and Setter
     glm::mat4 projectionMatrix() const;
     void setProjectionMatrix(const glm::mat4 &projectionMatrix);
     glm::mat4 trackballRotation() const;
     void setTrackballRotation(const glm::mat4 &trackballRotation);
-
-    void loadObject(std::string str);
-
     bool getRenderCoordinateSystem() const;
     void setRenderCoordinateSystem(bool value);
     bool getRenderVariousObjects() const;

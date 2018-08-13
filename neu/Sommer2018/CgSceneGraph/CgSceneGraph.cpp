@@ -40,8 +40,7 @@ void CgSceneGraph::changeColorOfVariousObjects(glm::vec3 color)
         std::cout << "bad color values" << std::endl;
         return;
     }else{
-//        selectedEntity->appearance()->setObjectColor(color);
-        changeColorOfAllChildrenRecursiv(variousObjectsEntity, color);
+        changeColorRecursiv(variousObjectsEntity, color);
         currentColor = color;
     }
 }
@@ -128,7 +127,7 @@ void CgSceneGraph::selectNextEnitiy()
 
 void CgSceneGraph::tScaleSelectedEntity(glm::vec3 factor)
 {
-    selectedEntity->setCurrentTransformation(selectedEntity->getCurrentTransformation() * CgU::tScaleMat(factor));
+    addTransformationRecursive(selectedEntity, CgU::tScaleMat(factor));
     m_renderer->redraw();
 }
 
@@ -142,7 +141,8 @@ void CgSceneGraph::tRotateSelectedEntity(float angle, char c)
     }else if(c == 'z'){
         rotateMat = CgU::tRotateMatZ(angle);
     }
-    selectedEntity->setCurrentTransformation(selectedEntity->getCurrentTransformation()* rotateMat);
+//    selectedEntity->setCurrentTransformation(selectedEntity->getCurrentTransformation()* rotateMat);
+    addTransformationRecursive(selectedEntity, rotateMat);
     m_renderer->redraw();
 }
 
@@ -150,7 +150,6 @@ void CgSceneGraph::tRotateSelectedEntity(float angle, char c)
 
 void CgSceneGraph::render()
 {
-    selectItemsToDisplay();
     m_renderer->setUniformValue("projMatrix",m_proj_matrix);
     renderRecursive(m_root_node);
 }
@@ -180,7 +179,7 @@ void CgSceneGraph::renderRecursive(CgSceneGraphEntity *currentEntity)
 
 void CgSceneGraph::initCoordinateSystem(bool cylinder)
 {
-        CgCylinder* axis = new CgCylinder(idGen->getNextId(), 5, 1.0f, 0.0001);
+        CgCylinder* axis = new CgCylinder(idGen->getNextId(), 10, 1.0f, 0.0001);
 
 //        CgLine* axis = new CgLine(idGen->getNextId());
 //        axis->addVertice(glm::vec3(0.0f,0.0f,0.0f));
@@ -387,59 +386,21 @@ void CgSceneGraph::initLoadedObject()   //Keep in mind not to change the order o
 
 }
 
-void CgSceneGraph::selectItemsToDisplay()
-{
-    coordinateSystemEntity->setRenderObjects(*renderCoordinateSystem);
-
-    variousObjectsEntity->setRenderObjects(*renderVariousObjects);
-        cubeEntity->setRenderObjects(*renderCube);
-        cubeNormalsEntity->setRenderObjects(*renderCubeNormals);
-
-        cylinderEntity->setRenderObjects(*renderCylinder);
-        cylinderNormalsEntity->setRenderObjects(*renderCylinderNormals);
-
-        rotationCurveEntity->setRenderObjects(*renderRotationCurve);
-        rotationBodyEntity->setRenderObjects(*renderRotationBody);
-        rotationBodyNormalsEntity->setRenderObjects(*renderRotationBodyNormals);
-
-        loadedObjectEntity->setRenderObjects(*renderLoadedObject);
-        loadedObjectNormalsEntity->setRenderObjects(*renderLoadedObjectNormals);
-
-    sceneObjectsEntity->setRenderObjects(*renderScene);
-
-}
-
-void CgSceneGraph::changeColorOfAllChildrenRecursiv(CgSceneGraphEntity *currentEntity, glm::vec3 color)
+void CgSceneGraph::changeColorRecursiv(CgSceneGraphEntity *currentEntity, glm::vec3 color)
 {
     if(currentEntity->getIsColorChangeable()){
         currentEntity->appearance()->setObjectColor(color);
         for(CgSceneGraphEntity* entity : currentEntity->getChildren()){
-            changeColorOfAllChildrenRecursiv(entity, color);
+            changeColorRecursiv(entity, color);
         }
     }
+}
 
-
-
-
-
-
-
-    if(*(currentEntity->renderObject())){
-        glm::mat4 mv_matrix = m_lookAt_matrix * m_trackball_rotation * currentEntity->getCurrentTransformation();
-        glm::mat3 normal_matrix = glm::transpose(glm::inverse(glm::mat3(mv_matrix)));
-
-        m_renderer->setUniformValue("modelviewMatrix",mv_matrix);
-        m_renderer->setUniformValue("normalMatrix",normal_matrix);
-
-        m_renderer->setUniformValue("mycolor",glm::vec4(currentEntity->appearance()->getObjectColor(), 1.0f));
-
-        for(CgBaseRenderableObject* obj : currentEntity->getObjects()){
-            m_renderer->render(obj);
-        }
-
-        for(CgSceneGraphEntity* entity : currentEntity->getChildren()){
-            renderRecursive(entity);
-        }
+void CgSceneGraph::addTransformationRecursive(CgSceneGraphEntity *current, glm::mat4 transformation)
+{
+    current->setCurrentTransformation(current->getCurrentTransformation() * transformation);
+    for(CgSceneGraphEntity* entity : current->getChildren()){
+        addTransformationRecursive(entity, transformation);
     }
 }
 
