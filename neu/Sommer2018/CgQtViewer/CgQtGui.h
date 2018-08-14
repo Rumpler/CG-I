@@ -112,6 +112,10 @@ private:
 
     QSpinBox* spinBoxAmountOfSegmentsRotationBody;
 
+    QDoubleSpinBox* spinBoxTranslateVectorX;
+    QDoubleSpinBox* spinBoxTranslateVectorY;
+    QDoubleSpinBox* spinBoxTranslateVectorZ;
+
 
 
 
@@ -150,6 +154,8 @@ private slots:
     void slotRotateX();
     void slotRotateY();
     void slotRotateZ();
+
+    void slotTranslate();
 
 
 

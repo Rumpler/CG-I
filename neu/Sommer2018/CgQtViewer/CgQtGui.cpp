@@ -212,58 +212,101 @@ void CgQtGui::createOptionPanelObjects(QWidget *parent)
     QGroupBox* groupBoxTranformation = new QGroupBox("Transformation");
     QVBoxLayout* vboxTransformattion = new QVBoxLayout();
 
+        //Button select next objects
+        QPushButton* btSelectNnextObject = new QPushButton("&Select next object (n)");
+        connect(btSelectNnextObject, SIGNAL( clicked() ), this, SLOT(slotSelectNextObject()) );
+        vboxTransformattion->addWidget(btSelectNnextObject);
 
-    //Button select next objects
-    QPushButton* btSelectNnextObject = new QPushButton("&Select next object (n)");
-    connect(btSelectNnextObject, SIGNAL( clicked() ), this, SLOT(slotSelectNextObject()) );
-    vboxTransformattion->addWidget(btSelectNnextObject);
 
-
-        QGroupBox* gbScale = new QGroupBox("Scaling");
+        QGroupBox* gbScale = new QGroupBox("Scale selected object");
         QHBoxLayout* gblScale = new QHBoxLayout;
 
-        //Button Scale +
-        QPushButton* btScalePlus = new QPushButton("&Scale bigger (+)");
-        connect(btScalePlus, SIGNAL( clicked() ), this, SLOT(slotScalePlus()) );
-        btScalePlus->setAutoRepeat(true);
-        gblScale->addWidget(btScalePlus);
+            //Button Scale +
+            QPushButton* btScalePlus = new QPushButton("&Bigger (+)");
+            connect(btScalePlus, SIGNAL( clicked() ), this, SLOT(slotScalePlus()) );
+            btScalePlus->setAutoRepeat(true);
+            gblScale->addWidget(btScalePlus);
 
-        //Button Scale -
-        QPushButton* btScaleMinus = new QPushButton("&Scale smaller (-)");
-        connect(btScaleMinus, SIGNAL( clicked() ), this, SLOT(slotScaleMinus()) );
-        btScaleMinus->setAutoRepeat(true);
-        gblScale->addWidget(btScaleMinus);
+            //Button Scale -
+            QPushButton* btScaleMinus = new QPushButton("&Smaller (-)");
+            connect(btScaleMinus, SIGNAL( clicked() ), this, SLOT(slotScaleMinus()) );
+            btScaleMinus->setAutoRepeat(true);
+            gblScale->addWidget(btScaleMinus);
 
         gbScale->setLayout(gblScale);
         vboxTransformattion->addWidget(gbScale);
 
-
-        QGroupBox* gbRotating = new QGroupBox("Rotating");
+        QGroupBox* gbRotating = new QGroupBox("Rotate selected object");
         QHBoxLayout* gblRotating = new QHBoxLayout;
 
-        //Button Rotate X Axis
-        QPushButton* btRotateX = new QPushButton("&X Axis (x)");
-        connect(btRotateX, SIGNAL( clicked() ), this, SLOT(slotRotateX()) );
-        btRotateX->setAutoRepeat(true);
-        gblRotating->addWidget(btRotateX);
+            //Button Rotate X Axis
+            QPushButton* btRotateX = new QPushButton("&X Axis (x)");
+            connect(btRotateX, SIGNAL( clicked() ), this, SLOT(slotRotateX()) );
+            btRotateX->setAutoRepeat(true);
+            gblRotating->addWidget(btRotateX);
 
-        //Button Rotate Y Axis
-        QPushButton* btRotateY = new QPushButton("&Y Axis (y)");
-        connect(btRotateY, SIGNAL( clicked() ), this, SLOT(slotRotateY()) );
-        btRotateY->setAutoRepeat(true);
-        gblRotating->addWidget(btRotateY);
+            //Button Rotate Y Axis
+            QPushButton* btRotateY = new QPushButton("&Y Axis (y)");
+            connect(btRotateY, SIGNAL( clicked() ), this, SLOT(slotRotateY()) );
+            btRotateY->setAutoRepeat(true);
+            gblRotating->addWidget(btRotateY);
 
-        //Button Rotate Z Axis
-        QPushButton* btRotateZ = new QPushButton("&Z Axis (z)");
-        connect(btRotateZ, SIGNAL( clicked() ), this, SLOT(slotRotateZ()) );
-        btRotateZ->setAutoRepeat(true);
-        gblRotating->addWidget(btRotateZ);
+            //Button Rotate Z Axis
+            QPushButton* btRotateZ = new QPushButton("&Z Axis (z)");
+            connect(btRotateZ, SIGNAL( clicked() ), this, SLOT(slotRotateZ()) );
+            btRotateZ->setAutoRepeat(true);
+            gblRotating->addWidget(btRotateZ);
 
         gbRotating->setLayout(gblRotating);
         vboxTransformattion->addWidget(gbRotating);
 
-        vboxTransformattion->addStretch(1);
 
+        QGroupBox* gbTranslating = new QGroupBox("Translate selected object");
+        QVBoxLayout* gblTranslating = new QVBoxLayout;
+
+            //Button Translate
+            QPushButton* btTranslate = new QPushButton("&Translate (t)");
+            connect(btTranslate, SIGNAL( clicked() ), this, SLOT(slotTranslate()) );
+            btTranslate->setAutoRepeat(true);
+            gblTranslating->addWidget(btTranslate);
+
+            QGroupBox* gbTranslatingVector = new QGroupBox("Translatevector:");
+            QHBoxLayout* gblTranslatingVector = new QHBoxLayout;
+
+                //DoubleSpinBox TranslateVector X
+                spinBoxTranslateVectorX = new QDoubleSpinBox();
+                spinBoxTranslateVectorX->setMaximum(100);
+                spinBoxTranslateVectorX->setMinimum(-100);
+                spinBoxTranslateVectorX->setValue(1.0);
+                spinBoxTranslateVectorX->setSingleStep(0.01);
+                spinBoxTranslateVectorX->setPrefix("X: ");
+                gblTranslatingVector->addWidget(spinBoxTranslateVectorX);
+
+                //DoubleSpinBox TranslateVector X
+                spinBoxTranslateVectorY = new QDoubleSpinBox();
+                spinBoxTranslateVectorY->setMaximum(100);
+                spinBoxTranslateVectorY->setMinimum(-100);
+                spinBoxTranslateVectorY->setValue(0.0);
+                spinBoxTranslateVectorY->setSingleStep(0.01);
+                spinBoxTranslateVectorY->setPrefix("Y: ");
+                gblTranslatingVector->addWidget(spinBoxTranslateVectorY);
+
+                //DoubleSpinBox TranslateVector X
+                spinBoxTranslateVectorZ = new QDoubleSpinBox();
+                spinBoxTranslateVectorZ->setMaximum(100);
+                spinBoxTranslateVectorZ->setMinimum(-100);
+                spinBoxTranslateVectorZ->setValue(0.0);
+                spinBoxTranslateVectorZ->setSingleStep(0.01);
+                spinBoxTranslateVectorZ->setPrefix("Z: ");
+                gblTranslatingVector->addWidget(spinBoxTranslateVectorZ);
+
+            gbTranslatingVector->setLayout(gblTranslatingVector);
+            gblTranslating->addWidget(gbTranslatingVector);
+
+        gbTranslating->setLayout(gblTranslating);
+        vboxTransformattion->addWidget(gbTranslating);
+
+    vboxTransformattion->addStretch(1);
     groupBoxTranformation->setLayout(vboxTransformattion);
     subBox->addWidget(groupBoxTranformation);
 
@@ -331,14 +374,11 @@ void CgQtGui::createOptionPanelRotateObjects(QWidget *parent)
 
     //SpinBox AmountOfSegments
     spinBoxAmountOfSegmentsCylinder = new QSpinBox();
-    //spinBoxAmountOfSegments->setMinimum(2);
     spinBoxAmountOfSegmentsCylinder->setValue(50);
     spinBoxAmountOfSegmentsCylinder->setMaximum(10000);
-    //    spinBoxAmountOfSegmentsCylinder->setSuffix(" Segments");
     spinBoxAmountOfSegmentsCylinder->setPrefix("Segments: ");
     connect(spinBoxAmountOfSegmentsCylinder, SIGNAL(valueChanged(int) ), this, SLOT(slotCylinderChanged()) );
     vboxCylinder->addWidget(spinBoxAmountOfSegmentsCylinder);
-
 
     //DoubleSpinBox height
     spinBoxHeightCylinder = new QDoubleSpinBox();
@@ -357,8 +397,6 @@ void CgQtGui::createOptionPanelRotateObjects(QWidget *parent)
     spinBoxRadiusCylinder->setPrefix("Radius: ");
     connect(spinBoxRadiusCylinder, SIGNAL(valueChanged(double) ), this, SLOT(slotCylinderChanged()) );
     vboxCylinder->addWidget(spinBoxRadiusCylinder);
-
-
 
     //Button Show cylinder and normals
     QPushButton* buttonCylinder = new QPushButton("&Show Cylinder and Normals");
@@ -570,6 +608,11 @@ void CgQtGui::slotRotateZ()
     CgButtonEvent* e = new CgButtonEvent();
     e->setBtRotateZ(true);
     notifyObserver(e);
+}
+
+void CgQtGui::slotTranslate()
+{
+    //TODO
 }
 
 void CgQtGui::showObject(int i)
