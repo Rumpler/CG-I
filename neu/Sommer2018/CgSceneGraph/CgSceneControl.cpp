@@ -87,6 +87,9 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         if(ev->key() == Cg::Key_Z){
             m_scene_graph->tRotateSelectedEntity(45.0, 'z');
         }
+        if(ev->key() == Cg::Key_T){
+            m_scene_graph->tTranslateSelectedEntity(transVec);
+        }
     }
 
     if(e->getType() == Cg::CgWindowResizeEvent)
@@ -115,6 +118,12 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         }
         if(ev->getBtRotateZ()){
             m_scene_graph->tRotateSelectedEntity(45.0, 'z');
+        }
+        if(ev->getBtTranslate()){
+            CgU::printVec3("before", transVec);
+            transVec = ev->getTranslateVec();
+            CgU::printVec3("after", transVec);
+            m_scene_graph->tTranslateSelectedEntity(transVec);
         }
     }
 

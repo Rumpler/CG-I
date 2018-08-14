@@ -146,6 +146,17 @@ void CgSceneGraph::tRotateSelectedEntity(float angle, char c)
     m_renderer->redraw();
 }
 
+void CgSceneGraph::tTranslateSelectedEntity(glm::vec3 transVec)
+{
+    CgU::printVec3("transVec", transVec);
+    std::cout << "tTranslateSelectedEntity() called" << std::endl;
+    glm::mat4 transMat = CgU::tTranslateMat(transVec);
+//    glm::mat4 transMat = CgU::tTranslateMat(glm::vec3(0.1,0.0,0.0));
+    CgU::printMat4(transMat);
+    addTransformationRecursive(selectedEntity, transMat);
+    m_renderer->redraw();
+}
+
 
 
 void CgSceneGraph::render()

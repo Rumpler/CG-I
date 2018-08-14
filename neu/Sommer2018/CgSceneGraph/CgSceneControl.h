@@ -23,6 +23,9 @@ public:
 private:
     CgBaseRenderer* m_renderer;
     CgSceneGraph *m_scene_graph;
+
+    //default helper vars
+    glm::vec3 transVec = glm::vec3(0.1f,0.0f,0.0f);
 };
 
 #endif // CGSCENECONTROL_H

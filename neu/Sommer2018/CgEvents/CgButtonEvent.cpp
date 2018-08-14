@@ -68,6 +68,7 @@ bool CgButtonEvent::getBtTranslate() const
 void CgButtonEvent::setBtTranslate(bool value, glm::vec3 translateVec)
 {
     btTranslate = value;
+    this->translateVec = translateVec;
 }
 
 glm::vec3 CgButtonEvent::getTranslateVec() const

@@ -270,15 +270,15 @@ void CgQtGui::createOptionPanelObjects(QWidget *parent)
             btTranslate->setAutoRepeat(true);
             gblTranslating->addWidget(btTranslate);
 
-            QGroupBox* gbTranslatingVector = new QGroupBox("Translatevector:");
+            QGroupBox* gbTranslatingVector = new QGroupBox("Translatevector (use button to apply):");
             QHBoxLayout* gblTranslatingVector = new QHBoxLayout;
 
                 //DoubleSpinBox TranslateVector X
                 spinBoxTranslateVectorX = new QDoubleSpinBox();
                 spinBoxTranslateVectorX->setMaximum(100);
                 spinBoxTranslateVectorX->setMinimum(-100);
-                spinBoxTranslateVectorX->setValue(1.0);
-                spinBoxTranslateVectorX->setSingleStep(0.01);
+                spinBoxTranslateVectorX->setValue(0.1);
+                spinBoxTranslateVectorX->setSingleStep(0.1);
                 spinBoxTranslateVectorX->setPrefix("X: ");
                 gblTranslatingVector->addWidget(spinBoxTranslateVectorX);
 
@@ -287,7 +287,7 @@ void CgQtGui::createOptionPanelObjects(QWidget *parent)
                 spinBoxTranslateVectorY->setMaximum(100);
                 spinBoxTranslateVectorY->setMinimum(-100);
                 spinBoxTranslateVectorY->setValue(0.0);
-                spinBoxTranslateVectorY->setSingleStep(0.01);
+                spinBoxTranslateVectorY->setSingleStep(0.1);
                 spinBoxTranslateVectorY->setPrefix("Y: ");
                 gblTranslatingVector->addWidget(spinBoxTranslateVectorY);
 
@@ -296,7 +296,7 @@ void CgQtGui::createOptionPanelObjects(QWidget *parent)
                 spinBoxTranslateVectorZ->setMaximum(100);
                 spinBoxTranslateVectorZ->setMinimum(-100);
                 spinBoxTranslateVectorZ->setValue(0.0);
-                spinBoxTranslateVectorZ->setSingleStep(0.01);
+                spinBoxTranslateVectorZ->setSingleStep(0.1);
                 spinBoxTranslateVectorZ->setPrefix("Z: ");
                 gblTranslatingVector->addWidget(spinBoxTranslateVectorZ);
 
@@ -612,7 +612,9 @@ void CgQtGui::slotRotateZ()
 
 void CgQtGui::slotTranslate()
 {
-    //TODO
+    CgButtonEvent* e = new CgButtonEvent();
+    e->setBtTranslate(true, glm::vec3(spinBoxTranslateVectorX->value(), spinBoxTranslateVectorY->value(), spinBoxTranslateVectorZ->value()));
+    notifyObserver(e);
 }
 
 void CgQtGui::showObject(int i)
