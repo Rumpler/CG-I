@@ -562,6 +562,11 @@ void CgQtGui::slotTranslate()
     notifyObserver(e);
 }
 
+void CgQtGui::slotRotateVector()
+{
+    std::cout << "called but not implemented" << std::endl;
+}
+
 void CgQtGui::showObject(int i)
 {
     for(QAbstractButton* b : ButtonGroupObjects->buttons()){

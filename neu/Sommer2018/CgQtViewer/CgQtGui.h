@@ -68,45 +68,13 @@ class CgQtGui : public QWidget,public CgObservable
 {
     Q_OBJECT
 
-public:
-    CgQtGui(CgQtMainApplication *mw);
-    CgBaseRenderer* getRenderer();
-
-
-protected:
-    void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
-
-
 private:
     QSlider *createColorSlider();
-
-    // parts of the view
-    CgQtGLRenderWidget*    m_glRenderWidget;
-    CgQtMainApplication*   m_mainWindow;
-    QTabWidget*            m_exercises_tabWidget;
-    QWidget*			   m_scene_tree_view;
-    QTextEdit*             m_log_browser;
-    QMenuBar *             m_menuBar;
-
-    CgQtGuiEventHandler*   m_event_handler;
-
 
     //Panels
     QWidget*               m_panel_objects;
     QWidget*               m_panel_rotate_objects;
     QWidget*               m_panel_color;
-
-
-    void createOptionPanelObjects(QWidget* parent);
-    void createOptionPanelRotateObjects(QWidget* parent);
-    void createOptionPanelColor(QWidget* parent);
-
-    QGroupBox* createGBObjects();
-    QGroupBox* createGBTransformation();
-    QGroupBox* createGBColor();
-    QGroupBox* createGBCylinder();
-    QGroupBox* createGBRotationBody();
-
 
     QButtonGroup* ButtonGroupObjects;
 
@@ -120,60 +88,75 @@ private:
 
     QSpinBox* spinBoxAmountOfSegmentsRotationBody;
 
+    QDoubleSpinBox* spinBoxRotateVectorX;
+    QDoubleSpinBox* spinBoxRotateVectorY;
+    QDoubleSpinBox* spinBoxRotateVectorZ;
+
     QDoubleSpinBox* spinBoxTranslateVectorX;
     QDoubleSpinBox* spinBoxTranslateVectorY;
     QDoubleSpinBox* spinBoxTranslateVectorZ;
 
+    //Helper methodes
+    void showObject(int i);
+
+    void createOptionPanelObjects(QWidget* parent);
+    void createOptionPanelRotateObjects(QWidget* parent);
+    void createOptionPanelColor(QWidget* parent);
+
+    QGroupBox* createGBObjects();
+    QGroupBox* createGBTransformation();
+    QGroupBox* createGBColor();
+    QGroupBox* createGBCylinder();
+    QGroupBox* createGBRotationBody();
 
 
+    // parts of the view
+    CgQtGLRenderWidget*    m_glRenderWidget;
+    CgQtMainApplication*   m_mainWindow;
+    QTabWidget*            m_exercises_tabWidget;
+    QWidget*			   m_scene_tree_view;
+    QTextEdit*             m_log_browser;
+    QMenuBar *             m_menuBar;
+
+    CgQtGuiEventHandler*   m_event_handler;
 
 
 private slots:
-
-
-
-    /* slots to catch events directly from renderer */
     void mouseEvent(QMouseEvent* event);
     void viewportChanged(int,int);
     void slotLoadMeshFile();
     void slotTrackballChanged();
 
     void slotSelectNextObject();
-
-    //Gerrit
     void slotColorChanged();
     void slotButtonGroupSelectionChanged();
-
     void slotCylinderChanged();
     void slotRotationBodyChanged();
-
     void slotResetCylinder();
     void slotResetRotationObjects();
-
     void slotShowCylinder();
     void slotShowRotationCurve();
     void slotShowRotationBody();
     void slotShowRotationBodyNormals();
     void slotShowLoadedObject();
+    void slotSubdivision();
 
     void slotScalePlus();
     void slotScaleMinus();
-
+    void slotRotateVector();
     void slotRotateX();
     void slotRotateY();
     void slotRotateZ();
-
     void slotTranslate();
 
 
-
-    void showObject(int i);
-
-    void slotSubdivision();
-
+public:
+    CgQtGui(CgQtMainApplication *mw);
+    CgBaseRenderer* getRenderer();
 
 
-
+protected:
+    void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
 
 };
 
