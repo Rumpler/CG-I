@@ -42,6 +42,7 @@
 #define WINDOW_H
 
 #include <QWidget>
+#include <qgroupbox.h>
 #include "../CgBase/CgObservable.h"
 
 QT_BEGIN_NAMESPACE
@@ -93,12 +94,17 @@ private:
     //Panels
     QWidget*               m_panel_objects;
     QWidget*               m_panel_rotate_objects;
-    QWidget*               m_panel_tranformation;
+    QWidget*               m_panel_color;
 
 
     void createOptionPanelObjects(QWidget* parent);
     void createOptionPanelRotateObjects(QWidget* parent);
-    void createOptionPanelTransformation(QWidget* parent);
+    void createOptionPanelColor(QWidget* parent);
+
+    QGroupBox* createGBObjects();
+    QGroupBox* createGBTransformation();
+    QGroupBox* createGBColor();
+
 
     QButtonGroup* ButtonGroupObjects;
 
