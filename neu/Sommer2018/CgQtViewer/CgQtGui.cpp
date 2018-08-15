@@ -144,16 +144,13 @@ QSlider *CgQtGui::createColorSlider()
 void CgQtGui::createOptionPanelObjects(QWidget *parent)
 {
     QVBoxLayout *panel_layout = new QVBoxLayout();
-    QVBoxLayout *subBox = new QVBoxLayout();
-    ButtonGroupObjects = new QButtonGroup(subBox);
+    ButtonGroupObjects = new QButtonGroup(panel_layout);
     ButtonGroupObjects->setExclusive(false);
 
-    subBox->addWidget(createGBObjects());
-    subBox->addWidget(createGBTransformation());
-    subBox->addWidget(createGBColor());
+    panel_layout->addWidget(createGBObjects());
+    panel_layout->addWidget(createGBTransformation());
 
-    subBox->addStretch(1);
-    panel_layout->addLayout(subBox);
+    panel_layout->addStretch(1);
     parent->setLayout(panel_layout);
 }
 
@@ -161,115 +158,21 @@ void CgQtGui::createOptionPanelRotateObjects(QWidget *parent)
 {
     QVBoxLayout *panel_layout = new QVBoxLayout();
 
-    //################################### Cylinder ###################################
 
-    QGroupBox* groupBoxCylinder = new QGroupBox("Cylinder");
-    QVBoxLayout *vboxCylinder = new QVBoxLayout;
+    panel_layout->addWidget(createGBCylinder());
 
 
-    //SpinBox AmountOfSegments
-    spinBoxAmountOfSegmentsCylinder = new QSpinBox();
-    spinBoxAmountOfSegmentsCylinder->setValue(50);
-    spinBoxAmountOfSegmentsCylinder->setMaximum(10000);
-    spinBoxAmountOfSegmentsCylinder->setPrefix("Segments: ");
-    connect(spinBoxAmountOfSegmentsCylinder, SIGNAL(valueChanged(int) ), this, SLOT(slotCylinderChanged()) );
-    vboxCylinder->addWidget(spinBoxAmountOfSegmentsCylinder);
-
-    //DoubleSpinBox height
-    spinBoxHeightCylinder = new QDoubleSpinBox();
-    spinBoxHeightCylinder->setMinimum(0.01);
-    spinBoxHeightCylinder->setValue(0.3);
-    spinBoxHeightCylinder->setSingleStep(0.01);
-    spinBoxHeightCylinder->setPrefix("Height: ");
-    connect(spinBoxHeightCylinder, SIGNAL(valueChanged(double) ), this, SLOT(slotCylinderChanged()) );
-    vboxCylinder->addWidget(spinBoxHeightCylinder);
-
-    //DoubleSpinBox radius
-    spinBoxRadiusCylinder = new QDoubleSpinBox();
-    spinBoxRadiusCylinder->setMinimum(0.01);
-    spinBoxRadiusCylinder->setValue(0.2);
-    spinBoxRadiusCylinder->setSingleStep(0.01);
-    spinBoxRadiusCylinder->setPrefix("Radius: ");
-    connect(spinBoxRadiusCylinder, SIGNAL(valueChanged(double) ), this, SLOT(slotCylinderChanged()) );
-    vboxCylinder->addWidget(spinBoxRadiusCylinder);
-
-    //Button Show cylinder and normals
-    QPushButton* buttonCylinder = new QPushButton("&Show Cylinder and Normals");
-    connect(buttonCylinder, SIGNAL( clicked() ), this, SLOT(slotShowCylinder()) );
-    vboxCylinder->addWidget(buttonCylinder);
-
-    //Button Reset
-    QPushButton* buttonReset = new QPushButton("&Reset Cylinder");
-    connect(buttonReset, SIGNAL( clicked() ), this, SLOT(slotResetCylinder()) );
-    vboxCylinder->addWidget(buttonReset);
-
-    groupBoxCylinder->setLayout(vboxCylinder);
-    panel_layout->addWidget(groupBoxCylinder);
-
-
-    //################################### Rotation ###################################
-
-
-    QGroupBox* groupBoxRotationBody = new QGroupBox("Rotation Body");
-    QVBoxLayout *vboxRotationBody = new QVBoxLayout;
-
-    //Button Show RotationCurve
-    QPushButton* buttonRotationCurve = new QPushButton("&Show Rotation Curve");
-    connect(buttonRotationCurve, SIGNAL( clicked() ), this, SLOT(slotShowRotationCurve()) );
-    vboxRotationBody->addWidget(buttonRotationCurve);
-
-    //Button Show RotationBody
-    QPushButton* buttonShowRotationBody = new QPushButton("&Show Rotation Body");
-    connect(buttonShowRotationBody, SIGNAL( clicked() ), this, SLOT(slotShowRotationBody()) );
-    vboxRotationBody->addWidget(buttonShowRotationBody);
-
-    //Button Show RotationBodyNormals
-    QPushButton* buttonShowRotationBodyNormals = new QPushButton("&Show Normals");
-    connect(buttonShowRotationBodyNormals, SIGNAL( clicked() ), this, SLOT(slotShowRotationBodyNormals()) );
-    vboxRotationBody->addWidget(buttonShowRotationBodyNormals);
-
-    //Lable
-    QLabel* labelAmountOfSegmentsRotationBody = new QLabel("Amount of Segments:");
-    labelAmountOfSegmentsRotationBody->setAlignment(Qt::AlignLeft);
-    vboxRotationBody->addWidget(labelAmountOfSegmentsRotationBody);
-
-    //SpinBox AmountOfSegments
-    spinBoxAmountOfSegmentsRotationBody = new QSpinBox();
-    //spinBoxAmountOfSegments->setMinimum(2);
-    spinBoxAmountOfSegmentsRotationBody->setValue(50);
-    spinBoxAmountOfSegmentsRotationBody->setMaximum(10000);
-    spinBoxAmountOfSegmentsRotationBody->setSuffix(" Segments");
-    connect(spinBoxAmountOfSegmentsRotationBody, SIGNAL(valueChanged(int) ), this, SLOT(slotRotationBodyChanged()) );
-    vboxRotationBody->addWidget(spinBoxAmountOfSegmentsRotationBody);
-
-    QGroupBox* groupBoxSubdivision = new QGroupBox("Subdivision");
-    QVBoxLayout* vboxSubdivision = new QVBoxLayout;
-
-    //Button Subdivison 4-Point-Scheme
-    QPushButton* buttonSdForPointScheme = new QPushButton("&For-Point-Scheme");
-    connect(buttonSdForPointScheme, SIGNAL( clicked() ), this, SLOT(slotSubdivision()) );
-    vboxSubdivision->addWidget(buttonSdForPointScheme);
-
-    //Button Reset RotationCurve
-    QPushButton* buttonResetRotationCurve = new QPushButton("&Reset Rotation Curve");
-    connect(buttonResetRotationCurve, SIGNAL( clicked() ), this, SLOT(slotResetRotationObjects()) );
-    vboxSubdivision->addWidget(buttonResetRotationCurve);
-
-    groupBoxSubdivision->setLayout(vboxSubdivision);
-    vboxRotationBody->addWidget(groupBoxSubdivision);
-
-
-
-    groupBoxRotationBody->setLayout(vboxRotationBody);
-    panel_layout->addWidget(groupBoxRotationBody);
-
+    panel_layout->addWidget(createGBRotationBody());
     panel_layout->addStretch(1);
     parent->setLayout(panel_layout);
 }
 
 void CgQtGui::createOptionPanelColor(QWidget *parent)
 {
-
+    QVBoxLayout *panel_layout = new QVBoxLayout();
+    panel_layout->addWidget(createGBColor());
+    panel_layout->addStretch(1);
+    parent->setLayout(panel_layout);
 }
 
 QGroupBox *CgQtGui::createGBObjects()
@@ -331,9 +234,6 @@ QGroupBox *CgQtGui::createGBObjects()
 
 QGroupBox *CgQtGui::createGBTransformation()
 {
-    // Transformation ------------------------------------------
-
-
     QGroupBox* groupBoxTranformation = new QGroupBox("Transformation");
     QVBoxLayout* vboxTransformattion = new QVBoxLayout();
 
@@ -472,6 +372,106 @@ QGroupBox *CgQtGui::createGBColor()
 
     groupBoxColor->setLayout(vboxColor);
     return groupBoxColor;
+}
+
+QGroupBox *CgQtGui::createGBCylinder()
+{
+    QGroupBox* groupBoxCylinder = new QGroupBox("Cylinder");
+    QVBoxLayout *vboxCylinder = new QVBoxLayout;
+
+
+    //SpinBox AmountOfSegments
+    spinBoxAmountOfSegmentsCylinder = new QSpinBox();
+    spinBoxAmountOfSegmentsCylinder->setValue(50);
+    spinBoxAmountOfSegmentsCylinder->setMaximum(10000);
+    spinBoxAmountOfSegmentsCylinder->setPrefix("Segments: ");
+    connect(spinBoxAmountOfSegmentsCylinder, SIGNAL(valueChanged(int) ), this, SLOT(slotCylinderChanged()) );
+    vboxCylinder->addWidget(spinBoxAmountOfSegmentsCylinder);
+
+    //DoubleSpinBox height
+    spinBoxHeightCylinder = new QDoubleSpinBox();
+    spinBoxHeightCylinder->setMinimum(0.01);
+    spinBoxHeightCylinder->setValue(0.3);
+    spinBoxHeightCylinder->setSingleStep(0.01);
+    spinBoxHeightCylinder->setPrefix("Height: ");
+    connect(spinBoxHeightCylinder, SIGNAL(valueChanged(double) ), this, SLOT(slotCylinderChanged()) );
+    vboxCylinder->addWidget(spinBoxHeightCylinder);
+
+    //DoubleSpinBox radius
+    spinBoxRadiusCylinder = new QDoubleSpinBox();
+    spinBoxRadiusCylinder->setMinimum(0.01);
+    spinBoxRadiusCylinder->setValue(0.2);
+    spinBoxRadiusCylinder->setSingleStep(0.01);
+    spinBoxRadiusCylinder->setPrefix("Radius: ");
+    connect(spinBoxRadiusCylinder, SIGNAL(valueChanged(double) ), this, SLOT(slotCylinderChanged()) );
+    vboxCylinder->addWidget(spinBoxRadiusCylinder);
+
+    //Button Show cylinder and normals
+    QPushButton* buttonCylinder = new QPushButton("&Show Cylinder and Normals");
+    connect(buttonCylinder, SIGNAL( clicked() ), this, SLOT(slotShowCylinder()) );
+    vboxCylinder->addWidget(buttonCylinder);
+
+    //Button Reset
+    QPushButton* buttonReset = new QPushButton("&Reset Cylinder");
+    connect(buttonReset, SIGNAL( clicked() ), this, SLOT(slotResetCylinder()) );
+    vboxCylinder->addWidget(buttonReset);
+
+    groupBoxCylinder->setLayout(vboxCylinder);
+    return groupBoxCylinder;
+}
+
+QGroupBox *CgQtGui::createGBRotationBody()
+{
+    QGroupBox* groupBoxRotationBody = new QGroupBox("Rotation Body");
+    QVBoxLayout *vboxRotationBody = new QVBoxLayout;
+
+    //Button Show RotationCurve
+    QPushButton* buttonRotationCurve = new QPushButton("&Show Rotation Curve");
+    connect(buttonRotationCurve, SIGNAL( clicked() ), this, SLOT(slotShowRotationCurve()) );
+    vboxRotationBody->addWidget(buttonRotationCurve);
+
+    //Button Show RotationBody
+    QPushButton* buttonShowRotationBody = new QPushButton("&Show Rotation Body");
+    connect(buttonShowRotationBody, SIGNAL( clicked() ), this, SLOT(slotShowRotationBody()) );
+    vboxRotationBody->addWidget(buttonShowRotationBody);
+
+    //Button Show RotationBodyNormals
+    QPushButton* buttonShowRotationBodyNormals = new QPushButton("&Show Normals");
+    connect(buttonShowRotationBodyNormals, SIGNAL( clicked() ), this, SLOT(slotShowRotationBodyNormals()) );
+    vboxRotationBody->addWidget(buttonShowRotationBodyNormals);
+
+    //Lable
+    QLabel* labelAmountOfSegmentsRotationBody = new QLabel("Amount of Segments:");
+    labelAmountOfSegmentsRotationBody->setAlignment(Qt::AlignLeft);
+    vboxRotationBody->addWidget(labelAmountOfSegmentsRotationBody);
+
+    //SpinBox AmountOfSegments
+    spinBoxAmountOfSegmentsRotationBody = new QSpinBox();
+    //spinBoxAmountOfSegments->setMinimum(2);
+    spinBoxAmountOfSegmentsRotationBody->setValue(50);
+    spinBoxAmountOfSegmentsRotationBody->setMaximum(10000);
+    spinBoxAmountOfSegmentsRotationBody->setSuffix(" Segments");
+    connect(spinBoxAmountOfSegmentsRotationBody, SIGNAL(valueChanged(int) ), this, SLOT(slotRotationBodyChanged()) );
+    vboxRotationBody->addWidget(spinBoxAmountOfSegmentsRotationBody);
+
+    QGroupBox* groupBoxSubdivision = new QGroupBox("Subdivision");
+    QVBoxLayout* vboxSubdivision = new QVBoxLayout;
+
+    //Button Subdivison 4-Point-Scheme
+    QPushButton* buttonSdForPointScheme = new QPushButton("&For-Point-Scheme");
+    connect(buttonSdForPointScheme, SIGNAL( clicked() ), this, SLOT(slotSubdivision()) );
+    vboxSubdivision->addWidget(buttonSdForPointScheme);
+
+    //Button Reset RotationCurve
+    QPushButton* buttonResetRotationCurve = new QPushButton("&Reset Rotation Curve");
+    connect(buttonResetRotationCurve, SIGNAL( clicked() ), this, SLOT(slotResetRotationObjects()) );
+    vboxSubdivision->addWidget(buttonResetRotationCurve);
+
+    groupBoxSubdivision->setLayout(vboxSubdivision);
+    vboxRotationBody->addWidget(groupBoxSubdivision);
+    groupBoxRotationBody->setLayout(vboxRotationBody);
+
+    return groupBoxRotationBody;
 }
 
 

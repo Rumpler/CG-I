@@ -104,6 +104,8 @@ private:
     QGroupBox* createGBObjects();
     QGroupBox* createGBTransformation();
     QGroupBox* createGBColor();
+    QGroupBox* createGBCylinder();
+    QGroupBox* createGBRotationBody();
 
 
     QButtonGroup* ButtonGroupObjects;
