@@ -228,6 +228,7 @@ QGroupBox *CgQtGui::createGBTransformation()
         connect(btSelectNnextObject, SIGNAL( clicked() ), this, SLOT(slotSelectNextObject()) );
         vboxTransformattion->addWidget(btSelectNnextObject);
 
+        /***************** SCALING *****************/
 
         QGroupBox* gbScale = new QGroupBox("Scale selected object");
         QHBoxLayout* gblScale = new QHBoxLayout;
@@ -247,30 +248,72 @@ QGroupBox *CgQtGui::createGBTransformation()
         gbScale->setLayout(gblScale);
         vboxTransformattion->addWidget(gbScale);
 
+        /***************** ROTATING *****************/
+
         QGroupBox* gbRotating = new QGroupBox("Rotate selected object");
-        QHBoxLayout* gblRotating = new QHBoxLayout;
+        QVBoxLayout* sb1 = new QVBoxLayout;
+        QHBoxLayout* sb2 = new QHBoxLayout;
 
             //Button Rotate X Axis
             QPushButton* btRotateX = new QPushButton("&X Axis (x)");
             connect(btRotateX, SIGNAL( clicked() ), this, SLOT(slotRotateX()) );
             btRotateX->setAutoRepeat(true);
-            gblRotating->addWidget(btRotateX);
+            sb2->addWidget(btRotateX);
 
             //Button Rotate Y Axis
             QPushButton* btRotateY = new QPushButton("&Y Axis (y)");
             connect(btRotateY, SIGNAL( clicked() ), this, SLOT(slotRotateY()) );
             btRotateY->setAutoRepeat(true);
-            gblRotating->addWidget(btRotateY);
+            sb2->addWidget(btRotateY);
 
             //Button Rotate Z Axis
             QPushButton* btRotateZ = new QPushButton("&Z Axis (z)");
             connect(btRotateZ, SIGNAL( clicked() ), this, SLOT(slotRotateZ()) );
             btRotateZ->setAutoRepeat(true);
-            gblRotating->addWidget(btRotateZ);
+            sb2->addWidget(btRotateZ);
+        sb1->addLayout(sb2);
 
-        gbRotating->setLayout(gblRotating);
+            //Button rotate Vectoor
+            QPushButton* btRotateVector = new QPushButton("&Custom axis (c)");
+            connect(btScalePlus, SIGNAL( clicked() ), this, SLOT( slotRotateVector() ));
+            btRotateVector->setAutoRepeat(true);
+        sb1->addWidget(btRotateVector);
+
+        QHBoxLayout* sb3 = new QHBoxLayout;
+
+            //DoubleSpinBox TranslateVector X
+            spinBoxRotateVectorX = new QDoubleSpinBox();
+            spinBoxRotateVectorX->setMaximum(100);
+            spinBoxRotateVectorX->setMinimum(-100);
+            spinBoxRotateVectorX->setValue(1);
+            spinBoxRotateVectorX->setSingleStep(0.1);
+            spinBoxRotateVectorX->setPrefix("X: ");
+            sb3->addWidget(spinBoxRotateVectorX);
+
+            //DoubleSpinBox TranslateVector X
+            spinBoxRotateVectorY = new QDoubleSpinBox();
+            spinBoxRotateVectorY->setMaximum(100);
+            spinBoxRotateVectorY->setMinimum(-100);
+            spinBoxRotateVectorY->setValue(1);
+            spinBoxRotateVectorY->setSingleStep(0.1);
+            spinBoxRotateVectorY->setPrefix("Y: ");
+            sb3->addWidget(spinBoxRotateVectorY);
+
+            //DoubleSpinBox TranslateVector X
+            spinBoxRotateVectorZ = new QDoubleSpinBox();
+            spinBoxRotateVectorZ->setMaximum(100);
+            spinBoxRotateVectorZ->setMinimum(-100);
+            spinBoxRotateVectorZ->setValue(1);
+            spinBoxRotateVectorZ->setSingleStep(0.1);
+            spinBoxRotateVectorZ->setPrefix("Z: ");
+            sb3->addWidget(spinBoxRotateVectorZ);
+        sb1->addLayout(sb3);
+
+
+        gbRotating->setLayout(sb1);
         vboxTransformattion->addWidget(gbRotating);
 
+        /***************** Translating *****************/
 
         QGroupBox* gbTranslating = new QGroupBox("Translate selected object");
         QVBoxLayout* gblTranslating = new QVBoxLayout;
@@ -281,8 +324,7 @@ QGroupBox *CgQtGui::createGBTransformation()
             btTranslate->setAutoRepeat(true);
             gblTranslating->addWidget(btTranslate);
 
-            QGroupBox* gbTranslatingVector = new QGroupBox("Translatevector (use button to apply):");
-            QHBoxLayout* gblTranslatingVector = new QHBoxLayout;
+            QHBoxLayout* sb10 = new QHBoxLayout();
 
                 //DoubleSpinBox TranslateVector X
                 spinBoxTranslateVectorX = new QDoubleSpinBox();
@@ -291,7 +333,7 @@ QGroupBox *CgQtGui::createGBTransformation()
                 spinBoxTranslateVectorX->setValue(0.1);
                 spinBoxTranslateVectorX->setSingleStep(0.1);
                 spinBoxTranslateVectorX->setPrefix("X: ");
-                gblTranslatingVector->addWidget(spinBoxTranslateVectorX);
+                sb10->addWidget(spinBoxTranslateVectorX);
 
                 //DoubleSpinBox TranslateVector X
                 spinBoxTranslateVectorY = new QDoubleSpinBox();
@@ -300,7 +342,7 @@ QGroupBox *CgQtGui::createGBTransformation()
                 spinBoxTranslateVectorY->setValue(0.0);
                 spinBoxTranslateVectorY->setSingleStep(0.1);
                 spinBoxTranslateVectorY->setPrefix("Y: ");
-                gblTranslatingVector->addWidget(spinBoxTranslateVectorY);
+                sb10->addWidget(spinBoxTranslateVectorY);
 
                 //DoubleSpinBox TranslateVector X
                 spinBoxTranslateVectorZ = new QDoubleSpinBox();
@@ -309,10 +351,9 @@ QGroupBox *CgQtGui::createGBTransformation()
                 spinBoxTranslateVectorZ->setValue(0.0);
                 spinBoxTranslateVectorZ->setSingleStep(0.1);
                 spinBoxTranslateVectorZ->setPrefix("Z: ");
-                gblTranslatingVector->addWidget(spinBoxTranslateVectorZ);
+                sb10->addWidget(spinBoxTranslateVectorZ);
 
-            gbTranslatingVector->setLayout(gblTranslatingVector);
-            gblTranslating->addWidget(gbTranslatingVector);
+        gblTranslating->addLayout(sb10);
 
         gbTranslating->setLayout(gblTranslating);
         vboxTransformattion->addWidget(gbTranslating);
