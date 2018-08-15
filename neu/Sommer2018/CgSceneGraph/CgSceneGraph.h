@@ -102,6 +102,7 @@ public:
     //Transformation methodes
     void tScaleSelectedEntity(glm::vec3 factor);
     void tRotateSelectedEntity(float angle, char c);
+    void tRotateSelectedEntity(float angle, glm::vec3 axis);
     void tTranslateSelectedEntity(glm::vec3 transVec);
 
     //Getter and Setter

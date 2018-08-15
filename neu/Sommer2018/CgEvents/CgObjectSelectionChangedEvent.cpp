@@ -25,6 +25,7 @@ CgBaseEvent *CgObjectSelectionChangeEvent::clone()
     e->setRenderRotationBodyNormals(renderRotationBodyNormals);
     e->setRenderLoadedObject(renderLoadedObject);
     e->setRenderLoadedObjectNormals(renderLoadedObjectNormals);
+    e->setRenderCustomRotationAxis(renderCustomRotationAxis);
     return e;
 }
 
@@ -126,4 +127,14 @@ bool CgObjectSelectionChangeEvent::getRenderRotationBodyNormals() const
 void CgObjectSelectionChangeEvent::setRenderRotationBodyNormals(bool value)
 {
     renderRotationBodyNormals = value;
+}
+
+bool CgObjectSelectionChangeEvent::getRenderCustomRotationAxis() const
+{
+    return renderCustomRotationAxis;
+}
+
+void CgObjectSelectionChangeEvent::setRenderCustomRotationAxis(bool value)
+{
+    renderCustomRotationAxis = value;
 }

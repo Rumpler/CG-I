@@ -81,10 +81,31 @@ void CgButtonEvent::setTranslateVec(const glm::vec3 &value)
     translateVec = value;
 }
 
+bool CgButtonEvent::getBtRotateCustom() const
+{
+    return btRotateCustom;
+}
+
+void CgButtonEvent::setBtRotateCustom(bool value, glm::vec3 rotateVec)
+{
+    btRotateCustom = value;
+    this->rotateVec = rotateVec;
+}
+
+glm::vec3 CgButtonEvent::getRotateVec() const
+{
+    return rotateVec;
+}
+
+void CgButtonEvent::setRotateVec(const glm::vec3 &value)
+{
+    rotateVec = value;
+}
+
 CgButtonEvent::CgButtonEvent() :
     m_type(Cg::CgButtonEvent)
 {
-
+    
 }
 
 Cg::EventType CgButtonEvent::getType()
@@ -105,5 +126,6 @@ CgBaseEvent *CgButtonEvent::clone()
     e->setBtRotateZ(btRotateZ);
 
     e->setBtTranslate(btTranslate, translateVec);
+    e->setBtRotateCustom(btRotateCustom, rotateVec);
     return e;
 }

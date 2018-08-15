@@ -87,6 +87,9 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         if(ev->key() == Cg::Key_Z){
             m_scene_graph->tRotateSelectedEntity(45.0, 'z');
         }
+        if(ev->key() == Cg::Key_C){
+            m_scene_graph->tRotateSelectedEntity(45.0, rotateVec);
+        }
         if(ev->key() == Cg::Key_T){
             m_scene_graph->tTranslateSelectedEntity(transVec);
         }
@@ -119,10 +122,12 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         if(ev->getBtRotateZ()){
             m_scene_graph->tRotateSelectedEntity(45.0, 'z');
         }
+        if(ev->getBtRotateCustom()){
+            rotateVec = ev->getRotateVec();
+            m_scene_graph->tRotateSelectedEntity(45.0f, rotateVec);
+        }
         if(ev->getBtTranslate()){
-            CgU::printVec3("before", transVec);
             transVec = ev->getTranslateVec();
-            CgU::printVec3("after", transVec);
             m_scene_graph->tTranslateSelectedEntity(transVec);
         }
     }
@@ -130,7 +135,6 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     if(e->getType() == Cg::CgLoadObjFileEvent)
     {
         CgLoadObjFileEvent* ev = (CgLoadObjFileEvent*)e;
-
         m_scene_graph->loadObject(ev->fileName());
         m_renderer->redraw();
     }
@@ -139,9 +143,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     {
         CgColorChangeEvent* ev = (CgColorChangeEvent*) e;
         glm::vec3 customColor = glm::vec3((float)(ev->getRed() * 0.01f), (float)(ev->getGreen() * 0.01f), (float)(ev->getBlue() * 0.01f));
-
         m_scene_graph->changeColorOfVariousObjects(customColor);
-
         m_renderer->redraw();
     }
 
@@ -186,11 +188,6 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
             }
         }
 
-//        if(ev->getResetRotationCurve()){
-//            m_rotation_curve->setRotationCurveExample1();
-//            m_renderer->init(m_rotation_curve);
-//        }
-
         if(ev->getRotationBodyChanged()){
             if(ev->getValueAmountOfSegmentsRotationBody() > 1){
                 m_scene_graph->changeRotationBody(ev->getValueAmountOfSegmentsRotationBody());
@@ -199,17 +196,6 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
             }
         }
 
-        m_renderer->redraw();
-    }
-
-    if(e->getType() == Cg::CgSubdivisionEvent){
-        std::cout << "currently not implemented" << std::endl;
-        CgSubdivisionEvent* ev = (CgSubdivisionEvent*) e;
-
-//        if(ev->getForPointScheme()){
-//            m_rotation_curve->sdForPointScheme();
-//            m_renderer->init(m_rotation_curve);
-//        }
         m_renderer->redraw();
     }
 

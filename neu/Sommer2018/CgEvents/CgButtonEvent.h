@@ -20,6 +20,9 @@ private:
     bool btRotateY = false;
     bool btRotateZ = false;
 
+    bool btRotateCustom = false;
+        glm::vec3 rotateVec = glm::vec3(1.0f);
+
     bool btTranslate = false;
         glm::vec3 translateVec = glm::vec3(0.0f);
 
@@ -45,6 +48,10 @@ public:
     void setBtTranslate(bool value, glm::vec3 translateVec);
     glm::vec3 getTranslateVec() const;
     void setTranslateVec(const glm::vec3 &value);
+    bool getBtRotateCustom() const;
+    void setBtRotateCustom(bool value, glm::vec3 rotateVec);
+    glm::vec3 getRotateVec() const;
+    void setRotateVec(const glm::vec3 &value);
 };
 
 #endif // CGBUTTONEVENT_H

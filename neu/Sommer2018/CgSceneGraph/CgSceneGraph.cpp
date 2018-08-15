@@ -146,6 +146,17 @@ void CgSceneGraph::tRotateSelectedEntity(float angle, char c)
     m_renderer->redraw();
 }
 
+void CgSceneGraph::tRotateSelectedEntity(float angle, glm::vec3 axis)
+{
+    CgU::printVec3("Axis", axis);
+
+    glm::mat4 rotateMat = CgU::tRotateMat(axis, angle);
+    CgU::printMat4("RotateMat", rotateMat);
+
+    addTransformationRecursive(selectedEntity, rotateMat);
+    m_renderer->redraw();
+}
+
 void CgSceneGraph::tTranslateSelectedEntity(glm::vec3 transVec)
 {
     CgU::printVec3("transVec", transVec);

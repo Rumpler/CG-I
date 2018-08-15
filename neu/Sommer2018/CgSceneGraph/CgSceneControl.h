@@ -26,6 +26,7 @@ private:
 
     //default helper vars
     glm::vec3 transVec = glm::vec3(0.1f,0.0f,0.0f);
+    glm::vec3 rotateVec = glm::vec3(1.0f,1.0f,1.0f);
 };
 
 #endif // CGSCENECONTROL_H

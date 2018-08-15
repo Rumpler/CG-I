@@ -50,6 +50,9 @@ public:
     bool getRenderRotationBodyNormals() const;
     void setRenderRotationBodyNormals(bool value);
 
+    bool getRenderCustomRotationAxis() const;
+    void setRenderCustomRotationAxis(bool value);
+
 private:
     Cg::EventType m_type;
 
@@ -63,6 +66,7 @@ private:
     bool renderRotationBodyNormals;
     bool renderLoadedObject;
     bool renderLoadedObjectNormals;
+    bool renderCustomRotationAxis;
 };
 
 #endif // CGOBJECTSELECTIONCHANGEEVENT_H

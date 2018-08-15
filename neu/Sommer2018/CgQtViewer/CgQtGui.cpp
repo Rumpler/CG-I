@@ -166,6 +166,7 @@ QGroupBox *CgQtGui::createGBObjects()
     QRadioButton* radiobuttonRotationBodyNormals = new QRadioButton("&Rotation Body Normals");
     QRadioButton* radiobuttonLoadedObject = new QRadioButton("&Loaded Object");
     QRadioButton* radiobuttonLoadedObjectNormals = new QRadioButton("&Loaded Object Normals");
+    QRadioButton* radiobuttonCustomRotationAxis = new QRadioButton("&Custom Rotation Axis");
 
     radiobuttonCoordinateSystem->setChecked(true);
 
@@ -179,6 +180,7 @@ QGroupBox *CgQtGui::createGBObjects()
     ButtonGroupObjects->addButton(radiobuttonRotationBodyNormals,7);
     ButtonGroupObjects->addButton(radiobuttonLoadedObject,8);
     ButtonGroupObjects->addButton(radiobuttonLoadedObjectNormals,9);
+    ButtonGroupObjects->addButton(radiobuttonCustomRotationAxis,10);
 
     ButtonGroupObjects->button(2)->setDisabled(true);
     ButtonGroupObjects->button(4)->setDisabled(true);
@@ -197,11 +199,12 @@ QGroupBox *CgQtGui::createGBObjects()
     sb1->addWidget(radiobuttonCubeNormals);
     sb1->addWidget(radiobuttonCylinder);
     sb1->addWidget(radiobuttonCylinderNormals);
-    sb2->addWidget(radiobuttonRotationCurve);
+    sb1->addWidget(radiobuttonRotationCurve);
     sb2->addWidget(radiobuttonRotationBody);
     sb2->addWidget(radiobuttonRotationBodyNormals);
     sb2->addWidget(radiobuttonLoadedObject);
     sb2->addWidget(radiobuttonLoadedObjectNormals);
+    sb2->addWidget(radiobuttonCustomRotationAxis);
 
     subBox->addLayout(sb1);
     subBox->addLayout(sb2);
@@ -273,9 +276,9 @@ QGroupBox *CgQtGui::createGBTransformation()
             sb2->addWidget(btRotateZ);
         sb1->addLayout(sb2);
 
-            //Button rotate Vectoor
+            //Button rotate Vector
             QPushButton* btRotateVector = new QPushButton("&Custom axis (c)");
-            connect(btScalePlus, SIGNAL( clicked() ), this, SLOT( slotRotateVector() ));
+            connect(btRotateVector, SIGNAL( clicked() ), this, SLOT( slotRotateVector() ));
             btRotateVector->setAutoRepeat(true);
         sb1->addWidget(btRotateVector);
 
@@ -605,7 +608,10 @@ void CgQtGui::slotTranslate()
 
 void CgQtGui::slotRotateVector()
 {
-    std::cout << "called but not implemented" << std::endl;
+    CgButtonEvent* e = new CgButtonEvent();
+    glm::vec3 rotateVec = glm::vec3(spinBoxRotateVectorX->value(),spinBoxRotateVectorY->value(), spinBoxRotateVectorZ->value());
+    e->setBtRotateCustom(true, glm::vec3(spinBoxRotateVectorX->value(),spinBoxRotateVectorY->value(), spinBoxRotateVectorZ->value()));
+    notifyObserver(e);
 }
 
 void CgQtGui::showObject(int i)
@@ -671,6 +677,7 @@ void CgQtGui::slotButtonGroupSelectionChanged()
     e->setRenderRotationBodyNormals(ButtonGroupObjects->button(7)->isChecked());
     e->setRenderLoadedObject(ButtonGroupObjects->button(8)->isChecked());
     e->setRenderLoadedObjectNormals(ButtonGroupObjects->button(9)->isChecked());
+    e->setRenderCustomRotationAxis(ButtonGroupObjects->button(10)->isChecked());
     notifyObserver(e);
 }
 
