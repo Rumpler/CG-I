@@ -62,7 +62,7 @@ CgQtGui::CgQtGui(CgQtMainApplication *mw)
 
     m_tabs->addTab(m_panel_objects,"&Objects");
     m_tabs->addTab(m_panel_rotate_objects, "&Rotate Objects");
-    m_tabs->addTab(m_panel_color, "&Tranformation");
+    m_tabs->addTab(m_panel_color, "&Color");
     container->addWidget(m_tabs);
 
     m_tabs->setMaximumWidth(400);
@@ -74,7 +74,7 @@ CgQtGui::CgQtGui(CgQtMainApplication *mw)
     mainLayout->addWidget(w);
 
     setLayout(mainLayout);
-    setWindowTitle(tr("Übung Computergrafik 1 -  SoSe 2018"));
+    setWindowTitle(tr("Computergrafik 1"));
 
 
     /* create Menu Bar */
@@ -129,16 +129,10 @@ CgQtGui::CgQtGui(CgQtMainApplication *mw)
 
 }
 
-QSlider *CgQtGui::createColorSlider()
-{
-    QSlider *slider = new QSlider(Qt::Vertical);
-    slider->setRange(0, 100);
-    slider->setSingleStep(1);
-    slider->setPageStep(1);
-    slider->setTickInterval(1);
-    slider->setOrientation(Qt::Horizontal);
-    return slider;
-}
+
+/*****************************************************************************/
+/*                      CREATE GROUPBOXES AND PANELS                         */
+/*****************************************************************************/
 
 
 void CgQtGui::createOptionPanelObjects(QWidget *parent)
@@ -146,10 +140,8 @@ void CgQtGui::createOptionPanelObjects(QWidget *parent)
     QVBoxLayout *panel_layout = new QVBoxLayout();
     ButtonGroupObjects = new QButtonGroup(panel_layout);
     ButtonGroupObjects->setExclusive(false);
-
     panel_layout->addWidget(createGBObjects());
     panel_layout->addWidget(createGBTransformation());
-
     panel_layout->addStretch(1);
     parent->setLayout(panel_layout);
 }
@@ -157,11 +149,7 @@ void CgQtGui::createOptionPanelObjects(QWidget *parent)
 void CgQtGui::createOptionPanelRotateObjects(QWidget *parent)
 {
     QVBoxLayout *panel_layout = new QVBoxLayout();
-
-
     panel_layout->addWidget(createGBCylinder());
-
-
     panel_layout->addWidget(createGBRotationBody());
     panel_layout->addStretch(1);
     parent->setLayout(panel_layout);
@@ -336,6 +324,17 @@ QGroupBox *CgQtGui::createGBTransformation()
     return groupBoxTranformation;
 }
 
+QSlider *CgQtGui::createColorSlider()
+{
+    QSlider *slider = new QSlider(Qt::Vertical);
+    slider->setRange(0, 100);
+    slider->setSingleStep(1);
+    slider->setPageStep(1);
+    slider->setTickInterval(1);
+    slider->setOrientation(Qt::Horizontal);
+    return slider;
+}
+
 QGroupBox *CgQtGui::createGBColor()
 {
     QGroupBox* groupBoxColor = new QGroupBox("Color");
@@ -476,12 +475,9 @@ QGroupBox *CgQtGui::createGBRotationBody()
 
 
 
-
-
-
-
-
-//################################### SLOTS ###################################
+/*****************************************************************************/
+/*                                  SLOTS                                    */
+/*****************************************************************************/
 
 void CgQtGui::slotColorChanged()
 {
