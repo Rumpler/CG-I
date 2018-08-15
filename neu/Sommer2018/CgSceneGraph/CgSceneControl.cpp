@@ -163,6 +163,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
             m_scene_graph->setRenderRotationBodyNormals(ev->getRenderRotationBodyNormals());
             m_scene_graph->setRenderLoadedObject(ev->getRenderLoadedObject());
             m_scene_graph->setRenderLoadedObjectNormals(ev->getRenderLoadedObjectNormals());
+            m_scene_graph->setRenderCustomRotationAxis(ev->getRenderCustomRotationAxis());
 
         m_renderer->redraw();
     }

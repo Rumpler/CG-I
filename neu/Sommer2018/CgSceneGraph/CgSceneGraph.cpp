@@ -203,9 +203,6 @@ void CgSceneGraph::initCoordinateSystem(bool cylinder)
 {
         CgCylinder* axis = new CgCylinder(idGen->getNextId(), 10, 1.0f, 0.0001);
 
-//        CgLine* axis = new CgLine(idGen->getNextId());
-//        axis->addVertice(glm::vec3(0.0f,0.0f,0.0f));
-//        axis->addVertice(glm::vec3(1.0f,0.0f,0.0f));
 
         m_renderer->init(axis);
 
@@ -266,6 +263,7 @@ void CgSceneGraph::initVariousObjects()
     initCylinder();
     initRotationObjects();
     initLoadedObject();
+    initCustomRotationAxis();
 }
 
 void CgSceneGraph::initSceneObjects()
@@ -408,6 +406,46 @@ void CgSceneGraph::initLoadedObject()   //Keep in mind not to change the order o
 
 }
 
+void CgSceneGraph::initCustomRotationAxis()
+{
+//    //Object axis
+//    CgLine* axis = new CgLine(idGen->getNextId());
+//    axis->addVertice(glm::vec3(0.0f));
+//    axis->addVertice(glm::vec3(1.0f));
+//    m_renderer->init(axis);
+
+    //Object axis
+    CgCylinder* axis = new CgCylinder(idGen->getNextId(), 10, 1.0f, 0.01);
+    m_renderer->init(axis);
+
+
+    // entity custom rotation axis
+    customRotationAxisEntity = new CgSceneGraphEntity();
+    customRotationAxisEntity->setParent(variousObjectsEntity);
+    variousObjectsEntity->addChild(customRotationAxisEntity);
+    customRotationAxisEntity->appearance()->setObjectColor(glm::vec3(0.4f,0.4f,0.5f));
+    customRotationAxisEntity->setIsColorChangeable(false);
+    customRotationAxisEntity->addObject(axis);
+    renderCustomRotationAxis = customRotationAxisEntity->renderObject();
+    customRotationAxisEntity->setRenderObjects(true);
+
+
+    //TODO
+
+
+    m_mat_stack.push(m_mat_stack.top() * CgU::tRotateMatX(45));
+    m_mat_stack.push(m_mat_stack.top() * CgU::tRotateMatY(45));
+
+    customRotationAxisEntity->setCurrentTransformation(m_mat_stack.top());
+
+    m_mat_stack.pop();
+    m_mat_stack.pop();
+
+    //TODO
+
+}
+
+
 void CgSceneGraph::changeColorRecursiv(CgSceneGraphEntity *currentEntity, glm::vec3 color)
 {
     if(currentEntity->getIsColorChangeable()){
@@ -458,6 +496,8 @@ void CgSceneGraph::loadObject(std::string str)
         loadedObjectNormalsEntity->addObject(line);
     }
 }
+
+
 
 bool CgSceneGraph::getRenderCoordinateSystem() const{
     return *renderCoordinateSystem;
@@ -545,6 +585,16 @@ bool CgSceneGraph::getRenderLoadedObjectNormals() const{
 
 void CgSceneGraph::setRenderLoadedObjectNormals(bool value){
     *renderLoadedObjectNormals = value;
+}
+
+bool CgSceneGraph::getRenderCustomRotationAxis() const
+{
+    return *renderCustomRotationAxis;
+}
+
+void CgSceneGraph::setRenderCustomRotationAxis(bool value)
+{
+    *renderCustomRotationAxis = value;
 }
 
 bool CgSceneGraph::getRenderScene() const{

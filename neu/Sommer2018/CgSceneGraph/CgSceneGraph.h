@@ -46,6 +46,7 @@ private:
                 CgSceneGraphEntity* rotationBodyNormalsEntity;
             CgSceneGraphEntity* loadedObjectEntity;
                 CgSceneGraphEntity* loadedObjectNormalsEntity;
+            CgSceneGraphEntity* customRotationAxisEntity;
         CgSceneGraphEntity* sceneObjectsEntity;
 
     //Bools* for rendering
@@ -60,6 +61,7 @@ private:
             bool* renderRotationBodyNormals;
         bool* renderLoadedObject;
             bool* renderLoadedObjectNormals;
+        bool* renderCustomRotationAxis;
     bool* renderScene;
 
 
@@ -80,6 +82,7 @@ private:
         void initCylinder();
         void initRotationObjects();
         void initLoadedObject();
+        void initCustomRotationAxis();
     void initSceneObjects();
 
 public:
@@ -134,6 +137,8 @@ public:
     void setRenderLoadedObjectNormals(bool value);
     bool getRenderScene() const;
     void setRenderScene(bool value);
+    bool getRenderCustomRotationAxis() const;
+    void setRenderCustomRotationAxis(bool value);
 };
 
 #endif // CGSCENEGRAPH_H
