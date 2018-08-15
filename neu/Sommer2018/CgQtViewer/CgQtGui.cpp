@@ -46,7 +46,6 @@ CgQtGui::CgQtGui(CgQtMainApplication *mw)
     connect(m_glRenderWidget, SIGNAL(viewportChanged(int,int)), this, SLOT(viewportChanged(int,int)));
     connect(m_glRenderWidget, SIGNAL(trackballChanged()), this, SLOT(slotTrackballChanged()));
 
-
     QVBoxLayout *mainLayout = new QVBoxLayout;
     QHBoxLayout *container = new QHBoxLayout;
 
@@ -76,7 +75,6 @@ CgQtGui::CgQtGui(CgQtMainApplication *mw)
     setLayout(mainLayout);
     setWindowTitle(tr("Computergrafik 1"));
 
-
     /* create Menu Bar */
     m_menuBar = new QMenuBar;
     QMenu *file_menu = new QMenu("&File" );
@@ -94,14 +92,12 @@ CgQtGui::CgQtGui(CgQtMainApplication *mw)
     m_lighting->setCheckable(true);
     m_lighting->setChecked(false);
 
-
     QActionGroup* polygonmode_group = new QActionGroup(this);
     polygonmode_group->setExclusive(true);
 
     QAction* points=polygon_mode_menu->addAction("&Points", m_glRenderWidget, SLOT(slotPolygonPoints()));
     points->setCheckable(true);
     points->setChecked(false);
-
 
     QAction* wireframe=polygon_mode_menu->addAction("&Wireframe", m_glRenderWidget, SLOT(slotPolygonWireframe()));
     wireframe->setCheckable(true);
@@ -110,23 +106,16 @@ CgQtGui::CgQtGui(CgQtMainApplication *mw)
     QAction* filled=polygon_mode_menu->addAction("&Filled", m_glRenderWidget, SLOT(slotPolygonFilled()));
     filled->setCheckable(true);
     filled->setChecked(false);
-
-
-
     polygonmode_group->addAction(points);
     polygonmode_group->addAction(wireframe);
     polygonmode_group->addAction(filled);
-
-
 
     // todo: Add Quit-Action
     m_menuBar->addMenu( file_menu );
     m_menuBar->addMenu( settings_menu );
     m_menuBar->addMenu( polygon_mode_menu );
 
-
     m_mainWindow->setMenuBar(m_menuBar);
-
 }
 
 
@@ -194,29 +183,38 @@ QGroupBox *CgQtGui::createGBObjects()
     ButtonGroupObjects->button(2)->setDisabled(true);
     ButtonGroupObjects->button(4)->setDisabled(true);
     ButtonGroupObjects->button(7)->setDisabled(true);
+    ButtonGroupObjects->button(9)->setDisabled(true);
 
     connect(ButtonGroupObjects, SIGNAL( buttonClicked(int) ), this, SLOT( slotButtonGroupSelectionChanged() ) );
 
-    QVBoxLayout *vbox = new QVBoxLayout;
-    vbox->addWidget(radiobuttonCoordinateSystem);
-    vbox->addWidget(radiobuttonCube);
-    vbox->addWidget(radiobuttonCubeNormals);
-    vbox->addWidget(radiobuttonCylinder);
-    vbox->addWidget(radiobuttonCylinderNormals);
-    vbox->addWidget(radiobuttonRotationCurve);
-    vbox->addWidget(radiobuttonRotationBody);
-    vbox->addWidget(radiobuttonRotationBodyNormals);
+    QVBoxLayout* container = new QVBoxLayout();
+        QHBoxLayout *subBox = new QHBoxLayout();
+            QVBoxLayout *sb1 = new QVBoxLayout();
+            QVBoxLayout *sb2 = new QVBoxLayout();
+
+    sb1->addWidget(radiobuttonCoordinateSystem);
+    sb1->addWidget(radiobuttonCube);
+    sb1->addWidget(radiobuttonCubeNormals);
+    sb1->addWidget(radiobuttonCylinder);
+    sb1->addWidget(radiobuttonCylinderNormals);
+    sb2->addWidget(radiobuttonRotationCurve);
+    sb2->addWidget(radiobuttonRotationBody);
+    sb2->addWidget(radiobuttonRotationBodyNormals);
+    sb2->addWidget(radiobuttonLoadedObject);
+    sb2->addWidget(radiobuttonLoadedObjectNormals);
+
+    subBox->addLayout(sb1);
+    subBox->addLayout(sb2);
+
+    container->addLayout(subBox);
 
     //Button Load Mesh File
     QPushButton* buttonLoadMeshFile = new QPushButton("&Load Mesh");
     connect(buttonLoadMeshFile, SIGNAL( clicked() ), this, SLOT(slotLoadMeshFile()) );
-    vbox->addWidget(buttonLoadMeshFile);
+    container->addWidget(buttonLoadMeshFile);
 
-    vbox->addWidget(radiobuttonLoadedObject);
-    vbox->addWidget(radiobuttonLoadedObjectNormals);
-
-    vbox->addStretch(1);
-    groupBox->setLayout(vbox);
+    container->addStretch(1);
+    groupBox->setLayout(container);
     return groupBox;
 }
 
