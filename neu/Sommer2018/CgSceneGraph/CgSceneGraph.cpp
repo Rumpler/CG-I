@@ -144,31 +144,21 @@ void CgSceneGraph::tRotateSelectedEntity(float angle, char c)
     }else if(c == 'z'){
         rotateMat = CgU::tRotateMatZ(angle);
     }
-//    selectedEntity->setCurrentTransformation(selectedEntity->getCurrentTransformation()* rotateMat);
     addTransformation(selectedEntity, rotateMat);
     m_renderer->redraw();
 }
 
 void CgSceneGraph::tRotateSelectedEntity(float angle, glm::vec3 axis)
 {
-    CgU::printVec3("Axis", axis);
-
-    glm::mat4 rotateMat = CgU::tRotateMat(axis, angle);
-    CgU::printMat4("RotateMat", rotateMat);
-
-    addTransformation(selectedEntity, rotateMat);
+    addTransformation(selectedEntity, CgU::tRotateMat(axis, angle));
     m_renderer->redraw();
 }
 
 void CgSceneGraph::tTranslateSelectedEntity(glm::vec3 transVec)
 {
-    CgU::printVec3("transVec", transVec);
-    glm::mat4 transMat = CgU::tTranslateMat(transVec);
-    addTransformation(selectedEntity, transMat);
+    addTransformation(selectedEntity, CgU::tTranslateMat(transVec));
     m_renderer->redraw();
 }
-
-
 
 void CgSceneGraph::render()
 {
@@ -439,7 +429,8 @@ void CgSceneGraph::changeColorRecursiv(CgSceneGraphEntity *currentEntity, glm::v
 
 void CgSceneGraph::addTransformation(CgSceneGraphEntity* entity, glm::mat4 transformation)
 {
-    entity->setCurrentTransformation(entity->getCurrentTransformation() * transformation);
+    glm::mat4 mat = entity->getCurrentTransformation();
+    entity->setCurrentTransformation(mat * glm::inverse(mat) * transformation * mat);
 }
 
 
