@@ -70,9 +70,12 @@ private:
     void popMatrix(){m_mat_stack.pop();}
     void applyTransform(glm::mat4 arg){m_mat_stack.top() *= arg;}
 
+    void addTransformation(CgSceneGraphEntity* entity, glm::mat4 transformation);
+
+
+
     //Recursiv helper methodes to apply changes to all children of entity
     void changeColorRecursiv(CgSceneGraphEntity* currentEntity, glm::vec3 color);
-    void addTransformationRecursive(CgSceneGraphEntity* current, glm::mat4 transformation);
     void renderRecursive(CgSceneGraphEntity* currentEntity);
 
     //Helper methods for initialization

@@ -27,6 +27,7 @@ CgSceneGraph::CgSceneGraph(CgBaseRenderer *renderer):
     initSceneObjects();
 
     selectedEntity = cubeEntity;
+    selectedEntity = customRotationAxisEntity;
 }
 
 CgSceneGraph::~CgSceneGraph()
@@ -127,7 +128,9 @@ void CgSceneGraph::selectNextEnitiy()
 
 void CgSceneGraph::tScaleSelectedEntity(glm::vec3 factor)
 {
-    addTransformationRecursive(selectedEntity, CgU::tScaleMat(factor));
+//    addTransformationRecursive(selectedEntity, CgU::tScaleMat(factor));
+
+    selectedEntity->setCurrentTransformation(selectedEntity->current_transformation() * CgU::tScaleMat(factor));
     m_renderer->redraw();
 }
 
@@ -142,7 +145,7 @@ void CgSceneGraph::tRotateSelectedEntity(float angle, char c)
         rotateMat = CgU::tRotateMatZ(angle);
     }
 //    selectedEntity->setCurrentTransformation(selectedEntity->getCurrentTransformation()* rotateMat);
-    addTransformationRecursive(selectedEntity, rotateMat);
+    addTransformation(selectedEntity, rotateMat);
     m_renderer->redraw();
 }
 
@@ -153,18 +156,15 @@ void CgSceneGraph::tRotateSelectedEntity(float angle, glm::vec3 axis)
     glm::mat4 rotateMat = CgU::tRotateMat(axis, angle);
     CgU::printMat4("RotateMat", rotateMat);
 
-    addTransformationRecursive(selectedEntity, rotateMat);
+    addTransformation(selectedEntity, rotateMat);
     m_renderer->redraw();
 }
 
 void CgSceneGraph::tTranslateSelectedEntity(glm::vec3 transVec)
 {
     CgU::printVec3("transVec", transVec);
-    std::cout << "tTranslateSelectedEntity() called" << std::endl;
     glm::mat4 transMat = CgU::tTranslateMat(transVec);
-//    glm::mat4 transMat = CgU::tTranslateMat(glm::vec3(0.1,0.0,0.0));
-    CgU::printMat4(transMat);
-    addTransformationRecursive(selectedEntity, transMat);
+    addTransformation(selectedEntity, transMat);
     m_renderer->redraw();
 }
 
@@ -179,25 +179,25 @@ void CgSceneGraph::render()
 void CgSceneGraph::renderRecursive(CgSceneGraphEntity *currentEntity)
 {
     if(*(currentEntity->renderObject())){
-        glm::mat4 mv_matrix = m_lookAt_matrix * m_trackball_rotation * currentEntity->getCurrentTransformation();
+        pushMatrix();
+        applyTransform(currentEntity->getCurrentTransformation());
+
+        glm::mat4 mv_matrix = m_lookAt_matrix * m_trackball_rotation * m_mat_stack.top();
         glm::mat3 normal_matrix = glm::transpose(glm::inverse(glm::mat3(mv_matrix)));
 
         m_renderer->setUniformValue("modelviewMatrix",mv_matrix);
         m_renderer->setUniformValue("normalMatrix",normal_matrix);
-
         m_renderer->setUniformValue("mycolor",glm::vec4(currentEntity->appearance()->getObjectColor(), 1.0f));
 
         for(CgBaseRenderableObject* obj : currentEntity->getObjects()){
             m_renderer->render(obj);
         }
-
         for(CgSceneGraphEntity* entity : currentEntity->getChildren()){
             renderRecursive(entity);
         }
+        popMatrix();
     }
 }
-
-
 
 void CgSceneGraph::initCoordinateSystem(bool cylinder)
 {
@@ -408,16 +408,9 @@ void CgSceneGraph::initLoadedObject()   //Keep in mind not to change the order o
 
 void CgSceneGraph::initCustomRotationAxis()
 {
-//    //Object axis
-//    CgLine* axis = new CgLine(idGen->getNextId());
-//    axis->addVertice(glm::vec3(0.0f));
-//    axis->addVertice(glm::vec3(1.0f));
-//    m_renderer->init(axis);
-
     //Object axis
-    CgCylinder* axis = new CgCylinder(idGen->getNextId(), 10, 1.0f, 0.01);
+    CgCylinder* axis = new CgCylinder(idGen->getNextId(), 10, 1.0f, 0.0001);
     m_renderer->init(axis);
-
 
     // entity custom rotation axis
     customRotationAxisEntity = new CgSceneGraphEntity();
@@ -429,19 +422,7 @@ void CgSceneGraph::initCustomRotationAxis()
     renderCustomRotationAxis = customRotationAxisEntity->renderObject();
     customRotationAxisEntity->setRenderObjects(true);
 
-
-    //TODO
-
-
-    m_mat_stack.push(m_mat_stack.top() * CgU::tRotateMatX(45));
-    m_mat_stack.push(m_mat_stack.top() * CgU::tRotateMatY(45));
-
-    customRotationAxisEntity->setCurrentTransformation(m_mat_stack.top());
-
-    m_mat_stack.pop();
-    m_mat_stack.pop();
-
-    //TODO
+    customRotationAxisEntity->setCurrentTransformation(m_mat_stack.top()* CgU::tRotateMatX(45) * CgU::tRotateMatZ(-45));
 
 }
 
@@ -456,12 +437,9 @@ void CgSceneGraph::changeColorRecursiv(CgSceneGraphEntity *currentEntity, glm::v
     }
 }
 
-void CgSceneGraph::addTransformationRecursive(CgSceneGraphEntity *current, glm::mat4 transformation)
+void CgSceneGraph::addTransformation(CgSceneGraphEntity* entity, glm::mat4 transformation)
 {
-    current->setCurrentTransformation(current->getCurrentTransformation() * transformation);
-    for(CgSceneGraphEntity* entity : current->getChildren()){
-        addTransformationRecursive(entity, transformation);
-    }
+    entity->setCurrentTransformation(entity->getCurrentTransformation() * transformation);
 }
 
 
