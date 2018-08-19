@@ -369,13 +369,9 @@ void CgSceneGraph::initRotationObjects()
 void CgSceneGraph::initLoadedObject()   //Keep in mind not to change the order of objects! Method loadObject(std::string str) will be affected.
 {
     CgTriangles* loadedObject = new CgTriangles(idGen->getNextId());
-//    loadedObject->init("/home/gerrit/git/CG-I/neu/Sommer2018/CgData/porsche.obj"); //TODO change PATH
-
     std::string path = CgU::getParentDirectory();
     path.append("/Sommer2018/CgData/porsche.obj");
-    std::cout << path << std::endl;
     loadedObject->init(path);
-
     m_renderer->init(loadedObject);
 
         loadedObjectEntity = new CgSceneGraphEntity();

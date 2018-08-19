@@ -10,15 +10,11 @@ CgScene::CgScene(CgBaseRenderer *renderer):
     m_scene(new CgSceneGraphEntity),
     idGen(IdSingleton::instance())
 {
-    std::cout << CgU::getCurrentDirectory() << std::endl;
-    std::cout << CgU::getParentDirectory() << std::endl;
+//    CgCube* cube = new CgCube(idGen->getNextId());
+//    m_renderer->init(cube);
+//    m_scene->addObject(cube);
 
-
-    CgCube* cube = new CgCube(idGen->getNextId());
-    m_renderer->init(cube);
-    m_scene->addObject(cube);
-
-    initObjects();
+//    initObjects();
 }
 
 CgScene::~CgScene()
@@ -35,12 +31,14 @@ void CgScene::initObjects()
     m_cylinder = new CgCylinder(idGen->getNextId(),50,1.0,0.1);
     m_sitting_person = new CgTriangles(idGen->getNextId());
 
+    std::string pathSittingPerson = CgU::getParentDirectory();
+    pathSittingPerson.append("/Sommer2018/CgData/Man_sitting.obj");
 
-//    m_sitting_person->init("/home/gerrit/git/CG-I/neu/Sommer2018/CgData/Man_sitting.obj"); //TODO PATH
+    m_sitting_person->init(pathSittingPerson);
 
-//    m_renderer->init(m_sitting_person);
+    m_renderer->init(m_sitting_person);
 
-//    m_scene->addObject(m_sitting_person);
+    m_scene->addObject(m_sitting_person);
 
 
 
