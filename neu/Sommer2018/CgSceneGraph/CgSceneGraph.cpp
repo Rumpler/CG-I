@@ -1,6 +1,7 @@
 #include "CgCube.h"
 #include "CgCylinder.h"
 #include "CgRotationBody.h"
+#include "CgScene.h"
 #include "CgSceneGraph.h"
 #include "CgTriangles.h"
 
@@ -22,7 +23,7 @@ CgSceneGraph::CgSceneGraph(CgBaseRenderer *renderer):
     m_root_node->setRenderObjects(true);
 
 
-    initCoordinateSystem(false);
+    initCoordinateSystem();
     initVariousObjects();
     initSceneObjects();
 
@@ -189,11 +190,9 @@ void CgSceneGraph::renderRecursive(CgSceneGraphEntity *currentEntity)
     }
 }
 
-void CgSceneGraph::initCoordinateSystem(bool cylinder)
+void CgSceneGraph::initCoordinateSystem()
 {
         CgCylinder* axis = new CgCylinder(idGen->getNextId(), 10, 1.0f, 0.0001);
-
-
         m_renderer->init(axis);
 
     /*********** coordinate system ***********/
@@ -258,10 +257,13 @@ void CgSceneGraph::initVariousObjects()
 
 void CgSceneGraph::initSceneObjects()
 {
-    sceneObjectsEntity = new CgSceneGraphEntity();
-    sceneObjectsEntity->setParent(m_root_node);
-    m_root_node->addChild(sceneObjectsEntity);
-    renderScene = sceneObjectsEntity->renderObject();
+//    sceneObjectsEntity = new CgSceneGraphEntity();
+    scene = new CgScene(m_renderer);
+    sceneEntity = scene->getScene();
+    sceneEntity->setParent(m_root_node);
+    m_root_node->addChild(sceneEntity);
+    renderScene = sceneEntity->renderObject();
+    sceneEntity->setRenderObjects(true);
 }
 
 void CgSceneGraph::initCube()
@@ -367,7 +369,13 @@ void CgSceneGraph::initRotationObjects()
 void CgSceneGraph::initLoadedObject()   //Keep in mind not to change the order of objects! Method loadObject(std::string str) will be affected.
 {
     CgTriangles* loadedObject = new CgTriangles(idGen->getNextId());
-    loadedObject->init("/home/gerrit/git/CG-I/neu/Sommer2018/CgData/porsche.obj");
+//    loadedObject->init("/home/gerrit/git/CG-I/neu/Sommer2018/CgData/porsche.obj"); //TODO change PATH
+
+    std::string path = CgU::getParentDirectory();
+    path.append("/Sommer2018/CgData/porsche.obj");
+    std::cout << path << std::endl;
+    loadedObject->init(path);
+
     m_renderer->init(loadedObject);
 
         loadedObjectEntity = new CgSceneGraphEntity();

@@ -722,7 +722,7 @@ void CgQtGui::slotResetRotationObjects()
 
 void CgQtGui::slotLoadMeshFile()
 {
-    QString file =  QFileDialog::getOpenFileName(this, tr("Open Obj-File"),"",tr("Model Files (*.obj)"));
+    QString file =  QFileDialog::getOpenFileName(this, tr("Open Obj-File"),"../Sommer2018/CgData/",tr("Model Files (*.obj)"));
     CgBaseEvent* e = new CgLoadObjFileEvent(Cg::CgLoadObjFileEvent, file.toStdString());
     notifyObserver(e);
     slotShowLoadedObject();

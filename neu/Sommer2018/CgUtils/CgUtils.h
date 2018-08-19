@@ -35,6 +35,9 @@ public:
 
     float static translateDegreeToRad(float degree);
 
+    std::string static getCurrentDirectory();
+    std::string static getParentDirectory();
+
 
 
 

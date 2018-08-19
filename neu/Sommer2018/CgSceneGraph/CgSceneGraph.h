@@ -2,6 +2,7 @@
 #define CGSCENEGRAPH_H
 
 #include "CgCube.h"
+#include "CgScene.h"
 #include "CgSceneGraphEntity.h"
 #include <stack>
 #include <string>
@@ -32,6 +33,9 @@ private:
     int selectedEntityPosition = 0;
     std::vector<CgSceneGraphEntity*> selectableEntitys;
 
+    //Scene
+    CgScene* scene;
+
     //Entitys*
     CgSceneGraphEntity* selectedEntity;
     CgSceneGraphEntity* m_root_node;
@@ -47,7 +51,7 @@ private:
             CgSceneGraphEntity* loadedObjectEntity;
                 CgSceneGraphEntity* loadedObjectNormalsEntity;
             CgSceneGraphEntity* customRotationAxisEntity;
-        CgSceneGraphEntity* sceneObjectsEntity;
+        CgSceneGraphEntity* sceneEntity;
 
     //Bools* for rendering
     bool* renderCoordinateSystem;
@@ -79,7 +83,7 @@ private:
     void renderRecursive(CgSceneGraphEntity* currentEntity);
 
     //Helper methods for initialization
-    void initCoordinateSystem(bool cylinder);
+    void initCoordinateSystem();
     void initVariousObjects();
         void initCube();
         void initCylinder();

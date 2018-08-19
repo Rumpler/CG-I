@@ -1,6 +1,17 @@
 #include "CgUtils.h"
 #include <iostream>
 
+
+#include <stdio.h>  /* defines FILENAME_MAX */
+// #define WINDOWS  /* uncomment this line to use it for windows.*/
+#ifdef WINDOWS
+#include <direct.h>
+#define GetCurrentDir _getcwd
+#else
+#include <unistd.h>
+#define GetCurrentDir getcwd
+#endif
+
 CgU::CgU()
 {
 
@@ -136,4 +147,19 @@ glm::mat4 CgU::tTranslateMat(glm::vec3 vec)
 float CgU::translateDegreeToRad(float degree)
 {
     return (2.0 * M_PI / 360.0) * degree;
+}
+
+std::string CgU::getCurrentDirectory()
+{
+    char buff[FILENAME_MAX];
+    GetCurrentDir( buff, FILENAME_MAX );
+    std::string current_working_dir(buff);
+    return current_working_dir;
+}
+
+std::string CgU::getParentDirectory()
+{
+    std::string result= getCurrentDirectory();
+    result.erase(result.end()-30,result.end());
+    return result;
 }

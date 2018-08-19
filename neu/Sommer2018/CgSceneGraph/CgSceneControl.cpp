@@ -136,6 +136,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     {
         CgLoadObjFileEvent* ev = (CgLoadObjFileEvent*)e;
         m_scene_graph->loadObject(ev->fileName());
+        std::cout << ev->fileName() << std::endl;
         m_renderer->redraw();
     }
 
