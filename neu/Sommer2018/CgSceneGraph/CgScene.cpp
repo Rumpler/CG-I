@@ -24,6 +24,11 @@ CgScene::~CgScene()
     delete m_cube;
     delete m_cylinder;
     delete m_sitting_person;
+    delete m_pawn;
+    delete m_king;
+    delete m_queen;
+    delete m_knight;
+    delete m_bishop;
 }
 
 void CgScene::initObjects()
@@ -42,6 +47,9 @@ void CgScene::initObjects()
     m_sitting_person = new CgTriangles(idGen->getNextId());
     m_pawn = new CgRotationBody(idGen->getNextId(), curvePawn, 50);
     m_king = new CgTriangles(idGen->getNextId());
+    m_queen = new CgTriangles(idGen->getNextId());
+    m_knight = new CgTriangles(idGen->getNextId());
+    m_bishop = new CgTriangles(idGen->getNextId());
 
     //init loaded objects
     std::string pathSittingPerson = CgU::getParentDirectory();
@@ -52,12 +60,28 @@ void CgScene::initObjects()
     pathKing.append("/Sommer2018/CgData/King.obj");
     m_king->init(pathKing);
 
+    std::string pathQueen = CgU::getParentDirectory();
+    pathQueen.append("/Sommer2018/CgData/Queen.obj");
+    m_queen->init(pathQueen);
+
+    std::string pathKnight = CgU::getParentDirectory();
+    pathKnight.append("/Sommer2018/CgData/Knight.obj");
+    m_knight->init(pathKnight);
+
+    std::string pathBishop = CgU::getParentDirectory();
+    pathBishop.append("/Sommer2018/CgData/Bishop.obj");
+    m_bishop->init(pathBishop);
+
     //init at renderer
     m_renderer->init(m_cube);
     m_renderer->init(m_cylinder);
     m_renderer->init(m_sitting_person);
     m_renderer->init(m_pawn);
     m_renderer->init(m_king);
+    m_renderer->init(m_queen);
+    m_renderer->init(m_knight);
+    m_renderer->init(m_king);
+    m_renderer->init(m_bishop);
 
     delete curvePawn;
 }
@@ -210,7 +234,12 @@ void CgScene::initChessBoard()
     CgSceneGraphEntity* pawn5E = new CgSceneGraphEntity(chessBoardE);
     CgSceneGraphEntity* pawn6E = new CgSceneGraphEntity(chessBoardE);
 
-    CgSceneGraphEntity* kingE = new CgSceneGraphEntity(chessBoardE);
+    CgSceneGraphEntity* king1E = new CgSceneGraphEntity(chessBoardE);
+    CgSceneGraphEntity* king2E = new CgSceneGraphEntity(chessBoardE);
+
+    CgSceneGraphEntity* bishop1E = new CgSceneGraphEntity(chessBoardE);
+    CgSceneGraphEntity* bishop2E = new CgSceneGraphEntity(chessBoardE);
+
     //ADDING OBJECTS
     boardE->addObject(m_cube);
     pawn1E->addObject(m_pawn);
@@ -219,34 +248,33 @@ void CgScene::initChessBoard()
     pawn4E->addObject(m_pawn);
     pawn5E->addObject(m_pawn);
     pawn6E->addObject(m_pawn);
-    kingE->addObject(m_king);
+    king1E->addObject(m_king);
+    king2E->addObject(m_king);
+    bishop1E->addObject(m_bishop);
+    bishop2E->addObject(m_bishop);
 
     //ADDING TRANSFORMATIONS
     boardE->addTransformation(CgU::tScaleMat(0.4, 0.01, 0.4));
     boardE->addTransformation(CgU::tTranslateMat(0,-0.005,0));
-
     pawn1E->addTransformation(CgU::tScaleMat(0.1,0.1,0.1));
     pawn1E->addTransformation(CgU::tTranslateMat(0.15,0,0.1));
-
     pawn2E->addTransformation(CgU::tScaleMat(0.1,0.1,0.1));
     pawn2E->addTransformation(CgU::tTranslateMat(0.08,0,0.1));
-
     pawn3E->addTransformation(CgU::tScaleMat(0.1,0.1,0.1));
     pawn3E->addTransformation(CgU::tTranslateMat(0.01,0,0.1));
-
     pawn4E->addTransformation(CgU::tScaleMat(0.1,0.1,0.1));
     pawn4E->addTransformation(CgU::tTranslateMat(-0.06,0,0.03));
-
     pawn5E->addTransformation(CgU::tScaleMat(0.1,0.1,0.1));
     pawn5E->addTransformation(CgU::tTranslateMat(-0.06,0,-0.11));
-
     pawn6E->addTransformation(CgU::tScaleMat(0.1,0.1,0.1));
     pawn6E->addTransformation(CgU::tTranslateMat(-0.13,0,-0.11));
-
-    kingE->addTransformation(CgU::tScaleMat(0.05,0.05,0.05));
-    kingE->addTransformation(CgU::tRotateMatX(-98));
-    kingE->addTransformation(CgU::tTranslateMat(0.08,0,0));
-
+    king1E->addTransformation(CgU::tScaleMat(0.05,0.05,0.05));
+    king1E->addTransformation(CgU::tRotateMatX(-98));
+    king1E->addTransformation(CgU::tTranslateMat(0.08,0,0));
+    king2E->addTransformation(CgU::tScaleMat(0.05,0.05,0.05));
+    king2E->addTransformation(CgU::tTranslateMat(-0.013,0,0.14));
+    bishop1E->addTransformation(CgU::tScaleMat(0.05,0.05,0.05));
+    bishop2E->addTransformation(CgU::tScaleMat(0.05,0.05,0.05));
 
     selectableEntitys->push_back(chessBoardE);
 }

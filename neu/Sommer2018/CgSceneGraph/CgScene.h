@@ -29,6 +29,9 @@ private:
     CgTriangles *m_sitting_person;
     CgRotationBody* m_pawn;
     CgTriangles* m_king;
+    CgTriangles* m_queen;
+    CgTriangles* m_knight;
+    CgTriangles* m_bishop;
 
     //Entitys
     CgSceneGraphEntity *m_chair_E;
