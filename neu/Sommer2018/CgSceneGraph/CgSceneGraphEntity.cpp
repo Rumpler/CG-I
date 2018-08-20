@@ -26,6 +26,15 @@ CgSceneGraphEntity::CgSceneGraphEntity()
     m_appearance = new CgAppearance();
 }
 
+CgSceneGraphEntity::CgSceneGraphEntity(CgSceneGraphEntity *parent)
+{
+    m_current_transformation = glm::mat4(1.0f);
+    m_appearance = new CgAppearance();
+
+    parent->addChild(this);
+    this->setParent(parent);
+}
+
 CgSceneGraphEntity::~CgSceneGraphEntity()
 {
     //TODO?

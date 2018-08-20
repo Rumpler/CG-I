@@ -131,7 +131,9 @@ void CgSceneGraph::tScaleSelectedEntity(glm::vec3 factor)
 {
 //    addTransformationRecursive(selectedEntity, CgU::tScaleMat(factor));
 
-    selectedEntity->setCurrentTransformation(selectedEntity->current_transformation() * CgU::tScaleMat(factor));
+//    selectedEntity->setCurrentTransformation(selectedEntity->current_transformation() * CgU::tScaleMat(factor));
+
+    addTransformation(selectedEntity, CgU::tScaleMat(factor));
     m_renderer->redraw();
 }
 
@@ -263,7 +265,7 @@ void CgSceneGraph::initSceneObjects()
     sceneEntity->setParent(m_root_node);
     m_root_node->addChild(sceneEntity);
     renderScene = sceneEntity->renderObject();
-    sceneEntity->setRenderObjects(true);
+    sceneEntity->setRenderObjects(false); //TODO SET TRUE
 }
 
 void CgSceneGraph::initCube()
@@ -438,8 +440,20 @@ void CgSceneGraph::changeColorRecursiv(CgSceneGraphEntity *currentEntity, glm::v
 
 void CgSceneGraph::addTransformation(CgSceneGraphEntity* entity, glm::mat4 transformation)
 {
+
+
     glm::mat4 mat = entity->getCurrentTransformation();
-    entity->setCurrentTransformation(mat * glm::inverse(mat) * transformation * mat);
+
+    glm::vec3 translationVec = mat[3];
+
+    mat[3] = glm::vec4(glm::vec3(0.0f), mat[3].w);
+
+    mat = mat * glm::inverse(mat) * transformation * mat;
+
+    mat[3] = mat[3] + glm::vec4(translationVec, 0);
+
+
+    entity->setCurrentTransformation(mat);
 }
 
 

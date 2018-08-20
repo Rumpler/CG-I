@@ -25,6 +25,7 @@ private:
 
 public:
     CgSceneGraphEntity();
+    CgSceneGraphEntity(CgSceneGraphEntity* parent);
     ~CgSceneGraphEntity();
 
     void addObject(CgBaseRenderableObject* obj);
