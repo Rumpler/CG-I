@@ -279,6 +279,7 @@ void CgSceneGraph::initCube()
     cubeEntity->appearance()->setObjectColor(defaultColor);
     cubeEntity->addObject(cube);
     renderCube = cubeEntity->renderObject();
+    cubeEntity->setRenderObjects(false);
     selectableEntitys.push_back(cubeEntity);
 
         // entity cube normals
@@ -309,6 +310,7 @@ void CgSceneGraph::initCylinder()
         cylinderEntity->appearance()->setObjectColor(defaultColor);
         cylinderEntity->addObject(cylinder);
         renderCylinder = cylinderEntity->renderObject();
+        cylinderEntity->setRenderObjects(false);
         selectableEntitys.push_back(cylinderEntity);
 
             // entity cylinder normals
@@ -341,6 +343,7 @@ void CgSceneGraph::initRotationObjects()
         rotationCurveEntity->appearance()->setObjectColor(defaultColor);
         rotationCurveEntity->addObject(rotationCurve);
         renderRotationCurve = rotationCurveEntity->renderObject();
+        rotationCurveEntity->setRenderObjects(false);
         selectableEntitys.push_back(rotationCurveEntity);
 
         rotationBodyEntity = new CgSceneGraphEntity();
@@ -349,6 +352,7 @@ void CgSceneGraph::initRotationObjects()
         rotationBodyEntity->appearance()->setObjectColor(defaultColor);
         rotationBodyEntity->addObject(rotationBody);
         renderRotationBody = rotationBodyEntity->renderObject();
+        rotationBodyEntity->setRenderObjects(false);
         selectableEntitys.push_back(rotationBodyEntity);
 
             rotationBodyNormalsEntity = new CgSceneGraphEntity();
@@ -357,6 +361,7 @@ void CgSceneGraph::initRotationObjects()
             rotationBodyNormalsEntity->setIsColorChangeable(false);
             rotationBodyNormalsEntity->appearance()->setObjectColor(defaultColorNormals);
             renderRotationBodyNormals = rotationBodyNormalsEntity->renderObject();
+            rotationBodyNormalsEntity->setRenderObjects(false);
 
             std::vector<CgLine*>* rotationBodyNormals = rotationBody->getPolylineNormals();
             for(CgLine* line : *rotationBodyNormals){
@@ -380,8 +385,8 @@ void CgSceneGraph::initLoadedObject()   //Keep in mind not to change the order o
         loadedObjectEntity->appearance()->setObjectColor(defaultColor);
         loadedObjectEntity->addObject(loadedObject);
         selectableEntitys.push_back(loadedObjectEntity);
-
         renderLoadedObject = loadedObjectEntity->renderObject();
+        loadedObjectEntity->setRenderObjects(false);
 
             loadedObjectNormalsEntity = new CgSceneGraphEntity();
             loadedObjectNormalsEntity->setParent(loadedObjectEntity);
@@ -414,7 +419,7 @@ void CgSceneGraph::initCustomRotationAxis()
     customRotationAxisEntity->setIsColorChangeable(false);
     customRotationAxisEntity->addObject(axis);
     renderCustomRotationAxis = customRotationAxisEntity->renderObject();
-    customRotationAxisEntity->setRenderObjects(true);
+    customRotationAxisEntity->setRenderObjects(false);
 
     customRotationAxisEntity->setCurrentTransformation(m_mat_stack.top()* CgU::tRotateMatX(45) * CgU::tRotateMatZ(-45));
 

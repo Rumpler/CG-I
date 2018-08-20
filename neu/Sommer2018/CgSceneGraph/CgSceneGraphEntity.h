@@ -19,7 +19,7 @@ private:
     glm::mat4 m_current_transformation = glm::mat4(1.0f);
     CgAppearance* m_appearance;
 
-    bool renderObjects = false;
+    bool renderObjects = true;
     bool colorChangeable = true;
 
 

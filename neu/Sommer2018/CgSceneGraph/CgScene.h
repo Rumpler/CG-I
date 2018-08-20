@@ -34,6 +34,10 @@ private:
     void initObjects();
     void initChairWithPerson();
 
+
+
+    void setEntityRelationship(CgSceneGraphEntity* parent, CgSceneGraphEntity* child);
+
 public:
     CgScene(CgBaseRenderer *renderer);
     ~CgScene();
