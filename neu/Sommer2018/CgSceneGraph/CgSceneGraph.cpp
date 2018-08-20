@@ -102,7 +102,8 @@ void CgSceneGraph::changeRotationCurveReset()
 void CgSceneGraph::selectNextEnitiy()
 {
     if(selectableEntitys.size() > 1){
-        selectedEntity->appearance()->setObjectColor(currentColor);
+//        selectedEntity->appearance()->setObjectColor(currentColor);
+        changeColorRecursiv(selectedEntity, currentColor);
 
         int startPos = selectedEntityPosition;
         do{
@@ -113,7 +114,9 @@ void CgSceneGraph::selectNextEnitiy()
             }
         }while(selectedEntityPosition != startPos);
 
-        selectedEntity->appearance()->setObjectColor(selectedColor);
+//        selectedEntity->appearance()->setObjectColor(selectedColor);
+        changeColorRecursiv(selectedEntity, selectedColor);
+
     }
 
 
@@ -133,7 +136,7 @@ void CgSceneGraph::tScaleSelectedEntity(glm::vec3 factor)
 
 //    selectedEntity->setCurrentTransformation(selectedEntity->current_transformation() * CgU::tScaleMat(factor));
 
-    addTransformation(selectedEntity, CgU::tScaleMat(factor));
+    CgU::addTransformation(selectedEntity, CgU::tScaleMat(factor));
     m_renderer->redraw();
 }
 
@@ -147,19 +150,19 @@ void CgSceneGraph::tRotateSelectedEntity(float angle, char c)
     }else if(c == 'z'){
         rotateMat = CgU::tRotateMatZ(angle);
     }
-    addTransformation(selectedEntity, rotateMat);
+    CgU::addTransformation(selectedEntity, rotateMat);
     m_renderer->redraw();
 }
 
 void CgSceneGraph::tRotateSelectedEntity(float angle, glm::vec3 axis)
 {
-    addTransformation(selectedEntity, CgU::tRotateMat(axis, angle));
+    CgU::addTransformation(selectedEntity, CgU::tRotateMat(axis, angle));
     m_renderer->redraw();
 }
 
 void CgSceneGraph::tTranslateSelectedEntity(glm::vec3 transVec)
 {
-    addTransformation(selectedEntity, CgU::tTranslateMat(transVec));
+    CgU::addTransformation(selectedEntity, CgU::tTranslateMat(transVec));
     m_renderer->redraw();
 }
 
@@ -260,12 +263,11 @@ void CgSceneGraph::initVariousObjects()
 void CgSceneGraph::initSceneObjects()
 {
 //    sceneObjectsEntity = new CgSceneGraphEntity();
-    scene = new CgScene(m_renderer);
+    scene = new CgScene(m_renderer, &selectableEntitys);
     sceneEntity = scene->getScene();
     sceneEntity->setParent(m_root_node);
     m_root_node->addChild(sceneEntity);
     renderScene = sceneEntity->renderObject();
-    sceneEntity->setRenderObjects(false); //TODO SET TRUE
 }
 
 void CgSceneGraph::initCube()
@@ -438,23 +440,15 @@ void CgSceneGraph::changeColorRecursiv(CgSceneGraphEntity *currentEntity, glm::v
     }
 }
 
-void CgSceneGraph::addTransformation(CgSceneGraphEntity* entity, glm::mat4 transformation)
-{
-
-
-    glm::mat4 mat = entity->getCurrentTransformation();
-
-    glm::vec3 translationVec = mat[3];
-
-    mat[3] = glm::vec4(glm::vec3(0.0f), mat[3].w);
-
-    mat = mat * glm::inverse(mat) * transformation * mat;
-
-    mat[3] = mat[3] + glm::vec4(translationVec, 0);
-
-
-    entity->setCurrentTransformation(mat);
-}
+//void CgSceneGraph::addTransformation(CgSceneGraphEntity* entity, glm::mat4 transformation)
+//{
+//    glm::mat4 mat = entity->getCurrentTransformation();
+//    glm::vec3 translationVec = mat[3];
+//    mat[3] = glm::vec4(glm::vec3(0.0f), mat[3].w);
+//    mat = mat * glm::inverse(mat) * transformation * mat;
+//    mat[3] = mat[3] + glm::vec4(translationVec, 0);
+//    entity->setCurrentTransformation(mat);
+//}
 
 
 /************ GETTER AND SETTER ************/

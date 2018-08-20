@@ -1,6 +1,7 @@
 #ifndef CGUTILS_H
 #define CGUTILS_H
 
+#include <CgSceneGraph/CgSceneGraphEntity.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <string>
 #include <vector>
@@ -28,10 +29,10 @@ public:
     glm::mat4 static tRotateMatX(float angle);
     glm::mat4 static tRotateMatY(float angle);
     glm::mat4 static tRotateMat(glm::vec3 axis, float angle);
-
     glm::mat4 static tScaleMat(glm::vec3 factor);
-
     glm::mat4 static tTranslateMat(glm::vec3 vec);
+
+    void static addTransformation(CgSceneGraphEntity* entity, glm::mat4 transformation);
 
     float static translateDegreeToRad(float degree);
 

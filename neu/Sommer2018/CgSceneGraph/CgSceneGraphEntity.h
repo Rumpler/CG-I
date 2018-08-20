@@ -33,6 +33,8 @@ public:
     void addChild(CgSceneGraphEntity* child);
     void clearChildren();
 
+    void addTransformation(glm::mat4 transformation);
+
     CgSceneGraphEntity *parent() const;
     void setParent(CgSceneGraphEntity *parent);
     glm::mat4 current_transformation() const;

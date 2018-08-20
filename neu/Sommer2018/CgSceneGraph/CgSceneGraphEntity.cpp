@@ -82,6 +82,16 @@ void CgSceneGraphEntity::clearChildren()
     m_children.clear();
 }
 
+void CgSceneGraphEntity::addTransformation(glm::mat4 transformation)
+{
+    glm::mat4 mat = this->getCurrentTransformation();
+    glm::vec3 translationVec = mat[3];
+    mat[3] = glm::vec4(glm::vec3(0.0f), mat[3].w);
+    mat = mat * glm::inverse(mat) * transformation * mat;
+    mat[3] = mat[3] + glm::vec4(translationVec, 0);
+    this->setCurrentTransformation(mat);
+}
+
 CgAppearance* CgSceneGraphEntity::appearance() const
 {
     return m_appearance;

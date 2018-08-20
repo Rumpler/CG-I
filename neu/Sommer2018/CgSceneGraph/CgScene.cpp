@@ -5,10 +5,11 @@
 
 
 
-CgScene::CgScene(CgBaseRenderer *renderer):
+CgScene::CgScene(CgBaseRenderer *renderer, std::vector<CgSceneGraphEntity*>* selectableEntitys):
     m_renderer(renderer),
     m_scene(new CgSceneGraphEntity),
-    idGen(IdSingleton::instance())
+    idGen(IdSingleton::instance()),
+    selectableEntitys(selectableEntitys)
 {
     initObjects();
 
@@ -49,6 +50,7 @@ void CgScene::initChairWithPerson()
 
     //ENTITYS
     CgSceneGraphEntity* chairE = new CgSceneGraphEntity(m_scene);
+    selectableEntitys->push_back(chairE);
 
     CgSceneGraphEntity* chairLeg1E = new CgSceneGraphEntity(chairE);
     CgSceneGraphEntity* chairLeg2E = new CgSceneGraphEntity(chairE);
@@ -62,26 +64,33 @@ void CgScene::initChairWithPerson()
 
     //ADDING OBJECTS
     chairLeg1E->addObject(m_cylinder);
-//    chairLeg2E->addObject(m_cylinder);
-//    chairLeg3E->addObject(m_cylinder);
-//    chairLeg4E->addObject(m_cylinder);
+    chairLeg2E->addObject(m_cylinder);
+    chairLeg3E->addObject(m_cylinder);
+    chairLeg4E->addObject(m_cylinder);
 
-//    chairSeatE->addObject(m_cube);
-//    chairBackE->addObject(m_cube);
+    chairSeatE->addObject(m_cube);
+    chairBackE->addObject(m_cube);
 
     personE->addObject(m_sitting_person);
 
     //ADDING TRANSFORMATIONS
-    transformMat = /*CgU::tScaleMat(glm::vec3(0.15f)) **/ CgU::tTranslateMat(glm::vec3(0,0,-0.5f));
-    chairLeg1E->setCurrentTransformation(transformMat);
+    chairLeg1E->addTransformation(CgU::tScaleMat(glm::vec3(0.15f,0.17f,0.15f)));
+    chairLeg1E->addTransformation(CgU::tTranslateMat(glm::vec3(-0.1,0,-0.1)));
+    chairLeg2E->addTransformation(CgU::tScaleMat(glm::vec3(0.15f,0.17f,0.15f)));
+    chairLeg2E->addTransformation(CgU::tTranslateMat(glm::vec3(0.1,0,-0.1)));
+    chairLeg3E->addTransformation(CgU::tScaleMat(glm::vec3(0.15f,0.17f,0.15f)));
+    chairLeg3E->addTransformation(CgU::tTranslateMat(glm::vec3(-0.1,0,-0.275)));
+    chairLeg4E->addTransformation(CgU::tScaleMat(glm::vec3(0.15f,0.17f,0.15f)));
+    chairLeg4E->addTransformation(CgU::tTranslateMat(glm::vec3(0.1,0,-0.275)));
 
+    chairSeatE->addTransformation(CgU::tScaleMat(glm::vec3(0.24f, 0.015f,0.2f)));
+    chairSeatE->addTransformation(CgU::tTranslateMat(glm::vec3(0,0.17,-0.19)));
 
+    chairBackE->addTransformation(CgU::tScaleMat(glm::vec3(0.24f, 0.24f, 0.015f)));
+    chairBackE->addTransformation(CgU::tRotateMatX(-10));
+    chairBackE->addTransformation(CgU::tTranslateMat(glm::vec3(0,0.29,-0.3)));
 
-
-    transformMat = CgU::tScaleMat(glm::vec3(0.01f));
-    personE->setCurrentTransformation(transformMat);
-
-
+    personE->addTransformation(CgU::tScaleMat(glm::vec3(0.01f)));
 }
 
 CgSceneGraphEntity *CgScene::getScene()

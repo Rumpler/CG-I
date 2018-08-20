@@ -19,6 +19,8 @@ private:
     CgSceneGraphEntity* m_scene;
     IdSingleton* idGen;
 
+    std::vector<CgSceneGraphEntity*>* selectableEntitys;
+
 
     //Objects
     CgCube *m_cube;
@@ -35,7 +37,7 @@ private:
     void initChairWithPerson();
 
 public:
-    CgScene(CgBaseRenderer *renderer);
+    CgScene(CgBaseRenderer *renderer, std::vector<CgSceneGraphEntity*>* selectableEntitys);
     ~CgScene();
 
     CgSceneGraphEntity *getScene();

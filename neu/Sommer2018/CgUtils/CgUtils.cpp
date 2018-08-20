@@ -144,6 +144,16 @@ glm::mat4 CgU::tTranslateMat(glm::vec3 vec)
     return result;
 }
 
+void CgU::addTransformation(CgSceneGraphEntity *entity, glm::mat4 transformation)
+{
+    glm::mat4 mat = entity->getCurrentTransformation();
+    glm::vec3 translationVec = mat[3];
+    mat[3] = glm::vec4(glm::vec3(0.0f), mat[3].w);
+    mat = mat * glm::inverse(mat) * transformation * mat;
+    mat[3] = mat[3] + glm::vec4(translationVec, 0);
+    entity->setCurrentTransformation(mat);
+}
+
 float CgU::translateDegreeToRad(float degree)
 {
     return (2.0 * M_PI / 360.0) * degree;
