@@ -102,9 +102,7 @@ void CgSceneGraph::changeRotationCurveReset()
 void CgSceneGraph::selectNextEnitiy()
 {
     if(selectableEntitys.size() > 1){
-//        selectedEntity->appearance()->setObjectColor(currentColor);
         changeColorRecursiv(selectedEntity, currentColor);
-
         int startPos = selectedEntityPosition;
         do{
             selectedEntityPosition = (selectedEntityPosition + 1) % selectableEntitys.size();
@@ -113,20 +111,8 @@ void CgSceneGraph::selectNextEnitiy()
                 break;
             }
         }while(selectedEntityPosition != startPos);
-
-//        selectedEntity->appearance()->setObjectColor(selectedColor);
         changeColorRecursiv(selectedEntity, selectedColor);
-
     }
-
-
-
-
-
-
-
-
-
     m_renderer->redraw();
 }
 

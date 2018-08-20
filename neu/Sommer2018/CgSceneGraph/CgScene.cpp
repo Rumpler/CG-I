@@ -14,6 +14,7 @@ CgScene::CgScene(CgBaseRenderer *renderer, std::vector<CgSceneGraphEntity*>* sel
     initObjects();
 
     initChairWithPerson();
+    initTable();
 }
 
 CgScene::~CgScene()
@@ -26,31 +27,45 @@ CgScene::~CgScene()
 
 void CgScene::initObjects()
 {
+    //RotationCurves for rotationBodys
+    CgLine* curvePawn = new CgLine(idGen->getNextId());
+    curvePawn->setPawnContour();
+    curvePawn->sdForPointScheme();
+    curvePawn->sdForPointScheme();
+    curvePawn->sdForPointScheme();
+    curvePawn->sdForPointScheme();
+
     //objects
     m_cube = new CgCube(idGen->getNextId());
     m_cylinder = new CgCylinder(idGen->getNextId(),50,1.0,0.1);
     m_sitting_person = new CgTriangles(idGen->getNextId());
+    m_pawn = new CgRotationBody(idGen->getNextId(), curvePawn, 50);
+    m_king = new CgTriangles(idGen->getNextId());
 
     //init loaded objects
     std::string pathSittingPerson = CgU::getParentDirectory();
     pathSittingPerson.append("/Sommer2018/CgData/Man_sitting.obj");
     m_sitting_person->init(pathSittingPerson);
 
+    std::string pathKing = CgU::getParentDirectory();
+    pathKing.append("/Sommer2018/CgData/King.obj");
+    m_king->init(pathSittingPerson);
+
 
     //init at renderer
     m_renderer->init(m_cube);
     m_renderer->init(m_cylinder);
     m_renderer->init(m_sitting_person);
+    m_renderer->init(m_pawn);
+    m_renderer->init(m_king);
+
+    delete curvePawn;
 }
 
 void CgScene::initChairWithPerson()
 {
-    glm::mat4 transformMat = glm::mat4(1.0f);
-
-
     //ENTITYS
     CgSceneGraphEntity* chairE = new CgSceneGraphEntity(m_scene);
-    selectableEntitys->push_back(chairE);
 
     CgSceneGraphEntity* chairLeg1E = new CgSceneGraphEntity(chairE);
     CgSceneGraphEntity* chairLeg2E = new CgSceneGraphEntity(chairE);
@@ -91,6 +106,96 @@ void CgScene::initChairWithPerson()
     chairBackE->addTransformation(CgU::tTranslateMat(glm::vec3(0,0.29,-0.3)));
 
     personE->addTransformation(CgU::tScaleMat(glm::vec3(0.01f)));
+
+    chairE->addTransformation(CgU::tTranslateMat(glm::vec3(0,0,-1)));
+    selectableEntitys->push_back(chairE);
+}
+
+void CgScene::initTable()
+{
+    //ENTITYS
+    CgSceneGraphEntity* tableE = new CgSceneGraphEntity(m_scene);
+
+    CgSceneGraphEntity* tableBaseE = new CgSceneGraphEntity(tableE);
+        CgSceneGraphEntity* tableLeg1E = new CgSceneGraphEntity(tableBaseE);
+        CgSceneGraphEntity* tableLeg2E = new CgSceneGraphEntity(tableBaseE);
+        CgSceneGraphEntity* tableLeg3E = new CgSceneGraphEntity(tableBaseE);
+        CgSceneGraphEntity* tableLeg4E = new CgSceneGraphEntity(tableBaseE);
+
+        CgSceneGraphEntity* tableBaseFrontE = new CgSceneGraphEntity(tableBaseE);
+        CgSceneGraphEntity* tableBaseBacktE = new CgSceneGraphEntity(tableBaseE);
+        CgSceneGraphEntity* tableBaseLeftE = new CgSceneGraphEntity(tableBaseE);
+        CgSceneGraphEntity* tableBaseRightE = new CgSceneGraphEntity(tableBaseE);
+
+    CgSceneGraphEntity* tableSurfaceE = new CgSceneGraphEntity(tableE);
+        CgSceneGraphEntity* tableBoard1E = new CgSceneGraphEntity(tableSurfaceE);
+        CgSceneGraphEntity* tableBoard2E = new CgSceneGraphEntity(tableSurfaceE);
+        CgSceneGraphEntity* tableBoard3E = new CgSceneGraphEntity(tableSurfaceE);
+        CgSceneGraphEntity* tableBoard4E = new CgSceneGraphEntity(tableSurfaceE);
+        CgSceneGraphEntity* tableBoard5E = new CgSceneGraphEntity(tableSurfaceE);
+        CgSceneGraphEntity* tableBoard6E = new CgSceneGraphEntity(tableSurfaceE);
+
+
+
+    //ADDING OBJECTS
+    tableLeg1E->addObject(m_cylinder);
+    tableLeg2E->addObject(m_cylinder);
+    tableLeg3E->addObject(m_cylinder);
+    tableLeg4E->addObject(m_cylinder);
+
+    tableBaseFrontE->addObject(m_cube);
+    tableBaseBacktE->addObject(m_cube);
+    tableBaseLeftE->addObject(m_cube);
+    tableBaseRightE->addObject(m_cube);
+
+    tableBoard1E->addObject(m_cube);
+    tableBoard2E->addObject(m_cube);
+    tableBoard3E->addObject(m_cube);
+    tableBoard4E->addObject(m_cube);
+    tableBoard5E->addObject(m_cube);
+    tableBoard6E->addObject(m_cube);
+
+
+    //ADDING TRANSFORMATIONS
+
+    //legs
+    tableLeg1E->addTransformation(CgU::tScaleMat(0.1,0.28,0.1));
+    tableLeg1E->addTransformation(CgU::tTranslateMat(glm::vec3(0.2,0,0.2)));
+    tableLeg2E->addTransformation(CgU::tScaleMat(0.1,0.28,0.1));
+    tableLeg2E->addTransformation(CgU::tTranslateMat(glm::vec3(-0.2,0,0.2)));
+    tableLeg3E->addTransformation(CgU::tScaleMat(0.1,0.28,0.1));
+    tableLeg3E->addTransformation(CgU::tTranslateMat(glm::vec3(0.2,0,-0.2)));
+    tableLeg4E->addTransformation(CgU::tScaleMat(0.1,0.28,0.1));
+    tableLeg4E->addTransformation(CgU::tTranslateMat(glm::vec3(-0.2,0,-0.2)));
+
+    //base
+    tableBaseFrontE->addTransformation(CgU::tScaleMat(0.42,0.01,0.01));
+    tableBaseFrontE->addTransformation(CgU::tTranslateMat(glm::vec3(0,0.28,0.2)));
+    tableBaseBacktE->addTransformation(CgU::tScaleMat(0.42,0.01,0.01));
+    tableBaseBacktE->addTransformation(CgU::tTranslateMat(glm::vec3(0,0.28,-0.2)));
+    tableBaseLeftE->addTransformation(CgU::tScaleMat(0.01,0.01,0.42));
+    tableBaseLeftE->addTransformation(CgU::tTranslateMat(glm::vec3(0.2,0.28,0)));
+    tableBaseRightE->addTransformation(CgU::tScaleMat(0.01,0.01,0.42));
+    tableBaseRightE->addTransformation(CgU::tTranslateMat(glm::vec3(-0.2,0.28,0)));
+
+    //surface
+    tableBoard1E->addTransformation(CgU::tScaleMat(0.5,0.01,0.06));
+    tableBoard1E->addTransformation(CgU::tTranslateMat(glm::vec3(0,0,0.17)));
+    tableBoard2E->addTransformation(CgU::tScaleMat(0.5,0.01,0.06));
+    tableBoard2E->addTransformation(CgU::tTranslateMat(glm::vec3(0,0,0.1)));
+    tableBoard3E->addTransformation(CgU::tScaleMat(0.5,0.01,0.06));
+    tableBoard3E->addTransformation(CgU::tTranslateMat(glm::vec3(0,0,0.03)));
+    tableBoard4E->addTransformation(CgU::tScaleMat(0.5,0.01,0.06));
+    tableBoard4E->addTransformation(CgU::tTranslateMat(glm::vec3(0,0,-0.04)));
+    tableBoard5E->addTransformation(CgU::tScaleMat(0.5,0.01,0.06));
+    tableBoard5E->addTransformation(CgU::tTranslateMat(glm::vec3(0,0,-0.11)));
+    tableBoard6E->addTransformation(CgU::tScaleMat(0.5,0.01,0.06));
+    tableBoard6E->addTransformation(CgU::tTranslateMat(glm::vec3(0,0,-0.18)));
+
+    tableSurfaceE->addTransformation(CgU::tTranslateMat(0,0.29,0));
+
+    tableE->addTransformation(CgU::tTranslateMat(0,0,-0.85));
+    selectableEntitys->push_back(tableE);
 }
 
 CgSceneGraphEntity *CgScene::getScene()

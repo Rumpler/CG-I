@@ -30,7 +30,9 @@ public:
     glm::mat4 static tRotateMatY(float angle);
     glm::mat4 static tRotateMat(glm::vec3 axis, float angle);
     glm::mat4 static tScaleMat(glm::vec3 factor);
+    glm::mat4 static tScaleMat(float x, float y, float z);
     glm::mat4 static tTranslateMat(glm::vec3 vec);
+    glm::mat4 static tTranslateMat(float x, float y, float z);
 
     void static addTransformation(CgSceneGraphEntity* entity, glm::mat4 transformation);
 

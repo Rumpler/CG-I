@@ -14,6 +14,7 @@ public:
     void setColor(const glm::vec3 value);
     void setLineWidth(unsigned int value);
     void setRotationCurveExample1();
+    void setPawnContour();
     void addVertice(glm::vec3 vertice);
     bool getDisplay() const;
     void setDisplay(bool value);

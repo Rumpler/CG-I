@@ -3,6 +3,7 @@
 
 #include "CgCube.h"
 #include "CgCylinder.h"
+#include "CgRotationBody.h"
 #include "CgSceneGraphEntity.h"
 #include "CgTriangles.h"
 
@@ -26,6 +27,8 @@ private:
     CgCube *m_cube;
     CgCylinder *m_cylinder;
     CgTriangles *m_sitting_person;
+    CgRotationBody* m_pawn;
+    CgTriangles* m_king;
 
     //Entitys
     CgSceneGraphEntity *m_chair_E;
@@ -35,6 +38,7 @@ private:
     //Methodes
     void initObjects();
     void initChairWithPerson();
+    void initTable();
 
 public:
     CgScene(CgBaseRenderer *renderer, std::vector<CgSceneGraphEntity*>* selectableEntitys);

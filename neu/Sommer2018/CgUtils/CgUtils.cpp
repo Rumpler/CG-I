@@ -137,11 +137,21 @@ glm::mat4 CgU::tScaleMat(glm::vec3 factor)
     return result;
 }
 
+glm::mat4 CgU::tScaleMat(float x, float y, float z)
+{
+    return tScaleMat(glm::vec3(x,y,z));
+}
+
 glm::mat4 CgU::tTranslateMat(glm::vec3 vec)
 {
     glm::mat4 result = glm::mat4(1.0f);
     result[3] = glm::vec4(vec,1);
     return result;
+}
+
+glm::mat4 CgU::tTranslateMat(float x, float y, float z)
+{
+    return tTranslateMat(glm::vec3(x,y,z));
 }
 
 void CgU::addTransformation(CgSceneGraphEntity *entity, glm::mat4 transformation)
