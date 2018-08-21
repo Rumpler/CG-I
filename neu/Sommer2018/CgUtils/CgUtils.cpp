@@ -108,23 +108,29 @@ glm::mat4 CgU::tRotateMatY(float angle)
 
 glm::mat4 CgU::tRotateMat(glm::vec3 axis, float angle)
 {
+    glm::vec3 b = axis;
 
-    float angleZ = acos( axis.x / sqrt(axis.x * axis.x + axis.b * axis.b) );
-    float angleY = acos( axis.z );
+    float d = sqrt( pow(b.x, 2) + pow(b.y, 2) );
+    float angleInZX = translateRadToDegree(acos(b.x / d));
+    glm::mat4 rotateInZXLevel = tRotateMatZ(-angleInZX);
+    printMat4("rotateInZX", rotateInZXLevel);
 
-    glm::mat4 result = tTranslateMat(axis) * tRotateMatZ(angleZ) * tRotateMatY(angleY)
-                        * tRotateMatZ(angle) * tRotateMatY(-angleY) * tRotateMatZ(-angleZ)
-                        * tTranslateMat(glm::vec3(- axis.x, -axis.y, - axis.z));
+    //TODO mult b to b2 and so on
 
-    printMat4(result);
+//    glm::vec3 b2 = rotateInZXLevel * b;
 
-    result = glm::rotate(glm::mat4(1.0f), angle, axis);
-    angle = translateDegreeToRad(angle);
+    float angleToZAxis = translateRadToDegree(b.z);
+    std::cout << "angleToZAxis " << angleToZAxis << std::endl;
 
-    printMat4(result);
+    glm::mat4 rotateToZAxis = glm::mat4(1.0f);
+    rotateToZAxis[0] = glm::vec4(b.z, 0, d, 0);
+    rotateToZAxis[2] = glm::vec4(-d, 0, b.z, 0);
 
-    return result;
+    printMat4("rotateToZAxis", rotateToZAxis);
+    printMat4("tRotateMatY", tRotateMatY(-45));
 
+
+    return glm::mat4(1.0);
 }
 
 glm::mat4 CgU::tScaleMat(glm::vec3 factor)
@@ -167,6 +173,11 @@ void CgU::addTransformation(CgSceneGraphEntity *entity, glm::mat4 transformation
 float CgU::translateDegreeToRad(float degree)
 {
     return (2.0 * M_PI / 360.0) * degree;
+}
+
+float CgU::translateRadToDegree(float rad)
+{
+    return (360.0 / ( 2 * M_PI) ) * rad;
 }
 
 std::string CgU::getCurrentDirectory()

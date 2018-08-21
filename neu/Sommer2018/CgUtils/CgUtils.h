@@ -37,6 +37,7 @@ public:
     void static addTransformation(CgSceneGraphEntity* entity, glm::mat4 transformation);
 
     float static translateDegreeToRad(float degree);
+    float static translateRadToDegree(float rad);
 
     std::string static getCurrentDirectory();
     std::string static getParentDirectory();
