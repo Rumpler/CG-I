@@ -44,8 +44,9 @@ void CgPolyline::setRotationCurveExample1()
 void CgPolyline::setPawnContour()
 {
     vertices.clear();
-    vertices.push_back(glm::vec3(0.3f, 0.0f, 0.0f));
-    vertices.push_back(glm::vec3(0.25f, 0.1f, 0.0f));
+    vertices.push_back(glm::vec3(0.0f, 0.0f, 0.0f));
+    vertices.push_back(glm::vec3(0.25f, 0.0f, 0.0f));
+    vertices.push_back(glm::vec3(0.2f, 0.1f, 0.0f));
     vertices.push_back(glm::vec3(0.1f, 0.2f, 0.0f));
     vertices.push_back(glm::vec3(0.1f, 0.3f, 0.0f));
     vertices.push_back(glm::vec3(0.2f, 0.4f, 0.0f));

@@ -32,6 +32,7 @@ private:
     CgTriangles* m_queen;
     CgTriangles* m_knight;
     CgTriangles* m_bishop;
+    CgTriangles* m_rook;
 
     //Entitys
     CgSceneGraphEntity *m_chair_E;

@@ -16,6 +16,8 @@ CgScene::CgScene(CgBaseRenderer *renderer, std::vector<CgSceneGraphEntity*>* sel
     initChairWithPerson();
     initTable();
     initChessBoard();
+
+    selectableEntitys->push_back(m_scene);
 }
 
 CgScene::~CgScene()
@@ -29,6 +31,7 @@ CgScene::~CgScene()
     delete m_queen;
     delete m_knight;
     delete m_bishop;
+    delete m_rook;
 }
 
 void CgScene::initObjects()
@@ -50,6 +53,7 @@ void CgScene::initObjects()
     m_queen = new CgTriangles(idGen->getNextId());
     m_knight = new CgTriangles(idGen->getNextId());
     m_bishop = new CgTriangles(idGen->getNextId());
+    m_rook = new CgTriangles(idGen->getNextId());
 
     //init loaded objects
     std::string pathSittingPerson = CgU::getParentDirectory();
@@ -72,6 +76,10 @@ void CgScene::initObjects()
     pathBishop.append("/Sommer2018/CgData/Bishop.obj");
     m_bishop->init(pathBishop);
 
+    std::string pathRook = CgU::getParentDirectory();
+    pathRook.append("/Sommer2018/CgData/Rook.obj");
+    m_rook->init(pathRook);
+
     //init at renderer
     m_renderer->init(m_cube);
     m_renderer->init(m_cylinder);
@@ -82,6 +90,7 @@ void CgScene::initObjects()
     m_renderer->init(m_knight);
     m_renderer->init(m_king);
     m_renderer->init(m_bishop);
+    m_renderer->init(m_rook);
 
     delete curvePawn;
 }
@@ -131,7 +140,7 @@ void CgScene::initChairWithPerson()
 
     personE->addTransformation(CgU::tScaleMat(glm::vec3(0.01f)));
 
-    chairE->addTransformation(CgU::tTranslateMat(glm::vec3(0,0,-1)));
+    chairE->addTransformation(CgU::tTranslateMat(glm::vec3(0,0,-0.15)));
     selectableEntitys->push_back(chairE);
 }
 
@@ -216,7 +225,6 @@ void CgScene::initTable()
 
     tableSurfaceE->addTransformation(CgU::tTranslateMat(0,0.29,0));
 
-    tableE->addTransformation(CgU::tTranslateMat(0,0,-0.85));
     selectableEntitys->push_back(tableE);
 }
 
@@ -240,6 +248,10 @@ void CgScene::initChessBoard()
     CgSceneGraphEntity* bishop1E = new CgSceneGraphEntity(chessBoardE);
     CgSceneGraphEntity* bishop2E = new CgSceneGraphEntity(chessBoardE);
 
+    CgSceneGraphEntity* queen1E = new CgSceneGraphEntity(chessBoardE);
+    CgSceneGraphEntity* knight1E = new CgSceneGraphEntity(chessBoardE);
+    CgSceneGraphEntity* rook1E = new CgSceneGraphEntity(chessBoardE);
+
     //ADDING OBJECTS
     boardE->addObject(m_cube);
     pawn1E->addObject(m_pawn);
@@ -252,6 +264,9 @@ void CgScene::initChessBoard()
     king2E->addObject(m_king);
     bishop1E->addObject(m_bishop);
     bishop2E->addObject(m_bishop);
+    queen1E->addObject(m_queen);
+    knight1E->addObject(m_knight);
+    rook1E->addObject(m_rook);
 
     //ADDING TRANSFORMATIONS
     boardE->addTransformation(CgU::tScaleMat(0.4, 0.01, 0.4));
@@ -270,12 +285,24 @@ void CgScene::initChessBoard()
     pawn6E->addTransformation(CgU::tTranslateMat(-0.13,0,-0.11));
     king1E->addTransformation(CgU::tScaleMat(0.05,0.05,0.05));
     king1E->addTransformation(CgU::tRotateMatX(-98));
-    king1E->addTransformation(CgU::tTranslateMat(0.08,0,0));
+    king1E->addTransformation(CgU::tRotateMatY(20));
+    king1E->addTransformation(CgU::tTranslateMat(0.08,0,0.05));
     king2E->addTransformation(CgU::tScaleMat(0.05,0.05,0.05));
     king2E->addTransformation(CgU::tTranslateMat(-0.013,0,0.14));
     bishop1E->addTransformation(CgU::tScaleMat(0.05,0.05,0.05));
+    bishop1E->addTransformation(CgU::tTranslateMat(-0.025,0,-0.18));
     bishop2E->addTransformation(CgU::tScaleMat(0.05,0.05,0.05));
+    bishop2E->addTransformation(CgU::tTranslateMat(0.13,0,-0.07));
+    queen1E->addTransformation(CgU::tScaleMat(0.05,0.05,0.05));
+    queen1E->addTransformation(CgU::tTranslateMat(-0.15,0,0));
+    knight1E->addTransformation(CgU::tScaleMat(0.05,0.05,0.05));
+    knight1E->addTransformation(CgU::tTranslateMat(0.13,0,-0.18));
 
+    rook1E->addTransformation(CgU::tScaleMat(0.05,0.05,0.05));
+    rook1E->addTransformation(CgU::tTranslateMat(-0.15,0,0.14));
+
+    chessBoardE->addTransformation(CgU::tTranslateMat(0,0.3,0));
+    chessBoardE->addTransformation(CgU::tScaleMat(0.6,0.6,0.6));
     selectableEntitys->push_back(chessBoardE);
 }
 
