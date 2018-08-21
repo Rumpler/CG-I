@@ -44,6 +44,7 @@ private:
     void initChairWithPerson();
     void initTable();
     void initChessBoard();
+    void initBox();
 
 public:
     CgScene(CgBaseRenderer *renderer, std::vector<CgSceneGraphEntity*>* selectableEntitys);

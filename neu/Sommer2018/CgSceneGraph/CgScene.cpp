@@ -16,7 +16,9 @@ CgScene::CgScene(CgBaseRenderer *renderer, std::vector<CgSceneGraphEntity*>* sel
     initChairWithPerson();
     initTable();
     initChessBoard();
+    initBox();
 
+    m_scene->addTransformation(CgU::tTranslateMat(0,0,-1)); //TODO DELETE
     selectableEntitys->push_back(m_scene);
 }
 
@@ -36,13 +38,10 @@ CgScene::~CgScene()
 
 void CgScene::initObjects()
 {
-    //RotationCurves for rotationBodys
+    //rotationCurve for rotationBody
     CgLine* curvePawn = new CgLine(idGen->getNextId());
     curvePawn->setPawnContour();
-    curvePawn->sdForPointScheme();
-    curvePawn->sdForPointScheme();
-    curvePawn->sdForPointScheme();
-    curvePawn->sdForPointScheme();
+    for(int i = 0; i < 4; i++){ curvePawn->sdForPointScheme();  }
 
     //objects
     m_cube = new CgCube(idGen->getNextId());
@@ -304,6 +303,61 @@ void CgScene::initChessBoard()
     chessBoardE->addTransformation(CgU::tTranslateMat(0,0.3,0));
     chessBoardE->addTransformation(CgU::tScaleMat(0.6,0.6,0.6));
     selectableEntitys->push_back(chessBoardE);
+}
+
+void CgScene::initBox()
+{
+    //ENTITYS
+    CgSceneGraphEntity* boxE = new CgSceneGraphEntity(m_scene);
+
+    CgSceneGraphEntity* boxBoxE = new CgSceneGraphEntity(boxE);
+        CgSceneGraphEntity* boxFrontE = new CgSceneGraphEntity(boxBoxE);
+        CgSceneGraphEntity* boxBackE = new CgSceneGraphEntity(boxBoxE);
+        CgSceneGraphEntity* boxLeftE = new CgSceneGraphEntity(boxBoxE);
+        CgSceneGraphEntity* boxRightE = new CgSceneGraphEntity(boxBoxE);
+        CgSceneGraphEntity* boxBottomE = new CgSceneGraphEntity(boxBoxE);
+
+    CgSceneGraphEntity* boxFiguresE = new CgSceneGraphEntity(boxE);
+        CgSceneGraphEntity* boxQueenE = new CgSceneGraphEntity(boxFiguresE);
+        CgSceneGraphEntity* boxPawnE = new CgSceneGraphEntity(boxFiguresE);
+        CgSceneGraphEntity* boxRookE = new CgSceneGraphEntity(boxFiguresE);
+        CgSceneGraphEntity* boxKnightE = new CgSceneGraphEntity(boxFiguresE);
+
+    //ADDING OBJECTS
+    boxFrontE->addObject(m_cube);
+    boxBackE->addObject(m_cube);
+    boxLeftE->addObject(m_cube);
+    boxRightE->addObject(m_cube);
+    boxBottomE->addObject(m_cube);
+
+    boxQueenE->addObject(m_queen);
+    boxPawnE->addObject(m_pawn);
+    boxRookE->addObject(m_rook);
+    boxKnightE->addObject(m_knight);
+
+
+    //ADDING TRANSFORMATIONS
+
+    //box
+    boxFrontE->addTransformation(CgU::tScaleMat(0.2,0.1,0.01));
+    boxFrontE->addTransformation(CgU::tTranslateMat(0,0.05,0.095));
+    boxBackE->addTransformation(CgU::tScaleMat(0.2,0.1,0.01));
+    boxBackE->addTransformation(CgU::tTranslateMat(0,0.05,-0.095));
+    boxLeftE->addTransformation(CgU::tScaleMat(0.01,0.1,0.2));
+    boxLeftE->addTransformation(CgU::tTranslateMat(-0.095,0.05,0));
+    boxRightE->addTransformation(CgU::tScaleMat(0.01,0.1,0.2));
+    boxRightE->addTransformation(CgU::tTranslateMat(0.095,0.05,0));
+    boxBottomE->addTransformation(CgU::tScaleMat(0.2,0.01,0.2));
+    boxBoxE->addTransformation(CgU::tTranslateMat(0,0.005,0));
+
+    //figures
+    boxFiguresE->addTransformation(CgU::tScaleMat(0.05,0.05,0.05));
+
+    //TODO translate and rotate figures
+
+
+    boxE->addTransformation(CgU::tTranslateMat(0,0,1)); //TODO delete or change
+    selectableEntitys->push_back(boxE);
 }
 
 CgSceneGraphEntity *CgScene::getScene()
