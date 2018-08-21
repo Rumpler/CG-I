@@ -69,7 +69,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     {
         CgKeyEvent* ev = (CgKeyEvent*)e;
 
-        if(ev->key() == Cg::Key_N){
+        if(ev->key() == Cg::Key_N || ev->key() == Cg::Key_0){
             m_scene_graph->selectNextEnitiy();
         }
         if(ev->key() == Cg::Key_Minus){
@@ -90,8 +90,26 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         if(ev->key() == Cg::Key_C){
             m_scene_graph->tRotateSelectedEntity(45.0, rotateVec);
         }
-        if(ev->key() == Cg::Key_T){
+        if(ev->key() == Cg::Key_T || ev->key() == Cg::Key_5){
             m_scene_graph->tTranslateSelectedEntity(transVec);
+        }
+        if(ev->key() == Cg::Key_8){
+            m_scene_graph->tTranslateSelectedEntity(glm::vec3(0,0,-0.1));
+        }
+        if(ev->key() == Cg::Key_2){
+            m_scene_graph->tTranslateSelectedEntity(glm::vec3(0,0,0.1));
+        }
+        if(ev->key() == Cg::Key_4){
+            m_scene_graph->tTranslateSelectedEntity(glm::vec3(-0.1,0,0));
+        }
+        if(ev->key() == Cg::Key_6){
+            m_scene_graph->tTranslateSelectedEntity(glm::vec3(0.1,0,0));
+        }
+        if(ev->key() == Cg::Key_7){
+            m_scene_graph->tTranslateSelectedEntity(glm::vec3(0,0.1,0));
+        }
+        if(ev->key() == Cg::Key_9){
+            m_scene_graph->tTranslateSelectedEntity(glm::vec3(0,-0.1,0));
         }
     }
 
