@@ -33,8 +33,8 @@ void CgLine::sdForPointScheme()
     futureVertices.push_back(vertices.at(0));
 
     //Calculates new points and adds them futureVertices
-    for(int posVertices = 1; posVertices < vertices.size() - 2; posVertices ++){
-
+    for(int posVertices = 1; posVertices < vertices.size() - 2; posVertices ++)
+    {
         //Update futureVertices with old points
         futureVertices.push_back(vertices.at(posVertices));
 
@@ -56,8 +56,6 @@ void CgLine::sdForPointScheme()
     futureVertices.push_back(vertices.at(vertices.size() - 1));
 
     vertices = futureVertices;
-
-    //printVertices();
 }
 
 void CgLine::sdChaikins()

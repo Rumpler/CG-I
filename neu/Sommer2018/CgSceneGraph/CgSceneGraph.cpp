@@ -1,4 +1,4 @@
-#include "CgCube.h"
+﻿#include "CgCube.h"
 #include "CgCylinder.h"
 #include "CgRotationBody.h"
 #include "CgScene.h"
@@ -142,8 +142,6 @@ void CgSceneGraph::tRotateSelectedEntity(float angle, char c)
 
 void CgSceneGraph::tRotateSelectedEntity(float angle, glm::vec3 axis)
 {
-    CgU::print("axis", axis);
-    CgU::print("angle", angle);
     CgU::addTransformation(selectedEntity, CgU::tRotateMat(axis, angle));
     m_renderer->redraw();
 }
@@ -399,22 +397,35 @@ void CgSceneGraph::initLoadedObject()   //Keep in mind not to change the order o
 
 void CgSceneGraph::initCustomRotationAxis()
 {
-    //Object axis
-    CgCylinder* axis = new CgCylinder(idGen->getNextId(), 10, 1.0f, 0.0001);
+//    //Object axis
+//    CgCylinder* axis = new CgCylinder(idGen->getNextId(), 10, 1.0f, 0.0001);
+//    m_renderer->init(axis);
+
+//    // entity custom rotation axis
+//    customRotationAxisEntity = new CgSceneGraphEntity();
+//    customRotationAxisEntity->setParent(variousObjectsEntity);
+//    variousObjectsEntity->addChild(customRotationAxisEntity);
+//    customRotationAxisEntity->appearance()->setObjectColor(glm::vec3(0.4f,0.4f,0.5f));
+//    customRotationAxisEntity->setIsColorChangeable(false);
+//    customRotationAxisEntity->addObject(axis);
+//    renderCustomRotationAxis = customRotationAxisEntity->renderObject();
+//    customRotationAxisEntity->setRenderObjects(false);
+
+//    customRotationAxisEntity->setCurrentTransformation(m_mat_stack.top()* CgU::tRotateMatX(45) * CgU::tRotateMatZ(-45));
+
+
+
+    CgLine* axis = new CgLine(idGen->getNextId());
+    axis->addVertice(glm::vec3(0,0,0));
+    axis->addVertice(glm::vec3(1,1,1));
     m_renderer->init(axis);
 
-    // entity custom rotation axis
-    customRotationAxisEntity = new CgSceneGraphEntity();
-    customRotationAxisEntity->setParent(variousObjectsEntity);
-    variousObjectsEntity->addChild(customRotationAxisEntity);
+    customRotationAxisEntity = new CgSceneGraphEntity(variousObjectsEntity);
     customRotationAxisEntity->appearance()->setObjectColor(glm::vec3(0.4f,0.4f,0.5f));
     customRotationAxisEntity->setIsColorChangeable(false);
     customRotationAxisEntity->addObject(axis);
     renderCustomRotationAxis = customRotationAxisEntity->renderObject();
     customRotationAxisEntity->setRenderObjects(false);
-
-    customRotationAxisEntity->setCurrentTransformation(m_mat_stack.top()* CgU::tRotateMatX(45) * CgU::tRotateMatZ(-45));
-
 }
 
 

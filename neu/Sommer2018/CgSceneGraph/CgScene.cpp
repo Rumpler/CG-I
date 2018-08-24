@@ -11,14 +11,14 @@ CgScene::CgScene(CgBaseRenderer *renderer, std::vector<CgSceneGraphEntity*>* sel
     idGen(IdSingleton::instance()),
     selectableEntitys(selectableEntitys)
 {
-//    initObjects();
+    initObjects();
 
-//    initChairWithPerson();
-//    initTable();
-//    initChessBoard();
-//    initBox();
+    initChairWithPerson();
+    initTable();
+    initChessBoard();
+    initBox();
 
-    m_scene->addTransformation(CgU::tTranslateMat(0,0,-1)); //TODO DELETE
+//    m_scene->addTransformation(CgU::tTranslateMat(0,0,-1)); //TODO DELETE
     selectableEntitys->push_back(m_scene);
 }
 
@@ -354,9 +354,10 @@ void CgScene::initBox()
     boxFiguresE->addTransformation(CgU::tScaleMat(0.05,0.05,0.05));
 
     //TODO translate and rotate figures
+    //TODO scale figurs in unique size
 
-
-//    boxE->addTransformation(CgU::tTranslateMat(0,0,1)); //TODO delete or change
+    boxE->addTransformation(CgU::tScaleMat(0.6f, 0.6f, 0.6f));
+    boxE->addTransformation(CgU::tTranslateMat(0.18f, 0.295f,0.1f));
     selectableEntitys->push_back(boxE);
 }
 

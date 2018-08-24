@@ -284,7 +284,7 @@ QGroupBox *CgQtGui::createGBTransformation()
 
         QHBoxLayout* sb3 = new QHBoxLayout;
 
-            //DoubleSpinBox TranslateVector X
+            //DoubleSpinBox RotateVectorX
             spinBoxRotateVectorX = new QDoubleSpinBox();
             spinBoxRotateVectorX->setMaximum(100);
             spinBoxRotateVectorX->setMinimum(-100);
@@ -293,7 +293,7 @@ QGroupBox *CgQtGui::createGBTransformation()
             spinBoxRotateVectorX->setPrefix("X: ");
             sb3->addWidget(spinBoxRotateVectorX);
 
-            //DoubleSpinBox TranslateVector X
+            //DoubleSpinBox RotateVectorY
             spinBoxRotateVectorY = new QDoubleSpinBox();
             spinBoxRotateVectorY->setMaximum(100);
             spinBoxRotateVectorY->setMinimum(-100);
@@ -302,7 +302,7 @@ QGroupBox *CgQtGui::createGBTransformation()
             spinBoxRotateVectorY->setPrefix("Y: ");
             sb3->addWidget(spinBoxRotateVectorY);
 
-            //DoubleSpinBox TranslateVector X
+            //DoubleSpinBox RotateVectorZ
             spinBoxRotateVectorZ = new QDoubleSpinBox();
             spinBoxRotateVectorZ->setMaximum(100);
             spinBoxRotateVectorZ->setMinimum(-100);

@@ -166,7 +166,11 @@ glm::mat4 CgU::tRotateMat(glm::vec3 axis, float angle)
 
 //    std::cout << "angleInZYLevel: " << angleInZYLevel << ", angleToYAxis: " << angleToYAxis << std::endl;
 
-    glm::mat4 result = tRotateMatY(-angleInZYLevel) * tRotateMatX(-angleToYAxis) * tRotateMatY(angle) * tRotateMatX(angleToYAxis) * tRotateMatY(angleInZYLevel);
+    glm::mat4 result = tRotateMatY(angleInZYLevel) * tRotateMatX(angleToYAxis) * tRotateMatY(angle) * tRotateMatX(-angleToYAxis) * tRotateMatY(-angleInZYLevel);
+
+    //TEMP FIX ABOVE AND DELETE LATER
+        result = glm::mat4(1.0f);
+        result = glm::rotate(result, translateDegreeToRad(angle), axis);
 
     return result;
 }
@@ -200,6 +204,8 @@ glm::mat4 CgU::tTranslateMat(float x, float y, float z)
 
 void CgU::addTransformation(CgSceneGraphEntity *entity, glm::mat4 transformation)
 {
+    //TODO BUG ?
+
     glm::mat4 mat = entity->getCurrentTransformation();
     glm::vec3 translationVec = mat[3];
     mat[3] = glm::vec4(glm::vec3(0.0f), mat[3].w);
