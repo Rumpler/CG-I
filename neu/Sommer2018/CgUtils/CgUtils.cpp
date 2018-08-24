@@ -43,6 +43,11 @@ void CgU::printMat4(std::string str, glm::mat4 mat)
     printMat4(mat);
 }
 
+void CgU::printVecLength(glm::vec3 vec)
+{
+    std::cout << "|vec| = " << sqrt( pow(vec.x,2) + pow(vec.y,2) + pow(vec.z,2) ) << std::endl;
+}
+
 void CgU::printVecVector(std::vector<glm::vec3>* vector)
 {
     std::cout << "Vector of size: " << vector->size() <<std::endl;
@@ -109,25 +114,36 @@ glm::mat4 CgU::tRotateMatY(float angle)
 glm::mat4 CgU::tRotateMat(glm::vec3 axis, float angle)
 {
     glm::vec3 b = axis;
+    b = glm::normalize(b);
+    printVec3("b",b);
+    glm::mat4 bMat = glm::mat4(1.0f);
+    bMat[3] = glm::vec4(b, 1.0f);
 
-    float d = sqrt( pow(b.x, 2) + pow(b.y, 2) );
-    float angleInZX = translateRadToDegree(acos(b.x / d));
-    glm::mat4 rotateInZXLevel = tRotateMatZ(-angleInZX);
-    printMat4("rotateInZX", rotateInZXLevel);
+    float d = sqrt( pow(b.x, 2) + pow(b.z, 2) );
+    std::cout << "d = " << d << std::endl;
+    float angleInZYLevel = translateRadToDegree(acos(b.z / d));
+    std::cout << "rotateInZYLevel " << angleInZYLevel << std::endl;
+    glm::mat4 rotateInZYLevel = tRotateMatY(-angleInZYLevel);
+    printMat4("rotateInZY ", rotateInZYLevel);
 
-    //TODO mult b to b2 and so on
 
-//    glm::vec3 b2 = rotateInZXLevel * b;
+    bMat = rotateInZYLevel * bMat;
+//    b = bMat[3];
+    CgU::printVec3("b",b);
 
-    float angleToZAxis = translateRadToDegree(b.z);
-    std::cout << "angleToZAxis " << angleToZAxis << std::endl;
+    d = sqrt( pow(b.y, 2) + pow(b.z, 2) );
+    float angleToYAxis = translateRadToDegree(asin(b.z / d));
+    std::cout << "angleToYAxis " << angleToYAxis << std::endl;
+    glm::mat4 rotateToYAxis = tRotateMatX(-angleToYAxis);
+    printMat4("rotateToYAxis", rotateToYAxis);
 
-    glm::mat4 rotateToZAxis = glm::mat4(1.0f);
-    rotateToZAxis[0] = glm::vec4(b.z, 0, d, 0);
-    rotateToZAxis[2] = glm::vec4(-d, 0, b.z, 0);
+    bMat = rotateToYAxis * bMat;
+    printMat4("bMat", bMat);
+    b = bMat[3];
+    CgU::printVec3("b",b);
 
-    printMat4("rotateToZAxis", rotateToZAxis);
-    printMat4("tRotateMatY", tRotateMatY(-45));
+
+
 
 
     return glm::mat4(1.0);
