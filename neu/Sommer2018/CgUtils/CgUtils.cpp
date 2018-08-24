@@ -113,40 +113,26 @@ glm::mat4 CgU::tRotateMatY(float angle)
 
 glm::mat4 CgU::tRotateMat(glm::vec3 axis, float angle)
 {
+    //setup
     glm::vec3 b = axis;
     b = glm::normalize(b);
-    printVec3("b",b);
     glm::mat4 bMat = glm::mat4(1.0f);
     bMat[3] = glm::vec4(b, 1.0f);
 
-    float d = sqrt( pow(b.x, 2) + pow(b.z, 2) );
-    std::cout << "d = " << d << std::endl;
-    float angleInZYLevel = translateRadToDegree(acos(b.z / d));
-    std::cout << "rotateInZYLevel " << angleInZYLevel << std::endl;
-    glm::mat4 rotateInZYLevel = tRotateMatY(-angleInZYLevel);
-    printMat4("rotateInZY ", rotateInZYLevel);
+    //angles
+    float angleInZYLevel = translateRadToDegree( acos(b.z / sqrt(pow(b.x, 2) + pow(b.z, 2)) ) );
+    float angleToYAxis = translateRadToDegree( asin(b.y / 1) );
 
+    if(b.x == 0){ angleInZYLevel = 0; }
+    if(b.z == 0){ angleInZYLevel = 90; }
+    if(b.y == 0){ angleToYAxis = 90; }
+    if(b.x == 0 && b.z == 0){ angleInZYLevel = 0; angleToYAxis = 0; }
 
-    bMat = rotateInZYLevel * bMat;
-//    b = bMat[3];
-    CgU::printVec3("b",b);
+    std::cout << "angleInZYLevel: " << angleInZYLevel << ", angleToYAxis: " << angleToYAxis << std::endl;
 
-    d = sqrt( pow(b.y, 2) + pow(b.z, 2) );
-    float angleToYAxis = translateRadToDegree(asin(b.z / d));
-    std::cout << "angleToYAxis " << angleToYAxis << std::endl;
-    glm::mat4 rotateToYAxis = tRotateMatX(-angleToYAxis);
-    printMat4("rotateToYAxis", rotateToYAxis);
+    glm::mat4 result = tRotateMatY(-angleInZYLevel) * tRotateMatX(-angleToYAxis) * tRotateMatY(angle) * tRotateMatX(angleToYAxis) * tRotateMatY(angleInZYLevel);
 
-    bMat = rotateToYAxis * bMat;
-    printMat4("bMat", bMat);
-    b = bMat[3];
-    CgU::printVec3("b",b);
-
-
-
-
-
-    return glm::mat4(1.0);
+    return result;
 }
 
 glm::mat4 CgU::tScaleMat(glm::vec3 factor)

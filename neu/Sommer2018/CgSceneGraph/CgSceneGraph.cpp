@@ -142,8 +142,8 @@ void CgSceneGraph::tRotateSelectedEntity(float angle, char c)
 
 void CgSceneGraph::tRotateSelectedEntity(float angle, glm::vec3 axis)
 {
-//    CgU::addTransformation(selectedEntity, CgU::tRotateMat(axis, angle));
-    CgU::tRotateMat(axis, angle); //DELETE LATER
+    CgU::addTransformation(selectedEntity, CgU::tRotateMat(axis, angle));
+//    CgU::tRotateMat(axis, angle); //DELETE LATER
     m_renderer->redraw();
 }
 
