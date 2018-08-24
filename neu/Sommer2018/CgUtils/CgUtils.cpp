@@ -17,17 +17,52 @@ CgU::CgU()
 
 }
 
-void CgU::printVec3(glm::vec3 vec)
+void CgU::print(std::string str)
+{
+    std::cout << str << std::endl;
+}
+
+void CgU::print(double d)
+{
+    std::cout << d << std::endl;
+}
+
+void CgU::print(std::string str, double d)
+{
+    std::cout << str << " " << d << std::endl;
+}
+
+void CgU::print(int i)
+{
+    std::cout << i << std::endl;
+}
+
+void CgU::print(std::string str, int i)
+{
+    std::cout << str << " " << i << std::endl;
+}
+
+void CgU::print(float f)
+{
+    std::cout << f << std::endl;
+}
+
+void CgU::print(std::string str, float f)
+{
+    std::cout << str << " " << f << std::endl;
+}
+
+void CgU::print(glm::vec3 vec)
 {
     std::cout << "Vec3:(" << vec.x << "," << vec.y << "," << vec.z << ")" << std::endl;
 }
 
-void CgU::printVec3(std::string str, glm::vec3 vec)
+void CgU::print(std::string str, glm::vec3 vec)
 {
     std::cout<< str << ":(" << vec.x << "," << vec.y << "," << vec.z << ")" << std::endl;
 }
 
-void CgU::printMat4(glm::mat4 mat)
+void CgU::print(glm::mat4 mat)
 {
     std::cout << "------------------------------------" << std::endl;
     std::cout << mat[0].x << "\t" << mat[1].x << "\t" << mat[2].x << "\t" << mat[3].x << std::endl;
@@ -37,10 +72,10 @@ void CgU::printMat4(glm::mat4 mat)
     std::cout << "------------------------------------" << std::endl;
 }
 
-void CgU::printMat4(std::string str, glm::mat4 mat)
+void CgU::print(std::string str, glm::mat4 mat)
 {
     std::cout << str << std::endl;
-    printMat4(mat);
+    print(mat);
 }
 
 void CgU::printVecLength(glm::vec3 vec)
@@ -52,7 +87,7 @@ void CgU::printVecVector(std::vector<glm::vec3>* vector)
 {
     std::cout << "Vector of size: " << vector->size() <<std::endl;
     for(glm::vec3 v : *(vector)){
-        printVec3(v);
+        print(v);
     }
 }
 
@@ -123,12 +158,13 @@ glm::mat4 CgU::tRotateMat(glm::vec3 axis, float angle)
     float angleInZYLevel = translateRadToDegree( acos(b.z / sqrt(pow(b.x, 2) + pow(b.z, 2)) ) );
     float angleToYAxis = translateRadToDegree( asin(b.y / 1) );
 
+    //special cases (triangle calculation does't work because values give no triangle)
     if(b.x == 0){ angleInZYLevel = 0; }
     if(b.z == 0){ angleInZYLevel = 90; }
     if(b.y == 0){ angleToYAxis = 90; }
     if(b.x == 0 && b.z == 0){ angleInZYLevel = 0; angleToYAxis = 0; }
 
-    std::cout << "angleInZYLevel: " << angleInZYLevel << ", angleToYAxis: " << angleToYAxis << std::endl;
+//    std::cout << "angleInZYLevel: " << angleInZYLevel << ", angleToYAxis: " << angleToYAxis << std::endl;
 
     glm::mat4 result = tRotateMatY(-angleInZYLevel) * tRotateMatX(-angleToYAxis) * tRotateMatY(angle) * tRotateMatX(angleToYAxis) * tRotateMatY(angleInZYLevel);
 

@@ -11,10 +11,17 @@ class CgU
 public:
     CgU();
 
-    void static printVec3(glm::vec3 vec);
-    void static printVec3(std::string str, glm::vec3 vec);
-    void static printMat4(glm::mat4 mat);
-    void static printMat4(std::string str, glm::mat4 mat);
+    void static print(std::string str);
+    void static print(double d);
+    void static print(std::string str, double d);
+    void static print(int i);
+    void static print(std::string str, int i);
+    void static print(float f);
+    void static print(std::string str, float f);
+    void static print(glm::vec3 vec);
+    void static print(std::string str, glm::vec3 vec);
+    void static print(glm::mat4 mat);
+    void static print(std::string str, glm::mat4 mat);
     void static printVecLength(glm::vec3 vec);
 
     void static printVecVector(std::vector<glm::vec3>* vector);
