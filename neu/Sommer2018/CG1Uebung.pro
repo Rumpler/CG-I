@@ -38,7 +38,8 @@ SOURCES += main.cpp \
     CgSceneGraph/CgAppearance.cpp \
     CgSceneGraph/CgSceneGraph.cpp \
     CgEvents/CgButtonEvent.cpp \
-    CgSceneGraph/CgScene.cpp
+    CgSceneGraph/CgScene.cpp\
+    CgClasses/CgLightsource.cpp
 
 
 
@@ -87,5 +88,6 @@ HEADERS += \
     CgSceneGraph/CgAppearance.h \
     CgSceneGraph/CgSceneGraph.h \
     CgEvents/CgButtonEvent.h \
-    CgSceneGraph/CgScene.h
+    CgSceneGraph/CgScene.h \
+    CgClasses/CgLightsource.h
 
