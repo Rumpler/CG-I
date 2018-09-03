@@ -99,6 +99,7 @@ public:
 
     void changeValueOfShading();
     void setSmth(CgMaterialChangeEvent *e);
+    void setSmthRecursiv(CgSceneGraphEntity* currentEntity, CgMaterialChangeEvent *e);
 
     //Public methodes for interacton with Scenegraph
     void render();

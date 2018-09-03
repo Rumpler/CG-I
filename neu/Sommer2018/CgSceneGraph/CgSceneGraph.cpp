@@ -44,18 +44,31 @@ void CgSceneGraph::changeValueOfShading()
     m_renderer->redraw();
 }
 
-
+//DON
 void CgSceneGraph::setSmth(CgMaterialChangeEvent *e)
 {
-    if(shading){
-        selectedEntity->appearance()->setAmbiente(e->getAmb());
-        selectedEntity->appearance()->setDiffuse(e->getDiffuse());
-        selectedEntity->appearance()->setMaterial(e->getMat());
-        std::cout<<e->getScalar()<<std::endl;
-        CgTriangleMesh* temp =  (CgTriangleMesh*) selectedEntity->getObjects().at(0);
-        temp->setShininess(e->getScalar());
-        m_renderer->redraw();
 
+    if(shading){
+        setSmthRecursiv(m_root_node, e);
+        m_renderer->redraw();
+    }
+}
+
+//DON
+void CgSceneGraph::setSmthRecursiv(CgSceneGraphEntity *currentEntity, CgMaterialChangeEvent *e)
+{
+    for(CgSceneGraphEntity* entity : currentEntity->getChildren()){
+
+        entity->appearance()->setAmbiente(e->getAmb());
+        entity->appearance()->setDiffuse(e->getDiffuse());
+        entity->appearance()->setMaterial(e->getMat());
+        std::cout<<e->getScalar()<<std::endl;
+        for(CgBaseRenderableObject* temp : currentEntity->getObjects()){
+            CgTriangleMesh* temp2 = (CgTriangleMesh*) temp;
+            temp2->setShininess(e->getScalar());
+        }
+
+        setSmthRecursiv(entity, e);
     }
 }
 
@@ -177,12 +190,29 @@ void CgSceneGraph::tTranslateSelectedEntity(glm::vec3 transVec)
 
 void CgSceneGraph::render()
 {
+    if(shading){
+        std::string path = CgU::getParentDirectory();
+        path.append("/Sommer2018/CgShader/phong.vert");
+        std::string path2 = CgU::getParentDirectory();
+        path2.append("/Sommer2018/CgShader/phong.frag");
+        m_renderer->setShaderSourceFiles(path, path2);
+    }
+
     m_renderer->setUniformValue("projMatrix",m_proj_matrix);
     renderRecursive(m_root_node);
 }
 
 void CgSceneGraph::renderRecursive(CgSceneGraphEntity *currentEntity)
 {
+
+    m_renderer->setUniformValue("matDiffuseColor",glm::vec4(0.35,0.31,0.09,1.0));
+    m_renderer->setUniformValue("lightDiffuseColor",glm::vec4(1.0,1.0,1.0,1.0));
+    m_renderer->setUniformValue("matAmbientColor",glm::vec4(0.25,0.22,0.06,1.0));
+    m_renderer->setUniformValue("lightAmbientColor",glm::vec4(1.0,1.0,1.0,1.0));
+    m_renderer->setUniformValue("matSpecularColor",glm::vec4(0.8,0.72,0.21,1.0));
+    m_renderer->setUniformValue("lightSpecularColor",glm::vec4(1.0,1.0,1.0,1.0));
+
+
     if(*(currentEntity->renderObject())){
         pushMatrix();
         applyTransform(currentEntity->getCurrentTransformation());
@@ -192,7 +222,15 @@ void CgSceneGraph::renderRecursive(CgSceneGraphEntity *currentEntity)
 
         m_renderer->setUniformValue("modelviewMatrix",mv_matrix);
         m_renderer->setUniformValue("normalMatrix",normal_matrix);
-        m_renderer->setUniformValue("mycolor",glm::vec4(currentEntity->appearance()->getObjectColor(), 1.0f));
+        m_renderer->setUniformValue("mycolor",currentEntity->appearance()->getColor());
+        if(shading){
+            m_renderer->setUniformValue("matDiffuseColor",currentEntity->appearance()->getDiffuse());
+            m_renderer->setUniformValue("lightDiffuseColor",glm::mat4(1.0f));//TODO Lighsource
+            m_renderer->setUniformValue("matAmbientColor",currentEntity->appearance()->getAmbiente());
+            m_renderer->setUniformValue("lightAmbientColor",glm::mat4(0.4f));
+            m_renderer->setUniformValue("matSpecularColor",currentEntity->appearance()->getSpecular());
+            m_renderer->setUniformValue("lightSpecularColor",glm::mat4(0.1f));
+        }
 
         for(CgBaseRenderableObject* obj : currentEntity->getObjects()){
             m_renderer->render(obj);
@@ -455,7 +493,8 @@ void CgSceneGraph::initCustomRotationAxis()
 void CgSceneGraph::changeColorRecursiv(CgSceneGraphEntity *currentEntity, glm::vec3 color)
 {
     if(currentEntity->getIsColorChangeable()){
-        currentEntity->appearance()->setObjectColor(color);
+//        currentEntity->appearance()->setObjectColor(color);
+        currentEntity->appearance()->setColor(glm::vec4(color,0));
         for(CgSceneGraphEntity* entity : currentEntity->getChildren()){
             changeColorRecursiv(entity, color);
         }

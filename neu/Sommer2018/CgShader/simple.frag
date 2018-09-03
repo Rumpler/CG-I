@@ -3,9 +3,9 @@
 in vec3 vert;
 in vec3 vertNormal;
 
-uniform vec4 color;
+uniform vec4 mycolor;
 
     void main() {
  
-	gl_FragColor=color;
+	gl_FragColor=mycolor;
     }

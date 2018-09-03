@@ -15,7 +15,7 @@ private:
     glm::vec4 ambiente;
     glm::vec4 diffuse;
     glm::vec4 specular;
-    glm::vec4 color;
+    glm::vec4 color/* = glm::vec4(0.0f, 0.45f, 0.5f, 1.0f)*/;
 public:
     CgAppearance();
 
