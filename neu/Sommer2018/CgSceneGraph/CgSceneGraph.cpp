@@ -40,14 +40,13 @@ CgSceneGraph::~CgSceneGraph()
 
 void CgSceneGraph::changeValueOfShading()
 {
-    shading = !shading;
+    shading = true;
     m_renderer->redraw();
 }
 
 //DON
 void CgSceneGraph::setSmth(CgMaterialChangeEvent *e)
 {
-
     if(shading){
         setSmthRecursiv(m_root_node, e);
         m_renderer->redraw();
@@ -62,6 +61,8 @@ void CgSceneGraph::setSmthRecursiv(CgSceneGraphEntity *currentEntity, CgMaterial
         entity->appearance()->setAmbiente(e->getAmb());
         entity->appearance()->setDiffuse(e->getDiffuse());
         entity->appearance()->setMaterial(e->getMat());
+        entity->appearance()->setMaterial(e->getMat());
+
         std::cout<<e->getScalar()<<std::endl;
         for(CgBaseRenderableObject* temp : currentEntity->getObjects()){
             CgTriangleMesh* temp2 = (CgTriangleMesh*) temp;
@@ -190,6 +191,13 @@ void CgSceneGraph::tTranslateSelectedEntity(glm::vec3 transVec)
 
 void CgSceneGraph::render()
 {
+//    m_renderer->setUniformValue("matDiffuseColor",glm::vec4(0.35,0.31,0.09,1.0));
+//    m_renderer->setUniformValue("lightDiffuseColor",glm::vec4(1.0,1.0,1.0,1.0));
+//    m_renderer->setUniformValue("matAmbientColor",glm::vec4(0.25,0.22,0.06,1.0));
+//    m_renderer->setUniformValue("lightAmbientColor",glm::vec4(1.0,1.0,1.0,1.0));
+//    m_renderer->setUniformValue("matSpecularColor",glm::vec4(0.8,0.72,0.21,1.0));
+//    m_renderer->setUniformValue("lightSpecularColor",glm::vec4(1.0,1.0,1.0,1.0));
+
     if(shading){
         std::string path = CgU::getParentDirectory();
         path.append("/Sommer2018/CgShader/phong.vert");
@@ -205,12 +213,6 @@ void CgSceneGraph::render()
 void CgSceneGraph::renderRecursive(CgSceneGraphEntity *currentEntity)
 {
 
-    m_renderer->setUniformValue("matDiffuseColor",glm::vec4(0.35,0.31,0.09,1.0));
-    m_renderer->setUniformValue("lightDiffuseColor",glm::vec4(1.0,1.0,1.0,1.0));
-    m_renderer->setUniformValue("matAmbientColor",glm::vec4(0.25,0.22,0.06,1.0));
-    m_renderer->setUniformValue("lightAmbientColor",glm::vec4(1.0,1.0,1.0,1.0));
-    m_renderer->setUniformValue("matSpecularColor",glm::vec4(0.8,0.72,0.21,1.0));
-    m_renderer->setUniformValue("lightSpecularColor",glm::vec4(1.0,1.0,1.0,1.0));
 
 
     if(*(currentEntity->renderObject())){
@@ -230,6 +232,8 @@ void CgSceneGraph::renderRecursive(CgSceneGraphEntity *currentEntity)
             m_renderer->setUniformValue("lightAmbientColor",glm::mat4(0.4f));
             m_renderer->setUniformValue("matSpecularColor",currentEntity->appearance()->getSpecular());
             m_renderer->setUniformValue("lightSpecularColor",glm::mat4(0.1f));
+            m_renderer->setUniformValue("viewPos",glm::vec3(0,0,-1.0f));
+            m_renderer->setUniformValue("lightdirection",glm::vec3(0,0, -3));
         }
 
         for(CgBaseRenderableObject* obj : currentEntity->getObjects()){
