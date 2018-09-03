@@ -219,6 +219,15 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         m_renderer->redraw();
     }
 
+    //DON
+    if(e->getType() == Cg::EventType::CgChangeMaterial){
+        m_scene_graph->setSmth((CgMaterialChangeEvent*) e);
+    }
+
+    if(e->getType() == Cg::EventType::CgChangeShader){
+        m_scene_graph->changeValueOfShading();
+    }
+
     delete e;
 
 

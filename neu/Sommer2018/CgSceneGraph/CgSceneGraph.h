@@ -9,12 +9,17 @@
 #include <iostream>
 #include <glm/gtc/matrix_transform.hpp>
 #include <CgBase/CgBaseRenderer.h>
+#include <CgEvents/CgMaterialChangeEvent.h>
 #include "CgUtils/IdSingleton.h"
 
 
 class CgSceneGraph
 {
 private:
+
+    //DON
+    bool shading;
+
     //Basic vars
     IdSingleton* idGen;
     CgBaseRenderer *m_renderer;
@@ -91,6 +96,9 @@ private:
 public:
     CgSceneGraph(CgBaseRenderer *renderer);
     ~CgSceneGraph();
+
+    void changeValueOfShading();
+    void setSmth(CgMaterialChangeEvent *e);
 
     //Public methodes for interacton with Scenegraph
     void render();

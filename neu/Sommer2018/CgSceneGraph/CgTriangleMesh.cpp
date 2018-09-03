@@ -103,6 +103,16 @@ void CgTriangleMesh::setDisplay(bool value)
     display = value;
 }
 
+float CgTriangleMesh::getShininess() const
+{
+    return shininess;
+}
+
+void CgTriangleMesh::setShininess(float value)
+{
+    shininess = value;
+}
+
 
 
 //needs m_vertices and m_triangle_indices to be filled previously

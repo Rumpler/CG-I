@@ -31,6 +31,8 @@ public:
     void setObjectColor(const glm::vec3 &value);
     glm::vec4 getColor() const;
     void setColor(const glm::vec4 &value);
+    glm::vec4 getMaterial() const;
+    void setMaterial(const glm::vec4 &value);
 };
 
 #endif // CGAPPEARANCE_H

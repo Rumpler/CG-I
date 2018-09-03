@@ -54,6 +54,16 @@ void CgAppearance::setColor(const glm::vec4 &value)
     color = value;
 }
 
+glm::vec4 CgAppearance::getMaterial() const
+{
+    return material;
+}
+
+void CgAppearance::setMaterial(const glm::vec4 &value)
+{
+    material = value;
+}
+
 CgAppearance::CgAppearance()
 {
     object_color = glm::vec3(0.0f, 0.0f, 1.0f);

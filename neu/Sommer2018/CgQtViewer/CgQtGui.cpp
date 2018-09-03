@@ -560,7 +560,6 @@ QGroupBox *CgQtGui::createGBShader()
     QGroupBox* groupBoxShader = new QGroupBox("Shader");
     QVBoxLayout *vboxShader = new QVBoxLayout;
 
-
            QLabel * opt = new QLabel("selektiere eine Objekteigenschaft");
            combo_box_shader = new QComboBox();
            combo_box_interpolation = new QComboBox();
@@ -581,36 +580,9 @@ QGroupBox *CgQtGui::createGBShader()
            connect(combo_box_shader, SIGNAL(currentIndexChanged(int)),this,SLOT(selectShaderSlot()));
            connect(combo_box_interpolation, SIGNAL(currentIndexChanged(int)),this,SLOT(selectInterpolationSlot()));
 
-
-
     groupBoxShader->setLayout(vboxShader);
 
     return groupBoxShader;
-
-
-
-
-//    QVBoxLayout *tab1_control = new QVBoxLayout();
-//       QLabel * opt = new QLabel("selektiere eine Objekteigenschaft");
-//       combo_box_shader = new QComboBox();
-//       combo_box_interpolation = new QComboBox();
-//       combo_box_material = new QComboBox();
-//       selectMaterialShaderOff();
-//       createComboBox(combo_box_material);
-//       selectShader();
-//       createComboBox(combo_box_shader);
-//       selectInterpolation();
-//       createComboBox(combo_box_interpolation);
-
-//       tab1_control->addWidget(combo_box_material);
-//       tab1_control->addWidget(combo_box_shader);
-//       tab1_control->addWidget(combo_box_interpolation);
-//       tab1_control->addWidget(opt);
-
-//       connect(combo_box_material, SIGNAL(currentIndexChanged(int)),this,SLOT(selectColor()));
-//       connect(combo_box_shader, SIGNAL(currentIndexChanged(int)),this,SLOT(selectShaderSlot()));
-//       connect(combo_box_interpolation, SIGNAL(currentIndexChanged(int)),this,SLOT(selectInterpolationSlot()));
-//       parent->setLayout(tab1_control);
 }
 
 //DON

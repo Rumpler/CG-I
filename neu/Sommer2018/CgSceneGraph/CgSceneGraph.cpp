@@ -7,6 +7,8 @@
 
 #include <CgUtils/CgUtils.h>
 
+#include <CgEvents/CgMaterialChangeEvent.h>
+
 
 
 CgSceneGraph::CgSceneGraph(CgBaseRenderer *renderer):
@@ -34,6 +36,27 @@ CgSceneGraph::CgSceneGraph(CgBaseRenderer *renderer):
 CgSceneGraph::~CgSceneGraph()
 {
     //TODO
+}
+
+void CgSceneGraph::changeValueOfShading()
+{
+    shading = !shading;
+    m_renderer->redraw();
+}
+
+
+void CgSceneGraph::setSmth(CgMaterialChangeEvent *e)
+{
+    if(shading){
+        selectedEntity->appearance()->setAmbiente(e->getAmb());
+        selectedEntity->appearance()->setDiffuse(e->getDiffuse());
+        selectedEntity->appearance()->setMaterial(e->getMat());
+        std::cout<<e->getScalar()<<std::endl;
+        CgTriangleMesh* temp =  (CgTriangleMesh*) selectedEntity->getObjects().at(0);
+        temp->setShininess(e->getScalar());
+        m_renderer->redraw();
+
+    }
 }
 
 void CgSceneGraph::changeColorOfVariousObjects(glm::vec3 color)
