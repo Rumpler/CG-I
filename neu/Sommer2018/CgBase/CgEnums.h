@@ -32,6 +32,11 @@ typedef enum EventType {
     CgTrackballEvent                = 17,
     CgButtonEvent                   = 18,
 
+    CgChangeMaterial                = 0x0001000,
+    CgChangeInterpolation           = 0x0002000,
+    CgChangeShader                  = 0x0004000,
+    CgChangeColor                   = 0x0008000
+
     //    CgMouseButtonPress              = 0x00000001,
     //    CgMouseButtonRelease            = 0x00000002,
     //    CgMouseMove                     = 0x00000004,

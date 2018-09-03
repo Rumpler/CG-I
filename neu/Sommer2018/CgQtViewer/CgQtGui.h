@@ -41,9 +41,11 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
+#include <QComboBox>
 #include <QWidget>
 #include <qgroupbox.h>
 #include "../CgBase/CgObservable.h"
+#include <glm/glm.hpp>
 
 QT_BEGIN_NAMESPACE
 class QSlider;
@@ -69,6 +71,33 @@ class CgQtGui : public QWidget,public CgObservable
     Q_OBJECT
 
 private:
+
+    //DON
+    std::vector<glm::vec4> amb;
+    std::vector<glm::vec4> def;
+    std::vector<glm::vec4> spec;
+    std::vector<float>scala;
+    std::vector<QString> names;
+
+    void createMats();
+    void selectMaterialShaderOn();
+    void selectMaterialShaderOff();
+    void selectShader();
+    void selectInterpolation();
+    void Aufgabe6(QWidget* parent);
+    void createComboBox(QComboBox* combo);
+    void clearComboBox(QComboBox* combo);
+
+
+    QComboBox* combo_box_material;
+    QComboBox* combo_box_shader;
+    QComboBox* combo_box_interpolation;
+
+
+
+
+
+
     QSlider *createColorSlider();
 
     //Panels
@@ -108,6 +137,8 @@ private:
     QGroupBox* createGBColor();
     QGroupBox* createGBCylinder();
     QGroupBox* createGBRotationBody();
+    QGroupBox* createGBShader();
+
 
 
     // parts of the view
@@ -148,6 +179,12 @@ private slots:
     void slotRotateY();
     void slotRotateZ();
     void slotTranslate();
+
+    //DON
+    void selectShaderSlot();
+    void selectInterpolationSlot();
+    void selectObjectMaterial();
+    void selectColor();
 
 
 public:

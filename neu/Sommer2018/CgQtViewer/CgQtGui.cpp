@@ -34,8 +34,44 @@
 #include <CgEvents/CgSubdivisionEvent.h>
 #include <CgEvents/CgTrackballEvent.h>
 #include <CgEvents/CgTransformationEvent.h>
+#include <CgEvents/CgMaterialChangeEvent.h>
+#include <CgEvents/CgBoxEvent.h>
 
 
+//DON
+void CgQtGui::createMats()
+{
+    amb.push_back(glm::vec4(.25f,.25f,.25f,1.0));
+    def.push_back(glm::vec4(.40f,.40f,.40f,1.0));
+    spec.push_back(glm::vec4(.77f,.77f,.77f,1.0));
+    scala.push_back(76.8);
+
+    amb.push_back(glm::vec4(.25f,.21f,.21f,.90f));
+    def.push_back(glm::vec4(0.99f,.83f,.83f,.90f));
+    spec.push_back(glm::vec4(0.30f,0.30f,0.30f,0.90f));
+    scala.push_back(11.3);
+
+    amb.push_back(glm::vec4(0.5f,0.5f,0.7f,0.8f));
+    def.push_back(glm::vec4(0.18f,0.17f,0.23f,0.8f));
+    spec.push_back(glm::vec4(0.33f,0.33f,0.35f,0.8f));
+    scala.push_back(38.4);
+    //gold
+
+    amb.push_back(glm::vec4(0.25f,0.20f,0.07f,1.f));
+    def.push_back(glm::vec4(0.75f,0.61f,0.23f,1.f));
+    spec.push_back(glm::vec4(0.63f,0.56f,0.37f,0.9f));
+    scala.push_back(51.2);
+
+    amb.push_back(glm::vec4(0.19f,0.19f,0.19f,1.0f));
+    def.push_back(glm::vec4(0.51f,0.51f,0.51f,1.0f));
+    spec.push_back(glm::vec4(0.51f,0.51f,0.51f,1.f));
+    scala.push_back(51.2);
+
+    amb.push_back(glm::vec4(0.2f,0.2f,0.2f,1.0f));
+    def.push_back(glm::vec4(0.1f,0.1f,0.1f,1.0f));
+    spec.push_back(glm::vec4(0.5f,0.5f,0.5f,1.f));
+    scala.push_back(51.2);
+}
 
 CgQtGui::CgQtGui(CgQtMainApplication *mw)
     : m_mainWindow(mw)
@@ -116,6 +152,9 @@ CgQtGui::CgQtGui(CgQtMainApplication *mw)
     m_menuBar->addMenu( polygon_mode_menu );
 
     m_mainWindow->setMenuBar(m_menuBar);
+
+    //DON
+    createMats();
 }
 
 
@@ -148,6 +187,7 @@ void CgQtGui::createOptionPanelColor(QWidget *parent)
 {
     QVBoxLayout *panel_layout = new QVBoxLayout();
     panel_layout->addWidget(createGBColor());
+    panel_layout->addWidget(createGBShader());
     panel_layout->addStretch(1);
     parent->setLayout(panel_layout);
 }
@@ -515,6 +555,169 @@ QGroupBox *CgQtGui::createGBRotationBody()
     return groupBoxRotationBody;
 }
 
+QGroupBox *CgQtGui::createGBShader()
+{
+    QGroupBox* groupBoxShader = new QGroupBox("Shader");
+    QVBoxLayout *vboxShader = new QVBoxLayout;
+
+
+           QLabel * opt = new QLabel("selektiere eine Objekteigenschaft");
+           combo_box_shader = new QComboBox();
+           combo_box_interpolation = new QComboBox();
+           combo_box_material = new QComboBox();
+           selectMaterialShaderOff();
+           createComboBox(combo_box_material);
+           selectShader();
+           createComboBox(combo_box_shader);
+           selectInterpolation();
+           createComboBox(combo_box_interpolation);
+
+           vboxShader->addWidget(combo_box_material);
+           vboxShader->addWidget(combo_box_shader);
+           vboxShader->addWidget(combo_box_interpolation);
+           vboxShader->addWidget(opt);
+
+           connect(combo_box_material, SIGNAL(currentIndexChanged(int)),this,SLOT(selectColor()));
+           connect(combo_box_shader, SIGNAL(currentIndexChanged(int)),this,SLOT(selectShaderSlot()));
+           connect(combo_box_interpolation, SIGNAL(currentIndexChanged(int)),this,SLOT(selectInterpolationSlot()));
+
+
+
+    groupBoxShader->setLayout(vboxShader);
+
+    return groupBoxShader;
+
+
+
+
+//    QVBoxLayout *tab1_control = new QVBoxLayout();
+//       QLabel * opt = new QLabel("selektiere eine Objekteigenschaft");
+//       combo_box_shader = new QComboBox();
+//       combo_box_interpolation = new QComboBox();
+//       combo_box_material = new QComboBox();
+//       selectMaterialShaderOff();
+//       createComboBox(combo_box_material);
+//       selectShader();
+//       createComboBox(combo_box_shader);
+//       selectInterpolation();
+//       createComboBox(combo_box_interpolation);
+
+//       tab1_control->addWidget(combo_box_material);
+//       tab1_control->addWidget(combo_box_shader);
+//       tab1_control->addWidget(combo_box_interpolation);
+//       tab1_control->addWidget(opt);
+
+//       connect(combo_box_material, SIGNAL(currentIndexChanged(int)),this,SLOT(selectColor()));
+//       connect(combo_box_shader, SIGNAL(currentIndexChanged(int)),this,SLOT(selectShaderSlot()));
+//       connect(combo_box_interpolation, SIGNAL(currentIndexChanged(int)),this,SLOT(selectInterpolationSlot()));
+//       parent->setLayout(tab1_control);
+}
+
+//DON
+void CgQtGui::selectMaterialShaderOn()
+{
+    names.clear();
+    names.push_back("Chrom");
+    names.push_back("Perle");
+    names.push_back("Obsidian");
+    names.push_back("Gold");
+    names.push_back("Silber");
+    names.push_back("Plastik");
+}
+
+void CgQtGui::selectMaterialShaderOff()
+{
+    names.clear();
+    names.push_back("Rot");
+    names.push_back("Gruen");
+    names.push_back("Blau");
+}
+
+void CgQtGui::selectShader()
+{
+    names.clear();
+    names.push_back("none");
+    names.push_back("Phong");
+    names.push_back("Gouraud");
+}
+
+
+
+
+//DON --COPPYED
+/**
+ * Auswahl an Interpolationsmöglichkeiten
+ * @brief CgQtGui::selectInterpolation
+ * @param names
+ */
+void CgQtGui::selectInterpolation()
+{
+    names.clear();
+    names.push_back("none");
+    names.push_back("flat");
+    names.push_back("smooth");
+}
+
+/**
+ * Erstelle Tab 6
+ * @brief CgQtGui::Aufgabe6
+ * @param parent
+ */
+void CgQtGui::Aufgabe6(QWidget* parent)
+{
+    QVBoxLayout *tab1_control = new QVBoxLayout();
+    QLabel * opt = new QLabel("selektiere eine Objekteigenschaft");
+    combo_box_shader = new QComboBox();
+    combo_box_interpolation = new QComboBox();
+    combo_box_material = new QComboBox();
+    selectMaterialShaderOff();
+    createComboBox(combo_box_material);
+    selectShader();
+    createComboBox(combo_box_shader);
+    selectInterpolation();
+    createComboBox(combo_box_interpolation);
+
+    tab1_control->addWidget(combo_box_material);
+    tab1_control->addWidget(combo_box_shader);
+    tab1_control->addWidget(combo_box_interpolation);
+    tab1_control->addWidget(opt);
+
+    connect(combo_box_material, SIGNAL(currentIndexChanged(int)),this,SLOT(selectColor()));
+    connect(combo_box_shader, SIGNAL(currentIndexChanged(int)),this,SLOT(selectShaderSlot()));
+    connect(combo_box_interpolation, SIGNAL(currentIndexChanged(int)),this,SLOT(selectInterpolationSlot()));
+    parent->setLayout(tab1_control);
+
+}
+/**
+ * Erstelle Inhalt der Comboboxen
+ * @brief CgQtGui::createComboBox
+ * @param names
+ * @param combo
+ */
+void CgQtGui::createComboBox(QComboBox* combo){
+    for(int i =0; i<names.size(); i++){
+        combo->addItem(names.at(i));
+    }
+}
+
+/**
+ * Löschen Inhalt der Combobox
+ * @brief CgQtGui::clearComboBox
+ * @param combo
+ */
+void CgQtGui::clearComboBox(QComboBox* combo){
+    combo->clear();
+}
+
+/**
+ * Slot um Farbe auszuwählen
+ * @brief CgQtGui::selectColor
+ */
+void CgQtGui::selectColor()
+{
+    notifyObserver(new CgBoxEvent(Cg::EventType::CgChangeColor,combo_box_material->currentIndex()));
+}
+
 
 
 /*****************************************************************************/
@@ -790,6 +993,47 @@ void CgQtGui::viewportChanged(int w, int h)
 CgBaseRenderer* CgQtGui::getRenderer()
 {
     return m_glRenderWidget;
+}
+
+//DON
+void CgQtGui::selectShaderSlot()
+{
+
+    selectShader();
+    combo_box_material->clear();
+    if(combo_box_shader->currentIndex()==0){
+        disconnect(combo_box_material, SIGNAL(currentIndexChanged(int)),this,SLOT(selectObjectMaterial()));
+        connect(combo_box_material, SIGNAL(currentIndexChanged(int)),this,SLOT(selectColor()));
+        selectMaterialShaderOff();
+
+    }
+    else{
+        disconnect(combo_box_material, SIGNAL(currentIndexChanged(int)),this,SLOT(selectColor()));
+        connect(combo_box_material, SIGNAL(currentIndexChanged(int)),this,SLOT(selectObjectMaterial()));
+        notifyObserver(new CgBoxEvent(Cg::EventType::CgChangeShader, combo_box_shader->currentIndex()));
+        selectMaterialShaderOn();
+
+    }
+    createComboBox(combo_box_material);
+
+}
+
+void CgQtGui::selectObjectMaterial()
+{
+    if(combo_box_material->currentIndex()!=-1){
+        CgMaterialChangeEvent * materialChangeEvent = new CgMaterialChangeEvent(); //TODO
+        materialChangeEvent->setAmb(amb.at(combo_box_material->currentIndex()));
+        materialChangeEvent->setDiffuse(def.at(combo_box_material->currentIndex()));
+        materialChangeEvent->setScalar(scala.at(combo_box_material->currentIndex()));
+        materialChangeEvent->setMat(spec.at(combo_box_material->currentIndex()));
+        notifyObserver(materialChangeEvent);
+    }
+}
+
+void CgQtGui::selectInterpolationSlot()
+{
+    std::cout<<combo_box_interpolation->currentIndex()<<std::endl;
+    notifyObserver(new CgBoxEvent(Cg::EventType::CgChangeInterpolation , combo_box_interpolation->currentIndex()));
 }
 
 
