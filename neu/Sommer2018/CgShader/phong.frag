@@ -38,5 +38,5 @@ uniform float shininess;
 	 specular *= matSpecularColor.xyz;
 
 	vec3 alle = (ambient+diffuse+specular);
-	gl_FragColor=matAmbientColor;
+	gl_FragColor=lightDiffuseColor;
     }
