@@ -46,6 +46,7 @@
 #include <qgroupbox.h>
 #include "../CgBase/CgObservable.h"
 #include <glm/glm.hpp>
+#include <CgEvents/CgMaterialChangeEvent.h>
 
 QT_BEGIN_NAMESPACE
 class QSlider;
@@ -78,7 +79,7 @@ private:
     std::vector<glm::vec4> spec;
     std::vector<float>scala;
     std::vector<QString> names;
-
+int calculateShadingMode();
     void createMats();
     void selectMaterialShaderOn();
     void selectMaterialShaderOff();
@@ -191,6 +192,8 @@ public:
     CgQtGui(CgQtMainApplication *mw);
     CgBaseRenderer* getRenderer();
 
+
+    void setMaterial(CgMaterialChangeEvent* materialChangeEvent);
 
 protected:
     void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;

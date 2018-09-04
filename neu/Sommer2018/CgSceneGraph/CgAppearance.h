@@ -15,6 +15,7 @@ private:
     glm::vec4 ambiente;
     glm::vec4 diffuse;
     glm::vec4 specular;
+    float shininess;
     glm::vec4 color = glm::vec4(0.0f, 0.45f, 0.5f, 1.0f);
 public:
     CgAppearance();
@@ -33,6 +34,8 @@ public:
     void setColor(const glm::vec4 &value);
     glm::vec4 getMaterial() const;
     void setMaterial(const glm::vec4 &value);
+    float getShininess() const;
+    void setShininess(float value);
 };
 
 #endif // CGAPPEARANCE_H

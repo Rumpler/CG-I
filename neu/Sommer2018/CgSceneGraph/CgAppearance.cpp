@@ -64,6 +64,16 @@ void CgAppearance::setMaterial(const glm::vec4 &value)
     material = value;
 }
 
+float CgAppearance::getShininess() const
+{
+    return shininess;
+}
+
+void CgAppearance::setShininess(float value)
+{
+    shininess = value;
+}
+
 CgAppearance::CgAppearance()
 {
     object_color = glm::vec3(0.0f, 0.0f, 1.0f);

@@ -23,7 +23,7 @@ CgSceneGraph::CgSceneGraph(CgBaseRenderer *renderer):
 
     m_root_node = new CgSceneGraphEntity();
     m_root_node->setRenderObjects(true);
-
+    shading=0;
 
     initCoordinateSystem();
     initVariousObjects();
@@ -47,33 +47,33 @@ void CgSceneGraph::changeValueOfShading()
 //DON
 void CgSceneGraph::setSmth(CgMaterialChangeEvent *e)
 {
-    if(shading){
         setSmthRecursiv(m_root_node, e);
         m_renderer->redraw();
-    }
+
 }
 
 //DON
 void CgSceneGraph::setSmthRecursiv(CgSceneGraphEntity *currentEntity, CgMaterialChangeEvent *e)
 {
 
-    if(shading){
+    shading=e->shadingmode;
+    if(shading>0){
         currentEntity->appearance()->setAmbiente(e->getAmb());
         currentEntity->appearance()->setDiffuse(e->getDiffuse());
         currentEntity->appearance()->setSpecular(e->getMat());
+        currentEntity->appearance()->setShininess(e->getScalar());
     }
+
     else{
-        currentEntity->appearance()->setColor(glm::vec4(1.,1.,0,1));
+        currentEntity->appearance()->setColor(e->getAmb());
     }
     for(CgSceneGraphEntity* entity : currentEntity->getChildren()){
-        std::cout<<e->getScalar()<<std::endl;
         for(CgBaseRenderableObject* temp : currentEntity->getObjects()){
-            CgTriangleMesh* temp2 = (CgTriangleMesh*) temp;
-            if(shading){
+            if(shading>0){
                 entity->appearance()->setAmbiente(e->getAmb());
                 entity->appearance()->setDiffuse(e->getDiffuse());
                 entity->appearance()->setSpecular(e->getMat());
-                temp2->setShininess(e->getScalar());
+                entity->appearance()->setShininess(e->getScalar());
             }
             else{
                 entity->appearance()->setColor(glm::vec4(1.,1.,0,1));
@@ -202,14 +202,42 @@ void CgSceneGraph::tTranslateSelectedEntity(glm::vec3 transVec)
 
 void CgSceneGraph::render()
 {
-    if(shading){
+    if(shading==0){
+        std::string path = CgU::getParentDirectory();
+        path.append("/Sommer2018/CgShader/simple.vert");
+        std::string path2 = CgU::getParentDirectory();
+        path2.append("/Sommer2018/CgShader/simple.frag");
+        m_renderer->setShaderSourceFiles(path, path2);
+    }
+    if(shading==1){
+        std::string path = CgU::getParentDirectory();
+        path.append("/Sommer2018/CgShader/phongflat.vert");
+        std::string path2 = CgU::getParentDirectory();
+        path2.append("/Sommer2018/CgShader/phongflat.frag");
+        m_renderer->setShaderSourceFiles(path, path2);
+    }
+    if(shading==2){
         std::string path = CgU::getParentDirectory();
         path.append("/Sommer2018/CgShader/phong.vert");
         std::string path2 = CgU::getParentDirectory();
         path2.append("/Sommer2018/CgShader/phong.frag");
         m_renderer->setShaderSourceFiles(path, path2);
     }
-
+    if(shading==3){
+        std::string path = CgU::getParentDirectory();
+        path.append("/Sommer2018/CgShader/Garaudflat.vert");
+        std::string path2 = CgU::getParentDirectory();
+        path2.append("/Sommer2018/CgShader/Garaudflat.frag");
+        m_renderer->setShaderSourceFiles(path, path2);
+    }
+    if(shading==4){
+        std::string path = CgU::getParentDirectory();
+        path.append("/Sommer2018/CgShader/Garaud.vert");
+        std::string path2 = CgU::getParentDirectory();
+        path2.append("/Sommer2018/CgShader/Garaud.frag");
+        m_renderer->setShaderSourceFiles(path, path2);
+    }
+    std::cout<<"SCENE:MODE"<<shading<<std::endl;
     m_renderer->setUniformValue("projMatrix",m_proj_matrix);
     renderRecursive(m_root_node);
 }
@@ -217,44 +245,44 @@ void CgSceneGraph::render()
 void CgSceneGraph::renderRecursive(CgSceneGraphEntity *currentEntity)
 {
     if(*(currentEntity->renderObject())){
-        pushMatrix();
-        applyTransform(currentEntity->getCurrentTransformation());
-        glm::mat4 mv_matrix = m_lookAt_matrix * m_trackball_rotation * m_mat_stack.top();
-        glm::mat3 normal_matrix = glm::transpose(glm::inverse(glm::mat3(mv_matrix)));
-        for(CgBaseRenderableObject* obj : currentEntity->getObjects()){
-            if(shading){
-                m_renderer->setUniformValue("projMatrix",m_proj_matrix);
-                m_renderer->setUniformValue("modelviewMatrix",mv_matrix);
-                m_renderer->setUniformValue("normalMatrix",normal_matrix);
-                m_renderer->setUniformValue("viewpos",glm::vec3(0,0,-1));
-                m_renderer->setUniformValue("lightDiffuseColor",glm::vec4(1.0f));//TODO Lighsource
-                m_renderer->setUniformValue("lightAmbientColor",glm::vec4(.2f));
-                m_renderer->setUniformValue("lightSpecularColor",glm::vec4(1.0f));
-                m_renderer->setUniformValue("lightdirection",glm::vec3(1,1, 1));
-                    m_renderer->setUniformValue("shininess",20.2);
-                m_renderer->setUniformValue("matDiffuseColor",currentEntity->appearance()->getDiffuse());
-                m_renderer->setUniformValue("matAmbientColor",currentEntity->appearance()->getAmbiente());
-                m_renderer->setUniformValue("matSpecularColor",currentEntity->appearance()->getSpecular());
-                glm::mat4 mv_matrix = m_lookAt_matrix * m_trackball_rotation * m_mat_stack.top();
-                glm::mat3 normal_matrix = glm::transpose(glm::inverse(glm::mat3(mv_matrix)));
+         pushMatrix();
+         applyTransform(currentEntity->getCurrentTransformation());
+         glm::mat4 mv_matrix = m_lookAt_matrix * m_trackball_rotation * m_mat_stack.top();
+         glm::mat3 normal_matrix = glm::transpose(glm::inverse(glm::mat3(mv_matrix)));
+         for(CgBaseRenderableObject* obj : currentEntity->getObjects()){
+             if(shading){
+                 m_renderer->setUniformValue("projMatrix",m_proj_matrix);
+                 m_renderer->setUniformValue("modelviewMatrix",mv_matrix);
+                 m_renderer->setUniformValue("normalMatrix",normal_matrix);
+                 m_renderer->setUniformValue("viewpos",glm::vec3(0,0,-1));
+                 m_renderer->setUniformValue("lightDiffuseColor",glm::vec4(1.0f));//TODO Lighsource
+                 m_renderer->setUniformValue("lightAmbientColor",glm::vec4(.2f));
+                 m_renderer->setUniformValue("lightSpecularColor",glm::vec4(1.0f));
+                 m_renderer->setUniformValue("lightdirection",glm::vec3(1,1, 1));
+                     m_renderer->setUniformValue("shininess",20.2);
+                 m_renderer->setUniformValue("matDiffuseColor",currentEntity->appearance()->getDiffuse());
+                 m_renderer->setUniformValue("matAmbientColor",currentEntity->appearance()->getAmbiente());
+                 m_renderer->setUniformValue("matSpecularColor",currentEntity->appearance()->getSpecular());
+                 glm::mat4 mv_matrix = m_lookAt_matrix * m_trackball_rotation * m_mat_stack.top();
+                 glm::mat3 normal_matrix = glm::transpose(glm::inverse(glm::mat3(mv_matrix)));
 
-                m_renderer->setUniformValue("projMatrix",m_proj_matrix);
-                m_renderer->setUniformValue("modelviewMatrix",mv_matrix);
-                m_renderer->setUniformValue("normalMatrix",normal_matrix);
-                m_renderer->setUniformValue("viewpos",glm::vec3(1.,1.,-1.));
+                 m_renderer->setUniformValue("projMatrix",m_proj_matrix);
+                 m_renderer->setUniformValue("modelviewMatrix",mv_matrix);
+                 m_renderer->setUniformValue("normalMatrix",normal_matrix);
+                 m_renderer->setUniformValue("viewpos",glm::vec3(1.,1.,-1.));
 
-                m_renderer->init(obj);
-                m_renderer->render(obj);
+                 m_renderer->init(obj);
+                 m_renderer->render(obj);
 
-            }
-            m_renderer->init(obj);
-            m_renderer->render(obj);
-        }
-        for(CgSceneGraphEntity* entity : currentEntity->getChildren()){
-            renderRecursive(entity);
-        }
-        popMatrix();
-    }
+             }
+             m_renderer->init(obj);
+             m_renderer->render(obj);
+         }
+         for(CgSceneGraphEntity* entity : currentEntity->getChildren()){
+             renderRecursive(entity);
+         }
+         popMatrix();
+ }
 }
 
 void CgSceneGraph::initCoordinateSystem()

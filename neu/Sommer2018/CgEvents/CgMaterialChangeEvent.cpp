@@ -5,13 +5,31 @@ CgMaterialChangeEvent::CgMaterialChangeEvent(): type(Cg::EventType::CgChangeMate
 
 }
 
-CgMaterialChangeEvent::CgMaterialChangeEvent(glm::vec4 mat, glm::vec4 amb, glm::vec4 diffuse, float scalar, enum Cg::EventType type)
+CgMaterialChangeEvent::CgMaterialChangeEvent(glm::vec4 mat, glm::vec4 amb, glm::vec4 diffuse, float scalar, enum Cg::EventType type, int shadingmode)
 {
     this->amb=amb;
     this->diffuse=diffuse;
     this->mat=mat;
     this->scalar = scalar;
     this->type = type;
+    this->shadingmode=shadingmode;
+}
+
+CgMaterialChangeEvent::CgMaterialChangeEvent(glm::vec4 mat, int shadingmode)
+{
+    this->amb=mat;
+    this->type=Cg::EventType::CgChangeMaterial;
+    this->shadingmode=shadingmode;
+}
+
+int CgMaterialChangeEvent::getShadingmode() const
+{
+    return shadingmode;
+}
+
+void CgMaterialChangeEvent::setShadingmode(int value)
+{
+    shadingmode = value;
 }
 
 float CgMaterialChangeEvent::getScalar() const
@@ -61,5 +79,5 @@ Cg::EventType CgMaterialChangeEvent::getType()
 
 CgBaseEvent *CgMaterialChangeEvent::clone()
 {
-    return new CgMaterialChangeEvent(mat,amb,diffuse,scalar,type);
+    return new CgMaterialChangeEvent(mat,amb,diffuse,scalar,type,shadingmode);
 }
