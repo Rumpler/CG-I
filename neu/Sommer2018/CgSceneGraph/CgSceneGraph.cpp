@@ -216,27 +216,37 @@ void CgSceneGraph::render()
 
 void CgSceneGraph::renderRecursive(CgSceneGraphEntity *currentEntity)
 {
-
     if(*(currentEntity->renderObject())){
         pushMatrix();
         applyTransform(currentEntity->getCurrentTransformation());
         glm::mat4 mv_matrix = m_lookAt_matrix * m_trackball_rotation * m_mat_stack.top();
         glm::mat3 normal_matrix = glm::transpose(glm::inverse(glm::mat3(mv_matrix)));
-        m_renderer->setUniformValue("modelviewMatrix",mv_matrix);
-        m_renderer->setUniformValue("normalMatrix",normal_matrix);
-
-        if(shading){
-            m_renderer->setUniformValue("matDiffuseColor",currentEntity->appearance()->getDiffuse());
-            m_renderer->setUniformValue("lightDiffuseColor",glm::vec4(1.0f));//TODO Lighsource
-            m_renderer->setUniformValue("matAmbientColor",currentEntity->appearance()->getAmbiente());
-            m_renderer->setUniformValue("lightAmbientColor",glm::vec4(1.f));
-            m_renderer->setUniformValue("matSpecularColor",currentEntity->appearance()->getSpecular());
-            m_renderer->setUniformValue("lightSpecularColor",glm::vec4(1.f));
-            m_renderer->setUniformValue("viewPos",glm::vec3(0,0,-1.0f));
-            m_renderer->setUniformValue("lightdirection",glm::vec3(0,0, -3));
-        }
-
         for(CgBaseRenderableObject* obj : currentEntity->getObjects()){
+            if(shading){
+                m_renderer->setUniformValue("projMatrix",m_proj_matrix);
+                m_renderer->setUniformValue("modelviewMatrix",mv_matrix);
+                m_renderer->setUniformValue("normalMatrix",normal_matrix);
+                m_renderer->setUniformValue("viewpos",glm::vec3(0,0,-1));
+                m_renderer->setUniformValue("lightDiffuseColor",glm::vec4(1.0f));//TODO Lighsource
+                m_renderer->setUniformValue("lightAmbientColor",glm::vec4(.2f));
+                m_renderer->setUniformValue("lightSpecularColor",glm::vec4(1.0f));
+                m_renderer->setUniformValue("lightdirection",glm::vec3(1,1, 1));
+                    m_renderer->setUniformValue("shininess",20.2);
+                m_renderer->setUniformValue("matDiffuseColor",currentEntity->appearance()->getDiffuse());
+                m_renderer->setUniformValue("matAmbientColor",currentEntity->appearance()->getAmbiente());
+                m_renderer->setUniformValue("matSpecularColor",currentEntity->appearance()->getSpecular());
+                glm::mat4 mv_matrix = m_lookAt_matrix * m_trackball_rotation * m_mat_stack.top();
+                glm::mat3 normal_matrix = glm::transpose(glm::inverse(glm::mat3(mv_matrix)));
+
+                m_renderer->setUniformValue("projMatrix",m_proj_matrix);
+                m_renderer->setUniformValue("modelviewMatrix",mv_matrix);
+                m_renderer->setUniformValue("normalMatrix",normal_matrix);
+                m_renderer->setUniformValue("viewpos",glm::vec3(1.,1.,-1.));
+
+                m_renderer->init(obj);
+                m_renderer->render(obj);
+
+            }
             m_renderer->init(obj);
             m_renderer->render(obj);
         }
