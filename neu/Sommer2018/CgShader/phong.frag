@@ -26,7 +26,7 @@ uniform float shininess;
 
 	float diff = max(dot(L,N), 0.0);
 	float spec=0.0;
-	spec = pow(max(dot(H,N), 0.0), shininess);
+	spec = pow(max(dot(H,N), 0.0), 20);
 
 	 ambient  += lightAmbientColor.xyz;
 	 diffuse  += lightDiffuseColor.xyz * diff;
