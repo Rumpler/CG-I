@@ -221,11 +221,15 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
 
     //DON
     if(e->getType() == Cg::EventType::CgChangeMaterial){
+        std::cout<<"mat"<<std::endl;
         m_scene_graph->setSmth((CgMaterialChangeEvent*) e);
     }
 
     if(e->getType() == Cg::EventType::CgChangeShader){
+        std::cout<<"shader"<<std::endl;
         m_scene_graph->changeValueOfShading();
+        m_scene_graph->setSmth((CgMaterialChangeEvent*) e);
+
     }
 
     delete e;
