@@ -250,7 +250,7 @@ void CgSceneGraph::renderRecursive(CgSceneGraphEntity *currentEntity)
          glm::mat4 mv_matrix = m_lookAt_matrix * m_trackball_rotation * m_mat_stack.top();
          glm::mat3 normal_matrix = glm::transpose(glm::inverse(glm::mat3(mv_matrix)));
          for(CgBaseRenderableObject* obj : currentEntity->getObjects()){
-             if(shading){
+             if(shading>0){
                  m_renderer->setUniformValue("projMatrix",m_proj_matrix);
                  m_renderer->setUniformValue("modelviewMatrix",mv_matrix);
                  m_renderer->setUniformValue("normalMatrix",normal_matrix);
@@ -274,6 +274,9 @@ void CgSceneGraph::renderRecursive(CgSceneGraphEntity *currentEntity)
                  m_renderer->init(obj);
                  m_renderer->render(obj);
 
+             }
+             else {
+               m_renderer->setUniformValue("mycolor",currentEntity->appearance()->getObjectColor());
              }
              m_renderer->init(obj);
              m_renderer->render(obj);
