@@ -18,7 +18,7 @@ class CgSceneGraph
 private:
 
     //DON
-    bool shading;
+    int shading;
 
     //Basic vars
     IdSingleton* idGen;

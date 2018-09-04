@@ -3,8 +3,8 @@
 in vec3 vertex;
 in vec3 normal;
 
-out vec3 vert;
-out vec3 vertNormal;
+flat out  vec3 vert;
+flat out  vec3 vertNormal ;
 
 
     uniform mat4 projMatrix;

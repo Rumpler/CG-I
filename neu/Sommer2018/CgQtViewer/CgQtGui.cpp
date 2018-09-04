@@ -39,6 +39,33 @@
 
 
 //DON
+int CgQtGui::calculateShadingMode()
+{
+    int shadingmode=0;
+    //phong flat
+    if(combo_box_shader->currentIndex()==1 && combo_box_interpolation->currentIndex()==0){
+        shadingmode=1;
+    }
+    //phong smoth
+    else if(combo_box_shader->currentIndex()==1 && combo_box_interpolation->currentIndex()==1){
+        shadingmode=2;
+    }
+    //garaoud flat
+    else if(combo_box_shader->currentIndex()==2 && combo_box_interpolation->currentIndex()==0){
+        shadingmode=3;
+    }
+    //garaoud smooth
+    else if(combo_box_shader->currentIndex()==2 && combo_box_interpolation->currentIndex()==1){
+        shadingmode=4;
+    }
+    else{
+        shadingmode=0;
+    }
+
+    std::cout<<"modus:"<<shadingmode<<std::endl;
+    return shadingmode;
+}
+
 void CgQtGui::createMats()
 {
     amb.push_back(glm::vec4(.25f,.25f,.25f,1.0));
@@ -230,9 +257,9 @@ QGroupBox *CgQtGui::createGBObjects()
     connect(ButtonGroupObjects, SIGNAL( buttonClicked(int) ), this, SLOT( slotButtonGroupSelectionChanged() ) );
 
     QVBoxLayout* container = new QVBoxLayout();
-        QHBoxLayout *subBox = new QHBoxLayout();
-            QVBoxLayout *sb1 = new QVBoxLayout();
-            QVBoxLayout *sb2 = new QVBoxLayout();
+    QHBoxLayout *subBox = new QHBoxLayout();
+    QVBoxLayout *sb1 = new QVBoxLayout();
+    QVBoxLayout *sb2 = new QVBoxLayout();
 
     sb1->addWidget(radiobuttonCoordinateSystem);
     sb1->addWidget(radiobuttonCube);
@@ -266,140 +293,140 @@ QGroupBox *CgQtGui::createGBTransformation()
     QGroupBox* groupBoxTranformation = new QGroupBox("Transformation");
     QVBoxLayout* vboxTransformattion = new QVBoxLayout();
 
-        //Button select next objects
-        QPushButton* btSelectNnextObject = new QPushButton("&Select next object (n)");
-        connect(btSelectNnextObject, SIGNAL( clicked() ), this, SLOT(slotSelectNextObject()) );
-        vboxTransformattion->addWidget(btSelectNnextObject);
+    //Button select next objects
+    QPushButton* btSelectNnextObject = new QPushButton("&Select next object (n)");
+    connect(btSelectNnextObject, SIGNAL( clicked() ), this, SLOT(slotSelectNextObject()) );
+    vboxTransformattion->addWidget(btSelectNnextObject);
 
-        /***************** SCALING *****************/
+    /***************** SCALING *****************/
 
-        QGroupBox* gbScale = new QGroupBox("Scale selected object");
-        QHBoxLayout* gblScale = new QHBoxLayout;
+    QGroupBox* gbScale = new QGroupBox("Scale selected object");
+    QHBoxLayout* gblScale = new QHBoxLayout;
 
-            //Button Scale +
-            QPushButton* btScalePlus = new QPushButton("&Bigger (+)");
-            connect(btScalePlus, SIGNAL( clicked() ), this, SLOT(slotScalePlus()) );
-            btScalePlus->setAutoRepeat(true);
-            gblScale->addWidget(btScalePlus);
+    //Button Scale +
+    QPushButton* btScalePlus = new QPushButton("&Bigger (+)");
+    connect(btScalePlus, SIGNAL( clicked() ), this, SLOT(slotScalePlus()) );
+    btScalePlus->setAutoRepeat(true);
+    gblScale->addWidget(btScalePlus);
 
-            //Button Scale -
-            QPushButton* btScaleMinus = new QPushButton("&Smaller (-)");
-            connect(btScaleMinus, SIGNAL( clicked() ), this, SLOT(slotScaleMinus()) );
-            btScaleMinus->setAutoRepeat(true);
-            gblScale->addWidget(btScaleMinus);
+    //Button Scale -
+    QPushButton* btScaleMinus = new QPushButton("&Smaller (-)");
+    connect(btScaleMinus, SIGNAL( clicked() ), this, SLOT(slotScaleMinus()) );
+    btScaleMinus->setAutoRepeat(true);
+    gblScale->addWidget(btScaleMinus);
 
-        gbScale->setLayout(gblScale);
-        vboxTransformattion->addWidget(gbScale);
+    gbScale->setLayout(gblScale);
+    vboxTransformattion->addWidget(gbScale);
 
-        /***************** ROTATING *****************/
+    /***************** ROTATING *****************/
 
-        QGroupBox* gbRotating = new QGroupBox("Rotate selected object");
-        QVBoxLayout* sb1 = new QVBoxLayout;
-        QHBoxLayout* sb2 = new QHBoxLayout;
+    QGroupBox* gbRotating = new QGroupBox("Rotate selected object");
+    QVBoxLayout* sb1 = new QVBoxLayout;
+    QHBoxLayout* sb2 = new QHBoxLayout;
 
-            //Button Rotate X Axis
-            QPushButton* btRotateX = new QPushButton("&X Axis (x)");
-            connect(btRotateX, SIGNAL( clicked() ), this, SLOT(slotRotateX()) );
-            btRotateX->setAutoRepeat(true);
-            sb2->addWidget(btRotateX);
+    //Button Rotate X Axis
+    QPushButton* btRotateX = new QPushButton("&X Axis (x)");
+    connect(btRotateX, SIGNAL( clicked() ), this, SLOT(slotRotateX()) );
+    btRotateX->setAutoRepeat(true);
+    sb2->addWidget(btRotateX);
 
-            //Button Rotate Y Axis
-            QPushButton* btRotateY = new QPushButton("&Y Axis (y)");
-            connect(btRotateY, SIGNAL( clicked() ), this, SLOT(slotRotateY()) );
-            btRotateY->setAutoRepeat(true);
-            sb2->addWidget(btRotateY);
+    //Button Rotate Y Axis
+    QPushButton* btRotateY = new QPushButton("&Y Axis (y)");
+    connect(btRotateY, SIGNAL( clicked() ), this, SLOT(slotRotateY()) );
+    btRotateY->setAutoRepeat(true);
+    sb2->addWidget(btRotateY);
 
-            //Button Rotate Z Axis
-            QPushButton* btRotateZ = new QPushButton("&Z Axis (z)");
-            connect(btRotateZ, SIGNAL( clicked() ), this, SLOT(slotRotateZ()) );
-            btRotateZ->setAutoRepeat(true);
-            sb2->addWidget(btRotateZ);
-        sb1->addLayout(sb2);
+    //Button Rotate Z Axis
+    QPushButton* btRotateZ = new QPushButton("&Z Axis (z)");
+    connect(btRotateZ, SIGNAL( clicked() ), this, SLOT(slotRotateZ()) );
+    btRotateZ->setAutoRepeat(true);
+    sb2->addWidget(btRotateZ);
+    sb1->addLayout(sb2);
 
-            //Button rotate Vector
-            QPushButton* btRotateVector = new QPushButton("&Custom axis (c)");
-            connect(btRotateVector, SIGNAL( clicked() ), this, SLOT( slotRotateVector() ));
-            btRotateVector->setAutoRepeat(true);
-        sb1->addWidget(btRotateVector);
+    //Button rotate Vector
+    QPushButton* btRotateVector = new QPushButton("&Custom axis (c)");
+    connect(btRotateVector, SIGNAL( clicked() ), this, SLOT( slotRotateVector() ));
+    btRotateVector->setAutoRepeat(true);
+    sb1->addWidget(btRotateVector);
 
-        QHBoxLayout* sb3 = new QHBoxLayout;
+    QHBoxLayout* sb3 = new QHBoxLayout;
 
-            //DoubleSpinBox RotateVectorX
-            spinBoxRotateVectorX = new QDoubleSpinBox();
-            spinBoxRotateVectorX->setMaximum(100);
-            spinBoxRotateVectorX->setMinimum(-100);
-            spinBoxRotateVectorX->setValue(1);
-            spinBoxRotateVectorX->setSingleStep(0.1);
-            spinBoxRotateVectorX->setPrefix("X: ");
-            sb3->addWidget(spinBoxRotateVectorX);
+    //DoubleSpinBox RotateVectorX
+    spinBoxRotateVectorX = new QDoubleSpinBox();
+    spinBoxRotateVectorX->setMaximum(100);
+    spinBoxRotateVectorX->setMinimum(-100);
+    spinBoxRotateVectorX->setValue(1);
+    spinBoxRotateVectorX->setSingleStep(0.1);
+    spinBoxRotateVectorX->setPrefix("X: ");
+    sb3->addWidget(spinBoxRotateVectorX);
 
-            //DoubleSpinBox RotateVectorY
-            spinBoxRotateVectorY = new QDoubleSpinBox();
-            spinBoxRotateVectorY->setMaximum(100);
-            spinBoxRotateVectorY->setMinimum(-100);
-            spinBoxRotateVectorY->setValue(1);
-            spinBoxRotateVectorY->setSingleStep(0.1);
-            spinBoxRotateVectorY->setPrefix("Y: ");
-            sb3->addWidget(spinBoxRotateVectorY);
+    //DoubleSpinBox RotateVectorY
+    spinBoxRotateVectorY = new QDoubleSpinBox();
+    spinBoxRotateVectorY->setMaximum(100);
+    spinBoxRotateVectorY->setMinimum(-100);
+    spinBoxRotateVectorY->setValue(1);
+    spinBoxRotateVectorY->setSingleStep(0.1);
+    spinBoxRotateVectorY->setPrefix("Y: ");
+    sb3->addWidget(spinBoxRotateVectorY);
 
-            //DoubleSpinBox RotateVectorZ
-            spinBoxRotateVectorZ = new QDoubleSpinBox();
-            spinBoxRotateVectorZ->setMaximum(100);
-            spinBoxRotateVectorZ->setMinimum(-100);
-            spinBoxRotateVectorZ->setValue(1);
-            spinBoxRotateVectorZ->setSingleStep(0.1);
-            spinBoxRotateVectorZ->setPrefix("Z: ");
-            sb3->addWidget(spinBoxRotateVectorZ);
-        sb1->addLayout(sb3);
+    //DoubleSpinBox RotateVectorZ
+    spinBoxRotateVectorZ = new QDoubleSpinBox();
+    spinBoxRotateVectorZ->setMaximum(100);
+    spinBoxRotateVectorZ->setMinimum(-100);
+    spinBoxRotateVectorZ->setValue(1);
+    spinBoxRotateVectorZ->setSingleStep(0.1);
+    spinBoxRotateVectorZ->setPrefix("Z: ");
+    sb3->addWidget(spinBoxRotateVectorZ);
+    sb1->addLayout(sb3);
 
 
-        gbRotating->setLayout(sb1);
-        vboxTransformattion->addWidget(gbRotating);
+    gbRotating->setLayout(sb1);
+    vboxTransformattion->addWidget(gbRotating);
 
-        /***************** Translating *****************/
+    /***************** Translating *****************/
 
-        QGroupBox* gbTranslating = new QGroupBox("Translate selected object");
-        QVBoxLayout* gblTranslating = new QVBoxLayout;
+    QGroupBox* gbTranslating = new QGroupBox("Translate selected object");
+    QVBoxLayout* gblTranslating = new QVBoxLayout;
 
-            //Button Translate
-            QPushButton* btTranslate = new QPushButton("&Translate (t)");
-            connect(btTranslate, SIGNAL( clicked() ), this, SLOT(slotTranslate()) );
-            btTranslate->setAutoRepeat(true);
-            gblTranslating->addWidget(btTranslate);
+    //Button Translate
+    QPushButton* btTranslate = new QPushButton("&Translate (t)");
+    connect(btTranslate, SIGNAL( clicked() ), this, SLOT(slotTranslate()) );
+    btTranslate->setAutoRepeat(true);
+    gblTranslating->addWidget(btTranslate);
 
-            QHBoxLayout* sb10 = new QHBoxLayout();
+    QHBoxLayout* sb10 = new QHBoxLayout();
 
-                //DoubleSpinBox TranslateVector X
-                spinBoxTranslateVectorX = new QDoubleSpinBox();
-                spinBoxTranslateVectorX->setMaximum(100);
-                spinBoxTranslateVectorX->setMinimum(-100);
-                spinBoxTranslateVectorX->setValue(0.1);
-                spinBoxTranslateVectorX->setSingleStep(0.1);
-                spinBoxTranslateVectorX->setPrefix("X: ");
-                sb10->addWidget(spinBoxTranslateVectorX);
+    //DoubleSpinBox TranslateVector X
+    spinBoxTranslateVectorX = new QDoubleSpinBox();
+    spinBoxTranslateVectorX->setMaximum(100);
+    spinBoxTranslateVectorX->setMinimum(-100);
+    spinBoxTranslateVectorX->setValue(0.1);
+    spinBoxTranslateVectorX->setSingleStep(0.1);
+    spinBoxTranslateVectorX->setPrefix("X: ");
+    sb10->addWidget(spinBoxTranslateVectorX);
 
-                //DoubleSpinBox TranslateVector X
-                spinBoxTranslateVectorY = new QDoubleSpinBox();
-                spinBoxTranslateVectorY->setMaximum(100);
-                spinBoxTranslateVectorY->setMinimum(-100);
-                spinBoxTranslateVectorY->setValue(0.0);
-                spinBoxTranslateVectorY->setSingleStep(0.1);
-                spinBoxTranslateVectorY->setPrefix("Y: ");
-                sb10->addWidget(spinBoxTranslateVectorY);
+    //DoubleSpinBox TranslateVector X
+    spinBoxTranslateVectorY = new QDoubleSpinBox();
+    spinBoxTranslateVectorY->setMaximum(100);
+    spinBoxTranslateVectorY->setMinimum(-100);
+    spinBoxTranslateVectorY->setValue(0.0);
+    spinBoxTranslateVectorY->setSingleStep(0.1);
+    spinBoxTranslateVectorY->setPrefix("Y: ");
+    sb10->addWidget(spinBoxTranslateVectorY);
 
-                //DoubleSpinBox TranslateVector X
-                spinBoxTranslateVectorZ = new QDoubleSpinBox();
-                spinBoxTranslateVectorZ->setMaximum(100);
-                spinBoxTranslateVectorZ->setMinimum(-100);
-                spinBoxTranslateVectorZ->setValue(0.0);
-                spinBoxTranslateVectorZ->setSingleStep(0.1);
-                spinBoxTranslateVectorZ->setPrefix("Z: ");
-                sb10->addWidget(spinBoxTranslateVectorZ);
+    //DoubleSpinBox TranslateVector X
+    spinBoxTranslateVectorZ = new QDoubleSpinBox();
+    spinBoxTranslateVectorZ->setMaximum(100);
+    spinBoxTranslateVectorZ->setMinimum(-100);
+    spinBoxTranslateVectorZ->setValue(0.0);
+    spinBoxTranslateVectorZ->setSingleStep(0.1);
+    spinBoxTranslateVectorZ->setPrefix("Z: ");
+    sb10->addWidget(spinBoxTranslateVectorZ);
 
-        gblTranslating->addLayout(sb10);
+    gblTranslating->addLayout(sb10);
 
-        gbTranslating->setLayout(gblTranslating);
-        vboxTransformattion->addWidget(gbTranslating);
+    gbTranslating->setLayout(gblTranslating);
+    vboxTransformattion->addWidget(gbTranslating);
 
     vboxTransformattion->addStretch(1);
     groupBoxTranformation->setLayout(vboxTransformattion);
@@ -560,25 +587,25 @@ QGroupBox *CgQtGui::createGBShader()
     QGroupBox* groupBoxShader = new QGroupBox("Shader");
     QVBoxLayout *vboxShader = new QVBoxLayout;
 
-           QLabel * opt = new QLabel("selektiere eine Objekteigenschaft");
-           combo_box_shader = new QComboBox();
-           combo_box_interpolation = new QComboBox();
-           combo_box_material = new QComboBox();
-           selectMaterialShaderOff();
-           createComboBox(combo_box_material);
-           selectShader();
-           createComboBox(combo_box_shader);
-           selectInterpolation();
-           createComboBox(combo_box_interpolation);
+    QLabel * opt = new QLabel("selektiere eine Objekteigenschaft");
+    combo_box_shader = new QComboBox();
+    combo_box_interpolation = new QComboBox();
+    combo_box_material = new QComboBox();
+    selectMaterialShaderOff();
+    createComboBox(combo_box_material);
+    selectShader();
+    createComboBox(combo_box_shader);
+    selectInterpolation();
+    createComboBox(combo_box_interpolation);
 
-           vboxShader->addWidget(combo_box_material);
-           vboxShader->addWidget(combo_box_shader);
-           vboxShader->addWidget(combo_box_interpolation);
-           vboxShader->addWidget(opt);
+    vboxShader->addWidget(combo_box_material);
+    vboxShader->addWidget(combo_box_shader);
+    vboxShader->addWidget(combo_box_interpolation);
+    vboxShader->addWidget(opt);
 
-           connect(combo_box_material, SIGNAL(currentIndexChanged(int)),this,SLOT(selectColor()));
-           connect(combo_box_shader, SIGNAL(currentIndexChanged(int)),this,SLOT(selectShaderSlot()));
-           connect(combo_box_interpolation, SIGNAL(currentIndexChanged(int)),this,SLOT(selectInterpolationSlot()));
+    connect(combo_box_material, SIGNAL(currentIndexChanged(int)),this,SLOT(selectColor()));
+    connect(combo_box_shader, SIGNAL(currentIndexChanged(int)),this,SLOT(selectShaderSlot()));
+    connect(combo_box_interpolation, SIGNAL(currentIndexChanged(int)),this,SLOT(selectInterpolationSlot()));
 
     groupBoxShader->setLayout(vboxShader);
 
@@ -625,7 +652,6 @@ void CgQtGui::selectShader()
 void CgQtGui::selectInterpolation()
 {
     names.clear();
-    names.push_back("none");
     names.push_back("flat");
     names.push_back("smooth");
 }
@@ -687,7 +713,8 @@ void CgQtGui::clearComboBox(QComboBox* combo){
  */
 void CgQtGui::selectColor()
 {
-    notifyObserver(new CgBoxEvent(Cg::EventType::CgChangeColor,combo_box_material->currentIndex()));
+    CgMaterialChangeEvent * materialChangeEvent = new CgMaterialChangeEvent(amb.at(1),calculateShadingMode());
+    notifyObserver(materialChangeEvent);
 }
 
 
@@ -982,7 +1009,12 @@ void CgQtGui::selectShaderSlot()
     else{
         disconnect(combo_box_material, SIGNAL(currentIndexChanged(int)),this,SLOT(selectColor()));
         connect(combo_box_material, SIGNAL(currentIndexChanged(int)),this,SLOT(selectObjectMaterial()));
-        notifyObserver(new CgBoxEvent(Cg::EventType::CgChangeShader, combo_box_shader->currentIndex()));
+        CgMaterialChangeEvent * materialChangeEvent = new CgMaterialChangeEvent(); //TODO
+        materialChangeEvent->setShadingmode(calculateShadingMode());
+        if(combo_box_material->currentIndex()!=-1){
+            setMaterial(materialChangeEvent);
+        }
+        notifyObserver(materialChangeEvent);
         selectMaterialShaderOn();
 
     }
@@ -992,20 +1024,31 @@ void CgQtGui::selectShaderSlot()
 
 void CgQtGui::selectObjectMaterial()
 {
+    CgMaterialChangeEvent * materialChangeEvent = new CgMaterialChangeEvent(); //TODO
+    materialChangeEvent->setShadingmode(calculateShadingMode());
     if(combo_box_material->currentIndex()!=-1){
-        CgMaterialChangeEvent * materialChangeEvent = new CgMaterialChangeEvent(); //TODO
-        materialChangeEvent->setAmb(amb.at(combo_box_material->currentIndex()));
-        materialChangeEvent->setDiffuse(def.at(combo_box_material->currentIndex()));
-        materialChangeEvent->setScalar(scala.at(combo_box_material->currentIndex()));
-        materialChangeEvent->setMat(spec.at(combo_box_material->currentIndex()));
-        notifyObserver(materialChangeEvent);
+        setMaterial(materialChangeEvent);
     }
+    notifyObserver(materialChangeEvent);
+
+}
+
+void CgQtGui::setMaterial(CgMaterialChangeEvent* materialChangeEvent)
+{
+    materialChangeEvent->setAmb(amb.at(combo_box_material->currentIndex()));
+    materialChangeEvent->setDiffuse(def.at(combo_box_material->currentIndex()));
+    materialChangeEvent->setScalar(scala.at(combo_box_material->currentIndex()));
+    materialChangeEvent->setMat(spec.at(combo_box_material->currentIndex()));
 }
 
 void CgQtGui::selectInterpolationSlot()
 {
-    std::cout<<combo_box_interpolation->currentIndex()<<std::endl;
-    notifyObserver(new CgBoxEvent(Cg::EventType::CgChangeInterpolation , combo_box_interpolation->currentIndex()));
+    CgMaterialChangeEvent * materialChangeEvent = new CgMaterialChangeEvent(); //TODO
+    materialChangeEvent->setShadingmode(calculateShadingMode());
+    if(combo_box_material->currentIndex()!=-1){
+        setMaterial(materialChangeEvent);
+    }
+    notifyObserver(materialChangeEvent);
 }
 
 

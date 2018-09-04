@@ -1,7 +1,7 @@
 #version 130
 
-in vec3 vert;
-in vec3 vertNormal;
+flat in vec3 vert;
+flat in  vec3 vertNormal;
 
 uniform vec4 mycolor;
 uniform vec4 matDiffuseColor;

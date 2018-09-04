@@ -23,7 +23,7 @@ CgSceneGraph::CgSceneGraph(CgBaseRenderer *renderer):
 
     m_root_node = new CgSceneGraphEntity();
     m_root_node->setRenderObjects(true);
-
+    shading=0;
 
     initCoordinateSystem();
     initVariousObjects();
@@ -47,30 +47,41 @@ void CgSceneGraph::changeValueOfShading()
 //DON
 void CgSceneGraph::setSmth(CgMaterialChangeEvent *e)
 {
-    if(shading){
         setSmthRecursiv(m_root_node, e);
         m_renderer->redraw();
-    }
+
 }
 
 //DON
 void CgSceneGraph::setSmthRecursiv(CgSceneGraphEntity *currentEntity, CgMaterialChangeEvent *e)
 {
+
+    shading=e->shadingmode;
+    if(shading>0){
+        currentEntity->appearance()->setAmbiente(e->getAmb());
+        currentEntity->appearance()->setDiffuse(e->getDiffuse());
+        currentEntity->appearance()->setSpecular(e->getMat());
+        currentEntity->appearance()->setShininess(e->getScalar());
+    }
+
+    else{
+        currentEntity->appearance()->setColor(e->getAmb());
+    }
     for(CgSceneGraphEntity* entity : currentEntity->getChildren()){
-
-        entity->appearance()->setAmbiente(e->getAmb());
-        entity->appearance()->setDiffuse(e->getDiffuse());
-        entity->appearance()->setMaterial(e->getMat());
-        entity->appearance()->setMaterial(e->getMat());
-
-        std::cout<<e->getScalar()<<std::endl;
         for(CgBaseRenderableObject* temp : currentEntity->getObjects()){
-            CgTriangleMesh* temp2 = (CgTriangleMesh*) temp;
-            temp2->setShininess(e->getScalar());
+            if(shading>0){
+                entity->appearance()->setAmbiente(e->getAmb());
+                entity->appearance()->setDiffuse(e->getDiffuse());
+                entity->appearance()->setSpecular(e->getMat());
+                entity->appearance()->setShininess(e->getScalar());
+            }
+            else{
+                entity->appearance()->setColor(glm::vec4(1.,1.,0,1));
+            }
         }
-
         setSmthRecursiv(entity, e);
     }
+
 }
 
 void CgSceneGraph::changeColorOfVariousObjects(glm::vec3 color)
@@ -155,9 +166,9 @@ void CgSceneGraph::selectNextEnitiy()
 
 void CgSceneGraph::tScaleSelectedEntity(glm::vec3 factor)
 {
-//    addTransformationRecursive(selectedEntity, CgU::tScaleMat(factor));
+    //    addTransformationRecursive(selectedEntity, CgU::tScaleMat(factor));
 
-//    selectedEntity->setCurrentTransformation(selectedEntity->current_transformation() * CgU::tScaleMat(factor));
+    //    selectedEntity->setCurrentTransformation(selectedEntity->current_transformation() * CgU::tScaleMat(factor));
 
     CgU::addTransformation(selectedEntity, CgU::tScaleMat(factor));
     m_renderer->redraw();
@@ -191,65 +202,96 @@ void CgSceneGraph::tTranslateSelectedEntity(glm::vec3 transVec)
 
 void CgSceneGraph::render()
 {
-//    m_renderer->setUniformValue("matDiffuseColor",glm::vec4(0.35,0.31,0.09,1.0));
-//    m_renderer->setUniformValue("lightDiffuseColor",glm::vec4(1.0,1.0,1.0,1.0));
-//    m_renderer->setUniformValue("matAmbientColor",glm::vec4(0.25,0.22,0.06,1.0));
-//    m_renderer->setUniformValue("lightAmbientColor",glm::vec4(1.0,1.0,1.0,1.0));
-//    m_renderer->setUniformValue("matSpecularColor",glm::vec4(0.8,0.72,0.21,1.0));
-//    m_renderer->setUniformValue("lightSpecularColor",glm::vec4(1.0,1.0,1.0,1.0));
-
-    if(shading){
+    if(shading==0){
+        std::string path = CgU::getParentDirectory();
+        path.append("/Sommer2018/CgShader/simple.vert");
+        std::string path2 = CgU::getParentDirectory();
+        path2.append("/Sommer2018/CgShader/simple.frag");
+        m_renderer->setShaderSourceFiles(path, path2);
+    }
+    if(shading==1){
+        std::string path = CgU::getParentDirectory();
+        path.append("/Sommer2018/CgShader/phongflat.vert");
+        std::string path2 = CgU::getParentDirectory();
+        path2.append("/Sommer2018/CgShader/phongflat.frag");
+        m_renderer->setShaderSourceFiles(path, path2);
+    }
+    if(shading==2){
         std::string path = CgU::getParentDirectory();
         path.append("/Sommer2018/CgShader/phong.vert");
         std::string path2 = CgU::getParentDirectory();
         path2.append("/Sommer2018/CgShader/phong.frag");
         m_renderer->setShaderSourceFiles(path, path2);
     }
-
+    if(shading==3){
+        std::string path = CgU::getParentDirectory();
+        path.append("/Sommer2018/CgShader/Garaudflat.vert");
+        std::string path2 = CgU::getParentDirectory();
+        path2.append("/Sommer2018/CgShader/Garaudflat.frag");
+        m_renderer->setShaderSourceFiles(path, path2);
+    }
+    if(shading==4){
+        std::string path = CgU::getParentDirectory();
+        path.append("/Sommer2018/CgShader/Garaud.vert");
+        std::string path2 = CgU::getParentDirectory();
+        path2.append("/Sommer2018/CgShader/Garaud.frag");
+        m_renderer->setShaderSourceFiles(path, path2);
+    }
+    std::cout<<"SCENE:MODE"<<shading<<std::endl;
     m_renderer->setUniformValue("projMatrix",m_proj_matrix);
     renderRecursive(m_root_node);
 }
 
 void CgSceneGraph::renderRecursive(CgSceneGraphEntity *currentEntity)
 {
-
-
-
     if(*(currentEntity->renderObject())){
-        pushMatrix();
-        applyTransform(currentEntity->getCurrentTransformation());
+         pushMatrix();
+         applyTransform(currentEntity->getCurrentTransformation());
+         glm::mat4 mv_matrix = m_lookAt_matrix * m_trackball_rotation * m_mat_stack.top();
+         glm::mat3 normal_matrix = glm::transpose(glm::inverse(glm::mat3(mv_matrix)));
+         for(CgBaseRenderableObject* obj : currentEntity->getObjects()){
+             if(shading>0){
+                 m_renderer->setUniformValue("projMatrix",m_proj_matrix);
+                 m_renderer->setUniformValue("modelviewMatrix",mv_matrix);
+                 m_renderer->setUniformValue("normalMatrix",normal_matrix);
+                 m_renderer->setUniformValue("viewpos",glm::vec3(0,0,-1));
+                 m_renderer->setUniformValue("lightDiffuseColor",glm::vec4(1.0f));//TODO Lighsource
+                 m_renderer->setUniformValue("lightAmbientColor",glm::vec4(.2f));
+                 m_renderer->setUniformValue("lightSpecularColor",glm::vec4(1.0f));
+                 m_renderer->setUniformValue("lightdirection",glm::vec3(1,1, 1));
+                     m_renderer->setUniformValue("shininess",20.2);
+                 m_renderer->setUniformValue("matDiffuseColor",currentEntity->appearance()->getDiffuse());
+                 m_renderer->setUniformValue("matAmbientColor",currentEntity->appearance()->getAmbiente());
+                 m_renderer->setUniformValue("matSpecularColor",currentEntity->appearance()->getSpecular());
+                 glm::mat4 mv_matrix = m_lookAt_matrix * m_trackball_rotation * m_mat_stack.top();
+                 glm::mat3 normal_matrix = glm::transpose(glm::inverse(glm::mat3(mv_matrix)));
 
-        glm::mat4 mv_matrix = m_lookAt_matrix * m_trackball_rotation * m_mat_stack.top();
-        glm::mat3 normal_matrix = glm::transpose(glm::inverse(glm::mat3(mv_matrix)));
+                 m_renderer->setUniformValue("projMatrix",m_proj_matrix);
+                 m_renderer->setUniformValue("modelviewMatrix",mv_matrix);
+                 m_renderer->setUniformValue("normalMatrix",normal_matrix);
+                 m_renderer->setUniformValue("viewpos",glm::vec3(1.,1.,-1.));
 
-        m_renderer->setUniformValue("modelviewMatrix",mv_matrix);
-        m_renderer->setUniformValue("normalMatrix",normal_matrix);
-        m_renderer->setUniformValue("mycolor",currentEntity->appearance()->getColor());
-        if(shading){
-            m_renderer->setUniformValue("matDiffuseColor",currentEntity->appearance()->getDiffuse());
-            m_renderer->setUniformValue("lightDiffuseColor",glm::mat4(1.0f));//TODO Lighsource
-            m_renderer->setUniformValue("matAmbientColor",currentEntity->appearance()->getAmbiente());
-            m_renderer->setUniformValue("lightAmbientColor",glm::mat4(0.4f));
-            m_renderer->setUniformValue("matSpecularColor",currentEntity->appearance()->getSpecular());
-            m_renderer->setUniformValue("lightSpecularColor",glm::mat4(0.1f));
-            m_renderer->setUniformValue("viewPos",glm::vec3(0,0,-1.0f));
-            m_renderer->setUniformValue("lightdirection",glm::vec3(0,0, -3));
-        }
+                 m_renderer->init(obj);
+                 m_renderer->render(obj);
 
-        for(CgBaseRenderableObject* obj : currentEntity->getObjects()){
-            m_renderer->render(obj);
-        }
-        for(CgSceneGraphEntity* entity : currentEntity->getChildren()){
-            renderRecursive(entity);
-        }
-        popMatrix();
-    }
+             }
+             else {
+               m_renderer->setUniformValue("mycolor",currentEntity->appearance()->getObjectColor());
+             }
+             m_renderer->init(obj);
+             m_renderer->render(obj);
+         }
+         for(CgSceneGraphEntity* entity : currentEntity->getChildren()){
+             renderRecursive(entity);
+         }
+         popMatrix();
+ }
 }
 
 void CgSceneGraph::initCoordinateSystem()
 {
-        CgCylinder* axis = new CgCylinder(idGen->getNextId(), 10, 1.0f, 0.0001);
-        m_renderer->init(axis);
+    CgCylinder* axis = new CgCylinder(idGen->getNextId(), 10, 1.0f, 0.0001);
+    m_renderer->init(axis);
 
     /*********** coordinate system ***********/
 
@@ -260,41 +302,41 @@ void CgSceneGraph::initCoordinateSystem()
     renderCoordinateSystem = coordinateSystemEntity->renderObject();
     setRenderCoordinateSystem(true);
 
-        m_mat_stack.push(m_mat_stack.top() * CgU::tRotateMatZ(-90.0f));
+    m_mat_stack.push(m_mat_stack.top() * CgU::tRotateMatZ(-90.0f));
 
-            CgSceneGraphEntity* xAxis = new CgSceneGraphEntity();
-            xAxis->setRenderObjects(true);
-            xAxis->setParent(coordinateSystemEntity);
-            coordinateSystemEntity->addChild(xAxis);
-            xAxis->appearance()->setObjectColor(glm::vec3(1.0f, 0.0f, 0.0f));
-            xAxis->addObject(axis);
-            xAxis->setCurrentTransformation(m_mat_stack.top());
+    CgSceneGraphEntity* xAxis = new CgSceneGraphEntity();
+    xAxis->setRenderObjects(true);
+    xAxis->setParent(coordinateSystemEntity);
+    coordinateSystemEntity->addChild(xAxis);
+    xAxis->appearance()->setObjectColor(glm::vec3(1.0f, 0.0f, 0.0f));
+    xAxis->addObject(axis);
+    xAxis->setCurrentTransformation(m_mat_stack.top());
 
-        m_mat_stack.pop();
-        m_mat_stack.push(m_mat_stack.top());
+    m_mat_stack.pop();
+    m_mat_stack.push(m_mat_stack.top());
 
-            CgSceneGraphEntity* yAxis = new CgSceneGraphEntity();
-            yAxis->setRenderObjects(true);
-            yAxis->setParent(coordinateSystemEntity);
-            coordinateSystemEntity->addChild(yAxis);
-            yAxis->appearance()->setObjectColor(glm::vec3(0.0f, 1.0f, 0.0f));
-            yAxis->addObject(axis);
-            yAxis->setCurrentTransformation(m_mat_stack.top());
+    CgSceneGraphEntity* yAxis = new CgSceneGraphEntity();
+    yAxis->setRenderObjects(true);
+    yAxis->setParent(coordinateSystemEntity);
+    coordinateSystemEntity->addChild(yAxis);
+    yAxis->appearance()->setObjectColor(glm::vec3(0.0f, 1.0f, 0.0f));
+    yAxis->addObject(axis);
+    yAxis->setCurrentTransformation(m_mat_stack.top());
 
-        m_mat_stack.pop();
-        m_mat_stack.push(m_mat_stack.top() * CgU::tRotateMatX(90.0f));
+    m_mat_stack.pop();
+    m_mat_stack.push(m_mat_stack.top() * CgU::tRotateMatX(90.0f));
 
-            CgSceneGraphEntity* zAxis = new CgSceneGraphEntity();
-            zAxis->setRenderObjects(true);
-            zAxis->setParent(coordinateSystemEntity);
-            coordinateSystemEntity->addChild(zAxis);
-            zAxis->appearance()->setObjectColor(glm::vec3(0.0f, 0.0f, 1.0f));
-            zAxis->addObject(axis);
-            zAxis->setCurrentTransformation(m_mat_stack.top());
+    CgSceneGraphEntity* zAxis = new CgSceneGraphEntity();
+    zAxis->setRenderObjects(true);
+    zAxis->setParent(coordinateSystemEntity);
+    coordinateSystemEntity->addChild(zAxis);
+    zAxis->appearance()->setObjectColor(glm::vec3(0.0f, 0.0f, 1.0f));
+    zAxis->addObject(axis);
+    zAxis->setCurrentTransformation(m_mat_stack.top());
 
-        m_mat_stack.pop();
+    m_mat_stack.pop();
 
-        /*********** END coordinate system ***********/
+    /*********** END coordinate system ***********/
 }
 
 void CgSceneGraph::initVariousObjects()
@@ -313,7 +355,7 @@ void CgSceneGraph::initVariousObjects()
 
 void CgSceneGraph::initSceneObjects()
 {
-//    sceneObjectsEntity = new CgSceneGraphEntity();
+    //    sceneObjectsEntity = new CgSceneGraphEntity();
     scene = new CgScene(m_renderer, &selectableEntitys);
     sceneEntity = scene->getScene();
     sceneEntity->setParent(m_root_node);
@@ -337,19 +379,19 @@ void CgSceneGraph::initCube()
     cubeEntity->setRenderObjects(false);
     selectableEntitys.push_back(cubeEntity);
 
-        // entity cube normals
-        cubeNormalsEntity = new CgSceneGraphEntity();
-        cubeNormalsEntity->setParent(cubeEntity);
-        cubeEntity->addChild(cubeNormalsEntity);
-        cubeNormalsEntity->setIsColorChangeable(false);
-        cubeNormalsEntity->appearance()->setObjectColor(defaultColorNormals);
-        renderCubeNormals = cubeNormalsEntity->renderObject();
+    // entity cube normals
+    cubeNormalsEntity = new CgSceneGraphEntity();
+    cubeNormalsEntity->setParent(cubeEntity);
+    cubeEntity->addChild(cubeNormalsEntity);
+    cubeNormalsEntity->setIsColorChangeable(false);
+    cubeNormalsEntity->appearance()->setObjectColor(defaultColorNormals);
+    renderCubeNormals = cubeNormalsEntity->renderObject();
 
-        std::vector<CgLine*>* cubeNormals = cube->getPolylineNormals();
-        for(CgLine* line : *cubeNormals){
-            m_renderer->init(line);
-            cubeNormalsEntity->addObject(line);
-        }
+    std::vector<CgLine*>* cubeNormals = cube->getPolylineNormals();
+    for(CgLine* line : *cubeNormals){
+        m_renderer->init(line);
+        cubeNormalsEntity->addObject(line);
+    }
 }
 
 void CgSceneGraph::initCylinder()
@@ -358,29 +400,29 @@ void CgSceneGraph::initCylinder()
     m_renderer->init(cylinder);
 
 
-        // entity cylinder
-        cylinderEntity = new CgSceneGraphEntity();
-        cylinderEntity->setParent(variousObjectsEntity);
-        variousObjectsEntity->addChild(cylinderEntity);
-        cylinderEntity->appearance()->setObjectColor(defaultColor);
-        cylinderEntity->addObject(cylinder);
-        renderCylinder = cylinderEntity->renderObject();
-        cylinderEntity->setRenderObjects(false);
-        selectableEntitys.push_back(cylinderEntity);
+    // entity cylinder
+    cylinderEntity = new CgSceneGraphEntity();
+    cylinderEntity->setParent(variousObjectsEntity);
+    variousObjectsEntity->addChild(cylinderEntity);
+    cylinderEntity->appearance()->setObjectColor(defaultColor);
+    cylinderEntity->addObject(cylinder);
+    renderCylinder = cylinderEntity->renderObject();
+    cylinderEntity->setRenderObjects(false);
+    selectableEntitys.push_back(cylinderEntity);
 
-            // entity cylinder normals
-            cylinderNormalsEntity = new CgSceneGraphEntity();
-            cylinderNormalsEntity->setParent(cylinderEntity);
-            cylinderEntity->addChild(cylinderNormalsEntity);
-            cylinderNormalsEntity->setIsColorChangeable(false);
-            cylinderNormalsEntity->appearance()->setObjectColor(defaultColorNormals);
-            renderCylinderNormals = cylinderNormalsEntity->renderObject();
+    // entity cylinder normals
+    cylinderNormalsEntity = new CgSceneGraphEntity();
+    cylinderNormalsEntity->setParent(cylinderEntity);
+    cylinderEntity->addChild(cylinderNormalsEntity);
+    cylinderNormalsEntity->setIsColorChangeable(false);
+    cylinderNormalsEntity->appearance()->setObjectColor(defaultColorNormals);
+    renderCylinderNormals = cylinderNormalsEntity->renderObject();
 
-            std::vector<CgLine*>* cylinderNormals = cylinder->getPolylineNormals();
-            for(CgLine* line : *cylinderNormals){
-                m_renderer->init(line);
-                cylinderNormalsEntity->addObject(line);
-            }
+    std::vector<CgLine*>* cylinderNormals = cylinder->getPolylineNormals();
+    for(CgLine* line : *cylinderNormals){
+        m_renderer->init(line);
+        cylinderNormalsEntity->addObject(line);
+    }
 }
 
 void CgSceneGraph::initRotationObjects()
@@ -392,37 +434,37 @@ void CgSceneGraph::initRotationObjects()
     CgRotationBody* rotationBody = new CgRotationBody(idGen->getNextId(), rotationCurve, 50);
     m_renderer->init(rotationBody);
 
-        rotationCurveEntity = new CgSceneGraphEntity();
-        rotationCurveEntity->setParent(variousObjectsEntity);
-        variousObjectsEntity->addChild(rotationCurveEntity);
-        rotationCurveEntity->appearance()->setObjectColor(defaultColor);
-        rotationCurveEntity->addObject(rotationCurve);
-        renderRotationCurve = rotationCurveEntity->renderObject();
-        rotationCurveEntity->setRenderObjects(false);
-        selectableEntitys.push_back(rotationCurveEntity);
+    rotationCurveEntity = new CgSceneGraphEntity();
+    rotationCurveEntity->setParent(variousObjectsEntity);
+    variousObjectsEntity->addChild(rotationCurveEntity);
+    rotationCurveEntity->appearance()->setObjectColor(defaultColor);
+    rotationCurveEntity->addObject(rotationCurve);
+    renderRotationCurve = rotationCurveEntity->renderObject();
+    rotationCurveEntity->setRenderObjects(false);
+    selectableEntitys.push_back(rotationCurveEntity);
 
-        rotationBodyEntity = new CgSceneGraphEntity();
-        rotationBodyEntity->setParent(variousObjectsEntity);
-        variousObjectsEntity->addChild(rotationBodyEntity);
-        rotationBodyEntity->appearance()->setObjectColor(defaultColor);
-        rotationBodyEntity->addObject(rotationBody);
-        renderRotationBody = rotationBodyEntity->renderObject();
-        rotationBodyEntity->setRenderObjects(false);
-        selectableEntitys.push_back(rotationBodyEntity);
+    rotationBodyEntity = new CgSceneGraphEntity();
+    rotationBodyEntity->setParent(variousObjectsEntity);
+    variousObjectsEntity->addChild(rotationBodyEntity);
+    rotationBodyEntity->appearance()->setObjectColor(defaultColor);
+    rotationBodyEntity->addObject(rotationBody);
+    renderRotationBody = rotationBodyEntity->renderObject();
+    rotationBodyEntity->setRenderObjects(false);
+    selectableEntitys.push_back(rotationBodyEntity);
 
-            rotationBodyNormalsEntity = new CgSceneGraphEntity();
-            rotationBodyNormalsEntity->setParent(rotationBodyEntity);
-            rotationBodyEntity->addChild(rotationBodyNormalsEntity);
-            rotationBodyNormalsEntity->setIsColorChangeable(false);
-            rotationBodyNormalsEntity->appearance()->setObjectColor(defaultColorNormals);
-            renderRotationBodyNormals = rotationBodyNormalsEntity->renderObject();
-            rotationBodyNormalsEntity->setRenderObjects(false);
+    rotationBodyNormalsEntity = new CgSceneGraphEntity();
+    rotationBodyNormalsEntity->setParent(rotationBodyEntity);
+    rotationBodyEntity->addChild(rotationBodyNormalsEntity);
+    rotationBodyNormalsEntity->setIsColorChangeable(false);
+    rotationBodyNormalsEntity->appearance()->setObjectColor(defaultColorNormals);
+    renderRotationBodyNormals = rotationBodyNormalsEntity->renderObject();
+    rotationBodyNormalsEntity->setRenderObjects(false);
 
-            std::vector<CgLine*>* rotationBodyNormals = rotationBody->getPolylineNormals();
-            for(CgLine* line : *rotationBodyNormals){
-                m_renderer->init(line);
-                rotationBodyNormalsEntity->addObject(line);
-            }
+    std::vector<CgLine*>* rotationBodyNormals = rotationBody->getPolylineNormals();
+    for(CgLine* line : *rotationBodyNormals){
+        m_renderer->init(line);
+        rotationBodyNormalsEntity->addObject(line);
+    }
 
 }
 
@@ -434,49 +476,49 @@ void CgSceneGraph::initLoadedObject()   //Keep in mind not to change the order o
     loadedObject->init(path);
     m_renderer->init(loadedObject);
 
-        loadedObjectEntity = new CgSceneGraphEntity();
-        loadedObjectEntity->setParent(variousObjectsEntity);
-        variousObjectsEntity->addChild(loadedObjectEntity);
-        loadedObjectEntity->appearance()->setObjectColor(defaultColor);
-        loadedObjectEntity->addObject(loadedObject);
-        selectableEntitys.push_back(loadedObjectEntity);
-        renderLoadedObject = loadedObjectEntity->renderObject();
-        loadedObjectEntity->setRenderObjects(false);
+    loadedObjectEntity = new CgSceneGraphEntity();
+    loadedObjectEntity->setParent(variousObjectsEntity);
+    variousObjectsEntity->addChild(loadedObjectEntity);
+    loadedObjectEntity->appearance()->setObjectColor(defaultColor);
+    loadedObjectEntity->addObject(loadedObject);
+    selectableEntitys.push_back(loadedObjectEntity);
+    renderLoadedObject = loadedObjectEntity->renderObject();
+    loadedObjectEntity->setRenderObjects(false);
 
-            loadedObjectNormalsEntity = new CgSceneGraphEntity();
-            loadedObjectNormalsEntity->setParent(loadedObjectEntity);
-            loadedObjectEntity->addChild(loadedObjectNormalsEntity);
-            loadedObjectNormalsEntity->setIsColorChangeable(false);
-            loadedObjectNormalsEntity->appearance()->setObjectColor(defaultColorNormals);
+    loadedObjectNormalsEntity = new CgSceneGraphEntity();
+    loadedObjectNormalsEntity->setParent(loadedObjectEntity);
+    loadedObjectEntity->addChild(loadedObjectNormalsEntity);
+    loadedObjectNormalsEntity->setIsColorChangeable(false);
+    loadedObjectNormalsEntity->appearance()->setObjectColor(defaultColorNormals);
 
-            renderLoadedObjectNormals = loadedObjectNormalsEntity->renderObject();
+    renderLoadedObjectNormals = loadedObjectNormalsEntity->renderObject();
 
-            std::vector<CgLine*>* loadedObjectNormals = loadedObject->getPolylineNormals();
-            for(CgLine* line : *loadedObjectNormals){
-                m_renderer->init(line);
-                loadedObjectNormalsEntity->addObject(line);
-            }
+    std::vector<CgLine*>* loadedObjectNormals = loadedObject->getPolylineNormals();
+    for(CgLine* line : *loadedObjectNormals){
+        m_renderer->init(line);
+        loadedObjectNormalsEntity->addObject(line);
+    }
 
 
 }
 
 void CgSceneGraph::initCustomRotationAxis()
 {
-//    //Object axis
-//    CgCylinder* axis = new CgCylinder(idGen->getNextId(), 10, 1.0f, 0.0001);
-//    m_renderer->init(axis);
+    //    //Object axis
+    //    CgCylinder* axis = new CgCylinder(idGen->getNextId(), 10, 1.0f, 0.0001);
+    //    m_renderer->init(axis);
 
-//    // entity custom rotation axis
-//    customRotationAxisEntity = new CgSceneGraphEntity();
-//    customRotationAxisEntity->setParent(variousObjectsEntity);
-//    variousObjectsEntity->addChild(customRotationAxisEntity);
-//    customRotationAxisEntity->appearance()->setObjectColor(glm::vec3(0.4f,0.4f,0.5f));
-//    customRotationAxisEntity->setIsColorChangeable(false);
-//    customRotationAxisEntity->addObject(axis);
-//    renderCustomRotationAxis = customRotationAxisEntity->renderObject();
-//    customRotationAxisEntity->setRenderObjects(false);
+    //    // entity custom rotation axis
+    //    customRotationAxisEntity = new CgSceneGraphEntity();
+    //    customRotationAxisEntity->setParent(variousObjectsEntity);
+    //    variousObjectsEntity->addChild(customRotationAxisEntity);
+    //    customRotationAxisEntity->appearance()->setObjectColor(glm::vec3(0.4f,0.4f,0.5f));
+    //    customRotationAxisEntity->setIsColorChangeable(false);
+    //    customRotationAxisEntity->addObject(axis);
+    //    renderCustomRotationAxis = customRotationAxisEntity->renderObject();
+    //    customRotationAxisEntity->setRenderObjects(false);
 
-//    customRotationAxisEntity->setCurrentTransformation(m_mat_stack.top()* CgU::tRotateMatX(45) * CgU::tRotateMatZ(-45));
+    //    customRotationAxisEntity->setCurrentTransformation(m_mat_stack.top()* CgU::tRotateMatX(45) * CgU::tRotateMatZ(-45));
 
 
 
@@ -497,7 +539,7 @@ void CgSceneGraph::initCustomRotationAxis()
 void CgSceneGraph::changeColorRecursiv(CgSceneGraphEntity *currentEntity, glm::vec3 color)
 {
     if(currentEntity->getIsColorChangeable()){
-//        currentEntity->appearance()->setObjectColor(color);
+        //        currentEntity->appearance()->setObjectColor(color);
         currentEntity->appearance()->setColor(glm::vec4(color,0));
         for(CgSceneGraphEntity* entity : currentEntity->getChildren()){
             changeColorRecursiv(entity, color);
