@@ -274,7 +274,41 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     if(e->getType() == Cg::EventType::CgChangeMaterial){
         m_scene_graph->setSmth((CgMaterialChangeEvent*) e);
     }
+    if(e->getType() == Cg::CgchangeProjektion){
+            if(((ProjektionEvent*)e)->getValue().x==1){
+                 m_scene_graph->setProjecktion(1);
+            }
+            if(((ProjektionEvent*)e)->getValue().x==2){
+                m_scene_graph->setProjecktion(2);
+            }
+        }
+        if(e->getType()== Cg::CgchangeFrustum){
 
+            if(((ProjektionEvent*)e)->getValue().y==0){
+                m_scene_graph->setFrustum(0,(float)(((ProjektionEvent*)e)->getValue().z)/10);
+
+            }
+            if(((ProjektionEvent*)e)->getValue().y==1){
+                m_scene_graph->setFrustum(1,(float)(((ProjektionEvent*)e)->getValue().z)/10);
+
+            }
+            if(((ProjektionEvent*)e)->getValue().y==2){
+                m_scene_graph->setFrustum(2,(float)(((ProjektionEvent*)e)->getValue().z)/10);
+
+            }
+            if(((ProjektionEvent*)e)->getValue().y==3){
+                m_scene_graph->setFrustum(3,(float)(((ProjektionEvent*)e)->getValue().z)/10);
+
+            }
+            if(((ProjektionEvent*)e)->getValue().y==4){
+                m_scene_graph->setFrustum(4,(float)(((ProjektionEvent*)e)->getValue().z)/10);
+
+            }
+            if(((ProjektionEvent*)e)->getValue().y==5){
+                m_scene_graph->setFrustum(5,(float)(((ProjektionEvent*)e)->getValue().z)/10);
+
+            }
+        }
     delete e;
 
 

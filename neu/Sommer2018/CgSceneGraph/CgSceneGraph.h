@@ -19,6 +19,7 @@ private:
 
     //DON
     int shading;
+    int projektionstype;
         Kamera* cam;
     //Basic vars
     IdSingleton* idGen;
@@ -162,6 +163,8 @@ public:
     void reset();
     void setLookAtAfterMove();
 
+    void setProjecktion(int i);
+    void setFrustum(int i, float wert);
 };
 
 #endif // CGSCENEGRAPH_H

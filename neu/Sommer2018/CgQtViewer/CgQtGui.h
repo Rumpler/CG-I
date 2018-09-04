@@ -47,6 +47,7 @@
 #include "../CgBase/CgObservable.h"
 #include <glm/glm.hpp>
 #include <CgEvents/CgMaterialChangeEvent.h>
+#include <CgEvents/projektionevent.h>
 
 QT_BEGIN_NAMESPACE
 class QSlider;
@@ -86,6 +87,7 @@ int calculateShadingMode();
     void selectShader();
     void selectInterpolation();
     void Aufgabe6(QWidget* parent);
+    void Aufgabe5(QWidget* parent);
     void createComboBox(QComboBox* combo);
     void clearComboBox(QComboBox* combo);
 
@@ -186,7 +188,14 @@ private slots:
     void selectInterpolationSlot();
     void selectObjectMaterial();
     void selectColor();
-
+    void slotChangeProjektionZentral();
+    void slotChangeProjektionParalel();
+    void slotChangeFrustumR(int);
+    void slotChangeFrustumL(int);
+    void slotChangeFrustumT(int);
+    void slotChangeFrustumB(int);
+    void slotChangeFrustumN(int);
+    void slotChangeFrustumF(int);
 
 public:
     CgQtGui(CgQtMainApplication *mw);

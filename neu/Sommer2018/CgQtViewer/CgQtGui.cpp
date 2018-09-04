@@ -1,5 +1,7 @@
 #include "CgQtGLRenderWidget.h"
 #include "CgQtGui.h"
+#include "CgQtGui.h"
+#include "CgQtGui.h"
 #include "CgQtMainApplication.h"
 #include "../CgBase/CgEnums.h"
 #include "../CgEvents/CgMouseEvent.h"
@@ -121,11 +123,14 @@ CgQtGui::CgQtGui(CgQtMainApplication *mw)
     createOptionPanelColor(m_panel_color);
 
     QTabWidget* m_tabs = new QTabWidget();
-
+    QWidget *m_panelfrustum = new QWidget;
+    Aufgabe5(m_panelfrustum);
     m_tabs->addTab(m_panel_objects,"&Objects");
     m_tabs->addTab(m_panel_rotate_objects, "&Rotate Objects");
     m_tabs->addTab(m_panel_color, "&Color");
+    m_tabs->addTab(m_panelfrustum,"&frustum");
     container->addWidget(m_tabs);
+
 
     m_tabs->setMaximumWidth(400);
 
@@ -663,6 +668,7 @@ void CgQtGui::selectInterpolation()
  */
 void CgQtGui::Aufgabe6(QWidget* parent)
 {
+
     QVBoxLayout *tab1_control = new QVBoxLayout();
     QLabel * opt = new QLabel("selektiere eine Objekteigenschaft");
     combo_box_shader = new QComboBox();
@@ -684,6 +690,89 @@ void CgQtGui::Aufgabe6(QWidget* parent)
     connect(combo_box_shader, SIGNAL(currentIndexChanged(int)),this,SLOT(selectShaderSlot()));
     connect(combo_box_interpolation, SIGNAL(currentIndexChanged(int)),this,SLOT(selectInterpolationSlot()));
     parent->setLayout(tab1_control);
+
+}
+
+void CgQtGui::Aufgabe5(QWidget* parent){
+    QVBoxLayout *tab2_control = new QVBoxLayout();
+    QHBoxLayout *subBox = new QHBoxLayout();
+    QPushButton* myButton10 = new QPushButton("&Zentral");
+    QPushButton* myButton11 = new QPushButton("&Paralel");
+    subBox->addWidget(myButton10);
+    subBox->addWidget(myButton11);
+
+    connect(myButton10, SIGNAL( clicked() ), this, SLOT(slotChangeProjektionZentral()) );
+    connect(myButton11, SIGNAL( clicked() ), this, SLOT(slotChangeProjektionParalel()) );
+    //-----------------------------
+    QLabel *label = new QLabel("Frustum R/10");
+    tab2_control->addWidget(label);
+    label->setAlignment(Qt::AlignCenter);
+
+    QSpinBox* mySpinBox1 = new QSpinBox();
+    tab2_control->addWidget(mySpinBox1);
+    mySpinBox1->setMinimum(1);
+    mySpinBox1->setMaximum(30);
+    mySpinBox1->setValue(10);
+    connect(mySpinBox1, SIGNAL(valueChanged(int) ), this, SLOT(slotChangeFrustumR(int)));
+    //_____________
+    QLabel *label2 = new QLabel("Frustum L/10");
+    tab2_control->addWidget(label2);
+    label2->setAlignment(Qt::AlignCenter);
+
+    QSpinBox* mySpinBox2 = new QSpinBox();
+    tab2_control->addWidget(mySpinBox2);
+    mySpinBox2->setMinimum(1);
+    mySpinBox2->setMaximum(30);
+    mySpinBox2->setValue(10);
+    connect(mySpinBox2, SIGNAL(valueChanged(int) ), this, SLOT(slotChangeFrustumL(int)) );
+    //____________
+    QLabel *label3 = new QLabel("Frustum T/10");
+    tab2_control->addWidget(label3);
+    label3->setAlignment(Qt::AlignCenter);
+
+    QSpinBox* mySpinBox3 = new QSpinBox();
+    tab2_control->addWidget(mySpinBox3);
+    mySpinBox3->setMinimum(1);
+    mySpinBox3->setMaximum(30);
+    mySpinBox3->setValue(10);
+    connect(mySpinBox3, SIGNAL(valueChanged(int) ), this, SLOT(slotChangeFrustumT(int)) );
+    //____________
+    QLabel *label4 = new QLabel("Frustum B/10");
+    tab2_control->addWidget(label4);
+    label4->setAlignment(Qt::AlignCenter);
+
+    QSpinBox* mySpinBox4 = new QSpinBox();
+    tab2_control->addWidget(mySpinBox4);
+    mySpinBox4->setMinimum(1);
+    mySpinBox4->setMaximum(30);
+    mySpinBox4->setValue(10);
+    connect(mySpinBox4, SIGNAL(valueChanged(int) ), this, SLOT(slotChangeFrustumB(int)) );
+    //____________
+    QLabel *label5 = new QLabel("Frustum F/10");
+    tab2_control->addWidget(label5);
+    label5->setAlignment(Qt::AlignCenter);
+
+    QSpinBox* mySpinBox5 = new QSpinBox();
+    tab2_control->addWidget(mySpinBox5);
+    mySpinBox5->setMinimum(1);
+    mySpinBox5->setMaximum(30);
+    mySpinBox5->setValue(10);
+    connect(mySpinBox5, SIGNAL(valueChanged(int) ), this, SLOT(slotChangeFrustumF(int)) );
+    //____________
+    QLabel *label6 = new QLabel("Frustum N/10");
+    tab2_control->addWidget(label6);
+    label6->setAlignment(Qt::AlignCenter);
+
+    QSpinBox* mySpinBox6 = new QSpinBox();
+    tab2_control->addWidget(mySpinBox6);
+    mySpinBox6->setMinimum(1);
+    mySpinBox6->setMaximum(30);
+    mySpinBox6->setValue(10);
+    connect(mySpinBox6, SIGNAL(valueChanged(int) ), this, SLOT(slotChangeFrustumN(int)) );
+    //____________
+
+    tab2_control->addLayout(subBox);
+    parent->setLayout(tab2_control);
 
 }
 /**
@@ -715,6 +804,57 @@ void CgQtGui::selectColor()
 {
     CgMaterialChangeEvent * materialChangeEvent = new CgMaterialChangeEvent(amb.at(1),calculateShadingMode());
     notifyObserver(materialChangeEvent);
+}
+
+void CgQtGui::slotChangeProjektionParalel()
+{
+    CgBaseEvent* e = new ProjektionEvent(Cg::CgchangeProjektion, glm::vec3(1,0,0));
+    notifyObserver(e);
+}
+
+void CgQtGui::slotChangeProjektionZentral()
+{
+    CgBaseEvent* e = new ProjektionEvent(Cg::CgchangeProjektion, glm::vec3(2,0,0));
+    notifyObserver(e);
+}
+
+void CgQtGui::slotChangeFrustumR(int i)
+{
+
+    CgBaseEvent* e = new ProjektionEvent(Cg::CgchangeFrustum, glm::vec3(0,0,i));
+    notifyObserver(e);
+}
+
+void CgQtGui::slotChangeFrustumL(int i)
+{
+    CgBaseEvent* e = new ProjektionEvent(Cg::CgchangeFrustum, glm::vec3(0,1,i));
+    notifyObserver(e);
+}
+
+void CgQtGui::slotChangeFrustumT(int i)
+{
+
+    CgBaseEvent* e = new ProjektionEvent(Cg::CgchangeFrustum, glm::vec3(0,2,i));
+    notifyObserver(e);
+}
+
+void CgQtGui::slotChangeFrustumB(int i)
+{
+
+    CgBaseEvent* e = new ProjektionEvent(Cg::CgchangeFrustum, glm::vec3(0,3,i));
+    notifyObserver(e);
+}
+
+void CgQtGui::slotChangeFrustumN(int i)
+{
+    CgBaseEvent* e = new ProjektionEvent(Cg::CgchangeFrustum, glm::vec3(0,4,i));
+    notifyObserver(e);
+}
+
+void CgQtGui::slotChangeFrustumF(int i)
+{
+    CgBaseEvent* e = new ProjektionEvent(Cg::CgchangeFrustum, glm::vec3(0,5,i));
+    notifyObserver(e);
 }
 
 

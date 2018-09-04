@@ -23,7 +23,7 @@ CgSceneGraph::CgSceneGraph(CgBaseRenderer *renderer):
     //m_proj_matrix= glm::mat4x4(glm::vec4(1.792591, 0.0, 0.0, 0.0), glm::vec4(0.0, 1.792591, 0.0, 0.0), glm::vec4(0.0, 0.0, -1.0002, -1.0), glm::vec4(0.0, 0.0, -0.020002, 0.0));
     m_trackball_rotation=glm::mat4(1.);
     idGen = IdSingleton::instance();
-
+    projektionstype=0;
     m_root_node = new CgSceneGraphEntity();
     m_root_node->setRenderObjects(true);
     shading=0;
@@ -44,6 +44,49 @@ CgSceneGraph::~CgSceneGraph()
 void CgSceneGraph::changeValueOfShading()
 {
     shading = true;
+    m_renderer->redraw();
+}
+
+void CgSceneGraph::setProjecktion(int i)
+{
+    if(i==1){
+        projektionstype=0;
+        m_proj_matrix = cam->getProjektionsMatrix();
+    }
+    else{
+        projektionstype=1;
+        m_proj_matrix = cam->getProjektionsMatrixZentrall();
+    }
+    m_renderer->redraw();
+}
+
+void CgSceneGraph::setFrustum(int i,float wert)
+{
+    if(i==0){
+        cam->setR(wert);
+    }
+    if(i==1){
+        cam->setL(wert);
+    }
+    if(i==2){
+        cam->setT(wert);
+    }
+    if(i==3){
+        cam->setB(wert);
+    }
+    if(i==4){
+        cam->setN(wert);
+    }
+    if(i==5){
+        cam->setF(wert);
+    }
+    cam->renew();
+    if(projektionstype=0){
+     m_proj_matrix = cam->getProjektionsMatrixZentrall();
+    }
+    else{
+             m_proj_matrix = cam->getProjektionsMatrix();
+    }
     m_renderer->redraw();
 }
 
