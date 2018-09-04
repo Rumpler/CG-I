@@ -3,9 +3,10 @@
 in vec3 vert;
 in vec3 vertNormal;
 
+flat in vec3 alle;
 uniform vec4 mycolor;
 
     void main() {
  
-	gl_FragColor=vec4(1,1,0,1);
+	gl_FragColor=vec4(alle,1);
     }
