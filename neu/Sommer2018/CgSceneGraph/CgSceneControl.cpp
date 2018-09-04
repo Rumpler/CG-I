@@ -47,6 +47,20 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     if(e->getType() == Cg::CgMouseButtonPress || e->getType() == Cg::CgMouseMove)
     {
         CgMouseEvent* ev = (CgMouseEvent*)e;
+        /*std::cout << *ev << std::endl;
+         float lx = ev->getLocalPos().x;
+         float ly = ev->getLocalPos().y;
+         float mx = camm->getFenster().x;
+         float my = camm->getFenster().y;
+         float dx = float(lx/mx);
+         float dy = float(ly/my);
+         std::cout<<"dx/dy "<<dx<<" "<<dy<<" mx/my "<<mx<<" "<<my<<" lx/ly "<<lx<<" "<<ly<<std::endl;
+         glm::vec2 temp = glm::vec2((2*dx-1),(2*dy-1));
+
+
+         m_triangle->addLine(temp.x,temp.y, camm);
+         m_renderer->redraw();
+         */
     }
 
     if(e->getType() == Cg::CgTrackballEvent)
