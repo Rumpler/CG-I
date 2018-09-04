@@ -17,7 +17,7 @@
 #include <CgUtils/CgUtils.h>
 #include "CgUtils/ObjLoader.h"
 #include <string>
-
+#include <CgClasses/kamera.h>
 CgSceneControl::CgSceneControl()
 {
 
@@ -59,6 +59,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
 
     if(e->getType() == Cg::CgKeyPressEvent)
     {
+
         CgKeyEvent* ev = (CgKeyEvent*)e;
 
         if(ev->key() == Cg::Key_N || ev->key() == Cg::Key_0){
@@ -103,6 +104,50 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         if(ev->key() == Cg::Key_9){
             m_scene_graph->tTranslateSelectedEntity(glm::vec3(0,-0.1,0));
         }
+        if(ev->key()==Cg::Key_W)
+        {
+              std::cout<<"tastew"<<std::endl;
+            m_scene_graph->moveForward();
+        }
+        if(ev->key()==Cg::Key_S)
+        {
+                  std::cout<<"tastes"<<std::endl;
+           m_scene_graph->moveBackward();
+        }
+
+        if(ev->key()==Cg::Key_A)
+        {
+              std::cout<<"tastew"<<std::endl;
+            m_scene_graph->moveRight();
+        }
+        if(ev->key()==Cg::Key_D)
+        {
+                  std::cout<<"tastes"<<std::endl;
+           m_scene_graph->moveLeft();
+        }
+        if(ev->key()==Cg::Key_E){
+            m_scene_graph->moveDown();
+        }
+
+        if(ev->key()==Cg::Key_R){
+            m_scene_graph->moveUp();
+        }
+
+        if(ev->key()==Cg::Key_F){
+            m_scene_graph->rotateLeft();
+        }
+
+        if(ev->key()==Cg::Key_G){
+            m_scene_graph->rotateRight();
+        }
+
+        if(ev->key()==Cg::Key_H){
+            m_scene_graph->moveUp();
+        }
+
+
+
+
     }
 
     if(e->getType() == Cg::CgWindowResizeEvent)
@@ -165,16 +210,16 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         m_scene_graph->setRenderCoordinateSystem(ev->getRenderCoordinateSystem());
 
         m_scene_graph->setRenderVariousObjects(true);
-            m_scene_graph->setRenderCube(ev->getRenderCube());
-            m_scene_graph->setRenderCubeNormals(ev->getRenderCubeNormals());
-            m_scene_graph->setRenderCylinder(ev->getRenderCylinder());
-            m_scene_graph->setRenderCylinderNormals(ev->getRenderCylinderNormals());
-            m_scene_graph->setRenderRotationCurve(ev->getRenderRotationCurve());
-            m_scene_graph->setRenderRotationBody(ev->getRenderRotationBody());
-            m_scene_graph->setRenderRotationBodyNormals(ev->getRenderRotationBodyNormals());
-            m_scene_graph->setRenderLoadedObject(ev->getRenderLoadedObject());
-            m_scene_graph->setRenderLoadedObjectNormals(ev->getRenderLoadedObjectNormals());
-            m_scene_graph->setRenderCustomRotationAxis(ev->getRenderCustomRotationAxis());
+        m_scene_graph->setRenderCube(ev->getRenderCube());
+        m_scene_graph->setRenderCubeNormals(ev->getRenderCubeNormals());
+        m_scene_graph->setRenderCylinder(ev->getRenderCylinder());
+        m_scene_graph->setRenderCylinderNormals(ev->getRenderCylinderNormals());
+        m_scene_graph->setRenderRotationCurve(ev->getRenderRotationCurve());
+        m_scene_graph->setRenderRotationBody(ev->getRenderRotationBody());
+        m_scene_graph->setRenderRotationBodyNormals(ev->getRenderRotationBodyNormals());
+        m_scene_graph->setRenderLoadedObject(ev->getRenderLoadedObject());
+        m_scene_graph->setRenderLoadedObjectNormals(ev->getRenderLoadedObjectNormals());
+        m_scene_graph->setRenderCustomRotationAxis(ev->getRenderCustomRotationAxis());
 
         m_renderer->redraw();
     }

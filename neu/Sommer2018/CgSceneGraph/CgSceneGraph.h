@@ -11,7 +11,7 @@
 #include <CgBase/CgBaseRenderer.h>
 #include <CgEvents/CgMaterialChangeEvent.h>
 #include "CgUtils/IdSingleton.h"
-
+#include <CgClasses/kamera.h>
 
 class CgSceneGraph
 {
@@ -19,7 +19,7 @@ private:
 
     //DON
     int shading;
-
+        Kamera* cam;
     //Basic vars
     IdSingleton* idGen;
     CgBaseRenderer *m_renderer;
@@ -151,6 +151,17 @@ public:
     void setRenderScene(bool value);
     bool getRenderCustomRotationAxis() const;
     void setRenderCustomRotationAxis(bool value);
+    void moveForward();
+    void moveBackward();
+    void moveLeft();
+    void moveRight();
+    void moveUp();
+    void moveDown();
+    void rotateLeft();
+    void rotateRight();
+    void reset();
+    void setLookAtAfterMove();
+
 };
 
 #endif // CGSCENEGRAPH_H

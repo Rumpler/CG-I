@@ -41,7 +41,8 @@ SOURCES += main.cpp \
     CgSceneGraph/CgScene.cpp\
     CgClasses/CgLightsource.cpp \
     CgEvents/CgBoxEvent.cpp \
-    CgEvents/CgMaterialChangeEvent.cpp
+    CgEvents/CgMaterialChangeEvent.cpp \
+    CgClasses/kamera.cpp
 
 
 
@@ -93,5 +94,6 @@ HEADERS += \
     CgSceneGraph/CgScene.h \
     CgClasses/CgLightsource.h \
     CgEvents/CgBoxEvent.h \
-    CgEvents/CgMaterialChangeEvent.h
+    CgEvents/CgMaterialChangeEvent.h \
+    CgClasses/kamera.h
 
