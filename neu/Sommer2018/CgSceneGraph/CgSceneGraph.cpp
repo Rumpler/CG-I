@@ -16,6 +16,7 @@ CgSceneGraph::CgSceneGraph(CgBaseRenderer *renderer):
 {
     m_mat_stack.push(glm::mat4(1.));
     cam = new Camera();
+
     m_lookAt_matrix = cam->getLookAt();
 
     //    m_lookAt_matrix= glm::lookAt(glm::vec3(0.0,0.0,1.0),glm::vec3(0.0,0.0,0.0),glm::vec3(0.0,1.0,0.0));
@@ -43,11 +44,6 @@ CgSceneGraph::~CgSceneGraph()
     //TODO
 }
 
-void CgSceneGraph::changeValueOfShading()
-{
-    shading = false;
-    m_renderer->redraw();
-}
 
 void CgSceneGraph::setProjection(int i)
 {
@@ -83,58 +79,41 @@ void CgSceneGraph::setFrustum(int i,float wert)
         cam->setF(wert);
     }
     cam->renew();
-    if(projektionstype=0){
-     m_proj_matrix = cam->getProjectionMatCentral();
+    if(projektionstype == 1){
+        m_proj_matrix = cam->getProjectionMatCentral();
     }
     else{
-             m_proj_matrix = cam->getProjectionMatParallel();
+        m_proj_matrix = cam->getProjectionMatParallel();
     }
     m_renderer->redraw();
 }
 
 //DON
-void CgSceneGraph::setSmth(CgMaterialChangeEvent *e)
+void CgSceneGraph::setMaterialProperties(CgMaterialChangeEvent *e)
 {
-        setSmthRecursiv(m_root_node, e);
+        setMaterialPropertiesRecursiv(m_root_node, e);
+//        setMaterialPropertiesRecursiv(selectedEntity, e);
         m_renderer->redraw();
 
 }
 
 //DON
-void CgSceneGraph::setSmthRecursiv(CgSceneGraphEntity *currentEntity, CgMaterialChangeEvent *e)
+void CgSceneGraph::setMaterialPropertiesRecursiv(CgSceneGraphEntity *currentEntity, CgMaterialChangeEvent *e)
 {
-
-    shading=e->shadingmode;
+    shading = e->getShadingmode();
     if(shading>0){
         currentEntity->appearance()->setAmbiente(e->getAmb());
         currentEntity->appearance()->setDiffuse(e->getDiffuse());
         currentEntity->appearance()->setSpecular(e->getMat());
         currentEntity->appearance()->setShininess(e->getScalar());
-    }
-
-    else{
+    }else{
         currentEntity->appearance()->setColor(e->getAmb());
     }
 
-
-
-
-        for(CgSceneGraphEntity* entity : currentEntity->getChildren()){
-            for(CgBaseRenderableObject* temp : currentEntity->getObjects()){
-                if(shading>0){
-                    entity->appearance()->setAmbiente(e->getAmb());
-                    entity->appearance()->setDiffuse(e->getDiffuse());
-                    entity->appearance()->setSpecular(e->getMat());
-                    entity->appearance()->setShininess(e->getScalar());
-                }
-                else{
-                    entity->appearance()->setColor(glm::vec4(1.,1.,0,1));
-                }
-            }
-            setSmthRecursiv(entity, e);
-        }
-
+    for(CgSceneGraphEntity* entity : currentEntity->getChildren()){
+        setMaterialPropertiesRecursiv(entity, e);
     }
+}
 
     void CgSceneGraph::changeColorOfAllObjects(glm::vec4 color)
     {
@@ -268,55 +247,55 @@ void CgSceneGraph::setSmthRecursiv(CgSceneGraphEntity *currentEntity, CgMaterial
     }
     void CgSceneGraph::setLookAtAfterMove()
     {
-    //    m_lookAt_matrix=cam->getLookAt();
+        m_lookAt_matrix=cam->getLookAt();
         m_renderer->redraw();
     }
 
     void CgSceneGraph::moveForward(){
-    //    cam->moveKammW();
+        cam->moveCamW();
         setLookAtAfterMove();
     }
 
 
     void CgSceneGraph::moveBackward(){
-    //    cam->moveKammS();
+        cam->moveCamS();
          setLookAtAfterMove();
     }
 
     void CgSceneGraph::moveLeft()
     {
-    //    cam->moveKammA();
+        cam->moveCamA();
         setLookAtAfterMove();
     }
 
 
     void CgSceneGraph::moveRight()
     {
-    //    cam->moveKammD();
+        cam->moveCamD();
         setLookAtAfterMove();
     }
 
     void CgSceneGraph::moveUp()
     {
-    //    cam->moveKammUpY();
+        cam->moveCamUp();
         setLookAtAfterMove();
     }
 
     void CgSceneGraph::moveDown()
     {
-        cam->moveCamDownX();
+        cam->moveCamDown();
         setLookAtAfterMove();
     }
 
     void CgSceneGraph::rotateLeft()
     {
-        cam->RotateCamLeft();
+        cam->rotateCamLeft();
         setLookAtAfterMove();
     }
 
     void CgSceneGraph::rotateRight()
     {
-        cam->RotateCamRight();
+        cam->rotateCamRight();
         setLookAtAfterMove();
     }
 
@@ -325,6 +304,95 @@ void CgSceneGraph::setSmthRecursiv(CgSceneGraphEntity *currentEntity, CgMaterial
         cam->reset();
         setLookAtAfterMove();
     }
+
+//    void CgSceneGraph::render()
+//    {
+//        if(shading==0){
+//            std::string path = CgU::getParentDirectory();
+//            path.append("/Sommer2018/CgShader/simple.vert");
+//            std::string path2 = CgU::getParentDirectory();
+//            path2.append("/Sommer2018/CgShader/simple.frag");
+//            m_renderer->setShaderSourceFiles(path, path2);
+//        }
+//        if(shading==1){
+//            std::string path = CgU::getParentDirectory();
+//            path.append("/Sommer2018/CgShader/phongflat.vert");
+//            std::string path2 = CgU::getParentDirectory();
+//            path2.append("/Sommer2018/CgShader/phongflat.frag");
+//            m_renderer->setShaderSourceFiles(path, path2);
+//        }
+//        if(shading==2){
+//            std::string path = CgU::getParentDirectory();
+//            path.append("/Sommer2018/CgShader/phong.vert");
+//            std::string path2 = CgU::getParentDirectory();
+//            path2.append("/Sommer2018/CgShader/phong.frag");
+//            m_renderer->setShaderSourceFiles(path, path2);
+//        }
+//        if(shading==3){
+//            std::string path = CgU::getParentDirectory();
+//            path.append("/Sommer2018/CgShader/Garaudflat.vert");
+//            std::string path2 = CgU::getParentDirectory();
+//            path2.append("/Sommer2018/CgShader/Garaudflat.frag");
+//            m_renderer->setShaderSourceFiles(path, path2);
+//        }
+//        if(shading==4){
+//            std::string path = CgU::getParentDirectory();
+//            path.append("/Sommer2018/CgShader/Garaud.vert");
+//            std::string path2 = CgU::getParentDirectory();
+//            path2.append("/Sommer2018/CgShader/Garaud.frag");
+//            m_renderer->setShaderSourceFiles(path, path2);
+//        }
+
+//        //LIGHT SETTINGS
+//        m_renderer->setUniformValue("lightDiffuseColor",glm::vec4(1.0f));
+//        m_renderer->setUniformValue("lightAmbientColor",glm::vec4(.2f));
+//        m_renderer->setUniformValue("lightSpecularColor",glm::vec4(1.0f));
+//        m_renderer->setUniformValue("lightdirection",glm::vec3(1,1, 1));
+
+//        renderRecursive(m_root_node);
+//    }
+
+//    void CgSceneGraph::renderRecursive(CgSceneGraphEntity *currentEntity)
+//    {
+//        if(*(currentEntity->renderObject())){
+//            pushMatrix();
+//            applyTransform(currentEntity->getCurrentTransformation());
+
+////            //DEFAULT CAM DELETE LATER
+////            m_lookAt_matrix= glm::lookAt(glm::vec3(0.0,0.0,1.0),glm::vec3(0.0,0.0,0.0),glm::vec3(0.0,1.0,0.0));
+////            m_proj_matrix= glm::mat4x4(glm::vec4(1.792591, 0.0, 0.0, 0.0), glm::vec4(0.0, 1.792591, 0.0, 0.0), glm::vec4(0.0, 0.0, -1.0002, -1.0), glm::vec4(0.0, 0.0, -0.020002, 0.0));
+
+//            glm::mat4 mv_matrix = m_lookAt_matrix * m_trackball_rotation * m_mat_stack.top();
+//            glm::mat3 normal_matrix = glm::transpose(glm::inverse(glm::mat3(mv_matrix)));
+//            m_renderer->setUniformValue("projMatrix",m_proj_matrix);
+//            m_renderer->setUniformValue("modelviewMatrix",mv_matrix);
+//            m_renderer->setUniformValue("normalMatrix",normal_matrix);
+//            m_renderer->setUniformValue("viewpos",cam->getEye());
+
+//            for(CgBaseRenderableObject* obj : currentEntity->getObjects()){
+//                if(shading>0){
+//                    //OBJECT SETTINGS
+//                    m_renderer->setUniformValue("shininess",20.2);
+//                    m_renderer->setUniformValue("matDiffuseColor",currentEntity->appearance()->getDiffuse());
+//                    m_renderer->setUniformValue("matAmbientColor",currentEntity->appearance()->getAmbiente());
+//                    m_renderer->setUniformValue("matSpecularColor",currentEntity->appearance()->getSpecular());
+//                }
+//                else {
+//                    m_renderer->setUniformValue("mycolor",currentEntity->appearance()->getColor());
+//                }
+//                m_renderer->render(obj);
+//            }
+//            for(CgSceneGraphEntity* entity : currentEntity->getChildren()){
+//                renderRecursive(entity);
+//            }
+//            popMatrix();
+//        }
+//    }
+
+
+
+
+
 
     void CgSceneGraph::render()
     {
@@ -363,13 +431,6 @@ void CgSceneGraph::setSmthRecursiv(CgSceneGraphEntity *currentEntity, CgMaterial
             path2.append("/Sommer2018/CgShader/Garaud.frag");
             m_renderer->setShaderSourceFiles(path, path2);
         }
-
-        //LIGHT SETTINGS
-        m_renderer->setUniformValue("lightDiffuseColor",glm::vec4(1.0f));
-        m_renderer->setUniformValue("lightAmbientColor",glm::vec4(.2f));
-        m_renderer->setUniformValue("lightSpecularColor",glm::vec4(1.0f));
-        m_renderer->setUniformValue("lightdirection",glm::vec3(1,1, 1));
-
         renderRecursive(m_root_node);
     }
 
@@ -378,37 +439,44 @@ void CgSceneGraph::setSmthRecursiv(CgSceneGraphEntity *currentEntity, CgMaterial
         if(*(currentEntity->renderObject())){
             pushMatrix();
             applyTransform(currentEntity->getCurrentTransformation());
-
-//            //DEFAULT CAM DELETE LATER
-//            m_lookAt_matrix= glm::lookAt(glm::vec3(0.0,0.0,1.0),glm::vec3(0.0,0.0,0.0),glm::vec3(0.0,1.0,0.0));
-//            m_proj_matrix= glm::mat4x4(glm::vec4(1.792591, 0.0, 0.0, 0.0), glm::vec4(0.0, 1.792591, 0.0, 0.0), glm::vec4(0.0, 0.0, -1.0002, -1.0), glm::vec4(0.0, 0.0, -0.020002, 0.0));
-
-            glm::mat4 mv_matrix = m_lookAt_matrix * m_trackball_rotation * m_mat_stack.top();
-            glm::mat3 normal_matrix = glm::transpose(glm::inverse(glm::mat3(mv_matrix)));
-            m_renderer->setUniformValue("projMatrix",m_proj_matrix);
-            m_renderer->setUniformValue("modelviewMatrix",mv_matrix);
-            m_renderer->setUniformValue("normalMatrix",normal_matrix);
-            m_renderer->setUniformValue("viewpos",cam->getEye());
-
             for(CgBaseRenderableObject* obj : currentEntity->getObjects()){
-                if(shading>0){
-                    //OBJECT SETTINGS
-                    m_renderer->setUniformValue("shininess",20.2);
-                    m_renderer->setUniformValue("matDiffuseColor",currentEntity->appearance()->getDiffuse());
-                    m_renderer->setUniformValue("matAmbientColor",currentEntity->appearance()->getAmbiente());
-                    m_renderer->setUniformValue("matSpecularColor",currentEntity->appearance()->getSpecular());
-                }
-                else {
-                    m_renderer->setUniformValue("mycolor",currentEntity->appearance()->getColor());
-                }
+
+                glm::mat4 mv_matrix = m_lookAt_matrix * m_trackball_rotation * m_mat_stack.top();
+                glm::mat3 normal_matrix = glm::transpose(glm::inverse(glm::mat3(mv_matrix)));
+
+                m_renderer->setUniformValue("projMatrix",m_proj_matrix);
+                m_renderer->setUniformValue("modelviewMatrix",mv_matrix);
+                m_renderer->setUniformValue("normalMatrix",normal_matrix);
+
+                m_renderer->setUniformValue("mycolor",currentEntity->appearance()->getColor());
+                m_renderer->setUniformValue("matDiffuseColor",currentEntity->appearance()->getDiffuse());
+                m_renderer->setUniformValue("matAmbientColor",currentEntity->appearance()->getAmbiente());
+                m_renderer->setUniformValue("matSpecularColor",currentEntity->appearance()->getSpecular());
+                m_renderer->setUniformValue("lightDiffuseColor",glm::vec4(1.0f));
+                m_renderer->setUniformValue("lightAmbientColor",glm::vec4(.2f));
+                m_renderer->setUniformValue("lightSpecularColor",glm::vec4(1.0f));
+                m_renderer->setUniformValue("lightdirection",glm::vec3(1,1, 1));
+                m_renderer->setUniformValue("viewpos",cam->getEye());
+                m_renderer->setUniformValue("shininess",20.2);
+
                 m_renderer->render(obj);
             }
-            for(CgSceneGraphEntity* entity : currentEntity->getChildren()){
-                renderRecursive(entity);
-            }
-            popMatrix();
-        }
+             for(CgSceneGraphEntity* entity : currentEntity->getChildren()){
+                 renderRecursive(entity);
+             }
+             popMatrix();
+     }
     }
+
+
+
+
+
+
+
+    //************************************************************************************************
+
+
 
     void CgSceneGraph::initCoordinateSystem()
     {
@@ -686,7 +754,8 @@ void CgSceneGraph::setSmthRecursiv(CgSceneGraphEntity *currentEntity, CgMaterial
     }
 
     void CgSceneGraph::setProjectionMatrix(const glm::mat4 &proj_matrix){
-        m_proj_matrix = cam->getProjectionMatParallel();
+//        m_proj_matrix = cam->getProjectionMatParallel();
+        m_proj_matrix = proj_matrix;
     }
 
     glm::mat4 CgSceneGraph::trackballRotation() const{

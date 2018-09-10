@@ -99,9 +99,8 @@ public:
     CgSceneGraph(CgBaseRenderer *renderer);
     ~CgSceneGraph();
 
-    void changeValueOfShading();
-    void setSmth(CgMaterialChangeEvent *e);
-    void setSmthRecursiv(CgSceneGraphEntity* currentEntity, CgMaterialChangeEvent *e);
+    void setMaterialProperties(CgMaterialChangeEvent *e);
+    void setMaterialPropertiesRecursiv(CgSceneGraphEntity* currentEntity, CgMaterialChangeEvent *e);
 
     //Public methodes for interacton with Scenegraph
     void render();

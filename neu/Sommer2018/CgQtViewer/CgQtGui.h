@@ -80,14 +80,13 @@ private:
     std::vector<glm::vec4> spec;
     std::vector<float>scala;
     std::vector<QString> names;
-int calculateShadingMode();
+    int calculateShadingMode();
     void createMats();
     void selectMaterialShaderOn();
     void selectMaterialShaderOff();
     void selectShader();
     void selectInterpolation();
-    void Aufgabe6(QWidget* parent);
-    void Aufgabe5(QWidget* parent);
+
     void createComboBox(QComboBox* combo);
     void clearComboBox(QComboBox* combo);
 
@@ -96,17 +95,13 @@ int calculateShadingMode();
     QComboBox* combo_box_shader;
     QComboBox* combo_box_interpolation;
 
-
-
-
-
-
     QSlider *createColorSlider();
 
     //Panels
     QWidget*               m_panel_objects;
     QWidget*               m_panel_rotate_objects;
     QWidget*               m_panel_color;
+    QWidget*               m_panel_camera;
 
     QButtonGroup* ButtonGroupObjects;
 
@@ -134,6 +129,7 @@ int calculateShadingMode();
     void createOptionPanelObjects(QWidget* parent);
     void createOptionPanelRotateObjects(QWidget* parent);
     void createOptionPanelColor(QWidget* parent);
+    void createOptionPanelCamera(QWidget* parent);
 
     QGroupBox* createGBObjects();
     QGroupBox* createGBTransformation();
@@ -141,6 +137,8 @@ int calculateShadingMode();
     QGroupBox* createGBCylinder();
     QGroupBox* createGBRotationBody();
     QGroupBox* createGBShader();
+    QGroupBox* createGBFrustum();
+    QGroupBox* createGBProjection();
 
 
 
@@ -187,9 +185,9 @@ private slots:
     void selectShaderSlot();
     void selectInterpolationSlot();
     void selectObjectMaterial();
-    void selectColor();
-    void slotChangeProjektionZentral();
-    void slotChangeProjektionParalel();
+    void selectColorSLOT();
+    void slotChangeProjectionToCentral();
+    void slotChangeProjectionToParallel();
     void slotChangeFrustumR(int);
     void slotChangeFrustumL(int);
     void slotChangeFrustumT(int);

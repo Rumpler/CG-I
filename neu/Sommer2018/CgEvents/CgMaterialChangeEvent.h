@@ -10,6 +10,8 @@ public:
     CgMaterialChangeEvent();
     CgMaterialChangeEvent(glm::vec4 mat,glm::vec4 amb, glm::vec4 diffuse, float scalar, enum Cg::EventType type,int shadingmode);
     CgMaterialChangeEvent(glm::vec4 mat, int shadingmode);
+
+private:
     enum Cg::EventType type;
     glm::vec4 mat;
     glm::vec4 amb;

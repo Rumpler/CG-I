@@ -121,14 +121,14 @@ CgQtGui::CgQtGui(CgQtMainApplication *mw)
     createOptionPanelRotateObjects(m_panel_rotate_objects);
     m_panel_color = new QWidget;
     createOptionPanelColor(m_panel_color);
+    m_panel_camera = new QWidget();
+    createOptionPanelCamera(m_panel_camera);
 
     QTabWidget* m_tabs = new QTabWidget();
-    QWidget *m_panelfrustum = new QWidget;
-    Aufgabe5(m_panelfrustum);
     m_tabs->addTab(m_panel_objects,"&Objects");
     m_tabs->addTab(m_panel_rotate_objects, "&Rotate Objects");
     m_tabs->addTab(m_panel_color, "&Color");
-    m_tabs->addTab(m_panelfrustum,"&frustum");
+    m_tabs->addTab(m_panel_camera,"&Camera");
     container->addWidget(m_tabs);
 
 
@@ -222,6 +222,17 @@ void CgQtGui::createOptionPanelColor(QWidget *parent)
     panel_layout->addWidget(createGBShader());
     panel_layout->addStretch(1);
     parent->setLayout(panel_layout);
+}
+
+void CgQtGui::createOptionPanelCamera(QWidget *parent)
+{
+    QVBoxLayout *tabLayout = new QVBoxLayout();
+    tabLayout->addWidget(createGBProjection());
+    tabLayout->addWidget(createGBFrustum());
+
+
+    tabLayout->addStretch(1);
+    parent->setLayout(tabLayout);
 }
 
 QGroupBox *CgQtGui::createGBObjects()
@@ -612,13 +623,95 @@ QGroupBox *CgQtGui::createGBShader()
     vboxShader->addWidget(combo_box_interpolation);
     vboxShader->addWidget(opt);
 
-    connect(combo_box_material, SIGNAL(currentIndexChanged(int)),this,SLOT(selectColor()));
+    connect(combo_box_material, SIGNAL(currentIndexChanged(int)),this,SLOT(selectColorSLOT()));
     connect(combo_box_shader, SIGNAL(currentIndexChanged(int)),this,SLOT(selectShaderSlot()));
     connect(combo_box_interpolation, SIGNAL(currentIndexChanged(int)),this,SLOT(selectInterpolationSlot()));
 
     groupBoxShader->setLayout(vboxShader);
 
     return groupBoxShader;
+}
+
+QGroupBox *CgQtGui::createGBFrustum()
+{
+    QGroupBox* groupBoxFrustum = new QGroupBox("Frustum");
+
+    QVBoxLayout *subBox = new QVBoxLayout();
+
+    QSpinBox* mySpinBox1 = new QSpinBox();
+    mySpinBox1->setPrefix("Right ");
+    mySpinBox1->setSuffix( " /10");
+    subBox->addWidget(mySpinBox1);
+    mySpinBox1->setMinimum(1);
+    mySpinBox1->setMaximum(30);
+    mySpinBox1->setValue(10);
+    connect(mySpinBox1, SIGNAL(valueChanged(int) ), this, SLOT(slotChangeFrustumR(int)));
+
+    QSpinBox* mySpinBox2 = new QSpinBox();
+    mySpinBox2->setPrefix("Left ");
+    mySpinBox2->setSuffix( " /10");
+    subBox->addWidget(mySpinBox2);
+    mySpinBox2->setMinimum(1);
+    mySpinBox2->setMaximum(30);
+    mySpinBox2->setValue(10);
+    connect(mySpinBox2, SIGNAL(valueChanged(int) ), this, SLOT(slotChangeFrustumL(int)) );
+
+    QSpinBox* mySpinBox3 = new QSpinBox();
+    mySpinBox3->setPrefix("Top ");
+    mySpinBox3->setSuffix( " /10");
+    subBox->addWidget(mySpinBox3);
+    mySpinBox3->setMinimum(1);
+    mySpinBox3->setMaximum(30);
+    mySpinBox3->setValue(10);
+    connect(mySpinBox3, SIGNAL(valueChanged(int) ), this, SLOT(slotChangeFrustumT(int)) );
+
+    QSpinBox* mySpinBox4 = new QSpinBox();
+    mySpinBox4->setPrefix("Bottom ");
+    mySpinBox4->setSuffix( " /10");
+    subBox->addWidget(mySpinBox4);
+    mySpinBox4->setMinimum(1);
+    mySpinBox4->setMaximum(30);
+    mySpinBox4->setValue(10);
+    connect(mySpinBox4, SIGNAL(valueChanged(int) ), this, SLOT(slotChangeFrustumB(int)) );
+
+    QSpinBox* mySpinBox5 = new QSpinBox();
+    mySpinBox5->setPrefix("Front ");
+    mySpinBox5->setSuffix( " /10");
+    subBox->addWidget(mySpinBox5);
+    mySpinBox5->setMinimum(1);
+    mySpinBox5->setMaximum(30);
+    mySpinBox5->setValue(10);
+    connect(mySpinBox5, SIGNAL(valueChanged(int) ), this, SLOT(slotChangeFrustumF(int)) );
+
+    QSpinBox* mySpinBox6 = new QSpinBox();
+    mySpinBox6->setPrefix("Near ");
+    mySpinBox6->setSuffix( " /10");
+    subBox->addWidget(mySpinBox6);
+    mySpinBox6->setMinimum(1);
+    mySpinBox6->setMaximum(30);
+    mySpinBox6->setValue(10);
+    connect(mySpinBox6, SIGNAL(valueChanged(int) ), this, SLOT(slotChangeFrustumN(int)) );
+
+    groupBoxFrustum->setLayout(subBox);
+    return groupBoxFrustum;
+
+}
+
+QGroupBox *CgQtGui::createGBProjection()
+{
+    QGroupBox* groupBoxProjection = new QGroupBox("Projection");
+
+    QHBoxLayout *subBox = new QHBoxLayout();
+    QPushButton* btCentralProj = new QPushButton("&Central");
+    QPushButton* btParallelProj = new QPushButton("&Parallel");
+    subBox->addWidget(btCentralProj);
+    subBox->addWidget(btParallelProj);
+
+    connect(btCentralProj, SIGNAL( clicked() ), this, SLOT(slotChangeProjectionToCentral()) );
+    connect(btParallelProj, SIGNAL( clicked() ), this, SLOT(slotChangeProjectionToParallel()) );
+
+    groupBoxProjection->setLayout(subBox);
+    return groupBoxProjection;
 }
 
 //DON
@@ -670,115 +763,8 @@ void CgQtGui::selectInterpolation()
  * @brief CgQtGui::Aufgabe6
  * @param parent
  */
-void CgQtGui::Aufgabe6(QWidget* parent)
-{
 
-    QVBoxLayout *tab1_control = new QVBoxLayout();
-    QLabel * opt = new QLabel("selektiere eine Objekteigenschaft");
-    combo_box_shader = new QComboBox();
-    combo_box_interpolation = new QComboBox();
-    combo_box_material = new QComboBox();
-    selectMaterialShaderOff();
-    createComboBox(combo_box_material);
-    selectShader();
-    createComboBox(combo_box_shader);
-    selectInterpolation();
-    createComboBox(combo_box_interpolation);
 
-    tab1_control->addWidget(combo_box_material);
-    tab1_control->addWidget(combo_box_shader);
-    tab1_control->addWidget(combo_box_interpolation);
-    tab1_control->addWidget(opt);
-
-    connect(combo_box_material, SIGNAL(currentIndexChanged(int)),this,SLOT(selectColor()));
-    connect(combo_box_shader, SIGNAL(currentIndexChanged(int)),this,SLOT(selectShaderSlot()));
-    connect(combo_box_interpolation, SIGNAL(currentIndexChanged(int)),this,SLOT(selectInterpolationSlot()));
-    parent->setLayout(tab1_control);
-
-}
-
-void CgQtGui::Aufgabe5(QWidget* parent){
-    QVBoxLayout *tab2_control = new QVBoxLayout();
-    QHBoxLayout *subBox = new QHBoxLayout();
-    QPushButton* myButton10 = new QPushButton("&Zentral");
-    QPushButton* myButton11 = new QPushButton("&Paralel");
-    subBox->addWidget(myButton10);
-    subBox->addWidget(myButton11);
-
-    connect(myButton10, SIGNAL( clicked() ), this, SLOT(slotChangeProjektionZentral()) );
-    connect(myButton11, SIGNAL( clicked() ), this, SLOT(slotChangeProjektionParalel()) );
-    //-----------------------------
-    QLabel *label = new QLabel("Frustum R/10");
-    tab2_control->addWidget(label);
-    label->setAlignment(Qt::AlignCenter);
-
-    QSpinBox* mySpinBox1 = new QSpinBox();
-    tab2_control->addWidget(mySpinBox1);
-    mySpinBox1->setMinimum(1);
-    mySpinBox1->setMaximum(30);
-    mySpinBox1->setValue(10);
-    connect(mySpinBox1, SIGNAL(valueChanged(int) ), this, SLOT(slotChangeFrustumR(int)));
-    //_____________
-    QLabel *label2 = new QLabel("Frustum L/10");
-    tab2_control->addWidget(label2);
-    label2->setAlignment(Qt::AlignCenter);
-
-    QSpinBox* mySpinBox2 = new QSpinBox();
-    tab2_control->addWidget(mySpinBox2);
-    mySpinBox2->setMinimum(1);
-    mySpinBox2->setMaximum(30);
-    mySpinBox2->setValue(10);
-    connect(mySpinBox2, SIGNAL(valueChanged(int) ), this, SLOT(slotChangeFrustumL(int)) );
-    //____________
-    QLabel *label3 = new QLabel("Frustum T/10");
-    tab2_control->addWidget(label3);
-    label3->setAlignment(Qt::AlignCenter);
-
-    QSpinBox* mySpinBox3 = new QSpinBox();
-    tab2_control->addWidget(mySpinBox3);
-    mySpinBox3->setMinimum(1);
-    mySpinBox3->setMaximum(30);
-    mySpinBox3->setValue(10);
-    connect(mySpinBox3, SIGNAL(valueChanged(int) ), this, SLOT(slotChangeFrustumT(int)) );
-    //____________
-    QLabel *label4 = new QLabel("Frustum B/10");
-    tab2_control->addWidget(label4);
-    label4->setAlignment(Qt::AlignCenter);
-
-    QSpinBox* mySpinBox4 = new QSpinBox();
-    tab2_control->addWidget(mySpinBox4);
-    mySpinBox4->setMinimum(1);
-    mySpinBox4->setMaximum(30);
-    mySpinBox4->setValue(10);
-    connect(mySpinBox4, SIGNAL(valueChanged(int) ), this, SLOT(slotChangeFrustumB(int)) );
-    //____________
-    QLabel *label5 = new QLabel("Frustum F/10");
-    tab2_control->addWidget(label5);
-    label5->setAlignment(Qt::AlignCenter);
-
-    QSpinBox* mySpinBox5 = new QSpinBox();
-    tab2_control->addWidget(mySpinBox5);
-    mySpinBox5->setMinimum(1);
-    mySpinBox5->setMaximum(30);
-    mySpinBox5->setValue(10);
-    connect(mySpinBox5, SIGNAL(valueChanged(int) ), this, SLOT(slotChangeFrustumF(int)) );
-    //____________
-    QLabel *label6 = new QLabel("Frustum N/10");
-    tab2_control->addWidget(label6);
-    label6->setAlignment(Qt::AlignCenter);
-
-    QSpinBox* mySpinBox6 = new QSpinBox();
-    tab2_control->addWidget(mySpinBox6);
-    mySpinBox6->setMinimum(1);
-    mySpinBox6->setMaximum(30);
-    mySpinBox6->setValue(10);
-    connect(mySpinBox6, SIGNAL(valueChanged(int) ), this, SLOT(slotChangeFrustumN(int)) );
-    //____________
-
-    tab2_control->addLayout(subBox);
-    parent->setLayout(tab2_control);
-
-}
 /**
  * Erstelle Inhalt der Comboboxen
  * @brief CgQtGui::createComboBox
@@ -804,19 +790,19 @@ void CgQtGui::clearComboBox(QComboBox* combo){
  * Slot um Farbe auszuwählen
  * @brief CgQtGui::selectColor
  */
-void CgQtGui::selectColor()
+void CgQtGui::selectColorSLOT()
 {
     CgMaterialChangeEvent * materialChangeEvent = new CgMaterialChangeEvent(amb.at(1),calculateShadingMode());
     notifyObserver(materialChangeEvent);
 }
 
-void CgQtGui::slotChangeProjektionParalel()
+void CgQtGui::slotChangeProjectionToParallel()
 {
     CgBaseEvent* e = new ProjektionEvent(Cg::CgchangeProjektion, glm::vec3(1,0,0));
     notifyObserver(e);
 }
 
-void CgQtGui::slotChangeProjektionZentral()
+void CgQtGui::slotChangeProjectionToCentral()
 {
     CgBaseEvent* e = new ProjektionEvent(Cg::CgchangeProjektion, glm::vec3(2,0,0));
     notifyObserver(e);
@@ -1147,12 +1133,12 @@ void CgQtGui::selectShaderSlot()
     combo_box_material->clear();
     if(combo_box_shader->currentIndex()==0){
         disconnect(combo_box_material, SIGNAL(currentIndexChanged(int)),this,SLOT(selectObjectMaterial()));
-        connect(combo_box_material, SIGNAL(currentIndexChanged(int)),this,SLOT(selectColor()));
+        connect(combo_box_material, SIGNAL(currentIndexChanged(int)),this,SLOT(selectColorSLOT()));
         selectMaterialShaderOff();
 
     }
     else{
-        disconnect(combo_box_material, SIGNAL(currentIndexChanged(int)),this,SLOT(selectColor()));
+        disconnect(combo_box_material, SIGNAL(currentIndexChanged(int)),this,SLOT(selectColorSLOT()));
         connect(combo_box_material, SIGNAL(currentIndexChanged(int)),this,SLOT(selectObjectMaterial()));
         CgMaterialChangeEvent * materialChangeEvent = new CgMaterialChangeEvent(); //TODO
         materialChangeEvent->setShadingmode(calculateShadingMode());

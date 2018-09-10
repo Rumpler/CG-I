@@ -47,10 +47,10 @@ public:
     void moveCamA();
     void moveCamS();
     void moveCamD();
-    void moveCamUpY();
-    void moveCamDownX();
-    void RotateCamLeft();
-    void RotateCamRight();
+    void moveCamUp();
+    void moveCamDown();
+    void rotateCamLeft();
+    void rotateCamRight();
 
     glm::mat4 getProjectionMatCentral() const;
     void setProjectionMatCentral(const glm::mat4 &value);

@@ -166,13 +166,13 @@ void Camera::renew(){
     //--------------------------------------------------
     //paralelprojektion? matrix, normalized device coordinates ?
     projectionMatParallel = glm::mat4(glm::vec4(2/(r-l),0,0,-((r+l)/(r-l))),
-                                  glm::vec4(0,2/(t-b),0,-((t+b)/(t-b))),
-                                  glm::vec4(0,0,-2/(f-n),-((f+n)/(f-n))),
-                                  glm::vec4(0,0,0,1));
+                                      glm::vec4(0,2/(t-b),0,-((t+b)/(t-b))),
+                                      glm::vec4(0,0,-2/(f-n),-((f+n)/(f-n))),
+                                      glm::vec4(0,0,0,1));
     projektionMatCentral = glm::mat4(glm::vec4((2*n)/(r-l),0,(r+l)/(r-l),0),
-                                          glm::vec4(0,(2*n)/(t-b),(t+b)/(t-b),0),
-                                          glm::vec4(0,0,-((f+n)/(f-n)),-((2*f*n)/(f-n))),
-                                          glm::vec4(0,0,-1,0));
+                                     glm::vec4(0,(2*n)/(t-b),(t+b)/(t-b),0),
+                                     glm::vec4(0,0,-((f+n)/(f-n)),-((2*f*n)/(f-n))),
+                                     glm::vec4(0,0,-1,0));
     //--------------------------------------------------
 
 }
@@ -181,28 +181,28 @@ Camera::Camera()
 {
     x = 0;
     y = 0;
-    z = -1.0;
+    z = -1;
     rotation = 0;
-    r = 5;
-    l = -5;
-    t = 5;
-    b = -5;
-    n = 5;
-    f = -5;
+    r = 1;
+    l = -1;
+    t = 1;
+    b = -1;
+    n = 1;
+    f = -1;
     setWindow(glm::vec2(400,400));
     //--------------------------------------------------
     //paralelprojektion? matrix, normalized device coordinates ?
     projectionMatParallel = glm::mat4(glm::vec4(2/(r-l),0,0,-((r+l)/(r-l))),
-                                  glm::vec4(0,2/(t-b),0,-((t+b)/(t-b))),
-                                  glm::vec4(0,0,-2/(f-n),-((f+n)/(f-n))),
-                                  glm::vec4(0,0,0,1));
+                                      glm::vec4(0,2/(t-b),0,-((t+b)/(t-b))),
+                                      glm::vec4(0,0,-2/(f-n),-((f+n)/(f-n))),
+                                      glm::vec4(0,0,0,1));
     projektionMatCentral = glm::mat4(glm::vec4((2*n)/(r-l),0,(r+l)/(r-l),0),
-                                          glm::vec4(0,(2*n)/(t-b),(t+b)/(t-b),0),
-                                          glm::vec4(0,0,-((f+n)/(f-n)),-((2*f*n)/(f-n))),
-                                          glm::vec4(0,0,-1,0));
+                                     glm::vec4(0,(2*n)/(t-b),(t+b)/(t-b),0),
+                                     glm::vec4(0,0,-((f+n)/(f-n)),-((2*f*n)/(f-n))),
+                                     glm::vec4(0,0,-1,0));
     //--------------------------------------------------
 
-    eye = glm::vec3(0,0,1.0);
+    eye = glm::vec3(0,0,-1);
     center = glm::vec3(0,0,0);
     up = glm::vec3(0,1.0,0);
 
@@ -218,7 +218,7 @@ Camera::Camera()
     u = glm::normalize(u);
     v = glm::normalize(v);
 
-lookAt = constructLookAt();
+    lookAt = constructLookAt();
 
 }
 
@@ -227,8 +227,8 @@ void Camera::reset()
     x = 0;
     y = 0;
     z = -1;
-    rotation = -3.13;
-    eye = glm::vec3(0,0,1.0);
+    rotation = 0;
+    eye = glm::vec3(0,0,-1.0);
     center = glm::vec3(0,0,0);
     up = glm::vec3(0,1.0,0);
 
@@ -244,7 +244,7 @@ void Camera::reset()
     u = glm::normalize(u);
     v = glm::normalize(v);
 
-lookAt = constructLookAt();
+    lookAt = constructLookAt();
 
 }
 
@@ -253,75 +253,50 @@ glm::mat4 Camera::constructLookAt(){
                                glm::vec4(v.x,v.y,v.z,0),
                                glm::vec4(w.x,w.y,w.z,0),
                                glm::vec4(x,y,z,1));
-    std::cout<<"const look at "<< w.x<<w.y<<w.z<<std::endl;
     return temp;
 }
 
 void Camera::moveCamW(){
     z = z +0.1;
-    lookAt = glm::mat4(glm::vec4(u.x,u.y,u.z,0),
-                       glm::vec4(v.x,v.y,v.z,0),
-                       glm::vec4(w.x,w.y,w.z,0),
-                       glm::vec4(x,y,z,1));
+    lookAt = constructLookAt();
 }
 
 void Camera::moveCamA()
 {
     x = x -0.1;
-    lookAt = glm::mat4(glm::vec4(u.x,u.y,u.z,0),
-                       glm::vec4(v.x,v.y,v.z,0),
-                       glm::vec4(w.x,w.y,w.z,0),
-                       glm::vec4(x,y,z,1));
+    lookAt = constructLookAt();
 }
 
 void Camera::moveCamS()
 {
     z = z -0.1;
-    lookAt = glm::mat4(glm::vec4(u.x,u.y,u.z,0),
-                       glm::vec4(v.x,v.y,v.z,0),
-                       glm::vec4(w.x,w.y,w.z,0),
-                       glm::vec4(x,y,z,1));
+    lookAt = constructLookAt();
 }
 
 void Camera::moveCamD()
 {
     x = x +0.1;
-    lookAt = glm::mat4(glm::vec4(u.x,u.y,u.z,0),
-                       glm::vec4(v.x,v.y,v.z,0),
-                       glm::vec4(w.x,w.y,w.z,0),
-                       glm::vec4(x,y,z,1));
+    lookAt = constructLookAt();
 }
 
-void Camera::moveCamUpY()
+void Camera::moveCamUp()
 {
     y = y +0.1;
-    lookAt = glm::mat4(glm::vec4(u.x,u.y,u.z,0),
-                       glm::vec4(v.x,v.y,v.z,0),
-                       glm::vec4(w.x,w.y,w.z,0),
-                       glm::vec4(x,y,z,1));
+    lookAt = constructLookAt();
 }
 
-void Camera::moveCamDownX()
+void Camera::moveCamDown()
 {
     y = y -0.1;
-    lookAt = glm::mat4(glm::vec4(u.x,u.y,u.z,0),
-                       glm::vec4(v.x,v.y,v.z,0),
-                       glm::vec4(w.x,w.y,w.z,0),
-                       glm::vec4(x,y,z,1));
+    lookAt = constructLookAt();
 }
-/**
- *
- *
- *
-**/
-void Camera::RotateCamLeft()
-{
-    rotation = rotation - 1;
-    eye = glm::vec3(0,0,0);
-       center = glm::vec3(glm::cos(glm::radians(rotation)),0,glm::sin(glm::radians(rotation)));
-    up = glm::vec3(0,1.0,0);
 
-    w = (center -eye);
+void Camera::rotateCamLeft()
+{
+    rotation = rotation + 1;
+    center = glm::vec3(glm::sin(glm::radians(rotation)),0,glm::cos(glm::radians(rotation)));
+
+    w = (center - eye);
     w = glm::normalize(w);
 
     v = up;
@@ -336,11 +311,10 @@ void Camera::RotateCamLeft()
     lookAt = constructLookAt();
 }
 
-void Camera::RotateCamRight()
+void Camera::rotateCamRight()
 {
-    rotation = rotation + 1;
-    eye = glm::vec3(0,0,0);
-    center = glm::vec3(glm::cos(glm::radians(rotation)),0,glm::sin(glm::radians(rotation)));
+    rotation = rotation - 1;
+    center = glm::vec3(glm::sin(glm::radians(rotation)),0,glm::cos(glm::radians(rotation)));
     up = glm::vec3(0,1.0,0);
 
     w = (center -eye);

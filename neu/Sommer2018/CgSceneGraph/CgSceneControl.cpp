@@ -139,8 +139,13 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
                   std::cout<<"tastes"<<std::endl;
            m_scene_graph->moveLeft();
         }
+
         if(ev->key()==Cg::Key_E){
-            m_scene_graph->moveDown();
+            m_scene_graph->rotateRight();
+        }
+
+        if(ev->key()==Cg::Key_Q){
+            m_scene_graph->rotateLeft();
         }
 
         if(ev->key()==Cg::Key_R){
@@ -148,19 +153,8 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         }
 
         if(ev->key()==Cg::Key_F){
-            m_scene_graph->rotateLeft();
+            m_scene_graph->moveDown();
         }
-
-        if(ev->key()==Cg::Key_G){
-            m_scene_graph->rotateRight();
-        }
-
-        if(ev->key()==Cg::Key_H){
-            m_scene_graph->moveUp();
-        }
-
-
-
 
     }
 
@@ -274,7 +268,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
 
     //DON
     if(e->getType() == Cg::EventType::CgChangeMaterial){
-        m_scene_graph->setSmth((CgMaterialChangeEvent*) e);
+        m_scene_graph->setMaterialProperties((CgMaterialChangeEvent*) e);
     }
     if(e->getType() == Cg::CgchangeProjektion){
             if(((ProjektionEvent*)e)->getValue().x==1){
