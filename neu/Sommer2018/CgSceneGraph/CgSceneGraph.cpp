@@ -16,12 +16,14 @@ CgSceneGraph::CgSceneGraph(CgBaseRenderer *renderer):
 {
     m_mat_stack.push(glm::mat4(1.));
     cam = new Camera();
-//    m_lookAt_matrix = cam->getLookAt();
+    m_lookAt_matrix = cam->getLookAt();
 
-    m_lookAt_matrix= glm::lookAt(glm::vec3(0.0,0.0,1.0),glm::vec3(0.0,0.0,0.0),glm::vec3(0.0,1.0,0.0));
-//    m_proj_matrix = cam->getProjektionsMatrix();
-    m_proj_matrix= glm::mat4x4(glm::vec4(1.792591, 0.0, 0.0, 0.0), glm::vec4(0.0, 1.792591, 0.0, 0.0), glm::vec4(0.0, 0.0, -1.0002, -1.0), glm::vec4(0.0, 0.0, -0.020002, 0.0));
+    //    m_lookAt_matrix= glm::lookAt(glm::vec3(0.0,0.0,1.0),glm::vec3(0.0,0.0,0.0),glm::vec3(0.0,1.0,0.0));
+    //    m_proj_matrix= glm::mat4x4(glm::vec4(1.792591, 0.0, 0.0, 0.0), glm::vec4(0.0, 1.792591, 0.0, 0.0), glm::vec4(0.0, 0.0, -1.0002, -1.0), glm::vec4(0.0, 0.0, -0.020002, 0.0));
+
+    m_proj_matrix = cam->getProjectionMatCentral();
     m_trackball_rotation=glm::mat4(1.);
+
     idGen = IdSingleton::instance();
     projektionstype=0;
     m_root_node = new CgSceneGraphEntity();
@@ -49,44 +51,44 @@ void CgSceneGraph::changeValueOfShading()
 
 void CgSceneGraph::setProjection(int i)
 {
-//    if(i==1){
-//        projektionstype=0;
-//        m_proj_matrix = cam->getProjektionsMatrix();
-//    }
-//    else{
-//        projektionstype=1;
-//        m_proj_matrix = cam->getProjektionsMatrixZentral();
-//    }
+    if(i==1){
+        projektionstype=0;
+        m_proj_matrix = cam->getProjectionMatParallel();
+    }
+    else{
+        projektionstype=1;
+        m_proj_matrix = cam->getProjectionMatCentral();
+    }
     m_renderer->redraw();
 }
 
 void CgSceneGraph::setFrustum(int i,float wert)
 {
-//    if(i==0){
-//        cam->setR(wert);
-//    }
-//    if(i==1){
-//        cam->setL(wert);
-//    }
-//    if(i==2){
-//        cam->setT(wert);
-//    }
-//    if(i==3){
-//        cam->setB(wert);
-//    }
-//    if(i==4){
-//        cam->setN(wert);
-//    }
-//    if(i==5){
-//        cam->setF(wert);
-//    }
-//    cam->renew();
-//    if(projektionstype=0){
-//     m_proj_matrix = cam->getProjektionsMatrixZentral();
-//    }
-//    else{
-//             m_proj_matrix = cam->getProjektionsMatrix();
-//    }
+    if(i==0){
+        cam->setR(wert);
+    }
+    if(i==1){
+        cam->setL(wert);
+    }
+    if(i==2){
+        cam->setT(wert);
+    }
+    if(i==3){
+        cam->setB(wert);
+    }
+    if(i==4){
+        cam->setN(wert);
+    }
+    if(i==5){
+        cam->setF(wert);
+    }
+    cam->renew();
+    if(projektionstype=0){
+     m_proj_matrix = cam->getProjectionMatCentral();
+    }
+    else{
+             m_proj_matrix = cam->getProjectionMatParallel();
+    }
     m_renderer->redraw();
 }
 
@@ -363,7 +365,7 @@ void CgSceneGraph::setSmthRecursiv(CgSceneGraphEntity *currentEntity, CgMaterial
         }
 
         //LIGHT SETTINGS
-        m_renderer->setUniformValue("lightDiffuseColor",glm::vec4(1.0f));//TODO Lighsource
+        m_renderer->setUniformValue("lightDiffuseColor",glm::vec4(1.0f));
         m_renderer->setUniformValue("lightAmbientColor",glm::vec4(.2f));
         m_renderer->setUniformValue("lightSpecularColor",glm::vec4(1.0f));
         m_renderer->setUniformValue("lightdirection",glm::vec3(1,1, 1));
@@ -377,10 +379,9 @@ void CgSceneGraph::setSmthRecursiv(CgSceneGraphEntity *currentEntity, CgMaterial
             pushMatrix();
             applyTransform(currentEntity->getCurrentTransformation());
 
-
-            //DEFAULT CAM DELETE LATER
-            m_lookAt_matrix= glm::lookAt(glm::vec3(0.0,0.0,1.0),glm::vec3(0.0,0.0,0.0),glm::vec3(0.0,1.0,0.0));
-            m_proj_matrix= glm::mat4x4(glm::vec4(1.792591, 0.0, 0.0, 0.0), glm::vec4(0.0, 1.792591, 0.0, 0.0), glm::vec4(0.0, 0.0, -1.0002, -1.0), glm::vec4(0.0, 0.0, -0.020002, 0.0));
+//            //DEFAULT CAM DELETE LATER
+//            m_lookAt_matrix= glm::lookAt(glm::vec3(0.0,0.0,1.0),glm::vec3(0.0,0.0,0.0),glm::vec3(0.0,1.0,0.0));
+//            m_proj_matrix= glm::mat4x4(glm::vec4(1.792591, 0.0, 0.0, 0.0), glm::vec4(0.0, 1.792591, 0.0, 0.0), glm::vec4(0.0, 0.0, -1.0002, -1.0), glm::vec4(0.0, 0.0, -0.020002, 0.0));
 
             glm::mat4 mv_matrix = m_lookAt_matrix * m_trackball_rotation * m_mat_stack.top();
             glm::mat3 normal_matrix = glm::transpose(glm::inverse(glm::mat3(mv_matrix)));
@@ -390,7 +391,6 @@ void CgSceneGraph::setSmthRecursiv(CgSceneGraphEntity *currentEntity, CgMaterial
             m_renderer->setUniformValue("viewpos",cam->getEye());
 
             for(CgBaseRenderableObject* obj : currentEntity->getObjects()){
-
                 if(shading>0){
                     //OBJECT SETTINGS
                     m_renderer->setUniformValue("shininess",20.2);
