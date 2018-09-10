@@ -1,175 +1,175 @@
 #include "kamera.h"
 #include <iostream>
 
-glm::vec3 Kamera::getEye() const
+glm::vec3 Camera::getEye() const
 {
     return eye;
 }
 
-void Kamera::setEye(const glm::vec3 &value)
+void Camera::setEye(const glm::vec3 &value)
 {
     eye = value;
 }
 
-glm::vec3 Kamera::getCenter() const
+glm::vec3 Camera::getCenter() const
 {
     return center;
 }
 
-void Kamera::setCenter(const glm::vec3 &value)
+void Camera::setCenter(const glm::vec3 &value)
 {
     center = value;
 }
 
-glm::vec3 Kamera::getUp() const
+glm::vec3 Camera::getUp() const
 {
     return up;
 }
 
-void Kamera::setUp(const glm::vec3 &value)
+void Camera::setUp(const glm::vec3 &value)
 {
     up = value;
 }
 
-glm::mat4 Kamera::getProjektionsMatrix() const
+glm::mat4 Camera::getProjectionMatParallel() const
 {
-    return projektionsMatrix;
+    return projectionMatParallel;
 }
 
-void Kamera::setProjektionsMatrix(const glm::mat4 &value)
+void Camera::setProjectionMatParallel(const glm::mat4 &value)
 {
-    projektionsMatrix = value;
+    projectionMatParallel = value;
 }
 
-glm::mat4 Kamera::getLookAt() const
+glm::mat4 Camera::getLookAt() const
 {
     return lookAt;
 }
 
-void Kamera::setLookAt(const glm::mat4 &value)
+void Camera::setLookAt(const glm::mat4 &value)
 {
     lookAt = value;
 }
 
-glm::mat4 Kamera::getProjektionsMatrixZentral() const
+glm::mat4 Camera::getProjectionMatCentral() const
 {
-    return projektionsMatrixZentrall;
+    return projektionMatCentral;
 }
 
-void Kamera::setProjektionsMatrixZentral(const glm::mat4 &value)
+void Camera::setProjectionMatCentral(const glm::mat4 &value)
 {
-    projektionsMatrixZentrall = value;
+    projektionMatCentral = value;
 }
 
-glm::vec2 Kamera::getFenster() const
+glm::vec2 Camera::getWindow() const
 {
-    return fenster;
+    return window;
 }
 
-void Kamera::setFenster(const glm::vec2 &value)
+void Camera::setWindow(const glm::vec2 &value)
 {
-    fenster = value;
+    window = value;
 }
 
-float Kamera::getX() const
+float Camera::getX() const
 {
     return x;
 }
 
-void Kamera::setX(float value)
+void Camera::setX(float value)
 {
     x = value;
 }
 
-float Kamera::getY() const
+float Camera::getY() const
 {
     return y;
 }
 
-void Kamera::setY(float value)
+void Camera::setY(float value)
 {
     y = value;
 }
 
-float Kamera::getZ() const
+float Camera::getZ() const
 {
     return z;
 }
 
-void Kamera::setZ(float value)
+void Camera::setZ(float value)
 {
     z = value;
 }
 
-float Kamera::getR() const
+float Camera::getR() const
 {
     return r;
 }
 
-void Kamera::setR(float value)
+void Camera::setR(float value)
 {
     r = value;
 }
 
-float Kamera::getL() const
+float Camera::getL() const
 {
     return l;
 }
 
-void Kamera::setL(float value)
+void Camera::setL(float value)
 {
     l = value;
 }
 
-float Kamera::getB() const
+float Camera::getB() const
 {
     return b;
 }
 
-void Kamera::setB(float value)
+void Camera::setB(float value)
 {
     b = value;
 }
 
-float Kamera::getT() const
+float Camera::getT() const
 {
     return t;
 }
 
-void Kamera::setT(float value)
+void Camera::setT(float value)
 {
     t = value;
 }
 
-float Kamera::getF() const
+float Camera::getF() const
 {
     return f;
 }
 
-void Kamera::setF(float value)
+void Camera::setF(float value)
 {
     f = value;
 }
 
-float Kamera::getN() const
+float Camera::getN() const
 {
     return n;
 }
 
-void Kamera::setN(float value)
+void Camera::setN(float value)
 {
     n = value;
 }
 
-void Kamera::renew(){
+void Camera::renew(){
 
     //--------------------------------------------------
     //paralelprojektion? matrix, normalized device coordinates ?
-    projektionsMatrix = glm::mat4(glm::vec4(2/(r-l),0,0,-((r+l)/(r-l))),
+    projectionMatParallel = glm::mat4(glm::vec4(2/(r-l),0,0,-((r+l)/(r-l))),
                                   glm::vec4(0,2/(t-b),0,-((t+b)/(t-b))),
                                   glm::vec4(0,0,-2/(f-n),-((f+n)/(f-n))),
                                   glm::vec4(0,0,0,1));
-    projektionsMatrixZentrall = glm::mat4(glm::vec4((2*n)/(r-l),0,(r+l)/(r-l),0),
+    projektionMatCentral = glm::mat4(glm::vec4((2*n)/(r-l),0,(r+l)/(r-l),0),
                                           glm::vec4(0,(2*n)/(t-b),(t+b)/(t-b),0),
                                           glm::vec4(0,0,-((f+n)/(f-n)),-((2*f*n)/(f-n))),
                                           glm::vec4(0,0,-1,0));
@@ -177,7 +177,7 @@ void Kamera::renew(){
 
 }
 
-Kamera::Kamera()
+Camera::Camera()
 {
     x = 0;
     y = 0;
@@ -189,14 +189,14 @@ Kamera::Kamera()
     b = -5;
     n = 5;
     f = -5;
-    setFenster(glm::vec2(400,400));
+    setWindow(glm::vec2(400,400));
     //--------------------------------------------------
     //paralelprojektion? matrix, normalized device coordinates ?
-    projektionsMatrix = glm::mat4(glm::vec4(2/(r-l),0,0,-((r+l)/(r-l))),
+    projectionMatParallel = glm::mat4(glm::vec4(2/(r-l),0,0,-((r+l)/(r-l))),
                                   glm::vec4(0,2/(t-b),0,-((t+b)/(t-b))),
                                   glm::vec4(0,0,-2/(f-n),-((f+n)/(f-n))),
                                   glm::vec4(0,0,0,1));
-    projektionsMatrixZentrall = glm::mat4(glm::vec4((2*n)/(r-l),0,(r+l)/(r-l),0),
+    projektionMatCentral = glm::mat4(glm::vec4((2*n)/(r-l),0,(r+l)/(r-l),0),
                                           glm::vec4(0,(2*n)/(t-b),(t+b)/(t-b),0),
                                           glm::vec4(0,0,-((f+n)/(f-n)),-((2*f*n)/(f-n))),
                                           glm::vec4(0,0,-1,0));
@@ -222,7 +222,7 @@ lookAt = constructLookAt();
 
 }
 
-void Kamera::reset()
+void Camera::reset()
 {
     x = 0;
     y = 0;
@@ -248,7 +248,7 @@ lookAt = constructLookAt();
 
 }
 
-glm::mat4 Kamera::constructLookAt(){
+glm::mat4 Camera::constructLookAt(){
     glm::mat4 temp = glm::mat4(glm::vec4(u.x,u.y,u.z,0),
                                glm::vec4(v.x,v.y,v.z,0),
                                glm::vec4(w.x,w.y,w.z,0),
@@ -257,7 +257,7 @@ glm::mat4 Kamera::constructLookAt(){
     return temp;
 }
 
-void Kamera::moveKammW(){
+void Camera::moveCamW(){
     z = z +0.1;
     lookAt = glm::mat4(glm::vec4(u.x,u.y,u.z,0),
                        glm::vec4(v.x,v.y,v.z,0),
@@ -265,7 +265,7 @@ void Kamera::moveKammW(){
                        glm::vec4(x,y,z,1));
 }
 
-void Kamera::moveKammA()
+void Camera::moveCamA()
 {
     x = x -0.1;
     lookAt = glm::mat4(glm::vec4(u.x,u.y,u.z,0),
@@ -274,7 +274,7 @@ void Kamera::moveKammA()
                        glm::vec4(x,y,z,1));
 }
 
-void Kamera::moveKammS()
+void Camera::moveCamS()
 {
     z = z -0.1;
     lookAt = glm::mat4(glm::vec4(u.x,u.y,u.z,0),
@@ -283,7 +283,7 @@ void Kamera::moveKammS()
                        glm::vec4(x,y,z,1));
 }
 
-void Kamera::moveKammD()
+void Camera::moveCamD()
 {
     x = x +0.1;
     lookAt = glm::mat4(glm::vec4(u.x,u.y,u.z,0),
@@ -292,7 +292,7 @@ void Kamera::moveKammD()
                        glm::vec4(x,y,z,1));
 }
 
-void Kamera::moveKammUpY()
+void Camera::moveCamUpY()
 {
     y = y +0.1;
     lookAt = glm::mat4(glm::vec4(u.x,u.y,u.z,0),
@@ -301,7 +301,7 @@ void Kamera::moveKammUpY()
                        glm::vec4(x,y,z,1));
 }
 
-void Kamera::moveKammDownX()
+void Camera::moveCamDownX()
 {
     y = y -0.1;
     lookAt = glm::mat4(glm::vec4(u.x,u.y,u.z,0),
@@ -314,7 +314,7 @@ void Kamera::moveKammDownX()
  *
  *
 **/
-void Kamera::RotateKammLeft()
+void Camera::RotateCamLeft()
 {
     rotation = rotation - 1;
     eye = glm::vec3(0,0,0);
@@ -336,7 +336,7 @@ void Kamera::RotateKammLeft()
     lookAt = constructLookAt();
 }
 
-void Kamera::RotateKammRight()
+void Camera::RotateCamRight()
 {
     rotation = rotation + 1;
     eye = glm::vec3(0,0,0);

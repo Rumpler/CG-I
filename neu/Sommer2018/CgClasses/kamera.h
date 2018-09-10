@@ -3,7 +3,7 @@
 
 #include "glm/glm.hpp"
 #include "vector"
-class Kamera
+class Camera
 {
 private:
     glm::vec3 eye;
@@ -12,8 +12,8 @@ private:
     glm::vec3 u;
     glm::vec3 v;
     glm::vec3 w;
-    glm::mat4 projektionsMatrix;
-    glm::mat4 projektionsMatrixZentrall;
+    glm::mat4 projectionMatParallel;
+    glm::mat4 projektionMatCentral;
     glm::mat4 lookAt;
     float x;
     float y;
@@ -27,9 +27,9 @@ private:
     float f;
     float n;
 
-    glm::vec2 fenster;
+    glm::vec2 window;
 public:
-    Kamera();
+    Camera();
     void renew();
     void reset();
     glm::mat4 constructLookAt();
@@ -39,23 +39,23 @@ public:
     void setCenter(const glm::vec3 &value);
     glm::vec3 getUp() const;
     void setUp(const glm::vec3 &value);
-    glm::mat4 getProjektionsMatrix() const;
-    void setProjektionsMatrix(const glm::mat4 &value);
+    glm::mat4 getProjectionMatParallel() const;
+    void setProjectionMatParallel(const glm::mat4 &value);
     glm::mat4 getLookAt() const;
     void setLookAt(const glm::mat4 &value);
-    void moveKammW();
-    void moveKammA();
-    void moveKammS();
-    void moveKammD();
-    void moveKammUpY();
-    void moveKammDownX();
-    void RotateKammLeft();
-    void RotateKammRight();
+    void moveCamW();
+    void moveCamA();
+    void moveCamS();
+    void moveCamD();
+    void moveCamUpY();
+    void moveCamDownX();
+    void RotateCamLeft();
+    void RotateCamRight();
 
-    glm::mat4 getProjektionsMatrixZentral() const;
-    void setProjektionsMatrixZentral(const glm::mat4 &value);
-    glm::vec2 getFenster() const;
-    void setFenster(const glm::vec2 &value);
+    glm::mat4 getProjectionMatCentral() const;
+    void setProjectionMatCentral(const glm::mat4 &value);
+    glm::vec2 getWindow() const;
+    void setWindow(const glm::vec2 &value);
     float getX() const;
     void setX(float value);
     float getY() const;

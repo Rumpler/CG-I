@@ -20,7 +20,7 @@ private:
     //DON
     int shading;
     int projektionstype;
-        Kamera* cam;
+        Camera* cam;
     //Basic vars
     IdSingleton* idGen;
     CgBaseRenderer *m_renderer;
@@ -34,6 +34,7 @@ private:
     glm::vec4 defaultColorNormals = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
     glm::vec4 currentColor = defaultColor;
     glm::vec4 selectedColor = glm::vec4(0.0f,1.0f,0.5f, 1.0f);
+    glm::vec4 lastColorOfSelectedEntity = defaultColor;
 
     //Helper for chosing next selected entity
     int selectedEntityPosition = 0;
@@ -105,7 +106,8 @@ public:
     //Public methodes for interacton with Scenegraph
     void render();
 
-    void changeColorOfVariousObjects(glm::vec4 color);
+    void changeColorOfAllObjects(glm::vec4 color);
+    void changeColorOfSelectedObjects(glm::vec4 color);
     void changeCylinder(int amountOfSegments, double height, double radius);
     void changeRotationBody(int amountOfSegments);
     void changeRotationBody();

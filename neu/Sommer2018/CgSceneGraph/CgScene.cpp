@@ -19,7 +19,7 @@ CgScene::CgScene(CgBaseRenderer *renderer, std::vector<CgSceneGraphEntity*>* sel
     initBox();
 
 //    m_scene->addTransformation(CgU::tTranslateMat(0,0,-1)); //TODO DELETE
-    selectableEntitys->push_back(m_scene);
+//    selectableEntitys->push_back(m_scene);
 }
 
 CgScene::~CgScene()
@@ -302,6 +302,36 @@ void CgScene::initChessBoard()
 
     chessBoardE->addTransformation(CgU::tTranslateMat(0,0.3,0));
     chessBoardE->addTransformation(CgU::tScaleMat(0.6,0.6,0.6));
+
+    //Change colors
+    pawn1E->appearance()->setColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0));
+    pawn2E->appearance()->setColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0));
+    pawn3E->appearance()->setColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0));
+    pawn4E->appearance()->setColor(glm::vec4(0.1f, 0.1f, 0.1f, 1.0));
+    pawn5E->appearance()->setColor(glm::vec4(0.1f, 0.1f, 0.1f, 1.0));
+    pawn6E->appearance()->setColor(glm::vec4(0.1f, 0.1f, 0.1f, 1.0));
+    king1E->appearance()->setColor(glm::vec4(0.1f, 0.1f, 0.1f, 1.0));
+    king2E->appearance()->setColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0));
+    bishop1E->appearance()->setColor(glm::vec4(0.1f, 0.1f, 0.1f, 1.0));
+    bishop2E->appearance()->setColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0));
+    queen1E->appearance()->setColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0));
+    knight1E->appearance()->setColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0));
+    rook1E->appearance()->setColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0));
+
+    pawn1E->setIsColorChangeable(false);
+    pawn2E->setIsColorChangeable(false);
+    pawn3E->setIsColorChangeable(false);
+    pawn4E->setIsColorChangeable(false);
+    pawn5E->setIsColorChangeable(false);
+    pawn6E->setIsColorChangeable(false);
+    king1E->setIsColorChangeable(false);
+    king2E->setIsColorChangeable(false);
+    bishop1E->setIsColorChangeable(false);
+    bishop2E->setIsColorChangeable(false);
+    queen1E->setIsColorChangeable(false);
+    knight1E->setIsColorChangeable(false);
+    rook1E->setIsColorChangeable(false);
+
     selectableEntitys->push_back(chessBoardE);
 }
 

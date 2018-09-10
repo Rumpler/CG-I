@@ -213,7 +213,8 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     {
         CgColorChangeEvent* ev = (CgColorChangeEvent*) e;
         glm::vec3 customColor = glm::vec3((float)(ev->getRed() * 0.01f), (float)(ev->getGreen() * 0.01f), (float)(ev->getBlue() * 0.01f));
-        m_scene_graph->changeColorOfVariousObjects(glm::vec4(customColor,1.0f));
+//        m_scene_graph->changeColorOfAllObjects(glm::vec4(customColor,1.0f));
+        m_scene_graph->changeColorOfSelectedObjects(glm::vec4(customColor,1.0f));
         m_renderer->redraw();
     }
 
