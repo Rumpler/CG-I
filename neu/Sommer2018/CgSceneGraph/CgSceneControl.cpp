@@ -213,7 +213,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     {
         CgColorChangeEvent* ev = (CgColorChangeEvent*) e;
         glm::vec3 customColor = glm::vec3((float)(ev->getRed() * 0.01f), (float)(ev->getGreen() * 0.01f), (float)(ev->getBlue() * 0.01f));
-        m_scene_graph->changeColorOfVariousObjects(customColor);
+        m_scene_graph->changeColorOfVariousObjects(glm::vec4(customColor,1.0f));
         m_renderer->redraw();
     }
 
@@ -234,6 +234,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         m_scene_graph->setRenderLoadedObject(ev->getRenderLoadedObject());
         m_scene_graph->setRenderLoadedObjectNormals(ev->getRenderLoadedObjectNormals());
         m_scene_graph->setRenderCustomRotationAxis(ev->getRenderCustomRotationAxis());
+        m_scene_graph->setRenderScene(ev->getRenderScene());
 
         m_renderer->redraw();
     }
@@ -276,37 +277,31 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     }
     if(e->getType() == Cg::CgchangeProjektion){
             if(((ProjektionEvent*)e)->getValue().x==1){
-                 m_scene_graph->setProjecktion(1);
+                 m_scene_graph->setProjection(1);
             }
             if(((ProjektionEvent*)e)->getValue().x==2){
-                m_scene_graph->setProjecktion(2);
+                m_scene_graph->setProjection(2);
             }
         }
         if(e->getType()== Cg::CgchangeFrustum){
 
             if(((ProjektionEvent*)e)->getValue().y==0){
                 m_scene_graph->setFrustum(0,(float)(((ProjektionEvent*)e)->getValue().z)/10);
-
             }
             if(((ProjektionEvent*)e)->getValue().y==1){
                 m_scene_graph->setFrustum(1,(float)(((ProjektionEvent*)e)->getValue().z)/10);
-
             }
             if(((ProjektionEvent*)e)->getValue().y==2){
                 m_scene_graph->setFrustum(2,(float)(((ProjektionEvent*)e)->getValue().z)/10);
-
             }
             if(((ProjektionEvent*)e)->getValue().y==3){
                 m_scene_graph->setFrustum(3,(float)(((ProjektionEvent*)e)->getValue().z)/10);
-
             }
             if(((ProjektionEvent*)e)->getValue().y==4){
                 m_scene_graph->setFrustum(4,(float)(((ProjektionEvent*)e)->getValue().z)/10);
-
             }
             if(((ProjektionEvent*)e)->getValue().y==5){
                 m_scene_graph->setFrustum(5,(float)(((ProjektionEvent*)e)->getValue().z)/10);
-
             }
         }
     delete e;

@@ -53,6 +53,9 @@ public:
     bool getRenderCustomRotationAxis() const;
     void setRenderCustomRotationAxis(bool value);
 
+    bool getRenderScene() const;
+    void setRenderScene(bool value);
+
 private:
     Cg::EventType m_type;
 
@@ -67,6 +70,7 @@ private:
     bool renderLoadedObject;
     bool renderLoadedObjectNormals;
     bool renderCustomRotationAxis;
+    bool renderScene;
 };
 
 #endif // CGOBJECTSELECTIONCHANGEEVENT_H

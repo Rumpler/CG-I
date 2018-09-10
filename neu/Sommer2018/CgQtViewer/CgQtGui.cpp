@@ -239,8 +239,10 @@ QGroupBox *CgQtGui::createGBObjects()
     QRadioButton* radiobuttonLoadedObject = new QRadioButton("&Loaded Object");
     QRadioButton* radiobuttonLoadedObjectNormals = new QRadioButton("&Loaded Object Normals");
     QRadioButton* radiobuttonCustomRotationAxis = new QRadioButton("&Custom Rotation Axis");
+    QRadioButton* radiobuttonScene = new QRadioButton("&Scene");
 
     radiobuttonCoordinateSystem->setChecked(true);
+    radiobuttonScene->setChecked(true);
 
     ButtonGroupObjects->addButton(radiobuttonCoordinateSystem,0);
     ButtonGroupObjects->addButton(radiobuttonCube,1);
@@ -253,6 +255,7 @@ QGroupBox *CgQtGui::createGBObjects()
     ButtonGroupObjects->addButton(radiobuttonLoadedObject,8);
     ButtonGroupObjects->addButton(radiobuttonLoadedObjectNormals,9);
     ButtonGroupObjects->addButton(radiobuttonCustomRotationAxis,10);
+    ButtonGroupObjects->addButton(radiobuttonScene,11);
 
     ButtonGroupObjects->button(2)->setDisabled(true);
     ButtonGroupObjects->button(4)->setDisabled(true);
@@ -277,6 +280,7 @@ QGroupBox *CgQtGui::createGBObjects()
     sb2->addWidget(radiobuttonLoadedObject);
     sb2->addWidget(radiobuttonLoadedObjectNormals);
     sb2->addWidget(radiobuttonCustomRotationAxis);
+    sb2->addWidget(radiobuttonScene);
 
     subBox->addLayout(sb1);
     subBox->addLayout(sb2);
@@ -1020,6 +1024,7 @@ void CgQtGui::slotButtonGroupSelectionChanged()
     e->setRenderLoadedObject(ButtonGroupObjects->button(8)->isChecked());
     e->setRenderLoadedObjectNormals(ButtonGroupObjects->button(9)->isChecked());
     e->setRenderCustomRotationAxis(ButtonGroupObjects->button(10)->isChecked());
+    e->setRenderScene(ButtonGroupObjects->button(11)->isChecked());
     notifyObserver(e);
 }
 

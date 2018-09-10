@@ -51,12 +51,12 @@ void Kamera::setLookAt(const glm::mat4 &value)
     lookAt = value;
 }
 
-glm::mat4 Kamera::getProjektionsMatrixZentrall() const
+glm::mat4 Kamera::getProjektionsMatrixZentral() const
 {
     return projektionsMatrixZentrall;
 }
 
-void Kamera::setProjektionsMatrixZentrall(const glm::mat4 &value)
+void Kamera::setProjektionsMatrixZentral(const glm::mat4 &value)
 {
     projektionsMatrixZentrall = value;
 }
@@ -183,12 +183,12 @@ Kamera::Kamera()
     y = 0;
     z = -1.0;
     rotation = 0;
-    r = 1;
-    l = -1;
-    t = 1;
-    b = -1;
-    n = 1;
-    f = -1;
+    r = 5;
+    l = -5;
+    t = 5;
+    b = -5;
+    n = 5;
+    f = -5;
     setFenster(glm::vec2(400,400));
     //--------------------------------------------------
     //paralelprojektion? matrix, normalized device coordinates ?

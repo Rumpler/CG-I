@@ -34,16 +34,6 @@ void CgAppearance::setSpecular(const glm::vec4 &value)
     specular = value;
 }
 
-glm::vec3 CgAppearance::getObjectColor() const
-{
-    return object_color;
-}
-
-void CgAppearance::setObjectColor(const glm::vec3 &value)
-{
-    object_color = value;
-}
-
 glm::vec4 CgAppearance::getColor() const
 {
     return color;
@@ -76,7 +66,8 @@ void CgAppearance::setShininess(float value)
 
 CgAppearance::CgAppearance()
 {
-    object_color = glm::vec3(0.0f, 0.0f, 1.0f);
+//    object_color = glm::vec3(0.0f, 0.0f, 1.0f);
+//    color = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
 }
 
 

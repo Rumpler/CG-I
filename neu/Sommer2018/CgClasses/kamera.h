@@ -52,8 +52,8 @@ public:
     void RotateKammLeft();
     void RotateKammRight();
 
-    glm::mat4 getProjektionsMatrixZentrall() const;
-    void setProjektionsMatrixZentrall(const glm::mat4 &value);
+    glm::mat4 getProjektionsMatrixZentral() const;
+    void setProjektionsMatrixZentral(const glm::mat4 &value);
     glm::vec2 getFenster() const;
     void setFenster(const glm::vec2 &value);
     float getX() const;

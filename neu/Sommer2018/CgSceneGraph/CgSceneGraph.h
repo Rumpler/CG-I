@@ -30,10 +30,10 @@ private:
     std::stack<glm::mat4> m_mat_stack;
 
     //Colors
-    glm::vec3 defaultColor = glm::vec3(0.0f, 0.45f, 0.5f);
-    glm::vec3 defaultColorNormals = glm::vec3(1.0f, 1.0f, 1.0f);
-    glm::vec3 currentColor = defaultColor;
-    glm::vec3 selectedColor = glm::vec3(0.0f,1.0f,0.5f);
+    glm::vec4 defaultColor = glm::vec4(0.0f, 0.45f, 0.5f, 1.0f);
+    glm::vec4 defaultColorNormals = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+    glm::vec4 currentColor = defaultColor;
+    glm::vec4 selectedColor = glm::vec4(0.0f,1.0f,0.5f, 1.0f);
 
     //Helper for chosing next selected entity
     int selectedEntityPosition = 0;
@@ -81,7 +81,7 @@ private:
     void applyTransform(glm::mat4 arg){m_mat_stack.top() *= arg;}
 
     //Recursiv helper methodes to apply changes to all children of entity
-    void changeColorRecursiv(CgSceneGraphEntity* currentEntity, glm::vec3 color);
+    void changeColorRecursiv(CgSceneGraphEntity* currentEntity, glm::vec4 color);
     void renderRecursive(CgSceneGraphEntity* currentEntity);
 
     //Helper methods for initialization
@@ -105,7 +105,7 @@ public:
     //Public methodes for interacton with Scenegraph
     void render();
 
-    void changeColorOfVariousObjects(glm::vec3 color);
+    void changeColorOfVariousObjects(glm::vec4 color);
     void changeCylinder(int amountOfSegments, double height, double radius);
     void changeRotationBody(int amountOfSegments);
     void changeRotationBody();
@@ -163,7 +163,7 @@ public:
     void reset();
     void setLookAtAfterMove();
 
-    void setProjecktion(int i);
+    void setProjection(int i);
     void setFrustum(int i, float wert);
 };
 
