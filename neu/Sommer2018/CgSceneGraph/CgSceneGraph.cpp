@@ -361,8 +361,13 @@ void CgSceneGraph::setSmthRecursiv(CgSceneGraphEntity *currentEntity, CgMaterial
             path2.append("/Sommer2018/CgShader/Garaud.frag");
             m_renderer->setShaderSourceFiles(path, path2);
         }
-        std::cout<<"SCENE:MODE"<<shading<<std::endl;
-        m_renderer->setUniformValue("projMatrix",m_proj_matrix);
+
+        //LIGHT SETTINGS
+        m_renderer->setUniformValue("lightDiffuseColor",glm::vec4(1.0f));//TODO Lighsource
+        m_renderer->setUniformValue("lightAmbientColor",glm::vec4(.2f));
+        m_renderer->setUniformValue("lightSpecularColor",glm::vec4(1.0f));
+        m_renderer->setUniformValue("lightdirection",glm::vec3(1,1, 1));
+
         renderRecursive(m_root_node);
     }
 
@@ -371,36 +376,30 @@ void CgSceneGraph::setSmthRecursiv(CgSceneGraphEntity *currentEntity, CgMaterial
         if(*(currentEntity->renderObject())){
             pushMatrix();
             applyTransform(currentEntity->getCurrentTransformation());
+
+
+            //DEFAULT CAM DELETE LATER
+            m_lookAt_matrix= glm::lookAt(glm::vec3(0.0,0.0,1.0),glm::vec3(0.0,0.0,0.0),glm::vec3(0.0,1.0,0.0));
+            m_proj_matrix= glm::mat4x4(glm::vec4(1.792591, 0.0, 0.0, 0.0), glm::vec4(0.0, 1.792591, 0.0, 0.0), glm::vec4(0.0, 0.0, -1.0002, -1.0), glm::vec4(0.0, 0.0, -0.020002, 0.0));
+
+            glm::mat4 mv_matrix = m_lookAt_matrix * m_trackball_rotation * m_mat_stack.top();
+            glm::mat3 normal_matrix = glm::transpose(glm::inverse(glm::mat3(mv_matrix)));
+            m_renderer->setUniformValue("projMatrix",m_proj_matrix);
+            m_renderer->setUniformValue("modelviewMatrix",mv_matrix);
+            m_renderer->setUniformValue("normalMatrix",normal_matrix);
+            m_renderer->setUniformValue("viewpos",cam->getEye());
+
             for(CgBaseRenderableObject* obj : currentEntity->getObjects()){
+
                 if(shading>0){
-                    m_renderer->setUniformValue("lightDiffuseColor",glm::vec4(1.0f));//TODO Lighsource
-                    m_renderer->setUniformValue("lightAmbientColor",glm::vec4(.2f));
-                    m_renderer->setUniformValue("lightSpecularColor",glm::vec4(1.0f));
-                    m_renderer->setUniformValue("lightdirection",glm::vec3(1,1, 1));
+                    //OBJECT SETTINGS
                     m_renderer->setUniformValue("shininess",20.2);
                     m_renderer->setUniformValue("matDiffuseColor",currentEntity->appearance()->getDiffuse());
                     m_renderer->setUniformValue("matAmbientColor",currentEntity->appearance()->getAmbiente());
                     m_renderer->setUniformValue("matSpecularColor",currentEntity->appearance()->getSpecular());
-                    glm::mat4 mv_matrix = m_lookAt_matrix * m_trackball_rotation * m_mat_stack.top();
-                    glm::mat3 normal_matrix = glm::transpose(glm::inverse(glm::mat3(mv_matrix)));
-                    m_renderer->setUniformValue("projMatrix",m_proj_matrix);
-                    m_renderer->setUniformValue("modelviewMatrix",mv_matrix);
-                    m_renderer->setUniformValue("normalMatrix",normal_matrix);
-                    m_renderer->setUniformValue("viewpos",cam->getEye());
                 }
                 else {
                     m_renderer->setUniformValue("mycolor",currentEntity->appearance()->getColor());
-
-                    //DEFAULT DELETE LATER
-                    m_lookAt_matrix= glm::lookAt(glm::vec3(0.0,0.0,1.0),glm::vec3(0.0,0.0,0.0),glm::vec3(0.0,1.0,0.0));
-                    m_proj_matrix= glm::mat4x4(glm::vec4(1.792591, 0.0, 0.0, 0.0), glm::vec4(0.0, 1.792591, 0.0, 0.0), glm::vec4(0.0, 0.0, -1.0002, -1.0), glm::vec4(0.0, 0.0, -0.020002, 0.0));
-
-                    glm::mat4 mv_matrix = m_lookAt_matrix * m_trackball_rotation * m_mat_stack.top();
-                    glm::mat3 normal_matrix = glm::transpose(glm::inverse(glm::mat3(mv_matrix)));
-                    m_renderer->setUniformValue("projMatrix",m_proj_matrix);
-                    m_renderer->setUniformValue("modelviewMatrix",mv_matrix);
-                    m_renderer->setUniformValue("normalMatrix",normal_matrix);
-
                 }
                 m_renderer->render(obj);
             }
