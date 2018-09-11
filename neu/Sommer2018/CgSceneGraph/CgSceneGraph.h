@@ -18,12 +18,12 @@ class CgSceneGraph
 {
 private:
 
-    bool noneShading;
-    bool phong;
-    bool gouraud;
+    bool noneShading = true ;
+    bool phong = false;
+    bool gouraud = false;
 
-    bool flat;
-    bool smooth;
+    bool flat = true;
+    bool smooth = false;
 
     glm::vec4 ambient;
     glm::vec4 diffuse;
