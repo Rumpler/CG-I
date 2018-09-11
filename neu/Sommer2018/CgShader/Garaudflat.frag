@@ -8,6 +8,6 @@ uniform vec4 mycolor;
 
     void main() {
  
-	//gl_FragColor=vec4(alle,1.0);
-	gl_FragColor=vec4(vec3(0.0f,1.0f,0.0f),1.0);
+	gl_FragColor=vec4(alle,1.0);
+	//gl_FragColor=vec4(vec3(0.0f,1.0f,0.0f),1.0);
     }

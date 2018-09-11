@@ -128,12 +128,13 @@ void CgSceneGraph::setMaterialPropertiesRecursiv(CgSceneGraphEntity *currentEnti
 void CgSceneGraph::setShader()
 {
 
-    CgU::print("noneShading",noneShading);
-    CgU::print("phong",phong);
-    CgU::print("gouraud",gouraud);
-    CgU::print("flat",flat);
-    CgU::print("smooth",smooth);
-
+    if(false){ //JUST FOR DEBUGGING
+        CgU::print("noneShading",noneShading);
+        CgU::print("phong",phong);
+        CgU::print("gouraud",gouraud);
+        CgU::print("flat",flat);
+        CgU::print("smooth",smooth);
+    }
 
     if(noneShading){
         std::string path = CgU::getParentDirectory();

@@ -50,6 +50,6 @@ out vec3 alle;
 	 diffuse  *= matDiffuseColor.xyz;
 	 specular *= matSpecularColor.xyz;
 
-	//alle = (ambient+diffuse+specular);
-	alle = vec3(1.0f,0.0f,0.0f);
+	alle = (ambient+diffuse+specular);
+	//alle = vec3(1.0f,0.0f,0.0f);
     }
