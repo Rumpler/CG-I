@@ -20,6 +20,8 @@ public:
     void static print(std::string str, float f);
     void static print(glm::vec3 vec);
     void static print(std::string str, glm::vec3 vec);
+    void static print(glm::vec4 vec);
+    void static print(std::string str, glm::vec4 vec);
     void static print(glm::mat4 mat);
     void static print(std::string str, glm::mat4 mat);
     void static printVecLength(glm::vec3 vec);

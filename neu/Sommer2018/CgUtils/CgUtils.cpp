@@ -64,6 +64,16 @@ void CgU::print(std::string str, glm::vec3 vec)
     std::cout<< str << ":(" << vec.x << "," << vec.y << "," << vec.z << ")" << std::endl;
 }
 
+void CgU::print(glm::vec4 vec)
+{
+    std::cout << "Vec4:(" << vec.x << "," << vec.y << "," << vec.z << vec.w <<")" << std::endl;
+}
+
+void CgU::print(std::string str, glm::vec4 vec)
+{
+    std::cout<< str << ":(" << vec.x << "," << vec.y << "," << vec.z << vec.w << ")" << std::endl;
+}
+
 void CgU::print(glm::mat4 mat)
 {
     std::cout << "------------------------------------" << std::endl;

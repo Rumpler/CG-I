@@ -309,6 +309,14 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         std::cout << " CgShaderEvent reached goal" << std::endl;
         CgShaderEvent* ev = (CgShaderEvent*) e;
 
+        m_scene_graph->setNone(ev->getNoneShader());
+        m_scene_graph->setPhong(ev->getPhong());
+        m_scene_graph->setGouraud(ev->getGouraud());
+
+        m_scene_graph->setFlat(ev->getFlat());
+        m_scene_graph->setSmooth(ev->getSmooth());
+
+
         if(ev->getMaterialIndex() == 0){
             m_scene_graph->setAmb(glm::vec4(.25f,.25f,.25f,1.0));
             m_scene_graph->setDef(glm::vec4(.40f,.40f,.40f,1.0));
@@ -339,7 +347,6 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
             m_scene_graph->setShininess(51.2);
         }
         else if(ev->getMaterialIndex() == 5){
-
             m_scene_graph->setAmb(glm::vec4(0.19f,0.19f,0.19f,1.0f));
             m_scene_graph->setDef(glm::vec4(0.51f,0.51f,0.51f,1.0f));
             m_scene_graph->setSpec(glm::vec4(0.51f,0.51f,0.51f,1.f));

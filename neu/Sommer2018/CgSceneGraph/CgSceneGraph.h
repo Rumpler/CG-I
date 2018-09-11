@@ -18,10 +18,16 @@ class CgSceneGraph
 {
 private:
 
+    bool noneShading;
+    bool phong;
+    bool gouraud;
 
-    glm::vec4 amb;
-    glm::vec4 def;
-    glm::vec4 spec;
+    bool flat;
+    bool smooth;
+
+    glm::vec4 ambient;
+    glm::vec4 diffuse;
+    glm::vec4 specular;
     float shininess;
 
 
@@ -111,7 +117,8 @@ public:
 
     void setMaterialPropertiesForSelectedObject();
     void setMaterialProperties(CgMaterialChangeEvent *e);
-    void setMaterialPropertiesRecursiv(CgSceneGraphEntity* currentEntity, CgMaterialChangeEvent *e);
+    void setMaterialPropertiesRecursiv(CgSceneGraphEntity* currentEntity);
+    void setShader();
 
     //Public methodes for interacton with Scenegraph
     void render();
@@ -185,6 +192,16 @@ public:
     void setSpec(const glm::vec4 &value);
     float getShininess() const;
     void setShininess(float value);
+    bool getNone() const;
+    void setNone(bool value);
+    bool getPhong() const;
+    void setPhong(bool value);
+    bool getGouraud() const;
+    void setGouraud(bool value);
+    bool getFlat() const;
+    void setFlat(bool value);
+    bool getSmooth() const;
+    void setSmooth(bool value);
 };
 
 #endif // CGSCENEGRAPH_H
