@@ -37,6 +37,12 @@ CgSceneGraph::CgSceneGraph(CgBaseRenderer *renderer):
 
     selectedEntity = cubeEntity;
     selectedEntity = customRotationAxisEntity;
+
+    //DEBUG DELETE LATER
+    *renderScene = false;
+    *renderCoordinateSystem = false;
+    *renderCube = true;
+    *renderCubeNormals = false;
 }
 
 CgSceneGraph::~CgSceneGraph()
@@ -101,7 +107,7 @@ void CgSceneGraph::setMaterialProperties(CgMaterialChangeEvent *e)
 
 void CgSceneGraph::setMaterialPropertiesForSelectedObject()
 {
-//    setShader();
+    setShader();
     setMaterialPropertiesRecursiv(m_root_node);
     m_renderer->redraw();
 }
@@ -121,34 +127,46 @@ void CgSceneGraph::setMaterialPropertiesRecursiv(CgSceneGraphEntity *currentEnti
 
 void CgSceneGraph::setShader()
 {
+
+    CgU::print("noneShading",noneShading);
+    CgU::print("phong",phong);
+    CgU::print("gouraud",gouraud);
+    CgU::print("flat",flat);
+    CgU::print("smooth",smooth);
+
+
     if(noneShading){
         std::string path = CgU::getParentDirectory();
         path.append("/Sommer2018/CgShader/simple.vert");
         std::string path2 = CgU::getParentDirectory();
         path2.append("/Sommer2018/CgShader/simple.frag");
         m_renderer->setShaderSourceFiles(path, path2);
-    }else if(phong){
+    }
+    if(phong){
         if(flat){
             std::string path = CgU::getParentDirectory();
             path.append("/Sommer2018/CgShader/phongflat.vert");
             std::string path2 = CgU::getParentDirectory();
             path2.append("/Sommer2018/CgShader/phongflat.frag");
             m_renderer->setShaderSourceFiles(path, path2);
-        }else if(smooth){
+        }
+        if(smooth){
             std::string path = CgU::getParentDirectory();
             path.append("/Sommer2018/CgShader/phong.vert");
             std::string path2 = CgU::getParentDirectory();
             path2.append("/Sommer2018/CgShader/phong.frag");
             m_renderer->setShaderSourceFiles(path, path2);
         }
-    }else if(gouraud){
+    }
+    if(gouraud){
         if(flat){
             std::string path = CgU::getParentDirectory();
             path.append("/Sommer2018/CgShader/Garaudflat.vert");
             std::string path2 = CgU::getParentDirectory();
             path2.append("/Sommer2018/CgShader/Garaudflat.frag");
             m_renderer->setShaderSourceFiles(path, path2);
-        }else if(smooth){
+        }
+        if(smooth){
             std::string path = CgU::getParentDirectory();
             path.append("/Sommer2018/CgShader/Garaud.vert");
             std::string path2 = CgU::getParentDirectory();
@@ -161,7 +179,7 @@ void CgSceneGraph::setShader()
 void CgSceneGraph::changeColorOfAllObjects(glm::vec4 color)
 {
     if(color.x < 0 || color.x > 1.0 || color.y < 0 || color.y > 1.0 || color.z < 0 || color.z > 1.0){
-        std::cout << "bad color values" << std::endl;
+         std::cout << "bad color values" << std::endl;
         return;
     }else{
         changeColorRecursiv(m_root_node, color);
@@ -439,8 +457,10 @@ void CgSceneGraph::reset()
 
 void CgSceneGraph::render()
 {
-     setShader();
+   CgU::print("-------------RENDER START---------------");
    renderRecursive(m_root_node);
+
+
 }
 
 void CgSceneGraph::renderRecursive(CgSceneGraphEntity *currentEntity)
@@ -450,6 +470,7 @@ void CgSceneGraph::renderRecursive(CgSceneGraphEntity *currentEntity)
         pushMatrix();
         applyTransform(currentEntity->getCurrentTransformation());
         for(CgBaseRenderableObject* obj : currentEntity->getObjects()){
+             CgU::print("-------------OBJECT---------------");
 
             glm::mat4 mv_matrix = m_lookAt_matrix * m_trackball_rotation * m_mat_stack.top();
             glm::mat3 normal_matrix = glm::transpose(glm::inverse(glm::mat3(mv_matrix)));
@@ -459,20 +480,25 @@ void CgSceneGraph::renderRecursive(CgSceneGraphEntity *currentEntity)
             m_renderer->setUniformValue("normalMatrix",normal_matrix);
 
             m_renderer->setUniformValue("mycolor",currentEntity->appearance()->getColor());
+            CgU::print("mycolor", currentEntity->appearance()->getColor());
             m_renderer->setUniformValue("matDiffuseColor",currentEntity->appearance()->getDiffuse());
-            CgU::print("diffuse", currentEntity->appearance()->getDiffuse());
+            CgU::print("matDiffuseColor", currentEntity->appearance()->getDiffuse());
             m_renderer->setUniformValue("matAmbientColor",currentEntity->appearance()->getAmbiente());
+            CgU::print("matAmbientColor", currentEntity->appearance()->getAmbiente());
             m_renderer->setUniformValue("matSpecularColor",currentEntity->appearance()->getSpecular());
+            CgU::print("matSpecularColor", currentEntity->appearance()->getSpecular());
             m_renderer->setUniformValue("lightDiffuseColor",glm::vec4(1.0f));
             m_renderer->setUniformValue("lightAmbientColor",glm::vec4(.2f));
             m_renderer->setUniformValue("lightSpecularColor",glm::vec4(1.0f));
             m_renderer->setUniformValue("lightdirection",glm::vec3(1,1, 1));
             m_renderer->setUniformValue("viewpos",cam->getEye());
+            CgU::print("viewpos", cam->getEye());
             m_renderer->setUniformValue("shininess",20.2);
 
             m_renderer->render(obj);
         }
         for(CgSceneGraphEntity* entity : currentEntity->getChildren()){
+            CgU::print("-------------Entity---------------");
             renderRecursive(entity);
         }
         popMatrix();

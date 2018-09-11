@@ -14,11 +14,13 @@ Cg::EventType CgShaderEvent::getType()
 CgBaseEvent *CgShaderEvent::clone()
 {
     CgShaderEvent* ev = new CgShaderEvent();
-    ev->setNoneShader(noneShader);
-    ev->setPhong(phong);
-    ev->setGouraud(gouraud);
-    ev->setFlat(flat);
-    ev->setMaterialIndex(materialIndex);
+    ev->noneShader = noneShader;
+    ev->phong = phong;
+    ev->gouraud = gouraud;
+    ev->flat = flat;
+    ev->smooth = smooth;
+    ev->materialIndex = materialIndex;
+
     return ev;
 }
 
@@ -27,11 +29,11 @@ bool CgShaderEvent::getPhong() const
     return phong;
 }
 
-void CgShaderEvent::setPhong(bool value)
+void CgShaderEvent::setPhong()
 {
-    noneShader = value;
-    phong = value;
-    gouraud = !value;
+    noneShader = false;
+    phong = true;
+    gouraud = false;
 }
 
 bool CgShaderEvent::getGouraud() const
@@ -39,11 +41,11 @@ bool CgShaderEvent::getGouraud() const
     return gouraud;
 }
 
-void CgShaderEvent::setGouraud(bool value)
+void CgShaderEvent::setGouraud()
 {
-    noneShader = value;
-    phong = !value;
-    gouraud = value;
+    noneShader = false;
+    phong = false;
+    gouraud = true;
 }
 
 bool CgShaderEvent::getFlat() const
@@ -51,10 +53,10 @@ bool CgShaderEvent::getFlat() const
     return flat;
 }
 
-void CgShaderEvent::setFlat(bool value)
+void CgShaderEvent::setFlat()
 {
-    flat = value;
-    smooth = !value;
+    flat = true;
+    smooth = false;
 }
 
 bool CgShaderEvent::getSmooth() const
@@ -62,10 +64,10 @@ bool CgShaderEvent::getSmooth() const
     return smooth;
 }
 
-void CgShaderEvent::setSmooth(bool value)
+void CgShaderEvent::setSmooth()
 {
-    smooth = value;
-    flat = !value;
+    smooth = true;
+    flat = false;
 }
 
 int CgShaderEvent::getMaterialIndex() const
@@ -83,9 +85,9 @@ bool CgShaderEvent::getNoneShader() const
     return noneShader;
 }
 
-void CgShaderEvent::setNoneShader(bool value)
+void CgShaderEvent::setNoneShader()
 {
-    noneShader = value;
-    phong = !value;
-    gouraud = !value;
+    noneShader = true;
+    phong = false;
+    gouraud = false;
 }

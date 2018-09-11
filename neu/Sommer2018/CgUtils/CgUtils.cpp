@@ -19,6 +19,18 @@ CgU::CgU()
 
 }
 
+void CgU::print(bool d)
+{
+    if(d){ std::cout << "true" << std::endl; }
+    else {  std::cout << "false" << std::endl; }
+}
+
+void CgU::print(std::string str, bool d)
+{
+    if(d){ std::cout << str << ": " << "true" << std::endl; }
+    else { std::cout << str << ": " << "false" << std::endl; }
+}
+
 void CgU::print(std::string str)
 {
     std::cout << str << std::endl;

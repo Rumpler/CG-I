@@ -11,6 +11,8 @@ class CgU
 public:
     CgU();
 
+    void static print(bool d);
+    void static print(std::string str, bool d);
     void static print(std::string str);
     void static print(double d);
     void static print(std::string str, double d);

@@ -121,23 +121,19 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         }
         if(ev->key()==Cg::Key_W)
         {
-              std::cout<<"tastew"<<std::endl;
             m_scene_graph->moveForward();
         }
         if(ev->key()==Cg::Key_S)
         {
-                  std::cout<<"tastes"<<std::endl;
            m_scene_graph->moveBackward();
         }
 
         if(ev->key()==Cg::Key_A)
         {
-              std::cout<<"tastew"<<std::endl;
             m_scene_graph->moveRight();
         }
         if(ev->key()==Cg::Key_D)
         {
-                  std::cout<<"tastes"<<std::endl;
            m_scene_graph->moveLeft();
         }
 
@@ -200,7 +196,6 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     {
         CgLoadObjFileEvent* ev = (CgLoadObjFileEvent*)e;
         m_scene_graph->loadObject(ev->fileName());
-        std::cout << ev->fileName() << std::endl;
         m_renderer->redraw();
     }
 
@@ -306,7 +301,6 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
 
 
     if(e->getType() == Cg::CgShaderEvent){
-        std::cout << " CgShaderEvent reached goal" << std::endl;
         CgShaderEvent* ev = (CgShaderEvent*) e;
 
         m_scene_graph->setNone(ev->getNoneShader());

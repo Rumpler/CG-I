@@ -16,22 +16,22 @@ public:
     CgBaseEvent *clone();
 
     bool getPhong() const;
-    void setPhong(bool value);
+    void setPhong();
 
     bool getGouraud() const;
-    void setGouraud(bool value);
+    void setGouraud();
 
     bool getFlat() const;
-    void setFlat(bool value);
+    void setFlat();
 
     bool getSmooth() const;
-    void setSmooth(bool value);
+    void setSmooth();
 
     int getMaterialIndex() const;
     void setMaterialIndex(int value);
 
     bool getNoneShader() const;
-    void setNoneShader(bool value);
+    void setNoneShader();
 
 private:
     Cg::EventType m_type;

@@ -637,7 +637,7 @@ QGroupBox *CgQtGui::createGBShader()
         connect(buttonGroupShadingInterpolation, SIGNAL( buttonClicked(int) ),this,SLOT(shaderSlot()));
 
         QRadioButton* radiobuttonFlat = new QRadioButton("&Flat");
-        QRadioButton* radiobuttonSmooth = new QRadioButton("&Smoth");
+        QRadioButton* radiobuttonSmooth = new QRadioButton("&Smooth");
 
         buttonGroupShadingInterpolation->addButton(radiobuttonFlat,0);
         buttonGroupShadingInterpolation->addButton(radiobuttonSmooth,1);
@@ -1196,12 +1196,19 @@ void CgQtGui::shaderSlot()
 {
     CgShaderEvent* ev = new CgShaderEvent();
 
-    ev->setNoneShader(buttonGroupShadingMode->button(0)->isChecked());
-    ev->setPhong(buttonGroupShadingMode->button(1)->isChecked());
-    ev->setGouraud(buttonGroupShadingMode->button(2)->isChecked());
+    if(buttonGroupShadingMode->button(0)->isChecked()){
+        ev->setNoneShader();
+    }else if(buttonGroupShadingMode->button(1)->isChecked()){
+        ev->setPhong();
+    }else if(buttonGroupShadingMode->button(2)->isChecked()){
+        ev->setGouraud();
+    }
 
-    ev->setFlat(buttonGroupShadingInterpolation->button(0)->isChecked());
-    ev->setSmooth(buttonGroupShadingInterpolation->button(1)->isChecked());
+    if(buttonGroupShadingInterpolation->button(0)->isChecked()){
+        ev->setFlat();
+    }else if(buttonGroupShadingInterpolation->button(1)->isChecked()){
+         ev->setSmooth();
+    }
 
     ev->setMaterialIndex(combo_box_material->currentIndex());
 
