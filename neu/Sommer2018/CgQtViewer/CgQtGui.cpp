@@ -38,34 +38,35 @@
 #include <CgEvents/CgTransformationEvent.h>
 #include <CgEvents/CgMaterialChangeEvent.h>
 #include <CgEvents/CgBoxEvent.h>
+#include <CgEvents/CgShaderEvent.h>
 
 
 //DON
 int CgQtGui::calculateShadingMode()
 {
-    int shadingmode=0;
-    //phong flat
-    if(combo_box_shader->currentIndex()==1 && combo_box_interpolation->currentIndex()==0){
-        shadingmode=1;
-    }
-    //phong smoth
-    else if(combo_box_shader->currentIndex()==1 && combo_box_interpolation->currentIndex()==1){
-        shadingmode=2;
-    }
-    //garaoud flat
-    else if(combo_box_shader->currentIndex()==2 && combo_box_interpolation->currentIndex()==0){
-        shadingmode=3;
-    }
-    //garaoud smooth
-    else if(combo_box_shader->currentIndex()==2 && combo_box_interpolation->currentIndex()==1){
-        shadingmode=4;
-    }
-    else{
-        shadingmode=0;
-    }
+//    int shadingmode=0;
+//    //phong flat
+//    if(combo_box_shader->currentIndex()==1 && combo_box_interpolation->currentIndex()==0){
+//        shadingmode=1;
+//    }
+//    //phong smoth
+//    else if(combo_box_shader->currentIndex()==1 && combo_box_interpolation->currentIndex()==1){
+//        shadingmode=2;
+//    }
+//    //garaoud flat
+//    else if(combo_box_shader->currentIndex()==2 && combo_box_interpolation->currentIndex()==0){
+//        shadingmode=3;
+//    }
+//    //garaoud smooth
+//    else if(combo_box_shader->currentIndex()==2 && combo_box_interpolation->currentIndex()==1){
+//        shadingmode=4;
+//    }
+//    else{
+//        shadingmode=0;
+//    }
 
-    std::cout<<"modus:"<<shadingmode<<std::endl;
-    return shadingmode;
+//    std::cout<<"modus:"<<shadingmode<<std::endl;
+//    return shadingmode;
 }
 
 void CgQtGui::createMats()
@@ -120,14 +121,14 @@ CgQtGui::CgQtGui(CgQtMainApplication *mw)
     m_panel_rotate_objects = new QWidget;
     createOptionPanelRotateObjects(m_panel_rotate_objects);
     m_panel_color = new QWidget;
-    createOptionPanelColor(m_panel_color);
+    createOptionPanelShader(m_panel_color);
     m_panel_camera = new QWidget();
     createOptionPanelCamera(m_panel_camera);
 
     QTabWidget* m_tabs = new QTabWidget();
     m_tabs->addTab(m_panel_objects,"&Objects");
     m_tabs->addTab(m_panel_rotate_objects, "&Rotate Objects");
-    m_tabs->addTab(m_panel_color, "&Color");
+    m_tabs->addTab(m_panel_color, "&Shader");
     m_tabs->addTab(m_panel_camera,"&Camera");
     container->addWidget(m_tabs);
 
@@ -198,8 +199,8 @@ CgQtGui::CgQtGui(CgQtMainApplication *mw)
 void CgQtGui::createOptionPanelObjects(QWidget *parent)
 {
     QVBoxLayout *panel_layout = new QVBoxLayout();
-    ButtonGroupObjects = new QButtonGroup(panel_layout);
-    ButtonGroupObjects->setExclusive(false);
+    buttonGroupObjectSelection = new QButtonGroup(panel_layout);
+    buttonGroupObjectSelection->setExclusive(false);
     panel_layout->addWidget(createGBObjects());
     panel_layout->addWidget(createGBTransformation());
     panel_layout->addStretch(1);
@@ -215,11 +216,11 @@ void CgQtGui::createOptionPanelRotateObjects(QWidget *parent)
     parent->setLayout(panel_layout);
 }
 
-void CgQtGui::createOptionPanelColor(QWidget *parent)
+void CgQtGui::createOptionPanelShader(QWidget *parent)
 {
     QVBoxLayout *panel_layout = new QVBoxLayout();
-    panel_layout->addWidget(createGBColor());
     panel_layout->addWidget(createGBShader());
+    panel_layout->addWidget(createGBColor());
     panel_layout->addStretch(1);
     parent->setLayout(panel_layout);
 }
@@ -255,25 +256,25 @@ QGroupBox *CgQtGui::createGBObjects()
     radiobuttonCoordinateSystem->setChecked(true);
     radiobuttonScene->setChecked(true);
 
-    ButtonGroupObjects->addButton(radiobuttonCoordinateSystem,0);
-    ButtonGroupObjects->addButton(radiobuttonCube,1);
-    ButtonGroupObjects->addButton(radiobuttonCubeNormals,2);
-    ButtonGroupObjects->addButton(radiobuttonCylinder,3);
-    ButtonGroupObjects->addButton(radiobuttonCylinderNormals,4);
-    ButtonGroupObjects->addButton(radiobuttonRotationCurve,5);
-    ButtonGroupObjects->addButton(radiobuttonRotationBody,6);
-    ButtonGroupObjects->addButton(radiobuttonRotationBodyNormals,7);
-    ButtonGroupObjects->addButton(radiobuttonLoadedObject,8);
-    ButtonGroupObjects->addButton(radiobuttonLoadedObjectNormals,9);
-    ButtonGroupObjects->addButton(radiobuttonCustomRotationAxis,10);
-    ButtonGroupObjects->addButton(radiobuttonScene,11);
+    buttonGroupObjectSelection->addButton(radiobuttonCoordinateSystem,0);
+    buttonGroupObjectSelection->addButton(radiobuttonCube,1);
+    buttonGroupObjectSelection->addButton(radiobuttonCubeNormals,2);
+    buttonGroupObjectSelection->addButton(radiobuttonCylinder,3);
+    buttonGroupObjectSelection->addButton(radiobuttonCylinderNormals,4);
+    buttonGroupObjectSelection->addButton(radiobuttonRotationCurve,5);
+    buttonGroupObjectSelection->addButton(radiobuttonRotationBody,6);
+    buttonGroupObjectSelection->addButton(radiobuttonRotationBodyNormals,7);
+    buttonGroupObjectSelection->addButton(radiobuttonLoadedObject,8);
+    buttonGroupObjectSelection->addButton(radiobuttonLoadedObjectNormals,9);
+    buttonGroupObjectSelection->addButton(radiobuttonCustomRotationAxis,10);
+    buttonGroupObjectSelection->addButton(radiobuttonScene,11);
 
-    ButtonGroupObjects->button(2)->setDisabled(true);
-    ButtonGroupObjects->button(4)->setDisabled(true);
-    ButtonGroupObjects->button(7)->setDisabled(true);
-    ButtonGroupObjects->button(9)->setDisabled(true);
+    buttonGroupObjectSelection->button(2)->setDisabled(true);
+    buttonGroupObjectSelection->button(4)->setDisabled(true);
+    buttonGroupObjectSelection->button(7)->setDisabled(true);
+    buttonGroupObjectSelection->button(9)->setDisabled(true);
 
-    connect(ButtonGroupObjects, SIGNAL( buttonClicked(int) ), this, SLOT( slotButtonGroupSelectionChanged() ) );
+    connect(buttonGroupObjectSelection, SIGNAL( buttonClicked(int) ), this, SLOT( slotButtonGroupSelectionChanged() ) );
 
     QVBoxLayout* container = new QVBoxLayout();
     QHBoxLayout *subBox = new QHBoxLayout();
@@ -605,30 +606,65 @@ QGroupBox *CgQtGui::createGBRotationBody()
 QGroupBox *CgQtGui::createGBShader()
 {
     QGroupBox* groupBoxShader = new QGroupBox("Shader");
-    QVBoxLayout *vboxShader = new QVBoxLayout;
+    QVBoxLayout *shaderLayout = new QVBoxLayout;
 
-    QLabel * opt = new QLabel("selektiere eine Objekteigenschaft");
-    combo_box_shader = new QComboBox();
-    combo_box_interpolation = new QComboBox();
+    //SHADING MODE
+    QHBoxLayout *subShaderLayout1 = new QHBoxLayout;
+
+        buttonGroupShadingMode = new QButtonGroup(subShaderLayout1);
+        connect(buttonGroupShadingMode, SIGNAL( buttonClicked(int) ),this,SLOT(shaderSlot()));
+
+        QRadioButton* radiobuttonNoneShader = new QRadioButton("&None");
+        QRadioButton* radiobuttonPhongShader = new QRadioButton("&Phong");
+        QRadioButton* radiobuttonGouraudShader = new QRadioButton("&Gouraud");
+
+        buttonGroupShadingMode->addButton(radiobuttonNoneShader,0);
+        buttonGroupShadingMode->addButton(radiobuttonPhongShader,1);
+        buttonGroupShadingMode->addButton(radiobuttonGouraudShader,2);
+
+        buttonGroupShadingMode->setExclusive(true);
+        buttonGroupShadingMode->button(0)->setChecked(true);
+
+        subShaderLayout1->addWidget(radiobuttonNoneShader);
+        subShaderLayout1->addWidget(radiobuttonPhongShader);
+        subShaderLayout1->addWidget(radiobuttonGouraudShader);
+
+    shaderLayout->addLayout(subShaderLayout1);
+
+    QHBoxLayout *subShaderLayout2 = new QHBoxLayout;
+
+        buttonGroupShadingInterpolation = new QButtonGroup(subShaderLayout2);
+        connect(buttonGroupShadingInterpolation, SIGNAL( buttonClicked(int) ),this,SLOT(shaderSlot()));
+
+        QRadioButton* radiobuttonFlat = new QRadioButton("&Flat");
+        QRadioButton* radiobuttonSmooth = new QRadioButton("&Smoth");
+
+        buttonGroupShadingInterpolation->addButton(radiobuttonFlat,0);
+        buttonGroupShadingInterpolation->addButton(radiobuttonSmooth,1);
+
+        buttonGroupShadingInterpolation->setExclusive(true);
+        buttonGroupShadingInterpolation->button(0)->setChecked(true);
+
+        subShaderLayout2->addWidget(radiobuttonFlat);
+        subShaderLayout2->addWidget(radiobuttonSmooth);
+
+    shaderLayout->addLayout(subShaderLayout2);
+
+
     combo_box_material = new QComboBox();
-    selectMaterialShaderOff();
-    createComboBox(combo_box_material);
-    selectShader();
-    createComboBox(combo_box_shader);
-    selectInterpolation();
-    createComboBox(combo_box_interpolation);
 
-    vboxShader->addWidget(combo_box_material);
-    vboxShader->addWidget(combo_box_shader);
-    vboxShader->addWidget(combo_box_interpolation);
-    vboxShader->addWidget(opt);
+    combo_box_material->addItem("Gold");
+    combo_box_material->addItem("Silver");
 
-    connect(combo_box_material, SIGNAL(currentIndexChanged(int)),this,SLOT(selectColorSLOT()));
-    connect(combo_box_shader, SIGNAL(currentIndexChanged(int)),this,SLOT(selectShaderSlot()));
-    connect(combo_box_interpolation, SIGNAL(currentIndexChanged(int)),this,SLOT(selectInterpolationSlot()));
 
-    groupBoxShader->setLayout(vboxShader);
+    connect(combo_box_material, SIGNAL(currentIndexChanged(int)),this,SLOT(shaderSlot()));
 
+
+
+
+    shaderLayout->addWidget(combo_box_material);
+
+    groupBoxShader->setLayout(shaderLayout);
     return groupBoxShader;
 }
 
@@ -712,6 +748,36 @@ QGroupBox *CgQtGui::createGBProjection()
 
     groupBoxProjection->setLayout(subBox);
     return groupBoxProjection;
+}
+
+QGroupBox *CgQtGui::createGBShaderBACKUP()
+{
+    QGroupBox* groupBoxShader = new QGroupBox("Shader");
+//    QVBoxLayout *vboxShader = new QVBoxLayout;
+
+//    QLabel * opt = new QLabel("selektiere eine Objekteigenschaft");
+//    combo_box_shader = new QComboBox();
+//    combo_box_interpolation = new QComboBox();
+//    combo_box_material = new QComboBox();
+//    selectMaterialShaderOff();
+//    createComboBox(combo_box_material);
+//    selectShader();
+//    createComboBox(combo_box_shader);
+//    selectInterpolation();
+//    createComboBox(combo_box_interpolation);
+
+//    vboxShader->addWidget(combo_box_material);
+//    vboxShader->addWidget(combo_box_shader);
+//    vboxShader->addWidget(combo_box_interpolation);
+//    vboxShader->addWidget(opt);
+
+//    connect(combo_box_material, SIGNAL(currentIndexChanged(int)),this,SLOT(selectColorSLOT()));
+//    connect(combo_box_shader, SIGNAL(currentIndexChanged(int)),this,SLOT(selectShaderSlot()));
+//    connect(combo_box_interpolation, SIGNAL(currentIndexChanged(int)),this,SLOT(selectInterpolationSlot()));
+
+//    groupBoxShader->setLayout(vboxShader);
+
+    return groupBoxShader;
 }
 
 //DON
@@ -798,52 +864,52 @@ void CgQtGui::selectColorSLOT()
 
 void CgQtGui::slotChangeProjectionToParallel()
 {
-    CgBaseEvent* e = new ProjektionEvent(Cg::CgchangeProjektion, glm::vec3(1,0,0));
+    CgBaseEvent* e = new ProjektionEvent(Cg::CgChangeProjection, glm::vec3(1,0,0));
     notifyObserver(e);
 }
 
 void CgQtGui::slotChangeProjectionToCentral()
 {
-    CgBaseEvent* e = new ProjektionEvent(Cg::CgchangeProjektion, glm::vec3(2,0,0));
+    CgBaseEvent* e = new ProjektionEvent(Cg::CgChangeProjection, glm::vec3(2,0,0));
     notifyObserver(e);
 }
 
 void CgQtGui::slotChangeFrustumR(int i)
 {
 
-    CgBaseEvent* e = new ProjektionEvent(Cg::CgchangeFrustum, glm::vec3(0,0,i));
+    CgBaseEvent* e = new ProjektionEvent(Cg::CgChangeFrustum, glm::vec3(0,0,i));
     notifyObserver(e);
 }
 
 void CgQtGui::slotChangeFrustumL(int i)
 {
-    CgBaseEvent* e = new ProjektionEvent(Cg::CgchangeFrustum, glm::vec3(0,1,i));
+    CgBaseEvent* e = new ProjektionEvent(Cg::CgChangeFrustum, glm::vec3(0,1,i));
     notifyObserver(e);
 }
 
 void CgQtGui::slotChangeFrustumT(int i)
 {
 
-    CgBaseEvent* e = new ProjektionEvent(Cg::CgchangeFrustum, glm::vec3(0,2,i));
+    CgBaseEvent* e = new ProjektionEvent(Cg::CgChangeFrustum, glm::vec3(0,2,i));
     notifyObserver(e);
 }
 
 void CgQtGui::slotChangeFrustumB(int i)
 {
 
-    CgBaseEvent* e = new ProjektionEvent(Cg::CgchangeFrustum, glm::vec3(0,3,i));
+    CgBaseEvent* e = new ProjektionEvent(Cg::CgChangeFrustum, glm::vec3(0,3,i));
     notifyObserver(e);
 }
 
 void CgQtGui::slotChangeFrustumN(int i)
 {
-    CgBaseEvent* e = new ProjektionEvent(Cg::CgchangeFrustum, glm::vec3(0,4,i));
+    CgBaseEvent* e = new ProjektionEvent(Cg::CgChangeFrustum, glm::vec3(0,4,i));
     notifyObserver(e);
 }
 
 void CgQtGui::slotChangeFrustumF(int i)
 {
-    CgBaseEvent* e = new ProjektionEvent(Cg::CgchangeFrustum, glm::vec3(0,5,i));
+    CgBaseEvent* e = new ProjektionEvent(Cg::CgChangeFrustum, glm::vec3(0,5,i));
     notifyObserver(e);
 }
 
@@ -861,12 +927,12 @@ void CgQtGui::slotColorChanged()
 
 void CgQtGui::slotShowCylinder()
 {
-    for(QAbstractButton* b : ButtonGroupObjects->buttons()){
+    for(QAbstractButton* b : buttonGroupObjectSelection->buttons()){
         b->setChecked(false);
     }
-    ButtonGroupObjects->button(0)->setChecked(true);
-    ButtonGroupObjects->button(3)->setChecked(true);
-    ButtonGroupObjects->button(4)->setChecked(true);
+    buttonGroupObjectSelection->button(0)->setChecked(true);
+    buttonGroupObjectSelection->button(3)->setChecked(true);
+    buttonGroupObjectSelection->button(4)->setChecked(true);
     slotButtonGroupSelectionChanged();
 }
 
@@ -882,12 +948,12 @@ void CgQtGui::slotShowRotationBody()
 
 void CgQtGui::slotShowRotationBodyNormals()
 {
-    for(QAbstractButton* b : ButtonGroupObjects->buttons()){
+    for(QAbstractButton* b : buttonGroupObjectSelection->buttons()){
         b->setChecked(false);
     }
-    ButtonGroupObjects->button(0)->setChecked(true);
-    ButtonGroupObjects->button(6)->setChecked(true);
-    ButtonGroupObjects->button(7)->setChecked(true);
+    buttonGroupObjectSelection->button(0)->setChecked(true);
+    buttonGroupObjectSelection->button(6)->setChecked(true);
+    buttonGroupObjectSelection->button(7)->setChecked(true);
     slotButtonGroupSelectionChanged();
 }
 
@@ -948,11 +1014,11 @@ void CgQtGui::slotRotateVector()
 
 void CgQtGui::showObject(int i)
 {
-    for(QAbstractButton* b : ButtonGroupObjects->buttons()){
+    for(QAbstractButton* b : buttonGroupObjectSelection->buttons()){
         b->setChecked(false);
     }
-    ButtonGroupObjects->button(0)->setChecked(true);
-    ButtonGroupObjects->button(i)->setChecked(true);
+    buttonGroupObjectSelection->button(0)->setChecked(true);
+    buttonGroupObjectSelection->button(i)->setChecked(true);
     slotButtonGroupSelectionChanged();
 }
 
@@ -970,47 +1036,47 @@ void CgQtGui::slotSubdivision()
 void CgQtGui::slotButtonGroupSelectionChanged()
 {
     //Check if cube is not displayed and disable cubeNormals in case
-    if( ! ButtonGroupObjects->button(1)->isChecked()){
-        ButtonGroupObjects->button(2)->setChecked(false);
-        ButtonGroupObjects->button(2)->setDisabled(true);
+    if( ! buttonGroupObjectSelection->button(1)->isChecked()){
+        buttonGroupObjectSelection->button(2)->setChecked(false);
+        buttonGroupObjectSelection->button(2)->setDisabled(true);
     }else{
-        ButtonGroupObjects->button(2)->setDisabled(false);
+        buttonGroupObjectSelection->button(2)->setDisabled(false);
     }
     //disable cylinder normals
-    if( ! ButtonGroupObjects->button(3)->isChecked()){
-        ButtonGroupObjects->button(4)->setChecked(false);
-        ButtonGroupObjects->button(4)->setDisabled(true);
+    if( ! buttonGroupObjectSelection->button(3)->isChecked()){
+        buttonGroupObjectSelection->button(4)->setChecked(false);
+        buttonGroupObjectSelection->button(4)->setDisabled(true);
     }else{
-        ButtonGroupObjects->button(4)->setDisabled(false);
+        buttonGroupObjectSelection->button(4)->setDisabled(false);
     }
     //disable rotation body normals
-    if( ! ButtonGroupObjects->button(6)->isChecked()){
-        ButtonGroupObjects->button(7)->setChecked(false);
-        ButtonGroupObjects->button(7)->setDisabled(true);
+    if( ! buttonGroupObjectSelection->button(6)->isChecked()){
+        buttonGroupObjectSelection->button(7)->setChecked(false);
+        buttonGroupObjectSelection->button(7)->setDisabled(true);
     }else{
-        ButtonGroupObjects->button(7)->setDisabled(false);
+        buttonGroupObjectSelection->button(7)->setDisabled(false);
     }
     //disable loaded object normals
-    if( ! ButtonGroupObjects->button(8)->isChecked()){
-        ButtonGroupObjects->button(9)->setChecked(false);
-        ButtonGroupObjects->button(9)->setDisabled(true);
+    if( ! buttonGroupObjectSelection->button(8)->isChecked()){
+        buttonGroupObjectSelection->button(9)->setChecked(false);
+        buttonGroupObjectSelection->button(9)->setDisabled(true);
     }else{
-        ButtonGroupObjects->button(9)->setDisabled(false);
+        buttonGroupObjectSelection->button(9)->setDisabled(false);
     }
 
     CgObjectSelectionChangeEvent* e = new CgObjectSelectionChangeEvent();
-    e->setRenderCoordinateSystem(ButtonGroupObjects->button(0)->isChecked());
-    e->setRenderCube(ButtonGroupObjects->button(1)->isChecked());
-    e->setRenderCubeNormals(ButtonGroupObjects->button(2)->isChecked());
-    e->setRenderCylinder(ButtonGroupObjects->button(3)->isChecked());
-    e->setRenderCylinderNormals(ButtonGroupObjects->button(4)->isChecked());
-    e->setRenderRotationCurve(ButtonGroupObjects->button(5)->isChecked());
-    e->setRenderRotationBody(ButtonGroupObjects->button(6)->isChecked());
-    e->setRenderRotationBodyNormals(ButtonGroupObjects->button(7)->isChecked());
-    e->setRenderLoadedObject(ButtonGroupObjects->button(8)->isChecked());
-    e->setRenderLoadedObjectNormals(ButtonGroupObjects->button(9)->isChecked());
-    e->setRenderCustomRotationAxis(ButtonGroupObjects->button(10)->isChecked());
-    e->setRenderScene(ButtonGroupObjects->button(11)->isChecked());
+    e->setRenderCoordinateSystem(buttonGroupObjectSelection->button(0)->isChecked());
+    e->setRenderCube(buttonGroupObjectSelection->button(1)->isChecked());
+    e->setRenderCubeNormals(buttonGroupObjectSelection->button(2)->isChecked());
+    e->setRenderCylinder(buttonGroupObjectSelection->button(3)->isChecked());
+    e->setRenderCylinderNormals(buttonGroupObjectSelection->button(4)->isChecked());
+    e->setRenderRotationCurve(buttonGroupObjectSelection->button(5)->isChecked());
+    e->setRenderRotationBody(buttonGroupObjectSelection->button(6)->isChecked());
+    e->setRenderRotationBodyNormals(buttonGroupObjectSelection->button(7)->isChecked());
+    e->setRenderLoadedObject(buttonGroupObjectSelection->button(8)->isChecked());
+    e->setRenderLoadedObjectNormals(buttonGroupObjectSelection->button(9)->isChecked());
+    e->setRenderCustomRotationAxis(buttonGroupObjectSelection->button(10)->isChecked());
+    e->setRenderScene(buttonGroupObjectSelection->button(11)->isChecked());
     notifyObserver(e);
 }
 
@@ -1126,31 +1192,20 @@ CgBaseRenderer* CgQtGui::getRenderer()
 }
 
 //DON
-void CgQtGui::selectShaderSlot()
+void CgQtGui::shaderSlot()
 {
+    CgShaderEvent* ev = new CgShaderEvent();
 
-    selectShader();
-    combo_box_material->clear();
-    if(combo_box_shader->currentIndex()==0){
-        disconnect(combo_box_material, SIGNAL(currentIndexChanged(int)),this,SLOT(selectObjectMaterial()));
-        connect(combo_box_material, SIGNAL(currentIndexChanged(int)),this,SLOT(selectColorSLOT()));
-        selectMaterialShaderOff();
+    ev->setNoneShader(buttonGroupShadingMode->button(0)->isChecked());
+    ev->setPhong(buttonGroupShadingMode->button(1)->isChecked());
+    ev->setGouraud(buttonGroupShadingMode->button(2)->isChecked());
 
-    }
-    else{
-        disconnect(combo_box_material, SIGNAL(currentIndexChanged(int)),this,SLOT(selectColorSLOT()));
-        connect(combo_box_material, SIGNAL(currentIndexChanged(int)),this,SLOT(selectObjectMaterial()));
-        CgMaterialChangeEvent * materialChangeEvent = new CgMaterialChangeEvent(); //TODO
-        materialChangeEvent->setShadingmode(calculateShadingMode());
-        if(combo_box_material->currentIndex()!=-1){
-            setMaterial(materialChangeEvent);
-        }
-        notifyObserver(materialChangeEvent);
-        selectMaterialShaderOn();
+    ev->setFlat(buttonGroupShadingInterpolation->button(0)->isChecked());
+    ev->setSmooth(buttonGroupShadingInterpolation->button(1)->isChecked());
 
-    }
-    createComboBox(combo_box_material);
+    ev->setMaterialIndex(combo_box_material->currentIndex());
 
+    notifyObserver(ev);
 }
 
 void CgQtGui::selectObjectMaterial()

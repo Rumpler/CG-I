@@ -43,7 +43,8 @@ SOURCES += main.cpp \
     CgEvents/CgBoxEvent.cpp \
     CgEvents/CgMaterialChangeEvent.cpp \
     CgClasses/kamera.cpp \
-    CgEvents/projektionevent.cpp
+    CgEvents/projektionevent.cpp \
+    CgEvents/CgShaderEvent.cpp
 
 
 
@@ -97,5 +98,6 @@ HEADERS += \
     CgEvents/CgBoxEvent.h \
     CgEvents/CgMaterialChangeEvent.h \
     CgClasses/kamera.h \
-    CgEvents/projektionevent.h
+    CgEvents/projektionevent.h \
+    CgEvents/CgShaderEvent.h
 

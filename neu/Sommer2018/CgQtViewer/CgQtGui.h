@@ -91,9 +91,11 @@ private:
     void clearComboBox(QComboBox* combo);
 
 
+    QButtonGroup* buttonGroupShadingMode;
+    QButtonGroup* buttonGroupShadingInterpolation;
+
+
     QComboBox* combo_box_material;
-    QComboBox* combo_box_shader;
-    QComboBox* combo_box_interpolation;
 
     QSlider *createColorSlider();
 
@@ -103,7 +105,7 @@ private:
     QWidget*               m_panel_color;
     QWidget*               m_panel_camera;
 
-    QButtonGroup* ButtonGroupObjects;
+    QButtonGroup* buttonGroupObjectSelection;
 
     QSlider* sliderRed;
     QSlider* sliderGreen;
@@ -128,7 +130,7 @@ private:
 
     void createOptionPanelObjects(QWidget* parent);
     void createOptionPanelRotateObjects(QWidget* parent);
-    void createOptionPanelColor(QWidget* parent);
+    void createOptionPanelShader(QWidget* parent);
     void createOptionPanelCamera(QWidget* parent);
 
     QGroupBox* createGBObjects();
@@ -139,6 +141,7 @@ private:
     QGroupBox* createGBShader();
     QGroupBox* createGBFrustum();
     QGroupBox* createGBProjection();
+    QGroupBox* createGBShaderBACKUP();
 
 
 
@@ -182,7 +185,7 @@ private slots:
     void slotTranslate();
 
     //DON
-    void selectShaderSlot();
+    void shaderSlot();
     void selectInterpolationSlot();
     void selectObjectMaterial();
     void selectColorSLOT();

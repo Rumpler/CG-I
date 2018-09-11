@@ -18,6 +18,14 @@ class CgSceneGraph
 {
 private:
 
+
+    glm::vec4 amb;
+    glm::vec4 def;
+    glm::vec4 spec;
+    float shininess;
+
+
+
     //DON
     int shading;
     int projektionstype;
@@ -101,6 +109,7 @@ public:
     CgSceneGraph(CgBaseRenderer *renderer);
     ~CgSceneGraph();
 
+    void setMaterialPropertiesForSelectedObject();
     void setMaterialProperties(CgMaterialChangeEvent *e);
     void setMaterialPropertiesRecursiv(CgSceneGraphEntity* currentEntity, CgMaterialChangeEvent *e);
 
@@ -168,6 +177,14 @@ public:
 
     void setProjection(int i);
     void setFrustum(int i, float wert);
+    glm::vec4 getAmb() const;
+    void setAmb(const glm::vec4 &value);
+    glm::vec4 getDef() const;
+    void setDef(const glm::vec4 &value);
+    glm::vec4 getSpec() const;
+    void setSpec(const glm::vec4 &value);
+    float getShininess() const;
+    void setShininess(float value);
 };
 
 #endif // CGSCENEGRAPH_H

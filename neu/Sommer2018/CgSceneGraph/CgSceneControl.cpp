@@ -12,6 +12,7 @@
 #include <CgEvents/CgButtonEvent.h>
 #include <CgEvents/CgColorChangeEvent.h>
 #include <CgEvents/CgObjectSelectionChangedEvent.h>
+#include <CgEvents/CgShaderEvent.h>
 #include <CgEvents/CgSubdivisionEvent.h>
 #include <CgEvents/CgValueChangedEvent.h>
 #include <CgUtils/CgUtils.h>
@@ -270,35 +271,90 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     if(e->getType() == Cg::EventType::CgChangeMaterial){
         m_scene_graph->setMaterialProperties((CgMaterialChangeEvent*) e);
     }
-    if(e->getType() == Cg::CgchangeProjektion){
-            if(((ProjektionEvent*)e)->getValue().x==1){
-                 m_scene_graph->setProjection(1);
-            }
-            if(((ProjektionEvent*)e)->getValue().x==2){
-                m_scene_graph->setProjection(2);
-            }
-        }
-        if(e->getType()== Cg::CgchangeFrustum){
 
-            if(((ProjektionEvent*)e)->getValue().y==0){
-                m_scene_graph->setFrustum(0,(float)(((ProjektionEvent*)e)->getValue().z)/10);
-            }
-            if(((ProjektionEvent*)e)->getValue().y==1){
-                m_scene_graph->setFrustum(1,(float)(((ProjektionEvent*)e)->getValue().z)/10);
-            }
-            if(((ProjektionEvent*)e)->getValue().y==2){
-                m_scene_graph->setFrustum(2,(float)(((ProjektionEvent*)e)->getValue().z)/10);
-            }
-            if(((ProjektionEvent*)e)->getValue().y==3){
-                m_scene_graph->setFrustum(3,(float)(((ProjektionEvent*)e)->getValue().z)/10);
-            }
-            if(((ProjektionEvent*)e)->getValue().y==4){
-                m_scene_graph->setFrustum(4,(float)(((ProjektionEvent*)e)->getValue().z)/10);
-            }
-            if(((ProjektionEvent*)e)->getValue().y==5){
-                m_scene_graph->setFrustum(5,(float)(((ProjektionEvent*)e)->getValue().z)/10);
-            }
+    if(e->getType() == Cg::CgChangeProjection){
+        if(((ProjektionEvent*)e)->getValue().x==1){
+            m_scene_graph->setProjection(1);
         }
+        if(((ProjektionEvent*)e)->getValue().x==2){
+            m_scene_graph->setProjection(2);
+        }
+    }
+
+
+    if(e->getType()== Cg::CgChangeFrustum){
+
+        if(((ProjektionEvent*)e)->getValue().y==0){
+            m_scene_graph->setFrustum(0,(float)(((ProjektionEvent*)e)->getValue().z)/10);
+        }
+        if(((ProjektionEvent*)e)->getValue().y==1){
+            m_scene_graph->setFrustum(1,(float)(((ProjektionEvent*)e)->getValue().z)/10);
+        }
+        if(((ProjektionEvent*)e)->getValue().y==2){
+            m_scene_graph->setFrustum(2,(float)(((ProjektionEvent*)e)->getValue().z)/10);
+        }
+        if(((ProjektionEvent*)e)->getValue().y==3){
+            m_scene_graph->setFrustum(3,(float)(((ProjektionEvent*)e)->getValue().z)/10);
+        }
+        if(((ProjektionEvent*)e)->getValue().y==4){
+            m_scene_graph->setFrustum(4,(float)(((ProjektionEvent*)e)->getValue().z)/10);
+        }
+        if(((ProjektionEvent*)e)->getValue().y==5){
+            m_scene_graph->setFrustum(5,(float)(((ProjektionEvent*)e)->getValue().z)/10);
+        }
+    }
+
+
+    if(e->getType() == Cg::CgShaderEvent){
+        std::cout << " CgShaderEvent reached goal" << std::endl;
+        CgShaderEvent* ev = (CgShaderEvent*) e;
+
+        if(ev->getMaterialIndex() == 0){
+            m_scene_graph->setAmb(glm::vec4(.25f,.25f,.25f,1.0));
+            m_scene_graph->setDef(glm::vec4(.40f,.40f,.40f,1.0));
+            m_scene_graph->setSpec(glm::vec4(.77f,.77f,.77f,1.0));
+            m_scene_graph->setShininess(76.8);
+        }else if(ev->getMaterialIndex() == 1){
+            m_scene_graph->setAmb(glm::vec4(.25f,.21f,.21f,.90f));
+            m_scene_graph->setDef(glm::vec4(0.99f,.83f,.83f,.90f));
+            m_scene_graph->setSpec(glm::vec4(0.30f,0.30f,0.30f,0.90f));
+            m_scene_graph->setShininess(11.3);
+        }
+        else if(ev->getMaterialIndex() == 2){ //GOLD
+            m_scene_graph->setAmb(glm::vec4(0.5f,0.5f,0.7f,0.8f));
+            m_scene_graph->setDef(glm::vec4(0.18f,0.17f,0.23f,0.8f));
+            m_scene_graph->setSpec(glm::vec4(0.33f,0.33f,0.35f,0.8f));
+            m_scene_graph->setShininess(38.4);
+        }
+        else if(ev->getMaterialIndex() == 3){
+            m_scene_graph->setAmb(glm::vec4(0.25f,0.20f,0.07f,1.f));
+            m_scene_graph->setDef(glm::vec4(0.75f,0.61f,0.23f,1.f));
+            m_scene_graph->setSpec(glm::vec4(0.63f,0.56f,0.37f,0.9f));
+            m_scene_graph->setShininess(51.2);
+        }
+        else if(ev->getMaterialIndex() == 4){
+            m_scene_graph->setAmb(glm::vec4(0.25f,0.20f,0.07f,1.f));
+            m_scene_graph->setDef(glm::vec4(0.75f,0.61f,0.23f,1.f));
+            m_scene_graph->setSpec(glm::vec4(0.63f,0.56f,0.37f,0.9f));
+            m_scene_graph->setShininess(51.2);
+        }
+        else if(ev->getMaterialIndex() == 5){
+
+            m_scene_graph->setAmb(glm::vec4(0.19f,0.19f,0.19f,1.0f));
+            m_scene_graph->setDef(glm::vec4(0.51f,0.51f,0.51f,1.0f));
+            m_scene_graph->setSpec(glm::vec4(0.51f,0.51f,0.51f,1.f));
+            m_scene_graph->setShininess(51.2);
+        }
+        else if(ev->getMaterialIndex() == 6){
+            m_scene_graph->setAmb(glm::vec4(0.2f,0.2f,0.2f,1.0f));
+            m_scene_graph->setDef(glm::vec4(0.1f,0.1f,0.1f,1.0f));
+            m_scene_graph->setSpec(glm::vec4(0.5f,0.5f,0.5f,1.f));
+            m_scene_graph->setShininess(51.2);
+        }
+
+       m_scene_graph->setMaterialPropertiesForSelectedObject();
+    }
+
     delete e;
 
 

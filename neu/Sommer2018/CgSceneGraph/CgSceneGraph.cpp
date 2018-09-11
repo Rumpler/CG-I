@@ -44,6 +44,11 @@ CgSceneGraph::~CgSceneGraph()
     //TODO
 }
 
+void CgSceneGraph::setMaterialPropertiesForSelectedObject()
+{
+
+}
+
 
 void CgSceneGraph::setProjection(int i)
 {
@@ -100,6 +105,9 @@ void CgSceneGraph::setMaterialProperties(CgMaterialChangeEvent *e)
 //DON
 void CgSceneGraph::setMaterialPropertiesRecursiv(CgSceneGraphEntity *currentEntity, CgMaterialChangeEvent *e)
 {
+
+
+
     shading = e->getShadingmode();
     if(shading>0 && currentEntity->getIsColorChangeable()){
         currentEntity->appearance()->setAmbiente(e->getAmb());
@@ -733,6 +741,46 @@ void CgSceneGraph::setMaterialPropertiesRecursiv(CgSceneGraphEntity *currentEnti
         customRotationAxisEntity->setRenderObjects(false);
     }
 
+
+    glm::vec4 CgSceneGraph::getAmb() const
+    {
+        return amb;
+    }
+
+    void CgSceneGraph::setAmb(const glm::vec4 &value)
+    {
+        amb = value;
+    }
+
+    glm::vec4 CgSceneGraph::getDef() const
+    {
+        return def;
+    }
+
+    void CgSceneGraph::setDef(const glm::vec4 &value)
+    {
+        def = value;
+    }
+
+    glm::vec4 CgSceneGraph::getSpec() const
+    {
+        return spec;
+    }
+
+    void CgSceneGraph::setSpec(const glm::vec4 &value)
+    {
+        spec = value;
+    }
+
+    float CgSceneGraph::getShininess() const
+    {
+        return shininess;
+    }
+
+    void CgSceneGraph::setShininess(float value)
+    {
+        shininess = value;
+    }
 
     void CgSceneGraph::changeColorRecursiv(CgSceneGraphEntity *currentEntity, glm::vec4 color)
     {
