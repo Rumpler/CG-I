@@ -12,6 +12,7 @@
 #include <CgEvents/CgMaterialChangeEvent.h>
 #include "CgUtils/IdSingleton.h"
 #include <CgClasses/kamera.h>
+#include <CgClasses/CgLightsource.h>
 
 class CgSceneGraph
 {
@@ -20,6 +21,7 @@ private:
     //DON
     int shading;
     int projektionstype;
+    CgLightsource* light;
         Camera* cam;
     //Basic vars
     IdSingleton* idGen;
