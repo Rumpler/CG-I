@@ -15,7 +15,7 @@ uniform vec3 viewPos;
 uniform float shininess;
 
     void main() {
-       	vec3 E = normalize(vec3(0,0,1));
+       	vec3 E = normalize(viewPos);
 	vec3 N = normalize(vertNormal);
 	vec3 L = normalize(lightdirection);
 	vec3 H = normalize(E+L);

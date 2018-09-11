@@ -15,7 +15,7 @@ uniform vec3 viewPos;
 uniform float shininess;
 
     void main() {
-       	vec3 E = normalize(vec3(0,0,1));
+       	vec3 E = normalize(viewPos);
 	vec3 N = normalize(vertNormal);
 	vec3 L = normalize(lightdirection);
 	vec3 H = normalize(E+L);
@@ -26,7 +26,7 @@ uniform float shininess;
 
 	float diff = max(dot(L,N), 0.0);
 	float spec=0.0;
-	spec = pow(max(dot(H,N), 0.0), shininess);
+	spec = pow(max(dot(H,N), 0.0),shininess);
 
 	 ambient  += lightAmbientColor.xyz;
 	 diffuse  += lightDiffuseColor.xyz * diff;
