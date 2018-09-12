@@ -3,7 +3,6 @@
 in vec3 vert;
 in vec3 vertNormal;
 
-uniform vec4 mycolor;
 uniform vec4 matDiffuseColor;
 uniform vec4 matAmbientColor;
 uniform vec4 matSpecularColor; 
@@ -15,7 +14,7 @@ uniform vec3 viewPos;
 uniform float shininess;
 
     void main() {
-       	vec3 E = normalize(viewPos);
+       	vec3 E = normalize(-viewPos);
 	vec3 N = normalize(vertNormal);
 	vec3 L = normalize(lightdirection);
 	vec3 H = normalize(E+L);

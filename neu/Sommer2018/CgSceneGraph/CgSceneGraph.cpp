@@ -128,7 +128,7 @@ void CgSceneGraph::setMaterialPropertiesRecursiv(CgSceneGraphEntity *currentEnti
 void CgSceneGraph::setShader()
 {
 
-    if(false){ //JUST FOR DEBUGGING
+    if(true){ //JUST FOR DEBUGGING
         CgU::print("noneShading",noneShading);
         CgU::print("phong",phong);
         CgU::print("gouraud",gouraud);
@@ -460,12 +460,11 @@ void CgSceneGraph::render()
 {
    CgU::print("-------------RENDER START---------------");
    renderRecursive(m_root_node);
-
-
 }
 
 void CgSceneGraph::renderRecursive(CgSceneGraphEntity *currentEntity)
 {
+    CgU::print("stacksize: ",(int) m_mat_stack.size());
 
     if(*(currentEntity->renderObject())){
         pushMatrix();
@@ -473,8 +472,7 @@ void CgSceneGraph::renderRecursive(CgSceneGraphEntity *currentEntity)
         for(CgBaseRenderableObject* obj : currentEntity->getObjects()){
              CgU::print("-------------OBJECT---------------");
 
-
-
+            setShader();
 
              glm::mat4 mv_matrix = m_lookAt_matrix * m_trackball_rotation * m_mat_stack.top();
              glm::mat3 normal_matrix = glm::transpose(glm::inverse(glm::mat3(mv_matrix)));
@@ -488,18 +486,21 @@ void CgSceneGraph::renderRecursive(CgSceneGraphEntity *currentEntity)
                  CgU::print("mycolor", currentEntity->appearance()->getColor());
              }
              if(phong || gouraud){
+
+
                  m_renderer->setUniformValue("matDiffuseColor",currentEntity->appearance()->getDiffuse());
                  CgU::print("matDiffuseColor", currentEntity->appearance()->getDiffuse());
                  m_renderer->setUniformValue("matAmbientColor",currentEntity->appearance()->getAmbiente());
                  CgU::print("matAmbientColor", currentEntity->appearance()->getAmbiente());
                  m_renderer->setUniformValue("matSpecularColor",currentEntity->appearance()->getSpecular());
                  CgU::print("matSpecularColor", currentEntity->appearance()->getSpecular());
+
                  m_renderer->setUniformValue("lightDiffuseColor",glm::vec4(1.0f));
                  m_renderer->setUniformValue("lightAmbientColor",glm::vec4(.2f));
                  m_renderer->setUniformValue("lightSpecularColor",glm::vec4(1.0f));
                  m_renderer->setUniformValue("lightdirection",glm::vec3(1,1, 1));
-                 m_renderer->setUniformValue("viewpos",cam->getEye());
-                 CgU::print("viewpos", cam->getEye());
+                 m_renderer->setUniformValue("viewPos",cam->getEye());
+                 CgU::print("viewPos", cam->getEye());
                  m_renderer->setUniformValue("shininess",20.2);
              }
             m_renderer->render(obj);

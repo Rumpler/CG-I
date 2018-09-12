@@ -10,7 +10,6 @@ vec3 vertNormal;
 uniform mat4 projMatrix;
 uniform mat4 modelviewMatrix;
 uniform mat3 normalMatrix;
-uniform vec4 mycolor;
 uniform vec4 matDiffuseColor;
 uniform vec4 matAmbientColor;
 uniform vec4 matSpecularColor; 

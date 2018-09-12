@@ -3,7 +3,6 @@
 flat in vec3 vert;
 flat in  vec3 vertNormal;
 
-uniform vec4 mycolor;
 uniform vec4 matDiffuseColor;
 uniform vec4 matAmbientColor;
 uniform vec4 matSpecularColor; 
