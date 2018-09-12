@@ -25,10 +25,10 @@ void CgLightsource::setAppearance(CgAppearance *value)
 CgLightsource::CgLightsource()
 {
     this->appearance=new CgAppearance();
-    appearance->setSpecular(glm::vec4(1.f,1.f,1.f,1.f));
-    appearance->setDiffuse(glm::vec4(.5f,.5f,.5f,1.f));
-    appearance->setAmbiente(glm::vec4(.2f,.2f,.2f,1.f));
-    direction=glm::vec3(0.f,0.f,2.f);
+    appearance->setSpecular(glm::vec4(1.,1.,1.,1.));
+    appearance->setDiffuse(glm::vec4(.5,.5,.5,1.));
+    appearance->setAmbiente(glm::vec4(.2,.2,.2,1.));
+    direction=glm::vec3(3,5,4);
 }
 
 CgLightsource::CgLightsource(CgAppearance *appearance)

@@ -202,10 +202,6 @@ public:
     void setFlat(bool value);
     bool getSmooth() const;
     void setSmooth(bool value);
-    void renderRecursiveN(CgSceneGraphEntity *currentEntity);
-    void nonShading(CgSceneGraphEntity *currentEntity);
-
-    void withShading(CgSceneGraphEntity *currentEntity);
 };
 
 #endif // CGSCENEGRAPH_H
