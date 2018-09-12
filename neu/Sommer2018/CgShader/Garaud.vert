@@ -29,7 +29,7 @@ out vec3 alle;
        gl_Position = projMatrix * modelviewMatrix * vert4;
 
 
-	vec3 E = normalize(viewPos);
+	vec3 E = normalize(-viewPos);
 	vec3 N = normalize(vertNormal);
 	vec3 L = normalize(lightdirection);
 	vec3 H = normalize(E+L);
