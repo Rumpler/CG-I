@@ -33,7 +33,7 @@ private:
 
 
     //DON
-    int shading;
+//    int shading;
     int projektionstype;
     CgLightsource* light;
         Camera* cam;
