@@ -1,6 +1,6 @@
 #include "CgMaterialChangeEvent.h"
 
-CgMaterialChangeEvent::CgMaterialChangeEvent(): type(Cg::EventType::CgChangeMaterial)
+CgMaterialChangeEvent::CgMaterialChangeEvent(): type(Cg::CgChangeMaterial)
 {
 
 }
@@ -18,7 +18,7 @@ CgMaterialChangeEvent::CgMaterialChangeEvent(glm::vec4 mat, glm::vec4 amb, glm::
 CgMaterialChangeEvent::CgMaterialChangeEvent(glm::vec4 mat, int shadingmode)
 {
     this->amb=mat;
-    this->type=Cg::EventType::CgChangeMaterial;
+    this->type=Cg::CgChangeMaterial;
     this->shadingmode=shadingmode;
 }
 

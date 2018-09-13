@@ -85,7 +85,7 @@ void CgSceneGraphEntity::clearChildren()
 void CgSceneGraphEntity::addTransformation(glm::mat4 transformation)
 {
     glm::mat4 mat = this->getCurrentTransformation();
-    glm::vec3 translationVec = mat[3];
+    glm::vec3 translationVec =glm::vec3(mat[3].x, mat[3].y, mat[3].z);
     mat[3] = glm::vec4(glm::vec3(0.0f), mat[3].w);
     mat = mat * glm::inverse(mat) * transformation * mat;
     mat[3] = mat[3] + glm::vec4(translationVec, 0);

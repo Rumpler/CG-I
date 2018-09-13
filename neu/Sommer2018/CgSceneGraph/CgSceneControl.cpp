@@ -263,7 +263,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     }
 
     //DON
-    if(e->getType() == Cg::EventType::CgChangeMaterial){
+    if(e->getType() == Cg::CgChangeMaterial){
         m_scene_graph->setMaterialProperties((CgMaterialChangeEvent*) e);
     }
 
