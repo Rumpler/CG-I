@@ -503,7 +503,6 @@ void CgSceneGraph::destructRecursive(CgSceneGraphEntity* currentEntity)
     for(int i = 0; i < entitys.size(); i++ ){
         destructRecursive(entitys.at(i));
     }
-
     std::vector<CgBaseRenderableObject *> objs = currentEntity->getObjects();
     for(int i = 0; i < objs.size(); i++ ){
         delete objs.at(i);
