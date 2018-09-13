@@ -541,7 +541,6 @@ void CgSceneGraph::initCylinder()
     CgCylinder* cylinder = new CgCylinder(idGen->getNextId(), 50, 0.3f, 0.2);
     m_renderer->init(cylinder);
 
-
     // entity cylinder
     cylinderEntity = new CgSceneGraphEntity(variousObjectsEntity);
     cylinderEntity->appearance()->setColor(defaultColor);

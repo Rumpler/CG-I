@@ -584,17 +584,16 @@ QGroupBox *CgQtGui::createGBShader()
 
     shaderLayout->addLayout(subShaderLayout2);
 
-
     combo_box_material = new QComboBox();
 
-    combo_box_material->addItem("Gold");
-    combo_box_material->addItem("Silver");
-
+    combo_box_material->addItem("Material 1");
+    combo_box_material->addItem("Material 2");
+    combo_box_material->addItem("Material 3");
+    combo_box_material->addItem("Material 4");
+    combo_box_material->addItem("Material 5");
+    combo_box_material->addItem("Material 6");
 
     connect(combo_box_material, SIGNAL(currentIndexChanged(int)),this,SLOT(slotShader()));
-
-
-
 
     shaderLayout->addWidget(combo_box_material);
 

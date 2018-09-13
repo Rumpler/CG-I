@@ -103,16 +103,6 @@ void CgTriangleMesh::setDisplay(bool value)
     display = value;
 }
 
-float CgTriangleMesh::getShininess() const
-{
-    return shininess;
-}
-
-void CgTriangleMesh::setShininess(float value)
-{
-    shininess = value;
-}
-
 
 
 //needs m_vertices and m_triangle_indices to be filled previously
@@ -196,14 +186,7 @@ void CgTriangleMesh::fillPolylineNormals()
     }
 }
 
-void CgTriangleMesh::pushPoly(glm::vec3 p1, glm::vec3 p2)
-{
-//    CgLine* poly = new CgLine(idGen->getNextId());
-//    poly->addVertice(p1);
-//    poly->addVertice(p2);
-//    poly->setColor(glm::vec3(1.0f,1.0f,1.0f));
-//    polylineNormals.push_back(poly);
-}
+
 
 void CgTriangleMesh::initFace(int p1, int p2, int p3)
 {

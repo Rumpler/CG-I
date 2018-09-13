@@ -37,7 +37,6 @@ CgSceneGraphEntity::CgSceneGraphEntity(CgSceneGraphEntity *parent)
 
 CgSceneGraphEntity::~CgSceneGraphEntity()
 {
-    //TODO?
     delete m_appearance;
 }
 

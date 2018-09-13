@@ -108,17 +108,19 @@ public:
     CgSceneGraph(CgBaseRenderer *renderer);
     ~CgSceneGraph();
 
-
-    void setMaterialPropertiesForSelectedEntity();
-    void setMaterialPropertiesRecursiv(CgSceneGraphEntity* currentEntity);
-    void setShader();
-
-    //Render
+    //Interaction
     void render();
+    void selectNextEnitiy();
+    void loadObject(std::string str);
 
     //Color
     void changeColorOfAllObjects(glm::vec4 color);
     void changeColorOfSelectedObjects(glm::vec4 color);
+
+    //Shader
+    void setMaterialPropertiesForSelectedEntity();
+    void setMaterialPropertiesRecursiv(CgSceneGraphEntity* currentEntity);
+    void setShader();
 
     //Cylinder
     void changeCylinder(int amountOfSegments, double height, double radius);
@@ -127,9 +129,6 @@ public:
     void changeRotationBody();
     void changeRotationCurveForPointScheme();
     void changeRotationCurveReset();
-
-    void selectNextEnitiy();
-    void loadObject(std::string str);
 
     //Transformation methodes
     void tScaleSelectedEntity(glm::vec3 factor);
@@ -178,7 +177,6 @@ public:
     void rotateRight();
     void reset();
     void setLookAtAfterMove();
-
     void setProjection(int i);
     void setFrustum(int i, float wert);
     glm::vec4 getAmb() const;

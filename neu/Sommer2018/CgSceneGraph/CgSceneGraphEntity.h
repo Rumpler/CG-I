@@ -22,7 +22,6 @@ private:
     bool renderObjects = true;
     bool colorChangeable = true;
 
-
 public:
     CgSceneGraphEntity();
     CgSceneGraphEntity(CgSceneGraphEntity* parent);

@@ -188,14 +188,9 @@ glm::mat4 CgU::tRotateMat(glm::vec3 axis, float angle)
     if(b.y == 0){ angleToYAxis = 90; }
     if(b.x == 0 && b.z == 0){ angleInZYLevel = 0; angleToYAxis = 0; }
 
-//    std::cout << "angleInZYLevel: " << angleInZYLevel << ", angleToYAxis: " << angleToYAxis << std::endl;
-
     glm::mat4 result = tRotateMatY(angleInZYLevel) * tRotateMatX(angleToYAxis) * tRotateMatY(angle) * tRotateMatX(-angleToYAxis) * tRotateMatY(-angleInZYLevel);
-
-    //TEMP FIX ABOVE AND DELETE LATER
-        result = glm::mat4(1.0f);
-        result = glm::rotate(result, translateDegreeToRad(angle), axis);
-
+    result = glm::mat4(1.0f);
+    result = glm::rotate(result, translateDegreeToRad(angle), axis);
     return result;
 }
 
@@ -205,7 +200,6 @@ glm::mat4 CgU::tScaleMat(glm::vec3 factor)
     result[0].x = factor.x;
     result[1].y = factor.y;
     result[2].z = factor.z;
-
     return result;
 }
 
