@@ -90,7 +90,6 @@ private:
     QDoubleSpinBox* spinBoxTranslateVectorY;
     QDoubleSpinBox* spinBoxTranslateVectorZ;
 
-
     //Shading panel
     QButtonGroup* buttonGroupShadingMode;
     QButtonGroup* buttonGroupShadingInterpolation;
@@ -106,11 +105,7 @@ private:
     QDoubleSpinBox* spinBoxRadiusCylinder;
     QSpinBox* spinBoxAmountOfSegmentsRotationBody;
 
-
-
     //Helper
-    void showObject(int i);
-    QSlider *createColorSlider();
     void createOptionPanelObjects(QWidget* parent);
     void createOptionPanelRotateObjects(QWidget* parent);
     void createOptionPanelShader(QWidget* parent);
@@ -125,6 +120,9 @@ private:
     QGroupBox* createGBFrustum();
     QGroupBox* createGBProjection();
 
+    void showObject(int i);
+    QSlider *createColorSlider();
+
     // parts of the view
     CgQtGLRenderWidget*    m_glRenderWidget;
     CgQtMainApplication*   m_mainWindow;
@@ -133,7 +131,6 @@ private:
     QTextEdit*             m_log_browser;
     QMenuBar *             m_menuBar;
     CgQtGuiEventHandler*   m_event_handler;
-
 
 private slots:
     void mouseEvent(QMouseEvent* event);
@@ -180,7 +177,6 @@ public:
 
 protected:
     void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
-
 };
 
 #endif

@@ -248,11 +248,6 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         m_renderer->redraw();
     }
 
-    //DON
-    if(e->getType() == Cg::CgChangeMaterial){
-        m_scene_graph->setMaterialProperties((CgMaterialChangeEvent*) e);
-    }
-
     if(e->getType() == Cg::CgChangeProjection){
         if(((ProjektionEvent*)e)->getValue().x==1){
             m_scene_graph->setProjection(1);
@@ -339,7 +334,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
             m_scene_graph->setShininess(51.2);
         }
 
-       m_scene_graph->setMaterialPropertiesForSelectedObject();
+       m_scene_graph->setMaterialPropertiesForSelectedEntity();
     }
 
     delete e;

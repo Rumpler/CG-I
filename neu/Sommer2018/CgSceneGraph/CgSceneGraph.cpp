@@ -87,24 +87,14 @@ void CgSceneGraph::setFrustum(int i,float wert)
     m_renderer->redraw();
 }
 
-//DON
-void CgSceneGraph::setMaterialProperties(CgMaterialChangeEvent *e)
-{
-    //        setMaterialPropertiesRecursiv(m_root_node, e);
-    ////        setMaterialPropertiesRecursiv(selectedEntity, e);
-    //        m_renderer->redraw();
 
-}
-
-
-void CgSceneGraph::setMaterialPropertiesForSelectedObject()
+void CgSceneGraph::setMaterialPropertiesForSelectedEntity()
 {
     setShader();
     setMaterialPropertiesRecursiv(m_root_node);
     m_renderer->redraw();
 }
 
-//DON
 void CgSceneGraph::setMaterialPropertiesRecursiv(CgSceneGraphEntity *currentEntity)
 {
     currentEntity->appearance()->setAmbiente(ambient);
@@ -120,15 +110,6 @@ void CgSceneGraph::setMaterialPropertiesRecursiv(CgSceneGraphEntity *currentEnti
 
 void CgSceneGraph::setShader()
 {
-
-    if(false){ //JUST FOR DEBUGGING
-        CgU::print("noneShading",noneShading);
-        CgU::print("phong",phong);
-        CgU::print("gouraud",gouraud);
-        CgU::print("flat",flat);
-        CgU::print("smooth",smooth);
-    }
-
     if(noneShading){
         std::string path = CgU::getParentDirectory();
         path.append("/Sommer2018/CgShader/simple.vert");
@@ -518,12 +499,14 @@ void CgSceneGraph::initSceneObjects()
 
 void CgSceneGraph::destructRecursive(CgSceneGraphEntity* currentEntity)
 {
-    for(CgSceneGraphEntity* entity : currentEntity->getChildren() ){
-        destructRecursive(entity);
+    std::vector<CgSceneGraphEntity *> entitys = currentEntity->getChildren();
+    for(int i = 0; i < entitys.size(); i++ ){
+        destructRecursive(entitys.at(i));
     }
 
-    for(CgBaseRenderableObject* obj : currentEntity->getObjects()){
-        delete obj;
+    std::vector<CgBaseRenderableObject *> objs = currentEntity->getObjects();
+    for(int i = 0; i < objs.size(); i++ ){
+        delete objs.at(i);
     }
 }
 

@@ -18,48 +18,37 @@ class CgSceneGraph
 {
 private:
 
-    bool noneShading = true ;
-    bool phong = false;
-    bool gouraud = false;
-
-    bool flat = true;
-    bool smooth = false;
-
-    glm::vec4 ambient;
-    glm::vec4 diffuse;
-    glm::vec4 specular;
-    float shininess;
-
-
-
-    //DON
-//    int shading;
-    int projektionstype;
-    CgLightsource* light;
-        Camera* cam;
-    //Basic vars
+    //Basics
     IdSingleton* idGen;
     CgBaseRenderer *m_renderer;
     glm::mat4 m_trackball_rotation;
     glm::mat4 m_lookAt_matrix;
     glm::mat4 m_proj_matrix;
     std::stack<glm::mat4> m_mat_stack;
+    CgScene* scene;
+
+    //Shading
+    bool noneShading = true ;
+    bool phong = false;
+    bool gouraud = false;
+    bool flat = true;
+    bool smooth = false;
+    glm::vec4 ambient;
+    glm::vec4 diffuse;
+    glm::vec4 specular;
+    float shininess;
+    CgLightsource* light;
+    Camera* cam;
+    int projektionstype;
 
     //Colors
     glm::vec4 defaultColor = glm::vec4(0.0f, 0.45f, 0.5f, 1.0f);
     glm::vec4 defaultColorNormals = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-    glm::vec4 currentColor = defaultColor;
     glm::vec4 selectedColor = glm::vec4(0.0f,1.0f,0.5f, 1.0f);
+    glm::vec4 currentColor = defaultColor;
     glm::vec4 lastColorOfSelectedEntity = defaultColor;
 
-    //Helper for chosing next selected entity
-    int selectedEntityPosition = 0;
-    std::vector<CgSceneGraphEntity*> selectableEntitys;
-
-    //Scene
-    CgScene* scene;
-
-    //Entitys*
+    //Entitys
     CgSceneGraphEntity* selectedEntity;
     CgSceneGraphEntity* m_root_node;
         CgSceneGraphEntity* coordinateSystemEntity;
@@ -91,8 +80,11 @@ private:
         bool* renderCustomRotationAxis;
     bool* renderScene;
 
+    //Helper for selecting next entity
+    int selectedEntityPosition = 0;
+    std::vector<CgSceneGraphEntity*> selectableEntitys;
 
-    //Private helper methodes for matrix stack
+    //Helper for matrix stack
     void pushMatrix(){m_mat_stack.push(m_mat_stack.top());}
     void popMatrix(){m_mat_stack.pop();}
     void applyTransform(glm::mat4 arg){m_mat_stack.top() *= arg;}
@@ -100,6 +92,7 @@ private:
     //Recursiv helper methodes to apply changes to all children of entity
     void changeColorRecursiv(CgSceneGraphEntity* currentEntity, glm::vec4 color);
     void renderRecursive(CgSceneGraphEntity* currentEntity);
+    void destructRecursive(CgSceneGraphEntity* currentEntity);
 
     //Helper methods for initialization
     void initCoordinateSystem();
@@ -111,24 +104,25 @@ private:
         void initCustomRotationAxis();
     void initSceneObjects();
 
-    void destructRecursive(CgSceneGraphEntity* currentEntity);
-
 public:
     CgSceneGraph(CgBaseRenderer *renderer);
     ~CgSceneGraph();
 
 
-    void setMaterialPropertiesForSelectedObject();
-    void setMaterialProperties(CgMaterialChangeEvent *e);
+    void setMaterialPropertiesForSelectedEntity();
     void setMaterialPropertiesRecursiv(CgSceneGraphEntity* currentEntity);
     void setShader();
 
-    //Public methodes for interacton with Scenegraph
+    //Render
     void render();
 
+    //Color
     void changeColorOfAllObjects(glm::vec4 color);
     void changeColorOfSelectedObjects(glm::vec4 color);
+
+    //Cylinder
     void changeCylinder(int amountOfSegments, double height, double radius);
+    //Rotation Body
     void changeRotationBody(int amountOfSegments);
     void changeRotationBody();
     void changeRotationCurveForPointScheme();
