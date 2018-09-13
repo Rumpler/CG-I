@@ -247,7 +247,6 @@ void CgSceneGraph::changeRotationCurveReset()
 
 void CgSceneGraph::selectNextEnitiy()
 {
-
     if(selectableEntitys.size() > 1){
         changeColorRecursiv(selectedEntity, lastColorOfSelectedEntity);
         int startPos = selectedEntityPosition;
@@ -267,10 +266,6 @@ void CgSceneGraph::selectNextEnitiy()
 
 void CgSceneGraph::tScaleSelectedEntity(glm::vec3 factor)
 {
-    //    addTransformationRecursive(selectedEntity, CgU::tScaleMat(factor));
-
-    //    selectedEntity->setCurrentTransformation(selectedEntity->current_transformation() * CgU::tScaleMat(factor));
-
     CgU::addTransformation(selectedEntity, CgU::tScaleMat(factor));
     m_renderer->redraw();
 }
@@ -362,12 +357,9 @@ void CgSceneGraph::reset()
 
 
 
-
-
 ////working shader
 //void CgSceneGraph::render()
 //{
-
 //    setShader();
 //    renderRecursive(m_root_node);
 //}
@@ -434,16 +426,13 @@ void CgSceneGraph::renderRecursive(CgSceneGraphEntity *currentEntity)
 
         std::vector<CgBaseRenderableObject *> objects = currentEntity->getObjects();
         for(int i = 0; i < objects.size(); i++){
+            glm::mat4 mv_matrix = m_lookAt_matrix * m_trackball_rotation * m_mat_stack.top();
+            glm::mat3 normal_matrix = glm::transpose(glm::inverse(glm::mat3(mv_matrix)));
 
-             glm::mat4 mv_matrix = m_lookAt_matrix * m_trackball_rotation * m_mat_stack.top();
-             glm::mat3 normal_matrix = glm::transpose(glm::inverse(glm::mat3(mv_matrix)));
-
-             m_renderer->setUniformValue("projMatrix",m_proj_matrix);
-             m_renderer->setUniformValue("modelviewMatrix",mv_matrix);
-             m_renderer->setUniformValue("normalMatrix",normal_matrix);
-
-             m_renderer->setUniformValue("mycolor",currentEntity->appearance()->getColor());
-
+            m_renderer->setUniformValue("projMatrix",m_proj_matrix);
+            m_renderer->setUniformValue("modelviewMatrix",mv_matrix);
+            m_renderer->setUniformValue("normalMatrix",normal_matrix);
+            m_renderer->setUniformValue("mycolor",currentEntity->appearance()->getColor());
             m_renderer->render(objects.at(i));
         }
 
@@ -454,9 +443,6 @@ void CgSceneGraph::renderRecursive(CgSceneGraphEntity *currentEntity)
         popMatrix();
     }
 }
-
-
-
 
 
 
