@@ -12,12 +12,13 @@
 #include <CgEvents/CgButtonEvent.h>
 #include <CgEvents/CgColorChangeEvent.h>
 #include <CgEvents/CgObjectSelectionChangedEvent.h>
+#include <CgEvents/CgShaderEvent.h>
 #include <CgEvents/CgSubdivisionEvent.h>
 #include <CgEvents/CgValueChangedEvent.h>
 #include <CgUtils/CgUtils.h>
 #include "CgUtils/ObjLoader.h"
 #include <string>
-
+#include <CgClasses/kamera.h>
 CgSceneControl::CgSceneControl()
 {
 
@@ -46,7 +47,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
 {
     if(e->getType() == Cg::CgMouseButtonPress || e->getType() == Cg::CgMouseMove)
     {
-        CgMouseEvent* ev = (CgMouseEvent*)e;
+        //CgMouseEvent* ev = (CgMouseEvent*)e;
     }
 
     if(e->getType() == Cg::CgTrackballEvent)
@@ -59,6 +60,7 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
 
     if(e->getType() == Cg::CgKeyPressEvent)
     {
+
         CgKeyEvent* ev = (CgKeyEvent*)e;
 
         if(ev->key() == Cg::Key_N || ev->key() == Cg::Key_0){
@@ -103,6 +105,40 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         if(ev->key() == Cg::Key_9){
             m_scene_graph->tTranslateSelectedEntity(glm::vec3(0,-0.1,0));
         }
+        if(ev->key()==Cg::Key_W)
+        {
+            m_scene_graph->moveForward();
+        }
+        if(ev->key()==Cg::Key_S)
+        {
+           m_scene_graph->moveBackward();
+        }
+
+        if(ev->key()==Cg::Key_A)
+        {
+            m_scene_graph->moveRight();
+        }
+        if(ev->key()==Cg::Key_D)
+        {
+           m_scene_graph->moveLeft();
+        }
+
+        if(ev->key()==Cg::Key_E){
+            m_scene_graph->rotateRight();
+        }
+
+        if(ev->key()==Cg::Key_Q){
+            m_scene_graph->rotateLeft();
+        }
+
+        if(ev->key()==Cg::Key_F){
+            m_scene_graph->moveUp();
+        }
+
+        if(ev->key()==Cg::Key_R){
+            m_scene_graph->moveDown();
+        }
+
     }
 
     if(e->getType() == Cg::CgWindowResizeEvent)
@@ -146,7 +182,6 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     {
         CgLoadObjFileEvent* ev = (CgLoadObjFileEvent*)e;
         m_scene_graph->loadObject(ev->fileName());
-        std::cout << ev->fileName() << std::endl;
         m_renderer->redraw();
     }
 
@@ -154,7 +189,8 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
     {
         CgColorChangeEvent* ev = (CgColorChangeEvent*) e;
         glm::vec3 customColor = glm::vec3((float)(ev->getRed() * 0.01f), (float)(ev->getGreen() * 0.01f), (float)(ev->getBlue() * 0.01f));
-        m_scene_graph->changeColorOfVariousObjects(customColor);
+//       m_scene_graph->changeColorOfAllObjects(glm::vec4(customColor,1.0f));
+        m_scene_graph->changeColorOfSelectedObjects(glm::vec4(customColor,1.0f));
         m_renderer->redraw();
     }
 
@@ -165,16 +201,17 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         m_scene_graph->setRenderCoordinateSystem(ev->getRenderCoordinateSystem());
 
         m_scene_graph->setRenderVariousObjects(true);
-            m_scene_graph->setRenderCube(ev->getRenderCube());
-            m_scene_graph->setRenderCubeNormals(ev->getRenderCubeNormals());
-            m_scene_graph->setRenderCylinder(ev->getRenderCylinder());
-            m_scene_graph->setRenderCylinderNormals(ev->getRenderCylinderNormals());
-            m_scene_graph->setRenderRotationCurve(ev->getRenderRotationCurve());
-            m_scene_graph->setRenderRotationBody(ev->getRenderRotationBody());
-            m_scene_graph->setRenderRotationBodyNormals(ev->getRenderRotationBodyNormals());
-            m_scene_graph->setRenderLoadedObject(ev->getRenderLoadedObject());
-            m_scene_graph->setRenderLoadedObjectNormals(ev->getRenderLoadedObjectNormals());
-            m_scene_graph->setRenderCustomRotationAxis(ev->getRenderCustomRotationAxis());
+        m_scene_graph->setRenderCube(ev->getRenderCube());
+        m_scene_graph->setRenderCubeNormals(ev->getRenderCubeNormals());
+        m_scene_graph->setRenderCylinder(ev->getRenderCylinder());
+        m_scene_graph->setRenderCylinderNormals(ev->getRenderCylinderNormals());
+        m_scene_graph->setRenderRotationCurve(ev->getRenderRotationCurve());
+        m_scene_graph->setRenderRotationBody(ev->getRenderRotationBody());
+        m_scene_graph->setRenderRotationBodyNormals(ev->getRenderRotationBodyNormals());
+        m_scene_graph->setRenderLoadedObject(ev->getRenderLoadedObject());
+        m_scene_graph->setRenderLoadedObjectNormals(ev->getRenderLoadedObjectNormals());
+        m_scene_graph->setRenderCustomRotationAxis(ev->getRenderCustomRotationAxis());
+        m_scene_graph->setRenderScene(ev->getRenderScene());
 
         m_renderer->redraw();
     }
@@ -211,9 +248,93 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
         m_renderer->redraw();
     }
 
-    //DON
-    if(e->getType() == Cg::EventType::CgChangeMaterial){
-        m_scene_graph->setSmth((CgMaterialChangeEvent*) e);
+    if(e->getType() == Cg::CgChangeProjection){
+        if(((ProjektionEvent*)e)->getValue().x==1){
+            m_scene_graph->setProjection(1);
+        }
+        if(((ProjektionEvent*)e)->getValue().x==2){
+            m_scene_graph->setProjection(2);
+        }
+    }
+
+
+    if(e->getType()== Cg::CgChangeFrustum){
+
+        if(((ProjektionEvent*)e)->getValue().y==0){
+            m_scene_graph->setFrustum(0,(float)(((ProjektionEvent*)e)->getValue().z)/10);
+        }
+        if(((ProjektionEvent*)e)->getValue().y==1){
+            m_scene_graph->setFrustum(1,(float)(((ProjektionEvent*)e)->getValue().z)/10);
+        }
+        if(((ProjektionEvent*)e)->getValue().y==2){
+            m_scene_graph->setFrustum(2,(float)(((ProjektionEvent*)e)->getValue().z)/10);
+        }
+        if(((ProjektionEvent*)e)->getValue().y==3){
+            m_scene_graph->setFrustum(3,(float)(((ProjektionEvent*)e)->getValue().z)/10);
+        }
+        if(((ProjektionEvent*)e)->getValue().y==4){
+            m_scene_graph->setFrustum(4,(float)(((ProjektionEvent*)e)->getValue().z)/10);
+        }
+        if(((ProjektionEvent*)e)->getValue().y==5){
+            m_scene_graph->setFrustum(5,(float)(((ProjektionEvent*)e)->getValue().z)/10);
+        }
+    }
+
+
+    if(e->getType() == Cg::CgShaderEvent){
+        CgShaderEvent* ev = (CgShaderEvent*) e;
+
+        m_scene_graph->setNone(ev->getNoneShader());
+        m_scene_graph->setPhong(ev->getPhong());
+        m_scene_graph->setGouraud(ev->getGouraud());
+
+        m_scene_graph->setFlat(ev->getFlat());
+        m_scene_graph->setSmooth(ev->getSmooth());
+
+
+        if(ev->getMaterialIndex() == 0){
+            m_scene_graph->setAmb(glm::vec4(.25f,.25f,.25f,1.0));
+            m_scene_graph->setDef(glm::vec4(.40f,.40f,.40f,1.0));
+            m_scene_graph->setSpec(glm::vec4(.77f,.77f,.77f,1.0));
+            m_scene_graph->setShininess(76.8);
+        }else if(ev->getMaterialIndex() == 1){
+            m_scene_graph->setAmb(glm::vec4(.25f,.21f,.21f,.90f));
+            m_scene_graph->setDef(glm::vec4(0.99f,.83f,.83f,.90f));
+            m_scene_graph->setSpec(glm::vec4(0.30f,0.30f,0.30f,0.90f));
+            m_scene_graph->setShininess(11.3);
+        }
+        else if(ev->getMaterialIndex() == 2){ //GOLD
+            m_scene_graph->setAmb(glm::vec4(0.5f,0.5f,0.7f,0.8f));
+            m_scene_graph->setDef(glm::vec4(0.18f,0.17f,0.23f,0.8f));
+            m_scene_graph->setSpec(glm::vec4(0.33f,0.33f,0.35f,0.8f));
+            m_scene_graph->setShininess(38.4);
+        }
+        else if(ev->getMaterialIndex() == 3){
+            m_scene_graph->setAmb(glm::vec4(0.25f,0.20f,0.07f,1.f));
+            m_scene_graph->setDef(glm::vec4(0.75f,0.61f,0.23f,1.f));
+            m_scene_graph->setSpec(glm::vec4(0.63f,0.56f,0.37f,0.9f));
+            m_scene_graph->setShininess(51.2);
+        }
+        else if(ev->getMaterialIndex() == 4){
+            m_scene_graph->setAmb(glm::vec4(0.25f,0.20f,0.07f,1.f));
+            m_scene_graph->setDef(glm::vec4(0.75f,0.61f,0.23f,1.f));
+            m_scene_graph->setSpec(glm::vec4(0.63f,0.56f,0.37f,0.9f));
+            m_scene_graph->setShininess(51.2);
+        }
+        else if(ev->getMaterialIndex() == 5){
+            m_scene_graph->setAmb(glm::vec4(0.19f,0.19f,0.19f,1.0f));
+            m_scene_graph->setDef(glm::vec4(0.51f,0.51f,0.51f,1.0f));
+            m_scene_graph->setSpec(glm::vec4(0.51f,0.51f,0.51f,1.f));
+            m_scene_graph->setShininess(51.2);
+        }
+        else if(ev->getMaterialIndex() == 6){
+            m_scene_graph->setAmb(glm::vec4(0.2f,0.2f,0.2f,1.0f));
+            m_scene_graph->setDef(glm::vec4(0.1f,0.1f,0.1f,1.0f));
+            m_scene_graph->setSpec(glm::vec4(0.5f,0.5f,0.5f,1.f));
+            m_scene_graph->setShininess(51.2);
+        }
+
+       m_scene_graph->setMaterialPropertiesForSelectedEntity();
     }
 
     delete e;

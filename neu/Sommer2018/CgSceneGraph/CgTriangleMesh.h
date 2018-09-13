@@ -44,17 +44,11 @@ public:
     bool getDisplay() const;
     void setDisplay(bool value);
 
-    float getShininess() const;
-    void setShininess(float value);
-
 protected:
     IdSingleton* idGen;     //!< Detailed description
     std::vector<CgLine*> polylineNormals;
     glm::vec3 color = glm::vec3(0.7f,0.0f,1.0f);
     bool display = false;
-
-    //DON
-    float shininess;
 
     std::vector<glm::vec3> m_vertices;
     std::vector<glm::vec3> m_vertex_normals;
@@ -68,9 +62,6 @@ protected:
 
     const Cg::ObjectType m_type;
     const unsigned int m_id;
-
-    //depricated (replaced by fillPolylineNormals)
-    void pushPoly(glm::vec3 p1, glm::vec3 p2);
 
     std::map<int, std::vector<glm::vec3>*> map_vertex_normals;
 

@@ -10,7 +10,6 @@ vec3 vertNormal;
 uniform mat4 projMatrix;
 uniform mat4 modelviewMatrix;
 uniform mat3 normalMatrix;
-uniform vec4 mycolor;
 uniform vec4 matDiffuseColor;
 uniform vec4 matAmbientColor;
 uniform vec4 matSpecularColor; 
@@ -29,7 +28,7 @@ out vec3 alle;
        gl_Position = projMatrix * modelviewMatrix * vert4;
 
 
-	vec3 E = normalize(vec3(0,0,1));
+	vec3 E = normalize(viewPos);
 	vec3 N = normalize(vertNormal);
 	vec3 L = normalize(lightdirection);
 	vec3 H = normalize(E+L);
@@ -51,4 +50,5 @@ out vec3 alle;
 	 specular *= matSpecularColor.xyz;
 
 	alle = (ambient+diffuse+specular);
+	//alle = vec3(1.0f,0.0f,0.0f);
     }

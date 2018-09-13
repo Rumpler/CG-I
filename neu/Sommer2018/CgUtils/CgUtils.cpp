@@ -19,6 +19,18 @@ CgU::CgU()
 
 }
 
+void CgU::print(bool d)
+{
+    if(d){ std::cout << "true" << std::endl; }
+    else {  std::cout << "false" << std::endl; }
+}
+
+void CgU::print(std::string str, bool d)
+{
+    if(d){ std::cout << str << ": " << "true" << std::endl; }
+    else { std::cout << str << ": " << "false" << std::endl; }
+}
+
 void CgU::print(std::string str)
 {
     std::cout << str << std::endl;
@@ -62,6 +74,16 @@ void CgU::print(glm::vec3 vec)
 void CgU::print(std::string str, glm::vec3 vec)
 {
     std::cout<< str << ":(" << vec.x << "," << vec.y << "," << vec.z << ")" << std::endl;
+}
+
+void CgU::print(glm::vec4 vec)
+{
+    std::cout << "Vec4:(" << vec.x << "," << vec.y << "," << vec.z << vec.w <<")" << std::endl;
+}
+
+void CgU::print(std::string str, glm::vec4 vec)
+{
+    std::cout<< str << ":(" << vec.x << "," << vec.y << "," << vec.z << vec.w << ")" << std::endl;
 }
 
 void CgU::print(glm::mat4 mat)
@@ -166,14 +188,9 @@ glm::mat4 CgU::tRotateMat(glm::vec3 axis, float angle)
     if(b.y == 0){ angleToYAxis = 90; }
     if(b.x == 0 && b.z == 0){ angleInZYLevel = 0; angleToYAxis = 0; }
 
-//    std::cout << "angleInZYLevel: " << angleInZYLevel << ", angleToYAxis: " << angleToYAxis << std::endl;
-
     glm::mat4 result = tRotateMatY(angleInZYLevel) * tRotateMatX(angleToYAxis) * tRotateMatY(angle) * tRotateMatX(-angleToYAxis) * tRotateMatY(-angleInZYLevel);
-
-    //TEMP FIX ABOVE AND DELETE LATER
-        result = glm::mat4(1.0f);
-        result = glm::rotate(result, translateDegreeToRad(angle), axis);
-
+    result = glm::mat4(1.0f);
+    result = glm::rotate(result, translateDegreeToRad(angle), axis);
     return result;
 }
 
@@ -183,7 +200,6 @@ glm::mat4 CgU::tScaleMat(glm::vec3 factor)
     result[0].x = factor.x;
     result[1].y = factor.y;
     result[2].z = factor.z;
-
     return result;
 }
 
@@ -206,10 +222,9 @@ glm::mat4 CgU::tTranslateMat(float x, float y, float z)
 
 void CgU::addTransformation(CgSceneGraphEntity *entity, glm::mat4 transformation)
 {
-    //TODO BUG ?
 
     glm::mat4 mat = entity->getCurrentTransformation();
-    glm::vec3 translationVec = mat[3];
+    glm::vec3 translationVec = glm::vec3(mat[3].x, mat[3].y, mat[3].z);
     mat[3] = glm::vec4(glm::vec3(0.0f), mat[3].w);
     mat = mat * glm::inverse(mat) * transformation * mat;
     mat[3] = mat[3] + glm::vec4(translationVec, 0);

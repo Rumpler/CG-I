@@ -19,7 +19,7 @@ CgScene::CgScene(CgBaseRenderer *renderer, std::vector<CgSceneGraphEntity*>* sel
     initBox();
 
 //    m_scene->addTransformation(CgU::tTranslateMat(0,0,-1)); //TODO DELETE
-    selectableEntitys->push_back(m_scene);
+//    selectableEntitys->push_back(m_scene);
 }
 
 CgScene::~CgScene()
@@ -302,6 +302,139 @@ void CgScene::initChessBoard()
 
     chessBoardE->addTransformation(CgU::tTranslateMat(0,0.3,0));
     chessBoardE->addTransformation(CgU::tScaleMat(0.6,0.6,0.6));
+
+    //Change colors
+    pawn1E->appearance()->setColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0));
+    pawn2E->appearance()->setColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0));
+    pawn3E->appearance()->setColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0));
+    /**   amb.push_back(glm::vec4(0.2f,0.2f,0.2f,1.0f));
+    def.push_back(glm::vec4(0.1f,0.1f,0.1f,1.0f));
+    spec.push_back(glm::vec4(0.5f,0.5f,0.5f,1.f));
+    scala.push_back(51.2);
+    **/
+
+    pawn1E->appearance()->setAmbiente(glm::vec4(1.f, 1.f, 1.f, 1.0));
+    pawn1E->appearance()->setDiffuse(glm::vec4(.1f, .1f, .1f, 1.0));
+    pawn1E->appearance()->setMaterial(glm::vec4(1.0f, 1.0f, 1.0f, 1.0));
+    pawn1E->appearance()->setShininess(51.2);
+    pawn1E->appearance()->setSpecular(glm::vec4(0.5f,0.5f,0.5f,1.f));
+
+
+    pawn2E->appearance()->setAmbiente(glm::vec4(1.f, 1.f, 1.f, 1.0));
+    pawn2E->appearance()->setDiffuse(glm::vec4(.1f, .1f, .1f, 1.0));
+    pawn2E->appearance()->setMaterial(glm::vec4(1.0f, 1.0f, 1.0f, 1.0));
+    pawn2E->appearance()->setShininess(51.2);
+    pawn2E->appearance()->setSpecular(glm::vec4(0.5f,0.5f,0.5f,1.f));
+
+    pawn3E->appearance()->setAmbiente(glm::vec4(1.f, 1.f, 1.f, 1.0));
+    pawn3E->appearance()->setDiffuse(glm::vec4(.1f, .1f, .1f, 1.0));
+    pawn3E->appearance()->setMaterial(glm::vec4(1.0f, 1.0f, 1.0f, 1.0));
+    pawn3E->appearance()->setShininess(51.2);
+    pawn3E->appearance()->setSpecular(glm::vec4(0.5f,0.5f,0.5f,1.f));
+
+
+    pawn4E->appearance()->setColor(glm::vec4(0.1f, 0.1f, 0.1f, 1.0));
+
+
+    pawn4E->appearance()->setAmbiente(glm::vec4(0.2f,0.2f,0.2f,1.0f));
+    pawn4E->appearance()->setDiffuse(glm::vec4(.1f, .1f, .1f, 1.0));
+    pawn4E->appearance()->setMaterial(glm::vec4(1.0f, 1.0f, 1.0f, 1.0));
+    pawn4E->appearance()->setShininess(51.2);
+    pawn4E->appearance()->setSpecular(glm::vec4(0.5f,0.5f,0.5f,1.f));
+
+    pawn5E->appearance()->setColor(glm::vec4(0.1f, 0.1f, 0.1f, 1.0));
+
+
+    pawn5E->appearance()->setAmbiente(glm::vec4(0.2f,0.2f,0.2f,1.0f));
+    pawn5E->appearance()->setDiffuse(glm::vec4(.1f, .1f, .1f, 1.0));
+    pawn5E->appearance()->setMaterial(glm::vec4(1.0f, 1.0f, 1.0f, 1.0));
+    pawn5E->appearance()->setShininess(51.2);
+    pawn5E->appearance()->setSpecular(glm::vec4(0.5f,0.5f,0.5f,1.f));
+
+
+    pawn6E->appearance()->setColor(glm::vec4(0.1f, 0.1f, 0.1f, 1.0));
+
+    pawn6E->appearance()->setAmbiente(glm::vec4(0.2f,0.2f,0.2f,1.0f));
+    pawn6E->appearance()->setDiffuse(glm::vec4(.1f, .1f, .1f, 1.0));
+    pawn6E->appearance()->setMaterial(glm::vec4(1.0f, 1.0f, 1.0f, 1.0));
+    pawn6E->appearance()->setShininess(51.2);
+    pawn6E->appearance()->setSpecular(glm::vec4(0.5f,0.5f,0.5f,1.f));
+
+
+    king1E->appearance()->setColor(glm::vec4(0.1f, 0.1f, 0.1f, 1.0));
+    king1E->appearance()->setAmbiente(glm::vec4(0.2f,0.2f,0.2f,1.0f));
+    king1E->appearance()->setDiffuse(glm::vec4(.1f, .1f, .1f, 1.0));
+    king1E->appearance()->setMaterial(glm::vec4(1.0f, 1.0f, 1.0f, 1.0));
+    king1E->appearance()->setShininess(51.2);
+    king1E->appearance()->setSpecular(glm::vec4(0.5f,0.5f,0.5f,1.f));
+
+
+
+    king2E->appearance()->setColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0));
+
+    king2E->appearance()->setAmbiente(glm::vec4(1.f, 1.f, 1.f, 1.0));
+    king2E->appearance()->setDiffuse(glm::vec4(.1f, .1f, .1f, 1.0));
+    king2E->appearance()->setMaterial(glm::vec4(1.0f, 1.0f, 1.0f, 1.0));
+    king2E->appearance()->setShininess(51.2);
+    king2E->appearance()->setSpecular(glm::vec4(0.5f,0.5f,0.5f,1.f));
+
+    bishop1E->appearance()->setColor(glm::vec4(0.1f, 0.1f, 0.1f, 1.0));
+
+    bishop1E->appearance()->setAmbiente(glm::vec4(0.2f,0.2f,0.2f,1.0f));
+    bishop1E->appearance()->setDiffuse(glm::vec4(.1f, .1f, .1f, 1.0));
+    bishop1E->appearance()->setMaterial(glm::vec4(1.0f, 1.0f, 1.0f, 1.0));
+    bishop1E->appearance()->setShininess(51.2);
+    bishop1E->appearance()->setSpecular(glm::vec4(0.5f,0.5f,0.5f,1.f));
+
+    bishop2E->appearance()->setColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0));
+    bishop2E->appearance()->setAmbiente(glm::vec4(1.f, 1.f, 1.f, 1.0));
+    bishop2E->appearance()->setDiffuse(glm::vec4(.1f, .1f, .1f, 1.0));
+    bishop2E->appearance()->setMaterial(glm::vec4(1.0f, 1.0f, 1.0f, 1.0));
+    bishop2E->appearance()->setShininess(51.2);
+    bishop2E->appearance()->setSpecular(glm::vec4(0.5f,0.5f,0.5f,1.f));
+
+
+
+    queen1E->appearance()->setColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0));
+
+    queen1E->appearance()->setAmbiente(glm::vec4(1.f, 1.f, 1.f, 1.0));
+    queen1E->appearance()->setDiffuse(glm::vec4(.1f, .1f, .1f, 1.0));
+    queen1E->appearance()->setMaterial(glm::vec4(1.0f, 1.0f, 1.0f, 1.0));
+    queen1E->appearance()->setShininess(51.2);
+    queen1E->appearance()->setSpecular(glm::vec4(0.5f,0.5f,0.5f,1.f));
+
+
+
+
+    knight1E->appearance()->setColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0));
+
+    knight1E->appearance()->setAmbiente(glm::vec4(1.f, 1.f, 1.f, 1.0));
+    knight1E->appearance()->setDiffuse(glm::vec4(.1f, .1f, .1f, 1.0));
+    knight1E->appearance()->setMaterial(glm::vec4(1.0f, 1.0f, 1.0f, 1.0));
+    knight1E->appearance()->setShininess(51.2);
+    knight1E->appearance()->setSpecular(glm::vec4(0.5f,0.5f,0.5f,1.f));
+
+    rook1E->appearance()->setColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0));
+    rook1E->appearance()->setAmbiente(glm::vec4(1.f, 1.f, 1.f, 1.0));
+    rook1E->appearance()->setDiffuse(glm::vec4(.1f, .1f, .1f, 1.0));
+    rook1E->appearance()->setMaterial(glm::vec4(1.0f, 1.0f, 1.0f, 1.0));
+    rook1E->appearance()->setShininess(51.2);
+    rook1E->appearance()->setSpecular(glm::vec4(0.5f,0.5f,0.5f,1.f));
+
+    pawn1E->setIsColorChangeable(false);
+    pawn2E->setIsColorChangeable(false);
+    pawn3E->setIsColorChangeable(false);
+    pawn4E->setIsColorChangeable(false);
+    pawn5E->setIsColorChangeable(false);
+    pawn6E->setIsColorChangeable(false);
+    king1E->setIsColorChangeable(false);
+    king2E->setIsColorChangeable(false);
+    bishop1E->setIsColorChangeable(false);
+    bishop2E->setIsColorChangeable(false);
+    queen1E->setIsColorChangeable(false);
+    knight1E->setIsColorChangeable(false);
+    rook1E->setIsColorChangeable(false);
+
     selectableEntitys->push_back(chessBoardE);
 }
 

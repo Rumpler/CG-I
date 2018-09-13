@@ -11,37 +11,44 @@
 #include <CgBase/CgBaseRenderer.h>
 #include <CgEvents/CgMaterialChangeEvent.h>
 #include "CgUtils/IdSingleton.h"
-
+#include <CgClasses/kamera.h>
+#include <CgClasses/CgLightsource.h>
 
 class CgSceneGraph
 {
 private:
 
-    //DON
-    int shading;
-
-    //Basic vars
+    //Basics
     IdSingleton* idGen;
     CgBaseRenderer *m_renderer;
     glm::mat4 m_trackball_rotation;
     glm::mat4 m_lookAt_matrix;
     glm::mat4 m_proj_matrix;
     std::stack<glm::mat4> m_mat_stack;
-
-    //Colors
-    glm::vec3 defaultColor = glm::vec3(0.0f, 0.45f, 0.5f);
-    glm::vec3 defaultColorNormals = glm::vec3(1.0f, 1.0f, 1.0f);
-    glm::vec3 currentColor = defaultColor;
-    glm::vec3 selectedColor = glm::vec3(0.0f,1.0f,0.5f);
-
-    //Helper for chosing next selected entity
-    int selectedEntityPosition = 0;
-    std::vector<CgSceneGraphEntity*> selectableEntitys;
-
-    //Scene
     CgScene* scene;
 
-    //Entitys*
+    //Shading
+    bool noneShading = true ;
+    bool phong = false;
+    bool gouraud = false;
+    bool flat = true;
+    bool smooth = false;
+    glm::vec4 ambient;
+    glm::vec4 diffuse;
+    glm::vec4 specular;
+    float shininess;
+    CgLightsource* light;
+    Camera* cam;
+    int projektionstype;
+
+    //Colors
+    glm::vec4 defaultColor = glm::vec4(0.0f, 0.45f, 0.5f, 1.0f);
+    glm::vec4 defaultColorNormals = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+    glm::vec4 selectedColor = glm::vec4(0.0f,1.0f,0.5f, 1.0f);
+    glm::vec4 currentColor = defaultColor;
+    glm::vec4 lastColorOfSelectedEntity = defaultColor;
+
+    //Entitys
     CgSceneGraphEntity* selectedEntity;
     CgSceneGraphEntity* m_root_node;
         CgSceneGraphEntity* coordinateSystemEntity;
@@ -73,15 +80,19 @@ private:
         bool* renderCustomRotationAxis;
     bool* renderScene;
 
+    //Helper for selecting next entity
+    int selectedEntityPosition = 0;
+    std::vector<CgSceneGraphEntity*> selectableEntitys;
 
-    //Private helper methodes for matrix stack
+    //Helper for matrix stack
     void pushMatrix(){m_mat_stack.push(m_mat_stack.top());}
     void popMatrix(){m_mat_stack.pop();}
     void applyTransform(glm::mat4 arg){m_mat_stack.top() *= arg;}
 
     //Recursiv helper methodes to apply changes to all children of entity
-    void changeColorRecursiv(CgSceneGraphEntity* currentEntity, glm::vec3 color);
+    void changeColorRecursiv(CgSceneGraphEntity* currentEntity, glm::vec4 color);
     void renderRecursive(CgSceneGraphEntity* currentEntity);
+    void destructRecursive(CgSceneGraphEntity* currentEntity);
 
     //Helper methods for initialization
     void initCoordinateSystem();
@@ -97,22 +108,27 @@ public:
     CgSceneGraph(CgBaseRenderer *renderer);
     ~CgSceneGraph();
 
-    void changeValueOfShading();
-    void setSmth(CgMaterialChangeEvent *e);
-    void setSmthRecursiv(CgSceneGraphEntity* currentEntity, CgMaterialChangeEvent *e);
-
-    //Public methodes for interacton with Scenegraph
+    //Interaction
     void render();
+    void selectNextEnitiy();
+    void loadObject(std::string str);
 
-    void changeColorOfVariousObjects(glm::vec3 color);
+    //Color
+    void changeColorOfAllObjects(glm::vec4 color);
+    void changeColorOfSelectedObjects(glm::vec4 color);
+
+    //Shader
+    void setMaterialPropertiesForSelectedEntity();
+    void setMaterialPropertiesRecursiv(CgSceneGraphEntity* currentEntity);
+    void setShader();
+
+    //Cylinder
     void changeCylinder(int amountOfSegments, double height, double radius);
+    //Rotation Body
     void changeRotationBody(int amountOfSegments);
     void changeRotationBody();
     void changeRotationCurveForPointScheme();
     void changeRotationCurveReset();
-
-    void selectNextEnitiy();
-    void loadObject(std::string str);
 
     //Transformation methodes
     void tScaleSelectedEntity(glm::vec3 factor);
@@ -151,6 +167,36 @@ public:
     void setRenderScene(bool value);
     bool getRenderCustomRotationAxis() const;
     void setRenderCustomRotationAxis(bool value);
+    void moveForward();
+    void moveBackward();
+    void moveLeft();
+    void moveRight();
+    void moveUp();
+    void moveDown();
+    void rotateLeft();
+    void rotateRight();
+    void reset();
+    void setLookAtAfterMove();
+    void setProjection(int i);
+    void setFrustum(int i, float wert);
+    glm::vec4 getAmb() const;
+    void setAmb(const glm::vec4 &value);
+    glm::vec4 getDef() const;
+    void setDef(const glm::vec4 &value);
+    glm::vec4 getSpec() const;
+    void setSpec(const glm::vec4 &value);
+    float getShininess() const;
+    void setShininess(float value);
+    bool getNone() const;
+    void setNone(bool value);
+    bool getPhong() const;
+    void setPhong(bool value);
+    bool getGouraud() const;
+    void setGouraud(bool value);
+    bool getFlat() const;
+    void setFlat(bool value);
+    bool getSmooth() const;
+    void setSmooth(bool value);
 };
 
 #endif // CGSCENEGRAPH_H

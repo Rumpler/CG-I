@@ -8,7 +8,6 @@
 class CgAppearance
 {
 private:
-    glm::vec3 object_color;
 
     //DON
     glm::vec4 material;
@@ -28,8 +27,6 @@ public:
     void setDiffuse(const glm::vec4 &value);
     glm::vec4 getSpecular() const;
     void setSpecular(const glm::vec4 &value);
-    glm::vec3 getObjectColor() const;
-    void setObjectColor(const glm::vec3 &value);
     glm::vec4 getColor() const;
     void setColor(const glm::vec4 &value);
     glm::vec4 getMaterial() const;

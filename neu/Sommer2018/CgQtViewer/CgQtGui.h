@@ -47,6 +47,7 @@
 #include "../CgBase/CgObservable.h"
 #include <glm/glm.hpp>
 #include <CgEvents/CgMaterialChangeEvent.h>
+#include <CgEvents/projektionevent.h>
 
 QT_BEGIN_NAMESPACE
 class QSlider;
@@ -73,51 +74,14 @@ class CgQtGui : public QWidget,public CgObservable
 
 private:
 
-    //DON
-    std::vector<glm::vec4> amb;
-    std::vector<glm::vec4> def;
-    std::vector<glm::vec4> spec;
-    std::vector<float>scala;
-    std::vector<QString> names;
-int calculateShadingMode();
-    void createMats();
-    void selectMaterialShaderOn();
-    void selectMaterialShaderOff();
-    void selectShader();
-    void selectInterpolation();
-    void Aufgabe6(QWidget* parent);
-    void createComboBox(QComboBox* combo);
-    void clearComboBox(QComboBox* combo);
-
-
-    QComboBox* combo_box_material;
-    QComboBox* combo_box_shader;
-    QComboBox* combo_box_interpolation;
-
-
-
-
-
-
-    QSlider *createColorSlider();
-
     //Panels
     QWidget*               m_panel_objects;
     QWidget*               m_panel_rotate_objects;
     QWidget*               m_panel_color;
+    QWidget*               m_panel_camera;
 
-    QButtonGroup* ButtonGroupObjects;
-
-    QSlider* sliderRed;
-    QSlider* sliderGreen;
-    QSlider* sliderBlue;
-
-    QDoubleSpinBox* spinBoxHeightCylinder;
-    QSpinBox* spinBoxAmountOfSegmentsCylinder;
-    QDoubleSpinBox* spinBoxRadiusCylinder;
-
-    QSpinBox* spinBoxAmountOfSegmentsRotationBody;
-
+    //Objects panel
+    QButtonGroup* buttonGroupObjectSelection;
     QDoubleSpinBox* spinBoxRotateVectorX;
     QDoubleSpinBox* spinBoxRotateVectorY;
     QDoubleSpinBox* spinBoxRotateVectorZ;
@@ -126,12 +90,26 @@ int calculateShadingMode();
     QDoubleSpinBox* spinBoxTranslateVectorY;
     QDoubleSpinBox* spinBoxTranslateVectorZ;
 
-    //Helper methodes
-    void showObject(int i);
+    //Shading panel
+    QButtonGroup* buttonGroupShadingMode;
+    QButtonGroup* buttonGroupShadingInterpolation;
+    QComboBox* combo_box_material;
 
+    QSlider* sliderRed;
+    QSlider* sliderGreen;
+    QSlider* sliderBlue;
+
+    //Rotation Panel
+    QDoubleSpinBox* spinBoxHeightCylinder;
+    QSpinBox* spinBoxAmountOfSegmentsCylinder;
+    QDoubleSpinBox* spinBoxRadiusCylinder;
+    QSpinBox* spinBoxAmountOfSegmentsRotationBody;
+
+    //Helper
     void createOptionPanelObjects(QWidget* parent);
     void createOptionPanelRotateObjects(QWidget* parent);
-    void createOptionPanelColor(QWidget* parent);
+    void createOptionPanelShader(QWidget* parent);
+    void createOptionPanelCamera(QWidget* parent);
 
     QGroupBox* createGBObjects();
     QGroupBox* createGBTransformation();
@@ -139,8 +117,11 @@ int calculateShadingMode();
     QGroupBox* createGBCylinder();
     QGroupBox* createGBRotationBody();
     QGroupBox* createGBShader();
+    QGroupBox* createGBFrustum();
+    QGroupBox* createGBProjection();
 
-
+    void showObject(int i);
+    QSlider *createColorSlider();
 
     // parts of the view
     CgQtGLRenderWidget*    m_glRenderWidget;
@@ -149,9 +130,7 @@ int calculateShadingMode();
     QWidget*			   m_scene_tree_view;
     QTextEdit*             m_log_browser;
     QMenuBar *             m_menuBar;
-
     CgQtGuiEventHandler*   m_event_handler;
-
 
 private slots:
     void mouseEvent(QMouseEvent* event);
@@ -181,23 +160,23 @@ private slots:
     void slotRotateZ();
     void slotTranslate();
 
-    //DON
-    void selectShaderSlot();
-    void selectInterpolationSlot();
-    void selectObjectMaterial();
-    void selectColor();
+    void slotShader();
 
+    void slotChangeProjectionToCentral();
+    void slotChangeProjectionToParallel();
+    void slotChangeFrustumR(int);
+    void slotChangeFrustumL(int);
+    void slotChangeFrustumT(int);
+    void slotChangeFrustumB(int);
+    void slotChangeFrustumN(int);
+    void slotChangeFrustumF(int);
 
 public:
     CgQtGui(CgQtMainApplication *mw);
     CgBaseRenderer* getRenderer();
 
-
-    void setMaterial(CgMaterialChangeEvent* materialChangeEvent);
-
 protected:
     void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
-
 };
 
 #endif

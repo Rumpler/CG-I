@@ -9,6 +9,7 @@
 #include "CgSceneGraph.h"
 #include "CgTriangles.h"
 #include <glm/glm.hpp>
+#include <CgEvents/projektionevent.h>
 
 class CgSceneControl : public CgObserver, public CgBaseSceneControl
 {
