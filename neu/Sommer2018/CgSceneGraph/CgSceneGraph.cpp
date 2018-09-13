@@ -31,7 +31,7 @@ CgSceneGraph::CgSceneGraph(CgBaseRenderer *renderer):
     m_root_node->setRenderObjects(true);
 
     initCoordinateSystem();
-//    initVariousObjects();
+    initVariousObjects();
 //    initSceneObjects();
 
 //    selectedEntity = cubeEntity;
@@ -422,22 +422,20 @@ void CgSceneGraph::reset()
 //CORRECT VERSION
 void CgSceneGraph::render()
 {
+//    glm::mat4 mv_matrix = m_lookAt_matrix * m_trackball_rotation * m_mat_stack.top();
+//    glm::mat3 normal_matrix = glm::transpose(glm::inverse(glm::mat3(mv_matrix)));
+
+//    m_renderer->setUniformValue("projMatrix",m_proj_matrix);
+//    m_renderer->setUniformValue("modelviewMatrix",mv_matrix);
+//    m_renderer->setUniformValue("normalMatrix",normal_matrix);
+//    m_renderer->setUniformValue("mycolor",glm::vec4(1.0f,1.0f,1.0f,1.0f));
 
 
-    glm::mat4 mv_matrix = m_lookAt_matrix * m_trackball_rotation * m_mat_stack.top();
-    glm::mat3 normal_matrix = glm::transpose(glm::inverse(glm::mat3(mv_matrix)));
-
-    m_renderer->setUniformValue("projMatrix",m_proj_matrix);
-    m_renderer->setUniformValue("modelviewMatrix",mv_matrix);
-    m_renderer->setUniformValue("normalMatrix",normal_matrix);
-    m_renderer->setUniformValue("mycolor",glm::vec4(1.0f,1.0f,1.0f,1.0f));
+//    m_renderer->render(coordinateSystemEntity->getChildren().at(0)->getObjects().at(0)); //Coordinate xAxis
+//    m_renderer->render(variousObjectsEntity->getChildren().at(0)->getObjects().at(0)); //Cube
 
 
-    m_renderer->render(coordinateSystemEntity->getChildren().at(0)->getObjects().at(0)); //Coordinate xAxis
-
-
-
-//   renderRecursive(m_root_node);
+   renderRecursive(m_root_node);
 }
 
 void CgSceneGraph::renderRecursive(CgSceneGraphEntity *currentEntity)
@@ -446,7 +444,9 @@ void CgSceneGraph::renderRecursive(CgSceneGraphEntity *currentEntity)
     if(*(currentEntity->renderObject())){
         pushMatrix();
         applyTransform(currentEntity->getCurrentTransformation());
-        for(CgBaseRenderableObject* obj : currentEntity->getObjects()){
+
+        std::vector<CgBaseRenderableObject *> objects = currentEntity->getObjects();
+        for(int i = 0; i < objects.size(); i++){
              CgU::print("-------------OBJECT---------------");
 
             setShader();
@@ -480,11 +480,12 @@ void CgSceneGraph::renderRecursive(CgSceneGraphEntity *currentEntity)
                  CgU::print("viewPos", cam->getEye());
                  m_renderer->setUniformValue("shininess",20.2);
              }
-            m_renderer->render(obj);
+            m_renderer->render(objects.at(i));
         }
-        for(CgSceneGraphEntity* entity : currentEntity->getChildren()){
-            CgU::print("-------------Entity---------------");
-            renderRecursive(entity);
+
+        std::vector<CgSceneGraphEntity *> entity = currentEntity->getChildren();
+        for(int i = 0; i < entity.size(); i++){
+            renderRecursive(entity.at(i));
         }
         popMatrix();
     }
@@ -559,10 +560,10 @@ void CgSceneGraph::initVariousObjects()
     renderVariousObjects = variousObjectsEntity->renderObject();
 
     initCube();
-    initCylinder();
-    initRotationObjects();
-    initLoadedObject();
-    initCustomRotationAxis();
+//    initCylinder();
+//    initRotationObjects();
+//    initLoadedObject();
+//    initCustomRotationAxis();
 }
 
 void CgSceneGraph::initSceneObjects()
@@ -593,28 +594,32 @@ void CgSceneGraph::initCube()
     m_renderer->init(cube);
 
     // entity cube
-    cubeEntity = new CgSceneGraphEntity();
-    cubeEntity->setParent(variousObjectsEntity);
-    variousObjectsEntity->addChild(cubeEntity);
+    cubeEntity = new CgSceneGraphEntity(variousObjectsEntity);
     cubeEntity->appearance()->setColor(defaultColor);
     cubeEntity->addObject(cube);
     renderCube = cubeEntity->renderObject();
-    cubeEntity->setRenderObjects(false);
+    cubeEntity->setRenderObjects(true);
     selectableEntitys.push_back(cubeEntity);
 
     // entity cube normals
-    cubeNormalsEntity = new CgSceneGraphEntity();
-    cubeNormalsEntity->setParent(cubeEntity);
-    cubeEntity->addChild(cubeNormalsEntity);
+    cubeNormalsEntity = new CgSceneGraphEntity(cubeEntity);
     cubeNormalsEntity->setIsColorChangeable(false);
     cubeNormalsEntity->appearance()->setColor(defaultColorNormals);
     renderCubeNormals = cubeNormalsEntity->renderObject();
 
     std::vector<CgLine*>* cubeNormals = cube->getPolylineNormals();
-    for(CgLine* line : *cubeNormals){
-        m_renderer->init(line);
-        cubeNormalsEntity->addObject(line);
+
+
+    for(int i = 0; i < cubeNormals->size(); i++){
+        m_renderer->init(cubeNormals->at(i));
+        cubeNormalsEntity->addObject(cubeNormals->at(i));
     }
+
+
+//    for(CgLine* line : *cubeNormals){
+//        m_renderer->init(line);
+//        cubeNormalsEntity->addObject(line);
+//    }
 }
 
 void CgSceneGraph::initCylinder()
