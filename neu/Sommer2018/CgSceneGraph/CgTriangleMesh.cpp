@@ -132,7 +132,6 @@ void CgTriangleMesh::computeNormals()
         map_vertex_normals.at(p3)->push_back(faceNormal);
     }
 
-
     //Calculating vertexNormals
 
     //For everey vertex

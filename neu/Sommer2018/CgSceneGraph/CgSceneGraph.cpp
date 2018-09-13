@@ -489,7 +489,6 @@ void CgSceneGraph::initVariousObjects()
 
 void CgSceneGraph::initSceneObjects()
 {
-    //    sceneObjectsEntity = new CgSceneGraphEntity();
     scene = new CgScene(m_renderer, &selectableEntitys);
     sceneEntity = scene->getScene();
     sceneEntity->setParent(m_root_node);

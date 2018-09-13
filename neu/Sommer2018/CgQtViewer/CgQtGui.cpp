@@ -65,8 +65,8 @@ CgQtGui::CgQtGui(CgQtMainApplication *mw)
     QTabWidget* m_tabs = new QTabWidget();
     m_tabs->addTab(m_panel_objects,"&Objects");
     m_tabs->addTab(m_panel_rotate_objects, "&Rotate Objects");
-    m_tabs->addTab(m_panel_color, "&Shader");
     m_tabs->addTab(m_panel_camera,"&Camera");
+    m_tabs->addTab(m_panel_color, "&Shader");
     container->addWidget(m_tabs);
 
 

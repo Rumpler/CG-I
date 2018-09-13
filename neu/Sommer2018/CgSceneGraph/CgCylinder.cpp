@@ -205,14 +205,12 @@ void CgCylinder::makeCylinder(int amountOfSegments, double height, double radius
         iLastBot = iNextBot;
         iLastTop = iNextTop;
     }
-
     if(displayPolyNormals){
         for(CgLine* poly : polylineNormals){
             poly->setDisplay(true);
         }
     }
-
-    computeNormals(); //Should be computed with calculation above
+    computeNormals();
     fillPolylineNormals();
 }
 

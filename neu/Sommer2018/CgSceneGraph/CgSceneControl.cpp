@@ -131,11 +131,11 @@ void CgSceneControl::handleEvent(CgBaseEvent* e)
             m_scene_graph->rotateLeft();
         }
 
-        if(ev->key()==Cg::Key_R){
+        if(ev->key()==Cg::Key_F){
             m_scene_graph->moveUp();
         }
 
-        if(ev->key()==Cg::Key_F){
+        if(ev->key()==Cg::Key_R){
             m_scene_graph->moveDown();
         }
 

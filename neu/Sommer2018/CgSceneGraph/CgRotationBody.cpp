@@ -49,14 +49,6 @@ void CgRotationBody::makeRotationBody(CgLine *contourCurve, int amountOfSegments
     for(int i = 0; i < amountOfSegments * (contourCurveVertices.size() - 1); i++){
         layerCounter = (i / amountOfSegments);
 
-//        m_triangle_indices.push_back(i);
-//        m_triangle_indices.push_back( ((i + 1) % amountOfSegments) + (layerCounter * amountOfSegments) + amountOfSegments);
-//        m_triangle_indices.push_back(i + amountOfSegments);
-
-//        m_triangle_indices.push_back(i);
-//        m_triangle_indices.push_back( ((i + 1) % amountOfSegments) + (layerCounter * amountOfSegments));
-//        m_triangle_indices.push_back( ((i + 1) % amountOfSegments) + (layerCounter * amountOfSegments) + amountOfSegments);
-
         m_triangle_indices.push_back(i + amountOfSegments);
         m_triangle_indices.push_back( ((i + 1) % amountOfSegments) + (layerCounter * amountOfSegments) + amountOfSegments);
         m_triangle_indices.push_back(i);
@@ -65,9 +57,7 @@ void CgRotationBody::makeRotationBody(CgLine *contourCurve, int amountOfSegments
         m_triangle_indices.push_back( ((i + 1) % amountOfSegments) + (layerCounter * amountOfSegments));
         m_triangle_indices.push_back(i);
     }
-
-
-    computeNormals(); //Should be computed with calculation above
+    computeNormals();
     fillPolylineNormals();
 }
 
