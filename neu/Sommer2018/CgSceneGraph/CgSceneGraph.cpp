@@ -112,8 +112,9 @@ void CgSceneGraph::setMaterialPropertiesRecursiv(CgSceneGraphEntity *currentEnti
     currentEntity->appearance()->setSpecular(specular);
     currentEntity->appearance()->setShininess(shininess);
 
-    for(CgSceneGraphEntity* entity : currentEntity->getChildren()){
-        setMaterialPropertiesRecursiv(entity);
+    std::vector<CgSceneGraphEntity *> children = currentEntity->getChildren();
+    for(int i = 0; i < children.size(); i++){
+        setMaterialPropertiesRecursiv(children.at(i));
     }
 }
 
@@ -202,9 +203,9 @@ void CgSceneGraph::changeCylinder(int amountOfSegments, double height, double ra
 
         std::vector<CgLine*>* cylinderNormals = cylinder->getPolylineNormals();
         cylinderNormalsEntity->clearObjects();
-        for(CgLine* line : *cylinderNormals){
-            m_renderer->init(line);
-            cylinderNormalsEntity->addObject(line);
+        for(int i = 0; i < cylinderNormals->size(); i++){
+            m_renderer->init(cylinderNormals->at(i));
+            cylinderNormalsEntity->addObject(cylinderNormals->at(i));
         }
     }
 }
@@ -217,9 +218,9 @@ void CgSceneGraph::changeRotationBody(int amountOfSegments)
 
     std::vector<CgLine*>* rotationBodyNormals = rotationBody->getPolylineNormals();
     rotationBodyNormalsEntity->clearObjects();
-    for(CgLine* line : *rotationBodyNormals){
-        m_renderer->init(line);
-        rotationBodyNormalsEntity->addObject(line);
+    for(int i = 0; i < rotationBodyNormals->size(); i++){
+        m_renderer->init(rotationBodyNormals->at(i));
+        rotationBodyNormalsEntity->addObject(rotationBodyNormals->at(i));
     }
 }
 
@@ -421,19 +422,6 @@ void CgSceneGraph::reset()
 //CORRECT VERSION
 void CgSceneGraph::render()
 {
-//    glm::mat4 mv_matrix = m_lookAt_matrix * m_trackball_rotation * m_mat_stack.top();
-//    glm::mat3 normal_matrix = glm::transpose(glm::inverse(glm::mat3(mv_matrix)));
-
-//    m_renderer->setUniformValue("projMatrix",m_proj_matrix);
-//    m_renderer->setUniformValue("modelviewMatrix",mv_matrix);
-//    m_renderer->setUniformValue("normalMatrix",normal_matrix);
-//    m_renderer->setUniformValue("mycolor",glm::vec4(1.0f,1.0f,1.0f,1.0f));
-
-
-//    m_renderer->render(coordinateSystemEntity->getChildren().at(0)->getObjects().at(0)); //Coordinate xAxis
-//    m_renderer->render(variousObjectsEntity->getChildren().at(0)->getObjects().at(0)); //Cube
-
-
    renderRecursive(m_root_node);
 }
 
@@ -862,9 +850,9 @@ void CgSceneGraph::loadObject(std::string str)
 
     std::vector<CgLine*>* loadedObjectNormals = loadedObject->getPolylineNormals();
     loadedObjectNormalsEntity->clearObjects();
-    for(CgLine* line : *loadedObjectNormals){
-        m_renderer->init(line);
-        loadedObjectNormalsEntity->addObject(line);
+    for(int i = 0; i < loadedObjectNormals->size(); i++){
+        m_renderer->init(loadedObjectNormals->at(i));
+        loadedObjectNormalsEntity->addObject(loadedObjectNormals->at(i));
     }
 }
 

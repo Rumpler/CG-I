@@ -927,8 +927,9 @@ void CgQtGui::slotColorChanged()
 
 void CgQtGui::slotShowCylinder()
 {
-    for(QAbstractButton* b : buttonGroupObjectSelection->buttons()){
-        b->setChecked(false);
+    QList<QAbstractButton*> bts = buttonGroupObjectSelection->buttons();
+    for(int i = 0; i < bts.size(); i++){
+        bts.at(i)->setChecked(false);
     }
     buttonGroupObjectSelection->button(0)->setChecked(true);
     buttonGroupObjectSelection->button(3)->setChecked(true);
@@ -948,8 +949,9 @@ void CgQtGui::slotShowRotationBody()
 
 void CgQtGui::slotShowRotationBodyNormals()
 {
-    for(QAbstractButton* b : buttonGroupObjectSelection->buttons()){
-        b->setChecked(false);
+    QList<QAbstractButton*>  bts = buttonGroupObjectSelection->buttons();
+    for(int i = 0; i < bts.size(); i++){
+        bts.at(i)->setChecked(false);
     }
     buttonGroupObjectSelection->button(0)->setChecked(true);
     buttonGroupObjectSelection->button(6)->setChecked(true);
@@ -1014,8 +1016,9 @@ void CgQtGui::slotRotateVector()
 
 void CgQtGui::showObject(int i)
 {
-    for(QAbstractButton* b : buttonGroupObjectSelection->buttons()){
-        b->setChecked(false);
+    QList<QAbstractButton*> bts = buttonGroupObjectSelection->buttons();
+    for(int i = 0; i < bts.size(); i++){
+        bts.at(i)->setChecked(false);
     }
     buttonGroupObjectSelection->button(0)->setChecked(true);
     buttonGroupObjectSelection->button(i)->setChecked(true);
