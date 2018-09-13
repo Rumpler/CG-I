@@ -32,10 +32,9 @@ CgSceneGraph::CgSceneGraph(CgBaseRenderer *renderer):
 
     initCoordinateSystem();
     initVariousObjects();
-//    initSceneObjects();
+    initSceneObjects();
 
-//    selectedEntity = cubeEntity;
-//    selectedEntity = customRotationAxisEntity;
+    selectedEntity = cubeEntity;
 }
 
 CgSceneGraph::~CgSceneGraph()
@@ -560,10 +559,10 @@ void CgSceneGraph::initVariousObjects()
     renderVariousObjects = variousObjectsEntity->renderObject();
 
     initCube();
-//    initCylinder();
-//    initRotationObjects();
-//    initLoadedObject();
-//    initCustomRotationAxis();
+    initCylinder();
+    initRotationObjects();
+    initLoadedObject();
+    initCustomRotationAxis();
 }
 
 void CgSceneGraph::initSceneObjects()
@@ -598,7 +597,7 @@ void CgSceneGraph::initCube()
     cubeEntity->appearance()->setColor(defaultColor);
     cubeEntity->addObject(cube);
     renderCube = cubeEntity->renderObject();
-    cubeEntity->setRenderObjects(true);
+    cubeEntity->setRenderObjects(false);
     selectableEntitys.push_back(cubeEntity);
 
     // entity cube normals
@@ -608,18 +607,10 @@ void CgSceneGraph::initCube()
     renderCubeNormals = cubeNormalsEntity->renderObject();
 
     std::vector<CgLine*>* cubeNormals = cube->getPolylineNormals();
-
-
     for(int i = 0; i < cubeNormals->size(); i++){
         m_renderer->init(cubeNormals->at(i));
         cubeNormalsEntity->addObject(cubeNormals->at(i));
     }
-
-
-//    for(CgLine* line : *cubeNormals){
-//        m_renderer->init(line);
-//        cubeNormalsEntity->addObject(line);
-//    }
 }
 
 void CgSceneGraph::initCylinder()
@@ -629,9 +620,7 @@ void CgSceneGraph::initCylinder()
 
 
     // entity cylinder
-    cylinderEntity = new CgSceneGraphEntity();
-    cylinderEntity->setParent(variousObjectsEntity);
-    variousObjectsEntity->addChild(cylinderEntity);
+    cylinderEntity = new CgSceneGraphEntity(variousObjectsEntity);
     cylinderEntity->appearance()->setColor(defaultColor);
     cylinderEntity->addObject(cylinder);
     renderCylinder = cylinderEntity->renderObject();
@@ -646,10 +635,11 @@ void CgSceneGraph::initCylinder()
     cylinderNormalsEntity->appearance()->setColor(defaultColorNormals);
     renderCylinderNormals = cylinderNormalsEntity->renderObject();
 
+
     std::vector<CgLine*>* cylinderNormals = cylinder->getPolylineNormals();
-    for(CgLine* line : *cylinderNormals){
-        m_renderer->init(line);
-        cylinderNormalsEntity->addObject(line);
+    for(int i = 0; i < cylinderNormals->size(); i++){
+        m_renderer->init(cylinderNormals->at(i));
+        cubeNormalsEntity->addObject(cylinderNormals->at(i));
     }
 }
 
@@ -689,18 +679,17 @@ void CgSceneGraph::initRotationObjects()
     rotationBodyNormalsEntity->setRenderObjects(false);
 
     std::vector<CgLine*>* rotationBodyNormals = rotationBody->getPolylineNormals();
-    for(CgLine* line : *rotationBodyNormals){
-        m_renderer->init(line);
-        rotationBodyNormalsEntity->addObject(line);
+    for(int i = 0; i < rotationBodyNormals->size(); i++){
+        m_renderer->init(rotationBodyNormals->at(i));
+        cubeNormalsEntity->addObject(rotationBodyNormals->at(i));
     }
-
 }
 
 void CgSceneGraph::initLoadedObject()   //Keep in mind not to change the order of objects! Method loadObject(std::string str) will be affected.
 {
     CgTriangles* loadedObject = new CgTriangles(idGen->getNextId());
     std::string path = CgU::getParentDirectory();
-    path.append("/Sommer2018/CgData/porsche.obj");
+    path.append("/Sommer2018/CgData/Rook.obj");
     loadedObject->init(path);
     m_renderer->init(loadedObject);
 
@@ -721,35 +710,16 @@ void CgSceneGraph::initLoadedObject()   //Keep in mind not to change the order o
 
     renderLoadedObjectNormals = loadedObjectNormalsEntity->renderObject();
 
+
     std::vector<CgLine*>* loadedObjectNormals = loadedObject->getPolylineNormals();
-    for(CgLine* line : *loadedObjectNormals){
-        m_renderer->init(line);
-        loadedObjectNormalsEntity->addObject(line);
+    for(int i = 0; i < loadedObjectNormals->size(); i++){
+        m_renderer->init(loadedObjectNormals->at(i));
+        cubeNormalsEntity->addObject(loadedObjectNormals->at(i));
     }
-
-
 }
 
 void CgSceneGraph::initCustomRotationAxis()
 {
-    //    //Object axis
-    //    CgCylinder* axis = new CgCylinder(idGen->getNextId(), 10, 1.0f, 0.0001);
-    //    m_renderer->init(axis);
-
-    //    // entity custom rotation axis
-    //    customRotationAxisEntity = new CgSceneGraphEntity();
-    //    customRotationAxisEntity->setParent(variousObjectsEntity);
-    //    variousObjectsEntity->addChild(customRotationAxisEntity);
-    //    customRotationAxisEntity->appearance()->setObjectColor(glm::vec3(0.4f,0.4f,0.5f));
-    //    customRotationAxisEntity->setIsColorChangeable(false);
-    //    customRotationAxisEntity->addObject(axis);
-    //    renderCustomRotationAxis = customRotationAxisEntity->renderObject();
-    //    customRotationAxisEntity->setRenderObjects(false);
-
-    //    customRotationAxisEntity->setCurrentTransformation(m_mat_stack.top()* CgU::tRotateMatX(45) * CgU::tRotateMatZ(-45));
-
-
-
     CgLine* axis = new CgLine(idGen->getNextId());
     axis->addVertice(glm::vec3(0,0,0));
     axis->addVertice(glm::vec3(1,1,1));
@@ -858,22 +828,12 @@ void CgSceneGraph::changeColorRecursiv(CgSceneGraphEntity *currentEntity, glm::v
 {
     if(currentEntity->getIsColorChangeable()){
         currentEntity->appearance()->setColor(color);
-        for(CgSceneGraphEntity* entity : currentEntity->getChildren()){
-            changeColorRecursiv(entity, color);
+        std::vector<CgSceneGraphEntity *> children = currentEntity->getChildren();
+        for(int i = 0; i < children.size(); i++){
+            changeColorRecursiv(children.at(i), color);
         }
     }
 }
-
-//void CgSceneGraph::addTransformation(CgSceneGraphEntity* entity, glm::mat4 transformation)
-//{
-//    glm::mat4 mat = entity->getCurrentTransformation();
-//    glm::vec3 translationVec = mat[3];
-//    mat[3] = glm::vec4(glm::vec3(0.0f), mat[3].w);
-//    mat = mat * glm::inverse(mat) * transformation * mat;
-//    mat[3] = mat[3] + glm::vec4(translationVec, 0);
-//    entity->setCurrentTransformation(mat);
-//}
-
 
 /************ GETTER AND SETTER ************/
 
