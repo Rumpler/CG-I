@@ -121,7 +121,7 @@ void CgSceneGraph::setMaterialPropertiesRecursiv(CgSceneGraphEntity *currentEnti
 void CgSceneGraph::setShader()
 {
 
-    if(true){ //JUST FOR DEBUGGING
+    if(false){ //JUST FOR DEBUGGING
         CgU::print("noneShading",noneShading);
         CgU::print("phong",phong);
         CgU::print("gouraud",gouraud);
@@ -434,9 +434,6 @@ void CgSceneGraph::renderRecursive(CgSceneGraphEntity *currentEntity)
 
         std::vector<CgBaseRenderableObject *> objects = currentEntity->getObjects();
         for(int i = 0; i < objects.size(); i++){
-             CgU::print("-------------OBJECT---------------");
-
-            setShader();
 
              glm::mat4 mv_matrix = m_lookAt_matrix * m_trackball_rotation * m_mat_stack.top();
              glm::mat3 normal_matrix = glm::transpose(glm::inverse(glm::mat3(mv_matrix)));
@@ -445,28 +442,8 @@ void CgSceneGraph::renderRecursive(CgSceneGraphEntity *currentEntity)
              m_renderer->setUniformValue("modelviewMatrix",mv_matrix);
              m_renderer->setUniformValue("normalMatrix",normal_matrix);
 
-             if(noneShading){
-                 m_renderer->setUniformValue("mycolor",currentEntity->appearance()->getColor());
-                 CgU::print("mycolor", currentEntity->appearance()->getColor());
-             }
-             if(phong || gouraud){
+             m_renderer->setUniformValue("mycolor",currentEntity->appearance()->getColor());
 
-
-                 m_renderer->setUniformValue("matDiffuseColor",currentEntity->appearance()->getDiffuse());
-                 CgU::print("matDiffuseColor", currentEntity->appearance()->getDiffuse());
-                 m_renderer->setUniformValue("matAmbientColor",currentEntity->appearance()->getAmbiente());
-                 CgU::print("matAmbientColor", currentEntity->appearance()->getAmbiente());
-                 m_renderer->setUniformValue("matSpecularColor",currentEntity->appearance()->getSpecular());
-                 CgU::print("matSpecularColor", currentEntity->appearance()->getSpecular());
-
-                 m_renderer->setUniformValue("lightDiffuseColor",glm::vec4(1.0f));
-                 m_renderer->setUniformValue("lightAmbientColor",glm::vec4(.2f));
-                 m_renderer->setUniformValue("lightSpecularColor",glm::vec4(1.0f));
-                 m_renderer->setUniformValue("lightdirection",glm::vec3(1,1, 1));
-                 m_renderer->setUniformValue("viewPos",cam->getEye());
-                 CgU::print("viewPos", cam->getEye());
-                 m_renderer->setUniformValue("shininess",20.2);
-             }
             m_renderer->render(objects.at(i));
         }
 
@@ -627,7 +604,7 @@ void CgSceneGraph::initCylinder()
     std::vector<CgLine*>* cylinderNormals = cylinder->getPolylineNormals();
     for(int i = 0; i < cylinderNormals->size(); i++){
         m_renderer->init(cylinderNormals->at(i));
-        cubeNormalsEntity->addObject(cylinderNormals->at(i));
+        cylinderNormalsEntity->addObject(cylinderNormals->at(i));
     }
 }
 
@@ -669,7 +646,7 @@ void CgSceneGraph::initRotationObjects()
     std::vector<CgLine*>* rotationBodyNormals = rotationBody->getPolylineNormals();
     for(int i = 0; i < rotationBodyNormals->size(); i++){
         m_renderer->init(rotationBodyNormals->at(i));
-        cubeNormalsEntity->addObject(rotationBodyNormals->at(i));
+        rotationBodyNormalsEntity->addObject(rotationBodyNormals->at(i));
     }
 }
 
@@ -702,7 +679,7 @@ void CgSceneGraph::initLoadedObject()   //Keep in mind not to change the order o
     std::vector<CgLine*>* loadedObjectNormals = loadedObject->getPolylineNormals();
     for(int i = 0; i < loadedObjectNormals->size(); i++){
         m_renderer->init(loadedObjectNormals->at(i));
-        cubeNormalsEntity->addObject(loadedObjectNormals->at(i));
+        loadedObjectNormalsEntity->addObject(loadedObjectNormals->at(i));
     }
 }
 
