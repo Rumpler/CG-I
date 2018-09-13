@@ -111,9 +111,12 @@ private:
         void initCustomRotationAxis();
     void initSceneObjects();
 
+    void destructRecursive(CgSceneGraphEntity* currentEntity);
+
 public:
     CgSceneGraph(CgBaseRenderer *renderer);
     ~CgSceneGraph();
+
 
     void setMaterialPropertiesForSelectedObject();
     void setMaterialProperties(CgMaterialChangeEvent *e);

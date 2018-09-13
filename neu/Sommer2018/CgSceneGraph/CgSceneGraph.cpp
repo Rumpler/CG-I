@@ -36,17 +36,11 @@ CgSceneGraph::CgSceneGraph(CgBaseRenderer *renderer):
 
     selectedEntity = cubeEntity;
     selectedEntity = customRotationAxisEntity;
-
-    //DEBUG DELETE LATER
-    *renderScene = false;
-    *renderCoordinateSystem = false;
-    *renderCube = true;
-    *renderCubeNormals = false;
 }
 
 CgSceneGraph::~CgSceneGraph()
 {
-    //TODO
+    destructRecursive(m_root_node);
 }
 
 
@@ -514,7 +508,6 @@ void CgSceneGraph::reset()
 //CORRECT VERSION
 void CgSceneGraph::render()
 {
-   CgU::print("-------------RENDER START---------------");
    renderRecursive(m_root_node);
 }
 
@@ -652,6 +645,17 @@ void CgSceneGraph::initSceneObjects()
     sceneEntity->setParent(m_root_node);
     m_root_node->addChild(sceneEntity);
     renderScene = sceneEntity->renderObject();
+}
+
+void CgSceneGraph::destructRecursive(CgSceneGraphEntity* currentEntity)
+{
+    for(CgSceneGraphEntity* entity : currentEntity->getChildren() ){
+        destructRecursive(entity);
+    }
+
+    for(CgBaseRenderableObject* obj : currentEntity->getObjects()){
+        delete obj;
+    }
 }
 
 void CgSceneGraph::initCube()
